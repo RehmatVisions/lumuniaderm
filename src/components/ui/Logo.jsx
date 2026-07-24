@@ -9,8 +9,8 @@ export default function Logo() {
         draggable={false}
         className="select-none transition-transform duration-300 group-hover:scale-105"
         style={{
-          /* Mobile: compact so it doesn't crowd the hamburger */
-          height: "clamp(52px, 9vw, 108px)",
+          /* Mobile: bigger minimum so logo is clearly readable */
+          height: "clamp(72px, 11vw, 108px)",
           width: "auto",
           maxWidth: 220,
           objectFit: "contain",
