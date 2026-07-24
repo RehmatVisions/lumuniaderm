@@ -37,7 +37,10 @@ function CardReveal({ card, index }) {
       {...fadeUp(index * 0.06)}
       onMouseLeave={() => setHovered(false)}
       onMouseEnter={() => setHovered(true)}
+      onTouchStart={() => setHovered(true)}
+      onTouchEnd={() => setTimeout(() => setHovered(false), 700)}
       whileHover={{ y: -6, transition: { duration: 0.3 } }}
+      whileTap={{ scale: 0.98 }}
     >
       {/* image */}
       <motion.img
@@ -121,7 +124,10 @@ function CardSplit({ card, index }) {
       {...fadeUp(index * 0.06)}
       onMouseLeave={() => setHovered(false)}
       onMouseEnter={() => setHovered(true)}
+      onTouchStart={() => setHovered(true)}
+      onTouchEnd={() => setTimeout(() => setHovered(false), 700)}
       whileHover={{ y: -6, transition: { duration: 0.3 } }}
+      whileTap={{ scale: 0.98 }}
     >
       {/* image half */}
       <div className="relative h-[52%] overflow-hidden">
@@ -203,7 +209,10 @@ function CardWide({ card, index }) {
       {...fadeUp(index * 0.06)}
       onMouseLeave={() => setHovered(false)}
       onMouseEnter={() => setHovered(true)}
+      onTouchStart={() => setHovered(true)}
+      onTouchEnd={() => setTimeout(() => setHovered(false), 700)}
       whileHover={{ y: -5, transition: { duration: 0.3 } }}
+      whileTap={{ scale: 0.98 }}
     >
       {/* right image */}
       <motion.img

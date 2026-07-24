@@ -48,6 +48,7 @@ function StatCard({ stat }) {
       style={{ background: "#1e2018", minHeight: 420, ...IMG_CORNERS }}
       {...fadeUp(0.05)}
       whileHover={{ y: -6, boxShadow: "0 24px 60px rgba(0,0,0,0.40)", transition: { duration: 0.3 } }}
+      whileTap={{ scale: 0.98 }}
     >
       {/* Background image */}
       {stat.image && (
@@ -118,6 +119,7 @@ function CenterCard({ card }) {
       style={{ minHeight: 420, ...IMG_CORNERS }}
       {...fadeUp(0.12)}
       whileHover={{ y: -6, boxShadow: "0 24px 60px rgba(0,0,0,0.35)", transition: { duration: 0.3 } }}
+      whileTap={{ scale: 0.98 }}
     >
       <motion.img
         src={card.image} alt="Treatment"

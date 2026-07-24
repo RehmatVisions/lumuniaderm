@@ -238,3 +238,62 @@
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover { background: rgba(193,154,107,0.55); }
+
+/* ─── Mobile touch active states ────────────────────────────── */
+/* Ensure hover-only effects gracefully degrade on touch devices  */
+@media (hover: none) and (pointer: coarse) {
+  /* Service cards — show content on tap */
+  .group:active .group-hover\:bg-novaderm-gold\/25 {
+    background-color: rgba(193, 154, 107, 0.25);
+  }
+
+  /* Gallery cards — show title on tap */
+  .group:active img {
+    transform: scale(1.04);
+  }
+
+  /* Buttons — active feedback */
+  button:active,
+  a:active {
+    opacity: 0.82;
+    transform: scale(0.97);
+    transition: transform 0.1s ease, opacity 0.1s ease;
+  }
+
+  /* Nav CTA tap feedback */
+  .group:active span[style*="linear-gradient"] {
+    filter: brightness(0.9);
+  }
+
+  /* Accordion hover lift — disable on touch */
+  .hover\:bg-\[\#EDE8E2\]:active {
+    background-color: #EDE8E2;
+  }
+
+  /* Card hover lift — convert to tap press */
+  .hover-lift:active {
+    transform: scale(0.98) translateY(2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  }
+
+  /* Gallery filter tabs — larger tap target */
+  button[class*="rounded-full"][class*="px-4"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Lightbox nav buttons — larger touch targets */
+  .fixed button[class*="h-12"] {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}
+
+/* ─── Booking form image responsive ─────────────────────────── */
+/* On mobile the image row becomes a footer strip */
+@media (max-width: 1023px) {
+  /* Keep the form image section from overflowing */
+  [style*="background: #282A23"] .grid > div:last-child {
+    max-height: 280px;
+  }
+}

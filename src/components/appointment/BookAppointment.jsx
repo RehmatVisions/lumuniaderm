@@ -324,7 +324,7 @@ export default function BookAppointment() {
                   className="mb-8 font-serif text-[2rem] font-semibold leading-[1.15] text-white sm:text-[2.4rem]"
                   {...fadeUp(0.05)}
                 >
-                  Book An Appointment
+                  Reserve Your Appointment
                 </motion.h2>
 
                 <motion.div
@@ -427,10 +427,9 @@ export default function BookAppointment() {
                 </form>
               </div>
 
-              {/* ── Doctor girl ── */}
+              {/* ── Doctor girl — visible on all screens, adapts size ── */}
               <motion.div
-                className="hidden lg:flex items-end justify-end self-end"
-                style={{ width: 340, minHeight: 420 }}
+                className="flex items-end justify-center self-end overflow-hidden lg:justify-end"
                 initial={{ opacity: 0, x: 32 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -438,8 +437,12 @@ export default function BookAppointment() {
               >
                 <img
                   src={contactGirl}
-                  alt="Specialist"
-                  className="w-full max-h-[480px] object-contain object-bottom select-none drop-shadow-2xl"
+                  alt="Novaderm Specialist"
+                  className="w-auto select-none drop-shadow-2xl
+                    h-[200px]
+                    sm:h-[260px]
+                    lg:h-[480px] lg:max-h-[480px]"
+                  style={{ objectFit: "contain", objectPosition: "bottom" }}
                   draggable={false}
                   loading="lazy"
                 />

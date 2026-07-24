@@ -59,7 +59,7 @@ function Lightbox({ item, total, onClose, onPrev, onNext }) {
       onClick={onClose}
     >
       <motion.button
-        className="absolute right-5 top-5 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white/60 hover:border-novaderm-gold/60 hover:text-white"
+        className="absolute right-5 top-5 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white/60 hover:border-novaderm-gold/60 hover:text-white active:scale-90"
         style={{ background: "rgba(255,255,255,0.06)" }}
         onClick={onClose} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.93 }}
       >
@@ -71,7 +71,7 @@ function Lightbox({ item, total, onClose, onPrev, onNext }) {
         {item.id} / {total}
       </div>
       <motion.button
-        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-white/15 text-white/60 hover:border-novaderm-gold/60 hover:text-white"
+        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-white/15 text-white/60 hover:border-novaderm-gold/60 hover:text-white active:scale-90"
         style={{ background: "rgba(255,255,255,0.06)" }}
         onClick={(e) => { e.stopPropagation(); onPrev() }}
         whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.93 }}
@@ -81,7 +81,7 @@ function Lightbox({ item, total, onClose, onPrev, onNext }) {
         </svg>
       </motion.button>
       <motion.button
-        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-white/15 text-white/60 hover:border-novaderm-gold/60 hover:text-white"
+        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-white/15 text-white/60 hover:border-novaderm-gold/60 hover:text-white active:scale-90"
         style={{ background: "rgba(255,255,255,0.06)" }}
         onClick={(e) => { e.stopPropagation(); onNext() }}
         whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.93 }}
@@ -98,6 +98,7 @@ function Lightbox({ item, total, onClose, onPrev, onNext }) {
         exit={{ opacity: 0, scale: 0.92, y: 16 }}
         transition={{ duration: 0.42, ease: [0.34, 1.2, 0.64, 1] }}
         onClick={(e) => e.stopPropagation()}
+        onTouchEnd={(e) => e.stopPropagation()}
       >
         <img src={item.src} alt={item.title} className="w-full object-cover" style={{ maxHeight: "80vh" }} />
         <div className="absolute inset-x-0 bottom-0 p-7"
@@ -126,14 +127,18 @@ function GalleryCard({ item, index, onOpen, featured = false }) {
       style={{
         borderRadius: "1.5rem",
         aspectRatio: featured ? "16/7" : "4/3",
+        WebkitTapHighlightColor: "transparent",
       }}
       initial={{ opacity: 0, y: 36, scale: 0.96 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
       transition={{ duration: 0.65, delay: index * 0.055, ease: EASE_EXPO }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onTouchStart={() => setHovered(true)}
+      onTouchEnd={() => setTimeout(() => setHovered(false), 600)}
       onClick={() => onOpen(item)}
       whileHover={{ y: -5, transition: { duration: 0.3 } }}
+      whileTap={{ scale: 0.97 }}
     >
       {/* Image fills card completely */}
       <motion.img
@@ -179,6 +184,7 @@ function GalleryCard({ item, index, onOpen, featured = false }) {
         className="absolute right-4 top-4"
         animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1 : 0.7 }}
         transition={{ duration: 0.22 }}
+        style={{ pointerEvents: "none" }}
       >
         <div className="flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-white/12 text-white backdrop-blur-sm">
           <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5">
@@ -187,11 +193,11 @@ function GalleryCard({ item, index, onOpen, featured = false }) {
         </div>
       </motion.div>
 
-      {/* Title + caption — bottom */}
+      {/* Title + caption — bottom: always visible title, caption on hover/touch */}
       <div className="absolute inset-x-0 bottom-0 p-5">
         <motion.h3
           className="font-serif text-base font-semibold leading-snug text-white sm:text-lg"
-          animate={{ y: hovered ? 0 : 6, opacity: hovered ? 1 : 0.88 }}
+          animate={{ y: hovered ? 0 : 6, opacity: 1 }}
           transition={{ duration: 0.3, ease: EASE }}
         >
           {item.title}

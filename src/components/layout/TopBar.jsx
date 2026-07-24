@@ -12,12 +12,12 @@ function SocialIcon({ icon }) {
 
 /* Marquee items — duplicated for seamless loop */
 const MARQUEE_ITEMS = [
-  "✦ Advanced Skin Treatments",
-  "✦ Board Certified Dermatologists",
-  "✦ 4.9★ Patient Rating",
-  "✦ 3,500+ Happy Patients",
-  "✦ Laser & PRP Therapy",
-  "✦ Personalized Treatment Plans",
+  "✦ Medical-Grade Aesthetic Treatments",
+  "✦ Internationally Certified Dermatologists",
+  "✦ 4.9★ Verified Patient Rating",
+  "✦ 3,500+ Patients Transformed",
+  "✦ FDA-Cleared Laser & PRP Therapy",
+  "✦ Bespoke Treatment Protocols",
 ]
 
 export default function TopBar() {

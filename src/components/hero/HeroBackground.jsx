@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react"
-import heroUpImg from "../../assets/herotwo.jpg"
+import heroUpImg      from "../../assets/herotwo.jpg"
+import mobileHeroImg  from "../../assets/mobile-heroimage.jpg"
 
 export default function HeroBackground() {
   const bgRef  = useRef(null)
@@ -33,9 +34,10 @@ export default function HeroBackground() {
   return (
     <div aria-hidden="true" style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
 
-      {/* ── Parallax image ── */}
+      {/* ── Desktop parallax image ── */}
       <div
         ref={bgRef}
+        className="hidden sm:block"
         style={{
           position:           "absolute",
           inset:              0,
@@ -48,6 +50,19 @@ export default function HeroBackground() {
           backgroundRepeat:   "no-repeat",
           willChange:         "transform",
           transform:          "translate3d(0,0,0)",
+        }}
+      />
+
+      {/* ── Mobile hero image — static, portrait-optimised ── */}
+      <div
+        className="block sm:hidden"
+        style={{
+          position:           "absolute",
+          inset:              0,
+          backgroundImage:    `url(${mobileHeroImg})`,
+          backgroundSize:     "cover",
+          backgroundPosition: "center top",
+          backgroundRepeat:   "no-repeat",
         }}
       />
 

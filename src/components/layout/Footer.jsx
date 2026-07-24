@@ -34,10 +34,11 @@ const QUICK_LINKS = [
 ]
 
 const SERVICES = [
-  { label: "Acne Scar Treatment",  href: "#services" },
-  { label: "Dark Spot Removal",    href: "#services" },
-  { label: "Scalp Therapy",        href: "#services" },
-  { label: "Laser Hair Removal",   href: "#services" },
+  { label: "Advanced Acne & Scar Revision", href: "#services" },
+  { label: "Laser Hair Removal",            href: "#services" },
+  { label: "Anti-Aging & Rejuvenation",     href: "#services" },
+  { label: "Pigmentation Correction",       href: "#services" },
+  { label: "PRP Hair Restoration",          href: "#services" },
 ]
 
 const HOURS = [
@@ -128,7 +129,7 @@ export default function Footer() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
-              Your Skin Deserves the Best
+              Begin Your Skin Transformation Today
             </motion.h2>
 
             <motion.p
@@ -139,8 +140,8 @@ export default function Footer() {
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: 0.08 }}
             >
-              We provide advanced, targeted therapies designed to effectively treat complex skin
-              and hair concerns such as stubborn acne, deep scars.
+              Join thousands of patients who have transformed their skin with our
+              medical-grade treatments. Your first consultation is the first step.
             </motion.p>
 
             {/* Email subscribe bar */}
@@ -200,9 +201,9 @@ export default function Footer() {
             >
               <p className="max-w-[220px] text-sm leading-[1.75]"
                 style={{ color: "rgba(255,255,255,0.55)" }}>
-                We are more than just a workspace we thriving community where{" "}
-                <span style={{ color: "#C69459" }}>professionals, startups, and innovators</span>{" "}
-                come together
+                Novaderm is a premium aesthetic dermatology clinic dedicated to delivering{" "}
+                <span style={{ color: "#C69459" }}>medically precise, confidence-restoring results</span>{" "}
+                for every patient we serve.
               </p>
               {/* Social icons */}
               <div className="flex items-center gap-3">

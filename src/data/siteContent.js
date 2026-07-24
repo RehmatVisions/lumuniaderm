@@ -21,8 +21,8 @@ export const siteContent = {
   brand: { name: "Novaderm" },
 
   topBar: {
-    message: "Ready to Transform Your Skin?",
-    ctaText: "Consult Our Specialists Now",
+    message: "Experience Medical-Grade Skin Transformation at Novaderm",
+    ctaText: "Reserve Your Consultation",
     ctaHref: "#contact",
     links: [
       { label: "Help",    href: "#" },
@@ -51,10 +51,10 @@ export const siteContent = {
 
   // ─── WHY CHOOSE US ───────────────────────────────────────────
   whyUs: {
-    badge: "Why Choose Us",
-    headline: "Trusted expertise, advance care, and visible results",
+    badge: "Why Choose Novaderm",
+    headline: "Where Clinical Precision Meets Luxurious Care",
     description:
-      "Our experienced specialists focus on personalized care, advanced technology, and long-term skin health to ensure every patient achieves confident, glowing skin.",
+      "At Novaderm, every detail is intentional — from our board-certified specialists and FDA-cleared technology to our bespoke treatment protocols. We don't offer cookie-cutter solutions; we craft results designed exclusively around your skin.",
 
     images: {
       main:      whyChooseMainImg,
@@ -62,78 +62,78 @@ export const siteContent = {
       tertiary:  acneImg,
     },
 
-    ctaText: "Contact Us",
+    ctaText: "Book Your Consultation",
     ctaHref: "#contact",
 
     accordion: [
       {
         number: "01",
-        title:  "Qualified & Experienced Specialists",
-        body:   "Our team consists of board-certified dermatologists and cosmetologists with extensive experience treating a wide range of skin and hair concerns.",
+        title:  "Board-Certified Specialists You Can Trust",
+        body:   "Our dermatologists and aesthetic physicians hold international certifications and bring over a decade of combined clinical experience. Every procedure is performed by a qualified medical professional — never delegated to unsupervised staff.",
       },
       {
         number: "02",
-        title:  "Advanced Technology & Techniques",
-        body:   "We invest in the latest clinical-grade equipment and stay current with evolving dermatological science to deliver results that last.",
+        title:  "FDA-Cleared Technology, Clinically Proven Results",
+        body:   "We invest exclusively in gold-standard equipment — from fractional laser platforms to medical-grade PRP systems — so your results are measurable, safe, and built to last well beyond your treatment course.",
       },
       {
         number: "03",
-        title:  "Personalized Treatment Plans",
-        body:   "No two skins are alike. Every patient receives a fully customised plan built around their unique concerns, lifestyle, and goals.",
+        title:  "Your Skin Is One of a Kind — Your Plan Should Be Too",
+        body:   "We begin with a comprehensive skin analysis before recommending a single treatment. Your personalised protocol accounts for your Fitzpatrick skin type, lifestyle, hormonal factors, and long-term goals — because real results require real precision.",
       },
       {
         number: "04",
-        title:  "Safe, Proven & Clinically Tested",
-        body:   "All procedures follow evidence-based protocols with rigorous safety standards, ensuring minimal downtime and maximum effectiveness.",
+        title:  "Transparent, Evidence-Based Care With Zero Pressure",
+        body:   "We follow strict clinical protocols and present honest expectations — including realistic timelines and likely number of sessions. Our consultations are educational, not sales-driven, so you leave with clarity and confidence.",
       },
     ],
   },
 
   // ─── SERVICES ────────────────────────────────────────────────
   services: {
-    badge:       "Our Services",
-    headline:    "Advanced dermatology and personalized treatments",
-    description: "We offer a comprehensive range of medical and cosmetic skin treatments tailored to your unique concerns.",
-    ctaText:     "View All Services",
+    badge:       "Signature Treatments",
+    headline:    "Medical Aesthetics Crafted for Visible Transformation",
+    description: "Every treatment at Novaderm is performed under clinical supervision, using evidence-based protocols tailored to your skin's unique biology.",
+    ctaText:     "Explore All Treatments",
     ctaHref:     "#services",
 
     cards: [
       {
-        badge:       "Scar Removal",
-        title:       "Acne & Scar Treatment",
-        description: "We provide targeted treatment to reduce active acne, control breakouts, and visibly fade post-acne scars.",
+        badge:       "Acne & Scarring",
+        title:       "Advanced Acne & Scar Revision",
+        description: "A multi-modality approach — combining medical-grade peels, targeted topicals, and laser resurfacing — to eliminate active breakouts and visibly reduce post-acne scarring, pigmentation, and textural irregularities.",
         image:       acneImg,
         href:        "#services",
         icon:        "acne",
       },
       {
-        badge:       "Laser Therapy",
+        badge:       "Laser Precision",
         title:       "Laser Hair Removal",
-        description: "Using safe and modern laser systems, we offer long-lasting hair reduction for all skin types.",
+        description: "Powered by industry-leading diode and Nd:YAG technology, our laser hair removal delivers permanent reduction across all skin tones — with clinical precision, minimal discomfort, and zero downtime.",
         image:       laserImg,
         href:        "#services",
         icon:        "laser",
       },
       {
-        badge:       "Wrinkle Reduction",
-        title:       "Anti-Aging Solutions",
-        description: "Our anti-aging treatments are designed to reduce fine lines, restore volume, and rejuvenate skin texture.",
+        badge:       "Age Reversal",
+        title:       "Anti-Aging & Skin Rejuvenation",
+        description: "From dermal fillers and bio-stimulators to RF microneedling and collagen-induction therapy — our anti-aging suite restores lost volume, softens deep lines, and renews your skin's structural foundation.",
         image:       antiAgingImg,
         href:        "#services",
         icon:        "aging",
       },
       {
-        badge:       "Skin Brightening",
-        title:       "Pigmentation & Glow",
-        description: "Advanced peels and brightening therapies to even skin tone, tackle melasma and restore natural radiance.",
+        badge:       "Radiance Therapy",
+        title:       "Pigmentation Correction & Glow Treatments",
+        description: "Clinically formulated chemical peels, IPL phototherapy, and brightening infusion protocols work synergistically to dissolve stubborn melasma, sun damage, and uneven tone — revealing luminous, even skin.",
         image:       pigmentationImg,
         href:        "#services",
         icon:        "glow",
       },
       {
         badge:       "Hair Restoration",
-        title:       "PRP Hair Treatment",
-        description: "Platelet-rich plasma therapy to stimulate hair follicles, reduce hair loss and promote dense regrowth.",
+        title:       "PRP Hair Restoration Therapy",
+        description: "Autologous platelet-rich plasma is extracted, concentrated, and precisely injected into thinning zones to reactivate dormant follicles, dramatically reduce shedding, and stimulate measurable regrowth.",
         image:       prpHairImg,
         href:        "#services",
         icon:        "hair",
@@ -143,26 +143,27 @@ export const siteContent = {
 
   // ─── ABOUT ───────────────────────────────────────────────────
   about: {
-    badge:       "About Us",
-    headline:    "Focused on delivering visible results with expert skin care",
-    description: "Our expert team carefully evaluates each patient's skin & hair concerns to create personalized treatment plans using modern techniques and clinically proven methods.",
+    badge:       "Our Story",
+    headline:    "A Clinic Built on Science, Designed Around You",
+    description:
+      "Novaderm was founded on a single conviction: that exceptional skin outcomes require both clinical mastery and a deeply personal approach. Over twelve years, we have combined medical rigour with luxury-level care to build a clinic our patients return to — not because they have to, but because they choose to.",
 
     features: [
-      { icon: "treatment",  title: "Result Driven Treatment Approach" },
-      { icon: "health",     title: "Focus on Long Term Skin Health"   },
-      { icon: "certified",  title: "Board Certified Dermatologists"   },
-      { icon: "technology", title: "Advanced Medical Technology"      },
+      { icon: "treatment",  title: "Evidence-Based Treatment Protocols"  },
+      { icon: "health",     title: "Long-Term Skin Health Philosophy"     },
+      { icon: "certified",  title: "Internationally Certified Physicians" },
+      { icon: "technology", title: "FDA-Cleared Clinical Technology"      },
     ],
 
     stats: [
-      { label: "Treatment Effectiveness", value: 98 },
-      { label: "Patient Satisfaction",    value: 95 },
-      { label: "Repeat Visit Rate",       value: 89 },
+      { label: "Treatment Success Rate", value: 98 },
+      { label: "Patient Satisfaction",   value: 96 },
+      { label: "Client Retention Rate",  value: 91 },
     ],
 
     reviewScore: "4.9",
-    reviewLabel: "More Than 5K+ Reviews",
-    ctaText:     "More About Us",
+    reviewLabel: "Verified by 5,000+ Patient Reviews",
+    ctaText:     "Discover Our Story",
     ctaHref:     "#about",
 
     images: {
@@ -171,85 +172,84 @@ export const siteContent = {
     },
 
     bgImage:     heroImg,
-    experience:  { years: "12+", label: "Years of Excellence" },
-    specialists: { count: "45+", label: "Specialist Doctors"  },
+    experience:  { years: "12+", label: "Years of Clinical Excellence" },
+    specialists: { count: "45+", label: "Certified Specialists"        },
 
     counters: [
-      { value: 3500, suffix: "+", label: "Happy Patients",        icon: "patients"    },
-      { value: 12,   suffix: "+", label: "Years of Excellence",   icon: "experience"  },
-      { value: 45,   suffix: "+", label: "Specialist Doctors",    icon: "specialists" },
-      { value: 98,   suffix: "%", label: "Treatment Effectiveness",icon: "rating"     },
+      { value: 3500, suffix: "+", label: "Patients Transformed",       icon: "patients"    },
+      { value: 12,   suffix: "+", label: "Years of Clinical Excellence",icon: "experience"  },
+      { value: 45,   suffix: "+", label: "Certified Specialists",       icon: "specialists" },
+      { value: 98,   suffix: "%", label: "Treatment Success Rate",      icon: "rating"      },
     ],
   },
 
   // ─── WHAT WE DO ─────────────────────────────────────────────
   whatWeDo: {
-    badge:    "What We Do",
-    headline: "Combining clinical expertise with aesthetic excellence",
+    badge:    "Our Expertise",
+    headline: "Precision Aesthetics Backed by Over a Decade of Clinical Mastery",
     stat: {
-      value:       "8500+",
-      label:       "Laser Treatments",
-      description: "We have successfully perform thousands laser procedures",
+      value:       "8,500+",
+      label:       "Laser Procedures Performed",
+      description: "A decade of laser excellence — each session delivered by certified physicians using calibrated, medical-grade technology for consistently superior outcomes.",
       image:       laser2Img,
     },
     centerCard: {
       image:  videocardImg,
-      quote:  "True faith shines brightest when it moves beyond words and touches the lives.",
-      author: "Wade Warren",
-      role:   "Co-Founder",
+      quote:  "Confidence isn't given — it's carefully restored. At Novaderm, every treatment is a step toward the skin you deserve.",
+      author: "Dr. Sarah Al-Rashid",
+      role:   "Founder & Lead Dermatologist",
     },
     contactCard: {
-      title:       "Contact Us",
-      description: "We're here to help you achieve your skin goals.",
+      title:       "Begin Your Transformation",
+      description: "Our specialists are ready to design a personalised treatment plan for you.",
       phone:       "+(123) 456-789",
       avatar:      whatWeImg3,
     },
-    // extra images for the animated collage background cells
     images: [whatWeImg1, whatWeImg2, whatWeImg4, whatWeImg5],
   },
 
   // ─── HERO ────────────────────────────────────────────────────
   hero: {
     stats: {
-      patients: "3,500+ Happy Patients Treated",
+      patients: "3,500+ Patients Transformed",
       rating:   "4.9/5",
     },
 
     slides: [
       {
         image:       heroImg,
-        badge:       "Advanced Skin Perfection",
+        badge:       "Medical-Grade Aesthetic Care",
         tag:         "Advanced Skin Treatments",
-        headline:    "Your Skin. Perfected.",
-        description: "Bespoke dermatology treatments for radiant, lasting results.",
-        primaryCta:   { text: "View Treatments", href: "#services" },
-        secondaryCta: { text: "Watch Our Story", href: "#"         },
+        headline:    "The Skin You've Always Deserved — Finally Within Reach.",
+        description: "Novaderm unites board-certified dermatology with luxury-grade aesthetics. Tailored protocols. Clinically proven results. Zero compromise.",
+        primaryCta:   { text: "Explore Treatments",     href: "#services" },
+        secondaryCta: { text: "See Patient Results",    href: "#"         },
       },
       {
         image:       heroImg,
         badge:       "Precision Laser Technology",
-        tag:         "Laser & Aesthetic Procedures",
-        headline:    "Laser. Flawless. Zero Downtime.",
-        description: "FDA-cleared systems for permanent hair reduction and skin resurfacing.",
-        primaryCta:   { text: "Explore Laser", href: "#services" },
-        secondaryCta: { text: "See Results",   href: "#"         },
+        tag:         "Laser & Resurfacing Procedures",
+        headline:    "Flawless Skin. Engineered with Laser Precision.",
+        description: "Our FDA-cleared laser platforms deliver permanent hair reduction, skin resurfacing, and pigmentation correction — with clinical accuracy and zero downtime.",
+        primaryCta:   { text: "Discover Laser Treatments", href: "#services" },
+        secondaryCta: { text: "View Before & After",       href: "#"         },
       },
       {
         image:       heroImg,
-        badge:       "Expert Consultations",
-        tag:         "Specialist Consultations",
-        headline:    "Expert Care. Real Results.",
-        description: "Board-certified specialists crafting science-backed plans for your skin.",
-        primaryCta:   { text: "Book a Consultation", href: "#contact" },
-        secondaryCta: { text: "Meet Our Team",       href: "#about"   },
+        badge:       "Specialist Consultations",
+        tag:         "Personalised Skin Planning",
+        headline:    "Your Skin Story, Understood by Experts.",
+        description: "Every Novaderm journey begins with a thorough skin analysis by a certified physician — building a bespoke plan aligned to your biology, lifestyle, and goals.",
+        primaryCta:   { text: "Reserve a Consultation", href: "#contact" },
+        secondaryCta: { text: "Meet Our Physicians",    href: "#about"   },
       },
       {
         image:       heroImg,
-        badge:       "Premium Anti-Aging",
-        tag:         "Anti-Aging & Rejuvenation",
-        headline:    "Turn Back Time. Naturally.",
-        description: "Botox, PRP & skin boosters — restore volume and youth effortlessly.",
-        primaryCta:   { text: "Anti-Aging Treatments", href: "#services" },
+        badge:       "Premium Anti-Aging Science",
+        tag:         "Rejuvenation & Age Reversal",
+        headline:    "Reclaim Your Youth. Restore Your Radiance.",
+        description: "Dermal fillers, bio-stimulators, RF microneedling, and PRP — our age-reversal suite turns back the clock with natural-looking, medically precise results.",
+        primaryCta:   { text: "Explore Anti-Aging",    href: "#services" },
         secondaryCta: { text: "See Transformations",   href: "#"         },
       },
     ],
