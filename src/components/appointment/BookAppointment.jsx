@@ -125,7 +125,7 @@ export default function BookAppointment() {
       <SuccessPopup visible={popup} />
 
       <section id="contact" className="relative overflow-hidden py-16 lg:py-20"
-        style={{ background: "#f5efe8" }}>
+        style={{ background: "#F4EFEA" }}>
 
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-1/4 top-0 h-[400px] w-[400px] -translate-x-1/2 rounded-full blur-[100px]"

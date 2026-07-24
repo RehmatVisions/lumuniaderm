@@ -1,15 +1,16 @@
 // ─── Edit this file to customize all text, links, and images ───
-import heroImg from "../assets/hero-backround.jpg"
+import heroImg from "../assets/hero-backorund-up.jpg"
 import antiAgingImg from "../assets/antiaging.jpg"
 import laserImg from "../assets/laserimage.jpg"
 import prpHairImg from "../assets/PRPHairTreatment.jpg"
 import acneImg from "../assets/acenetreament.jpg"
 import pigmentationImg from "../assets/pigmentationglowcard.jpg"
 import whyChooseMainImg from "../assets/whychooseus.jpg"
-import whyChooseSecondaryImg from "../assets/why-choose-image-2-royal.jpg"
+import whyChooseSecondaryImg from "../assets/whychooseuse.jpg"
 import aboutMainImg from "../assets/post-1.jpg"
 import aboutSecondaryImg from "../assets/antiaging.jpg"
 import laser2Img from "../assets/laser2.jpg"
+import videocardImg from "../assets/videocardimage.jpg"
 import whatWeImg1 from "../assets/what-we-item-image-1-royal.jpg"
 import whatWeImg2 from "../assets/what-we-item-image-1-royal (1).jpg"
 import whatWeImg3 from "../assets/what-we-item-image-1-royal (2).jpg"
@@ -192,7 +193,7 @@ export const siteContent = {
       image:       laser2Img,
     },
     centerCard: {
-      image:  whatWeImg2,
+      image:  videocardImg,
       quote:  "True faith shines brightest when it moves beyond words and touches the lives.",
       author: "Wade Warren",
       role:   "Co-Founder",
@@ -217,39 +218,39 @@ export const siteContent = {
     slides: [
       {
         image:       heroImg,
-        badge:       "Art Of Advanced Skin Perfection",
+        badge:       "Advanced Skin Perfection",
         tag:         "Advanced Skin Treatments",
-        headline:    "Personalized Dermatology & Beauty Solutions for Every Skin Type",
-        description: "We help you achieve clearer, brighter, and more youthful-looking skin through customized treatment plans tailored to your unique needs.",
-        primaryCta:   { text: "View Our Treatments", href: "#services" },
-        secondaryCta: { text: "Watch Our Story",      href: "#"         },
+        headline:    "Your Skin. Perfected.",
+        description: "Bespoke dermatology treatments for radiant, lasting results.",
+        primaryCta:   { text: "View Treatments", href: "#services" },
+        secondaryCta: { text: "Watch Our Story", href: "#"         },
       },
       {
         image:       heroImg,
         badge:       "Precision Laser Technology",
         tag:         "Laser & Aesthetic Procedures",
-        headline:    "Next-Gen Laser Treatments for Flawless, Hair-Free Skin",
-        description: "Our FDA-cleared laser systems deliver permanent hair reduction and skin resurfacing with zero downtime and visible results after just one session.",
-        primaryCta:   { text: "Explore Laser Services", href: "#services" },
-        secondaryCta: { text: "See Real Results",        href: "#"         },
+        headline:    "Laser. Flawless. Zero Downtime.",
+        description: "FDA-cleared systems for permanent hair reduction and skin resurfacing.",
+        primaryCta:   { text: "Explore Laser", href: "#services" },
+        secondaryCta: { text: "See Results",   href: "#"         },
       },
       {
         image:       heroImg,
-        badge:       "Expert Dermatology Consultations",
+        badge:       "Expert Consultations",
         tag:         "Specialist Consultations",
-        headline:    "Board-Certified Specialists Dedicated to Your Skin Health",
-        description: "Every visit starts with a thorough skin analysis. Our dermatologists craft a science-backed plan targeting your exact concerns — from acne to ageing.",
-        primaryCta:   { text: "Book a Consultation",  href: "#contact"  },
-        secondaryCta: { text: "Meet Our Specialists",  href: "#about"    },
+        headline:    "Expert Care. Real Results.",
+        description: "Board-certified specialists crafting science-backed plans for your skin.",
+        primaryCta:   { text: "Book a Consultation", href: "#contact" },
+        secondaryCta: { text: "Meet Our Team",       href: "#about"   },
       },
       {
         image:       heroImg,
-        badge:       "Premium Clinic Experience",
+        badge:       "Premium Anti-Aging",
         tag:         "Anti-Aging & Rejuvenation",
-        headline:    "Turn Back Time with Our Cutting-Edge Anti-Aging Solutions",
-        description: "From Botox to PRP and skin boosters — our rejuvenation treatments restore volume, reduce wrinkles, and leave your skin looking years younger.",
+        headline:    "Turn Back Time. Naturally.",
+        description: "Botox, PRP & skin boosters — restore volume and youth effortlessly.",
         primaryCta:   { text: "Anti-Aging Treatments", href: "#services" },
-        secondaryCta: { text: "Watch Transformations",  href: "#"         },
+        secondaryCta: { text: "See Transformations",   href: "#"         },
       },
     ],
 

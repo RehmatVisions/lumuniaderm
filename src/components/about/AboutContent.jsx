@@ -123,7 +123,7 @@ export default function AboutContent() {
         {...slideItem(0.55)}
       >
         {/* Progress bars */}
-        <div className="flex-1 space-y-4 rounded-2xl border border-novaderm-gold/20 bg-white/65 px-5 py-5 shadow-sm backdrop-blur-sm">
+        <div className="flex-1 space-y-4 rounded-2xl border border-novaderm-gold/20 bg-[#FDFBF7]/80 px-5 py-5 shadow-sm backdrop-blur-sm">
           {stats.map((s, i) => (
             <ProgressBar key={s.label} label={s.label} value={s.value} delay={0.65 + i * 0.15} />
           ))}

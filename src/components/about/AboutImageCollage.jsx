@@ -91,12 +91,13 @@ export default function AboutImageCollage() {
 
         {/* Specialists counter */}
         <motion.div
-          className="glass-card rounded-2xl px-4 py-3.5 shadow-md"
+          className="rounded-2xl px-4 py-3.5 shadow-md"
+          style={{ background: "#FDFBF7", border: "1px solid rgba(193,154,107,0.25)" }}
           {...child(0.5, 0)}
           whileHover={{ scale: 1.04, transition: { duration: 0.3 } }}
         >
           <p className="text-2xl font-bold text-novaderm-gold">{specialists.count}</p>
-          <p className="text-xs text-white/70">{specialists.label}</p>
+          <p className="text-xs text-novaderm-brown/65">{specialists.label}</p>
         </motion.div>
       </div>
 

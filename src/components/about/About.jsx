@@ -11,7 +11,7 @@ export default function About() {
   const reduced = useReducedMotion()
 
   return (
-    <section id="about" className="relative overflow-hidden py-20 lg:py-28">
+    <section id="about" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#F4EFEA" }}>
 
       {/* Background image — static, no parallax */}
       <div className="absolute inset-0 overflow-hidden">
@@ -20,9 +20,9 @@ export default function About() {
           className="absolute inset-0 h-full w-full object-cover object-center"
           loading="eager"
         />
-        <div className="absolute inset-0 bg-[#f5efe8]/92" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#f5efe8]/80 via-transparent to-[#f5efe8]/80" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f5efe8]/70 via-transparent to-[#f5efe8]/70" />
+        <div className="absolute inset-0 bg-[#F4EFEA]/93" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#F4EFEA]/85 via-transparent to-[#F4EFEA]/85" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F4EFEA]/75 via-transparent to-[#F4EFEA]/75" />
       </div>
 
       {/* Ambient orbs — opacity animation only */}

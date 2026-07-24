@@ -8,7 +8,7 @@
  */
 import { useEffect, useRef } from "react"
 
-const BG = "https://html.awaikenthemes.com/dermix/images/hero-bg-image-royal.jpg"
+import heroUpImg from "../../assets/herotwo.jpg"
 
 export default function HeroBackground() {
   const bgRef  = useRef(null)
@@ -55,7 +55,7 @@ export default function HeroBackground() {
           width:              "100%",
           height:             "130%",
           top:                "-15%",
-          backgroundImage:    `url(${BG})`,
+          backgroundImage:    `url(${heroUpImg})`,
           backgroundSize:     "cover",
           backgroundPosition: "center center",
           backgroundRepeat:   "no-repeat",

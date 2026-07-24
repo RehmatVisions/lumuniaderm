@@ -120,7 +120,7 @@ const STATS = [
 function StatsStrip({ reduced }) {
   return (
     <motion.div
-      className="mt-8 flex flex-wrap items-center gap-5 sm:gap-9"
+      className="mt-6 flex flex-wrap items-center gap-4 sm:gap-7"
       initial={reduced ? false : { opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.38, delay: 0.62, ease: EASE }}
@@ -197,13 +197,13 @@ export default function Hero() {
 
   return (
     <>
-      <section style={{ position: "relative", height: "calc(100vh - 30px)", minHeight: 600, display: "flex", flexDirection: "column", paddingTop: 98, margin: "15px", borderRadius: "16px", overflow: "hidden" }}>
+      <section style={{ position: "relative", height: "calc(100vh - 30px)", minHeight: 560, display: "flex", flexDirection: "column", paddingTop: 80, margin: "15px", borderRadius: "16px", overflow: "hidden" }}>
 
           <HeroBackground />
 
           <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", flex: 1 }}>
-            <div className="flex flex-1 items-center px-5 sm:px-10 lg:px-16">
-              <div className="grid w-full max-w-[1400px] mx-auto items-center gap-12 lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_440px]">
+            <div className="flex flex-1 items-center px-5 sm:px-8 lg:px-12">
+              <div className="grid w-full max-w-[1400px] mx-auto items-center gap-10 lg:grid-cols-[1fr_380px] xl:grid-cols-[1fr_420px]">
 
                 {/* LEFT — text content */}
                 <div className="flex flex-col">
@@ -220,8 +220,8 @@ export default function Hero() {
                     >
                       <Badge text={slide.badge} reduced={reduced} />
 
-                      <h1 className="font-serif font-semibold leading-[1.1] tracking-tight text-white"
-                        style={{ fontSize: "clamp(1.9rem, 5vw, 3.5rem)" }}>
+                      <h1 className="font-serif font-semibold leading-[1.08] tracking-tight text-white"
+                        style={{ fontSize: "clamp(1.65rem, 4.2vw, 2.85rem)" }}>
                         <WordReveal text={slide.headline} />
                       </h1>
 
@@ -235,8 +235,8 @@ export default function Hero() {
                       />
 
                       <motion.p
-                        className="mt-4 max-w-lg font-sans font-light leading-[1.75] text-white/58"
-                        style={{ fontSize: "clamp(0.86rem, 1.4vw, 0.98rem)", willChange: "transform, opacity" }}
+                        className="mt-3 max-w-md font-sans font-light leading-[1.65] text-white/58"
+                        style={{ fontSize: "clamp(0.78rem, 1.2vw, 0.88rem)", willChange: "transform, opacity" }}
                         initial={reduced ? false : { opacity: 0, y: 14 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.36, delay: 0.25, ease: EASE }}
@@ -244,7 +244,7 @@ export default function Hero() {
                         {slide.description}
                       </motion.p>
 
-                      <div className="mt-7 flex flex-wrap items-center gap-4">
+                      <div className="mt-5 flex flex-wrap items-center gap-3.5">
                         <CTAButton text={slide.primaryCta.text}   href={slide.primaryCta.href} />
                         <SecondaryButton text={slide.secondaryCta.text} href={slide.secondaryCta.href} />
                       </div>
@@ -254,7 +254,7 @@ export default function Hero() {
                   <StatsStrip reduced={reduced} />
 
                   <motion.div
-                    className="mt-7 flex items-center gap-4"
+                    className="mt-5 flex items-center gap-4"
                     initial={reduced ? false : { opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.38, delay: 0.9 }}
