@@ -1,6 +1,7 @@
 import { motion, AnimatePresence, useInView } from "framer-motion"
 import { useState, useCallback, useEffect, useRef } from "react"
 import { useReveal } from "../../hooks/useReveal"
+import TextReveal from "../ui/TextReveal"
 
 /* ── Clinic images ── */
 import img0  from "../../assets/clinicimages/image.png"
@@ -210,21 +211,15 @@ export default function ClinicGallery() {
               </span>
             </motion.div>
 
-            <motion.h2
+            <TextReveal
+              as="h2"
               className="max-w-3xl font-serif font-semibold leading-[1.12] tracking-tight text-white"
               style={{ fontSize: "clamp(2rem, 4.5vw, 3.2rem)" }}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.65, delay: 0.08, ease: EASE_EXPO }}
+              delay={60}
+              stagger={50}
             >
-              Step Inside{" "}
-              <span style={{ background: "linear-gradient(135deg, #c19a6b 0%, #e8c98a 50%, #a8825a 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                Novaderm
-              </span>
-              {" "}— Where Luxury Meets Science
-            </motion.h2>
-
+              Step Inside Novaderm — Where Luxury Meets Science
+            </TextReveal>
             <motion.p
               className="max-w-xl text-[0.92rem] font-light leading-[1.8] text-white/45"
               initial={{ opacity: 0, y: 14 }}

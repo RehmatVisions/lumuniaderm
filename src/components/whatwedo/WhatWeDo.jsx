@@ -2,6 +2,7 @@ import { motion } from "framer-motion"
 import { useState } from "react"
 import { siteContent } from "../../data/siteContent"
 import { useReveal } from "../../hooks/useReveal"
+import TextReveal from "../ui/TextReveal"
 
 /* top-left + bottom-right rounded — consistent image corner style */
 const IMG_CORNERS = { borderRadius: "2rem 0.5rem 2rem 0.5rem" }
@@ -178,10 +179,15 @@ export default function WhatWeDo() {
             </span>
           </span>
 
-          <h2 className="reveal reveal-up reveal-duration-600 reveal-delay-1 max-w-2xl font-serif font-semibold leading-[1.15] text-white"
-            style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.6rem)" }}>
+          <TextReveal
+            as="h2"
+            className="reveal reveal-up reveal-duration-600 reveal-delay-1 max-w-2xl font-serif font-semibold leading-[1.15] text-white"
+            style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.6rem)" }}
+            delay={60}
+            stagger={55}
+          >
             {headline}
-          </h2>
+          </TextReveal>
         </div>
 
         {/* 2-col grid */}

@@ -3,6 +3,7 @@ import { useState, useRef } from "react"
 import { siteContent } from "../../data/siteContent"
 import ArrowUpRight from "../ui/ArrowUpRight"
 import { useReveal } from "../../hooks/useReveal"
+import TextReveal from "../ui/TextReveal"
 
 const EASE = [0.25, 0.46, 0.45, 0.94]
 
@@ -299,9 +300,14 @@ export default function WhyChooseUs() {
             <span className="text-xs font-semibold uppercase tracking-widest text-novaderm-gold">{badge}</span>
           </span>
 
-          <h2 className="reveal reveal-up reveal-duration-600 reveal-delay-1 max-w-2xl font-serif text-[1.9rem] font-semibold leading-[1.18] tracking-[-0.01em] text-novaderm-brown sm:text-[2.3rem] lg:text-[2.65rem] lg:leading-[1.14]">
+          <TextReveal
+            as="h2"
+            className="reveal reveal-up reveal-duration-600 reveal-delay-1 max-w-2xl font-serif text-[1.9rem] font-semibold leading-[1.18] tracking-[-0.01em] text-novaderm-brown sm:text-[2.3rem] lg:text-[2.65rem] lg:leading-[1.14]"
+            delay={60}
+            stagger={55}
+          >
             {headline}
-          </h2>
+          </TextReveal>
 
           <motion.div
             className="reveal reveal-fade reveal-duration-700 reveal-delay-2 h-[2px] w-16 rounded-full bg-gradient-to-r from-novaderm-gold to-novaderm-gold/20"

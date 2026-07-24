@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import ArrowUpRight from "../ui/ArrowUpRight"
 import { useReveal } from "../../hooks/useReveal"
+import TextReveal from "../ui/TextReveal"
 
 /* ─── Social icons ───────────────────────────────────────────── */
 function SocialIcon({ type }) {
@@ -119,20 +120,19 @@ export default function Footer() {
           style={{ background: "#282A23", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
         >
           {/* glow */}
-          <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-[600px] -translate-x-1/2 rounded-full blur-[100px]"
-            style={{ background: "rgba(198,148,89,0.06)" }} />
+          <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-[600px] -translate-x-1/2 rounded-full"
+            style={{ background: "radial-gradient(circle, rgba(198,148,89,0.06) 0%, transparent 70%)" }} />
 
           <div className="relative mx-auto max-w-[1300px] px-4 sm:px-6 lg:px-10 flex flex-col items-center gap-6 text-center">
 
-            <motion.h2
+            <TextReveal
+              as="h2"
               className="font-serif text-[1.9rem] font-semibold leading-[1.2] text-white sm:text-[2.4rem] lg:text-[2.8rem]"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+              delay={0}
+              stagger={60}
             >
               Begin Your Skin Transformation Today
-            </motion.h2>
+            </TextReveal>
 
             <motion.p
               className="max-w-lg text-[0.9rem] leading-[1.7]"

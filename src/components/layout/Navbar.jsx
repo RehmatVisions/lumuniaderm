@@ -159,7 +159,7 @@ export default function Navbar() {
           </motion.ul>
 
           <div className="flex items-center gap-3">
-            <motion.div variants={itemV} className="hidden md:block">
+            <motion.div variants={itemV} className="hidden lg:block">
               <MagneticCTA text={ctaText} href={ctaHref} disabled={reduced || isMobile} />
             </motion.div>
 

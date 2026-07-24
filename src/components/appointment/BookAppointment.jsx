@@ -2,6 +2,7 @@
 import { useState } from "react"
 import contactGirl from "../../assets/contactgirl.png"
 import ArrowUpRight from "../ui/ArrowUpRight"
+import TextReveal from "../ui/TextReveal"
 
 const EASE = [0.25, 0.46, 0.45, 0.94]
 
@@ -159,9 +160,9 @@ export default function BookAppointment() {
       className="relative overflow-hidden py-16 lg:py-20"
       style={{ background: "#F4EFEA" }}
     >
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/4 top-0 h-[400px] w-[400px] -translate-x-1/2 rounded-full blur-[100px]"
-          style={{ background: "rgba(198,148,89,0.08)" }} />
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div className="absolute left-1/4 top-0 h-[400px] w-[400px] -translate-x-1/2 rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(198,148,89,0.08) 0%, transparent 70%)" }} />
       </div>
 
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-10">
@@ -173,9 +174,9 @@ export default function BookAppointment() {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.65, ease: EASE }}
         >
-          {/* ambient glow */}
-          <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full blur-3xl"
-            style={{ background: "rgba(198,148,89,0.07)" }} />
+          {/* ambient glow — no blur filter */}
+          <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full"
+            style={{ background: "radial-gradient(circle, rgba(198,148,89,0.07) 0%, transparent 70%)" }} />
 
           <div className="grid items-end lg:grid-cols-[1fr_auto]">
 
@@ -194,12 +195,14 @@ export default function BookAppointment() {
                     initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                     transition={{ duration: 0.25 }}>
 
-                    <motion.h2
+                    <TextReveal
+                      as="h2"
                       className="mb-8 font-serif text-[2rem] font-semibold leading-[1.15] text-white sm:text-[2.4rem]"
-                      {...fadeUp(0.05)}
+                      delay={0}
+                      stagger={65}
                     >
                       Reserve Your Appointment
-                    </motion.h2>
+                    </TextReveal>
 
                     <motion.div
                       className="mb-8 h-px"

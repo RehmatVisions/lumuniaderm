@@ -299,9 +299,14 @@ export default function Services() {
               <span className="text-xs font-semibold uppercase tracking-widest text-novaderm-gold">{badge}</span>
             </span>
 
-            <h2 className="reveal reveal-up reveal-duration-600 reveal-delay-1 text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-[2.5rem] lg:leading-[1.14]">
+            <TextReveal
+              as="h2"
+              className="reveal reveal-up reveal-duration-600 reveal-delay-1 text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-[2.5rem] lg:leading-[1.14]"
+              delay={60}
+              stagger={55}
+            >
               {headline}
-            </h2>
+            </TextReveal>
 
             <motion.div
               className="reveal reveal-fade reveal-duration-700 reveal-delay-2 h-px w-20 bg-gradient-to-r from-novaderm-gold to-transparent"
