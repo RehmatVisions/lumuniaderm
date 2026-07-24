@@ -2,6 +2,7 @@ import { motion, AnimatePresence, useInView } from "framer-motion"
 import { useState, useRef } from "react"
 import { siteContent } from "../../data/siteContent"
 import ArrowUpRight from "../ui/ArrowUpRight"
+import { useReveal } from "../../hooks/useReveal"
 
 const EASE = [0.25, 0.46, 0.45, 0.94]
 
@@ -273,63 +274,47 @@ function AccordionItem({ item, isOpen, onToggle, index }) {
 export default function WhyChooseUs() {
   const { badge, headline, description, images, ctaText, ctaHref, accordion } = siteContent.whyUs
   const [openIndex, setOpenIndex] = useState(1)
+  const headerRef = useReveal({ rootMargin: "-40px 0px" })
 
   return (
     <section id="why-us" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#F9F6F0" }}>
 
-      {/* ── Subtle background texture ── */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-40 top-0 h-[500px] w-[500px] rounded-full bg-novaderm-gold/6 blur-3xl" />
-        <div className="absolute -right-40 bottom-0 h-[400px] w-[400px] rounded-full bg-novaderm-brown/5 blur-3xl" />
+      {/* Static orbs — no blur filter (removed GPU layer) */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div className="absolute -left-40 top-0 h-[500px] w-[500px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(193,154,107,0.06) 0%, transparent 70%)" }} />
+        <div className="absolute -right-40 bottom-0 h-[400px] w-[400px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(61,46,36,0.05) 0%, transparent 70%)" }} />
       </div>
 
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
 
         {/* ── Section header ── */}
-        <div className="mb-14 flex flex-col items-center gap-3 text-center lg:mb-18">
-          <motion.span
-            className="inline-flex items-center gap-2 rounded-full border border-novaderm-gold/35 bg-novaderm-gold/10 px-4 py-1.5"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
+        <div ref={headerRef} className="mb-14 flex flex-col items-center gap-3 text-center lg:mb-18">
+          <span className="reveal reveal-up reveal-duration-500 reveal-delay-0 inline-flex items-center gap-2 rounded-full border border-novaderm-gold/35 bg-novaderm-gold/10 px-4 py-1.5">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-novaderm-gold opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-novaderm-gold" />
             </span>
             <span className="text-xs font-semibold uppercase tracking-widest text-novaderm-gold">{badge}</span>
-          </motion.span>
+          </span>
 
-          <motion.h2
-            className="max-w-2xl font-serif text-[1.9rem] font-semibold leading-[1.18] tracking-[-0.01em] text-novaderm-brown sm:text-[2.3rem] lg:text-[2.65rem] lg:leading-[1.14]"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-          >
+          <h2 className="reveal reveal-up reveal-duration-600 reveal-delay-1 max-w-2xl font-serif text-[1.9rem] font-semibold leading-[1.18] tracking-[-0.01em] text-novaderm-brown sm:text-[2.3rem] lg:text-[2.65rem] lg:leading-[1.14]">
             {headline}
-          </motion.h2>
+          </h2>
 
-          {/* Gold underline */}
           <motion.div
-            className="h-[2px] w-16 rounded-full bg-gradient-to-r from-novaderm-gold to-novaderm-gold/20"
+            className="reveal reveal-fade reveal-duration-700 reveal-delay-2 h-[2px] w-16 rounded-full bg-gradient-to-r from-novaderm-gold to-novaderm-gold/20"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, delay: 0.18 }}
             style={{ transformOrigin: "center" }}
           />
 
-          <motion.p
-            className="max-w-xl font-sans text-[0.9rem] font-light leading-[1.75] tracking-[0.015em] text-novaderm-brown/58 sm:text-[0.95rem]"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          >
+          <p className="reveal reveal-up reveal-duration-600 reveal-delay-2 max-w-xl font-sans text-[0.9rem] font-light leading-[1.75] tracking-[0.015em] text-novaderm-brown/58 sm:text-[0.95rem]">
             {description}
-          </motion.p>
+          </p>
         </div>
 
         {/* ── Two-column grid ── */}

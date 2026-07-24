@@ -1,5 +1,6 @@
 import { motion, AnimatePresence, useInView } from "framer-motion"
 import { useState, useCallback, useEffect, useRef } from "react"
+import { useReveal } from "../../hooks/useReveal"
 
 /* ── Clinic images ── */
 import img0  from "../../assets/clinicimages/image.png"
@@ -38,107 +39,24 @@ const GALLERY = [
 
 const FILTERS = ["All", "Reception", "Waiting", "Lounge", "Treatment", "Amenities", "Consultation"]
 
-/* ─── Lightbox ─────────────────────────────────────────────── */
-function Lightbox({ item, total, onClose, onPrev, onNext }) {
-  useEffect(() => {
-    const fn = (e) => {
-      if (e.key === "Escape")     onClose()
-      if (e.key === "ArrowRight") onNext()
-      if (e.key === "ArrowLeft")  onPrev()
-    }
-    window.addEventListener("keydown", fn)
-    return () => window.removeEventListener("keydown", fn)
-  }, [onClose, onPrev, onNext])
-
-  return (
-    <motion.div
-      className="fixed inset-0 z-[300] flex items-center justify-center p-4 sm:p-8"
-      style={{ background: "rgba(4,3,2,0.94)", backdropFilter: "blur(28px)" }}
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      transition={{ duration: 0.25 }}
-      onClick={onClose}
-    >
-      <motion.button
-        className="absolute right-5 top-5 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white/60 hover:border-novaderm-gold/60 hover:text-white active:scale-90"
-        style={{ background: "rgba(255,255,255,0.06)" }}
-        onClick={onClose} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.93 }}
-      >
-        <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
-          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-        </svg>
-      </motion.button>
-      <div className="absolute left-5 top-5 z-20 rounded-full border border-white/12 bg-black/50 px-4 py-1.5 text-xs font-semibold text-white/55 backdrop-blur-md">
-        {item.id} / {total}
-      </div>
-      <motion.button
-        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-white/15 text-white/60 hover:border-novaderm-gold/60 hover:text-white active:scale-90"
-        style={{ background: "rgba(255,255,255,0.06)" }}
-        onClick={(e) => { e.stopPropagation(); onPrev() }}
-        whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.93 }}
-      >
-        <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 rotate-180">
-          <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
-        </svg>
-      </motion.button>
-      <motion.button
-        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-white/15 text-white/60 hover:border-novaderm-gold/60 hover:text-white active:scale-90"
-        style={{ background: "rgba(255,255,255,0.06)" }}
-        onClick={(e) => { e.stopPropagation(); onNext() }}
-        whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.93 }}
-      >
-        <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
-          <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
-        </svg>
-      </motion.button>
-      <motion.div
-        className="relative w-full max-w-5xl overflow-hidden"
-        style={{ borderRadius: "1.5rem", boxShadow: "0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(193,154,107,0.20)" }}
-        initial={{ opacity: 0, scale: 0.88, y: 32 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.92, y: 16 }}
-        transition={{ duration: 0.42, ease: [0.34, 1.2, 0.64, 1] }}
-        onClick={(e) => e.stopPropagation()}
-        onTouchEnd={(e) => e.stopPropagation()}
-      >
-        <img src={item.src} alt={item.title} className="w-full object-cover" style={{ maxHeight: "80vh" }} />
-        <div className="absolute inset-x-0 bottom-0 p-7"
-          style={{ background: "linear-gradient(to top, rgba(4,3,2,0.92) 0%, transparent 100%)" }}>
-          <span className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-novaderm-gold/40 bg-novaderm-gold/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-novaderm-gold">
-            {item.cat}
-          </span>
-          <h3 className="font-serif text-2xl font-semibold text-white">{item.title}</h3>
-          <p className="mt-1 text-sm text-white/50">{item.caption}</p>
-        </div>
-      </motion.div>
-    </motion.div>
-  )
-}
-
-/* ─── Gallery Card — uniform aspect-ratio, no span classes ─── */
-function GalleryCard({ item, index, onOpen, featured = false }) {
+/* ─── Gallery Card — CSS reveal, no framer overhead ─────────── */
+function GalleryCard({ item, index, featured = false }) {
   const [hovered, setHovered] = useState(false)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
+  // stagger delay capped at delay-8
+  const delayClass = `reveal-delay-${Math.min(index % 4, 8)}`
 
   return (
-    <motion.article
-      ref={ref}
-      className="group relative w-full cursor-pointer overflow-hidden"
+    <article
+      className={`reveal reveal-scale reveal-duration-600 ${delayClass} group relative w-full overflow-hidden`}
       style={{
         borderRadius: "1.5rem",
         aspectRatio: featured ? "16/7" : "4/3",
-        WebkitTapHighlightColor: "transparent",
+        cursor: "default",
       }}
-      initial={{ opacity: 0, y: 36, scale: 0.96 }}
-      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.65, delay: index * 0.055, ease: EASE_EXPO }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onTouchStart={() => setHovered(true)}
       onTouchEnd={() => setTimeout(() => setHovered(false), 600)}
-      onClick={() => onOpen(item)}
-      whileHover={{ y: -5, transition: { duration: 0.3 } }}
-      whileTap={{ scale: 0.97 }}
     >
       {/* Image fills card completely */}
       <motion.img
@@ -179,21 +97,9 @@ function GalleryCard({ item, index, onOpen, featured = false }) {
         </span>
       </motion.div>
 
-      {/* Expand icon — top right */}
-      <motion.div
-        className="absolute right-4 top-4"
-        animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1 : 0.7 }}
-        transition={{ duration: 0.22 }}
-        style={{ pointerEvents: "none" }}
-      >
-        <div className="flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-white/12 text-white backdrop-blur-sm">
-          <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5">
-            <path d="M15 3h6m0 0v6m0-6l-7 7M9 21H3m0 0v-6m0 6l7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-      </motion.div>
+      {/* Expand icon — removed (no click functionality) */}
 
-      {/* Title + caption — bottom: always visible title, caption on hover/touch */}
+      {/* Title + caption — bottom */}
       <div className="absolute inset-x-0 bottom-0 p-5">
         <motion.h3
           className="font-serif text-base font-semibold leading-snug text-white sm:text-lg"
@@ -210,7 +116,7 @@ function GalleryCard({ item, index, onOpen, featured = false }) {
           {item.caption}
         </motion.p>
       </div>
-    </motion.article>
+    </article>
   )
 }
 
@@ -267,21 +173,9 @@ function MarqueeStrip() {
 /* ─── MAIN SECTION ──────────────────────────────────────────── */
 export default function ClinicGallery() {
   const [activeFilter, setActiveFilter] = useState("All")
-  const [lightbox, setLightbox] = useState(null)
+  const gridRef = useReveal({ rootMargin: "-40px 0px", threshold: 0.06 })
 
   const filtered = activeFilter === "All" ? GALLERY : GALLERY.filter(i => i.cat === activeFilter)
-  const openLightbox  = useCallback((item) => setLightbox(item), [])
-  const closeLightbox = useCallback(() => setLightbox(null), [])
-  const gotoNext = useCallback(() => {
-    if (!lightbox) return
-    const idx = filtered.findIndex(i => i.id === lightbox.id)
-    setLightbox(filtered[(idx + 1) % filtered.length])
-  }, [lightbox, filtered])
-  const gotoPrev = useCallback(() => {
-    if (!lightbox) return
-    const idx = filtered.findIndex(i => i.id === lightbox.id)
-    setLightbox(filtered[(idx - 1 + filtered.length) % filtered.length])
-  }, [lightbox, filtered])
   const countFor = (cat) => cat === "All" ? GALLERY.length : GALLERY.filter(i => i.cat === cat).length
 
   /* Split: first item is the hero card (full-width), rest go in the grid */
@@ -289,15 +183,7 @@ export default function ClinicGallery() {
   const showHero = activeFilter === "All" && filtered.length > 0
 
   return (
-    <>
-      <AnimatePresence>
-        {lightbox && (
-          <Lightbox item={lightbox} total={filtered.length}
-            onClose={closeLightbox} onNext={gotoNext} onPrev={gotoPrev} />
-        )}
-      </AnimatePresence>
-
-      <section id="gallery" className="relative overflow-hidden" style={{ background: "#080604" }}>
+    <section id="gallery" className="relative overflow-hidden" style={{ background: "#080604" }}>
 
         {/* Ambient orbs */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -389,7 +275,7 @@ export default function ClinicGallery() {
         </div>
 
         {/* ── Gallery Grid ── */}
-        <div className="relative mx-auto max-w-[1440px] px-4 pb-20 sm:px-6 lg:px-12 lg:pb-28">
+        <div ref={gridRef} className="relative mx-auto max-w-[1440px] px-4 pb-20 sm:px-6 lg:px-12 lg:pb-28">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeFilter}
@@ -401,18 +287,17 @@ export default function ClinicGallery() {
               {/* Hero row — full width card (only on "All" filter) */}
               {showHero && (
                 <div className="mb-4 sm:mb-5">
-                  <GalleryCard item={heroItem} index={0} onOpen={openLightbox} featured={true} />
+                  <GalleryCard item={heroItem} index={0} featured={true} />
                 </div>
               )}
 
-              {/* Uniform 3-column grid — every card is 4/3 aspect, no spans */}
+              {/* Uniform 3-column grid */}
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
                 {(showHero ? gridItems : filtered).map((item, i) => (
                   <GalleryCard
                     key={item.id}
                     item={item}
                     index={showHero ? i + 1 : i}
-                    onOpen={openLightbox}
                     featured={false}
                   />
                 ))}
@@ -469,6 +354,5 @@ export default function ClinicGallery() {
           </motion.div>
         </div>
       </section>
-    </>
   )
 }

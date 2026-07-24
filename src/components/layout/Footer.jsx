@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import ArrowUpRight from "../ui/ArrowUpRight"
+import { useReveal } from "../../hooks/useReveal"
 
 /* ─── Social icons ───────────────────────────────────────────── */
 function SocialIcon({ type }) {
@@ -91,6 +92,7 @@ export default function Footer() {
   const [email,  setEmail]  = useState("")
   const [subErr, setSubErr] = useState("")
   const [toast,  setToast]  = useState(false)
+  const colRef = useReveal({ rootMargin: "-40px 0px" })
 
   const handleSubscribe = (e) => {
     e.preventDefault()
@@ -189,16 +191,10 @@ export default function Footer() {
 
         {/* ── Main footer columns ── */}
         <div className="mx-auto max-w-[1300px] px-4 sm:px-6 lg:px-10 py-14 lg:py-16">
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+          <div ref={colRef} className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
 
             {/* Col 1 — Brand */}
-            <motion.div
-              className="flex flex-col gap-5"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.0 }}
-            >
+            <div className="reveal reveal-up reveal-duration-600 reveal-delay-0 flex flex-col gap-5">
               <p className="max-w-[220px] text-sm leading-[1.75]"
                 style={{ color: "rgba(255,255,255,0.55)" }}>
                 Novaderm is a premium aesthetic dermatology clinic dedicated to delivering{" "}
@@ -218,15 +214,10 @@ export default function Footer() {
                   </motion.a>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
             {/* Col 2 — Quick Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.07 }}
-            >
+            <div className="reveal reveal-up reveal-duration-600 reveal-delay-1">
               <h4 className="mb-5 text-base font-bold text-white">Quick Links</h4>
               <ul className="flex flex-col gap-3">
                 {QUICK_LINKS.map(({ label, href }) => (
@@ -243,15 +234,10 @@ export default function Footer() {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
 
             {/* Col 3 — Our Services */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.13 }}
-            >
+            <div className="reveal reveal-up reveal-duration-600 reveal-delay-2">
               <h4 className="mb-5 text-base font-bold text-white">Our Services</h4>
               <ul className="flex flex-col gap-3">
                 {SERVICES.map(({ label, href }) => (
@@ -268,15 +254,10 @@ export default function Footer() {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
 
             {/* Col 4 — Working Hours */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.19 }}
-            >
+            <div className="reveal reveal-up reveal-duration-600 reveal-delay-3">
               <h4 className="mb-5 text-base font-bold text-white">Working Hours</h4>
               <ul className="flex flex-col gap-3">
                 {HOURS.map(({ day, hours }) => (
@@ -288,7 +269,7 @@ export default function Footer() {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
 
           </div>
         </div>

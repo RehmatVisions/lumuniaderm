@@ -46,7 +46,7 @@ export default function HeroContent({ slideIndex }) {
         <AnimatePresence mode="wait">
           <motion.h1
             key={`h-${slideIndex}`}
-            className="font-serif text-[1.75rem] font-medium leading-[1.1] tracking-[-0.01em] text-white sm:text-[2.2rem] lg:text-[2.9rem] lg:leading-[1.07]"
+            className="font-serif text-[1.45rem] font-medium leading-[1.12] tracking-[-0.01em] text-white sm:text-[1.85rem] lg:text-[2.4rem] lg:leading-[1.08]"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
@@ -77,7 +77,7 @@ export default function HeroContent({ slideIndex }) {
         <AnimatePresence mode="wait">
           <motion.p
             key={`d-${slideIndex}`}
-            className="max-w-sm font-sans text-[0.82rem] font-light leading-[1.65] tracking-[0.015em] text-white/62 sm:text-[0.875rem]"
+            className="max-w-sm font-sans text-[0.78rem] font-light leading-[1.6] tracking-[0.01em] text-white/62 sm:text-[0.82rem]"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -12 }}

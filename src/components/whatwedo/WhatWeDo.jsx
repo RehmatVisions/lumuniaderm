@@ -1,6 +1,7 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { siteContent } from "../../data/siteContent"
+import { useReveal } from "../../hooks/useReveal"
 
 /* top-left + bottom-right rounded — consistent image corner style */
 const IMG_CORNERS = { borderRadius: "2rem 0.5rem 2rem 0.5rem" }
@@ -80,6 +81,8 @@ function StatCard({ stat }) {
             <motion.img key={i} src={src} alt=""
               className="h-11 w-11 rounded-full border-2 object-cover"
               style={{ borderColor: "#1e2018" }}
+              loading="lazy"
+              decoding="async"
               initial={{ opacity: 0, x: -10 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -148,48 +151,47 @@ function CenterCard({ card }) {
 /* ─── MAIN SECTION ───────────────────────────────────────────── */
 export default function WhatWeDo() {
   const { badge, headline, stat, centerCard } = siteContent.whatWeDo
+  const sectionRef = useReveal({ rootMargin: "-40px 0px" })
 
   return (
     <section id="what-we-do" className="relative overflow-hidden py-20 lg:py-28"
       style={{ background: "#282A23" }}>
 
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-40 top-0 h-[500px] w-[500px] rounded-full blur-[120px]"
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute -left-40 top-0 h-[400px] w-[400px] rounded-full"
           style={{ background: "rgba(198,148,89,0.05)" }} />
-        <div className="absolute -right-40 bottom-0 h-[400px] w-[400px] rounded-full blur-[100px]"
-          style={{ background: "rgba(198,148,89,0.04)" }} />
+        <div className="absolute -right-40 bottom-0 h-[300px] w-[300px] rounded-full"
+          style={{ background: "rgba(198,148,89,0.035)" }} />
       </div>
 
-      <div className="relative mx-auto max-w-[1300px] px-4 sm:px-6 lg:px-10">
+      <div ref={sectionRef} className="relative mx-auto max-w-[1300px] px-4 sm:px-6 lg:px-10">
 
         {/* Header */}
         <div className="mb-12 flex flex-col items-center gap-4 text-center">
-          <motion.span
-            className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5"
-            style={{ borderColor: "rgba(198,148,89,0.35)", background: "rgba(198,148,89,0.10)" }}
-            {...fadeUp(0)}
-          >
+          <span className="reveal reveal-up reveal-duration-500 reveal-delay-0 inline-flex items-center gap-2 rounded-full border px-4 py-1.5"
+            style={{ borderColor: "rgba(198,148,89,0.35)", background: "rgba(198,148,89,0.10)" }}>
             <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" style={{ color: "#C69459" }} fill="currentColor">
               <path d="M8 0a1 1 0 011 1v5.586l3.95-3.95a1 1 0 111.414 1.414L10.414 8l3.95 3.95a1 1 0 01-1.414 1.414L9 9.414V15a1 1 0 11-2 0V9.414l-3.95 3.95A1 1 0 011.636 11.95L5.586 8l-3.95-3.95A1 1 0 013.05 2.636L7 6.586V1a1 1 0 011-1z"/>
             </svg>
             <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#C69459" }}>
               {badge}
             </span>
-          </motion.span>
+          </span>
 
-          <motion.h2
-            className="max-w-2xl font-serif font-semibold leading-[1.15] text-white"
-            style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.6rem)" }}
-            {...fadeUp(0.08)}
-          >
+          <h2 className="reveal reveal-up reveal-duration-600 reveal-delay-1 max-w-2xl font-serif font-semibold leading-[1.15] text-white"
+            style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.6rem)" }}>
             {headline}
-          </motion.h2>
+          </h2>
         </div>
 
-        {/* 2-col grid — stat + center image */}
+        {/* 2-col grid */}
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-          <StatCard   stat={stat} />
-          <CenterCard card={centerCard} />
+          <div className="reveal reveal-left reveal-duration-700 reveal-delay-0">
+            <StatCard stat={stat} />
+          </div>
+          <div className="reveal reveal-right reveal-duration-700 reveal-delay-1">
+            <CenterCard card={centerCard} />
+          </div>
         </div>
       </div>
     </section>

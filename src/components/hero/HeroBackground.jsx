@@ -94,7 +94,7 @@ export default function HeroBackground() {
         background: "linear-gradient(to top, rgba(5,4,2,0.55) 0%, transparent 45%)",
       }} />
 
-      {/* ── Ambient gold orb A ── */}
+      {/* ── Ambient gold orb A — static, no animation ── */}
       <div style={{
         position:     "absolute",
         top:          "8%",
@@ -102,12 +102,11 @@ export default function HeroBackground() {
         width:        460,
         height:       460,
         borderRadius: "9999px",
-        background:   "radial-gradient(circle, rgba(193,154,107,0.11) 0%, transparent 68%)",
-        animation:    "orbPulseA 9s ease-in-out infinite",
-        willChange:   "opacity",
+        background:   "radial-gradient(circle, rgba(193,154,107,0.10) 0%, transparent 68%)",
+        pointerEvents:"none",
       }} />
 
-      {/* ── Ambient gold orb B ── */}
+      {/* ── Ambient gold orb B — static ── */}
       <div style={{
         position:     "absolute",
         bottom:       "6%",
@@ -115,9 +114,8 @@ export default function HeroBackground() {
         width:        520,
         height:       520,
         borderRadius: "9999px",
-        background:   "radial-gradient(circle, rgba(193,154,107,0.07) 0%, transparent 65%)",
-        animation:    "orbPulseB 12s ease-in-out infinite",
-        willChange:   "opacity",
+        background:   "radial-gradient(circle, rgba(193,154,107,0.06) 0%, transparent 65%)",
+        pointerEvents:"none",
       }} />
 
       {/* ── Fine grid texture ── */}
@@ -131,12 +129,7 @@ export default function HeroBackground() {
       }} />
 
       <style>{`
-        @keyframes orbPulseA { 0%,100%{opacity:.55} 50%{opacity:.90} }
-        @keyframes orbPulseB { 0%,100%{opacity:.38} 50%{opacity:.72} }
-        @media(prefers-reduced-motion:reduce){
-          @keyframes orbPulseA{0%,100%{opacity:.55}}
-          @keyframes orbPulseB{0%,100%{opacity:.38}}
-        }
+        @media(prefers-reduced-motion:reduce){}
       `}</style>
     </div>
   )

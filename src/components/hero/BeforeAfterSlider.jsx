@@ -86,6 +86,8 @@ export default function BeforeAfterSlider({ compact = false }) {
           src={afterImg}
           alt="After treatment"
           draggable={false}
+          fetchPriority="high"
+          decoding="async"
           style={{
             position:       "absolute",
             inset:          0,
@@ -112,6 +114,8 @@ export default function BeforeAfterSlider({ compact = false }) {
             src={beforeImg}
             alt="Before treatment"
             draggable={false}
+            fetchPriority="high"
+            decoding="async"
             style={{
               position:       "absolute",
               inset:          0,

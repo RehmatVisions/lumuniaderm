@@ -45,12 +45,22 @@ function MagneticCTA({ text, href, disabled }) {
         className="group inline-flex items-center"
         whileTap={{ scale: 0.96 }}
       >
-        <span className="rounded-l-full py-2.5 pl-5 pr-4 text-[13px] font-semibold text-white transition-colors duration-200"
-          style={{ background: "linear-gradient(135deg,#c19a6b 0%,#a8825a 100%)", boxShadow: "0 4px 18px rgba(193,154,107,0.28)" }}>
+        <span
+          className="py-2.5 pl-5 pr-4 text-[13px] font-semibold uppercase tracking-wide text-white transition-colors duration-200"
+          style={{
+            background: "linear-gradient(135deg,#c19a6b 0%,#a8825a 100%)",
+            borderRadius: "2rem 0 0 2rem",
+            boxShadow: "0 4px 18px rgba(193,154,107,0.28)",
+          }}>
           {text}
         </span>
-        <span className="flex h-[42px] w-[42px] items-center justify-center rounded-r-full border-l border-white/18 text-white transition-transform duration-250 group-hover:rotate-45"
-          style={{ background: "linear-gradient(135deg,#a8825a 0%,#8a6745 100%)", boxShadow: "0 4px 18px rgba(193,154,107,0.28)" }}>
+        <span
+          className="flex h-[40px] w-[40px] items-center justify-center text-white transition-transform duration-300 group-hover:rotate-45"
+          style={{
+            background: "linear-gradient(135deg,#a8825a 0%,#8a6745 100%)",
+            borderRadius: "0 0.5rem 0 0.5rem",
+            boxShadow: "0 4px 18px rgba(193,154,107,0.28)",
+          }}>
           <ArrowUpRight className="h-3.5 w-3.5" />
         </span>
       </motion.a>
@@ -68,7 +78,7 @@ function NavLink({ link, isActive, onClick }) {
         onClick={onClick}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className={`group relative flex items-center gap-0.5 rounded-full px-4 py-2 text-[13px] font-medium transition-colors duration-200 ${
+        className={`group relative flex items-center gap-0.5 rounded-full px-4 py-2 text-[13.5px] font-medium transition-colors duration-200 ${
           isActive ? "text-white" : "text-white/70 hover:text-white"
         }`}
       >
@@ -136,7 +146,7 @@ export default function Navbar() {
         initial="hidden"
         animate="visible"
       >
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4 py-3.5 sm:px-6 lg:px-10">
+        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4 py-2 sm:px-6 lg:px-10">
 
           <motion.div variants={itemV} className="z-10 flex-shrink-0">
             <Logo />

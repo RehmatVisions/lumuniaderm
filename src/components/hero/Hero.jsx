@@ -40,17 +40,17 @@ function Badge({ text }) {
 function CTAButton({ text, href }) {
   return (
     <motion.a href={href}
-      className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full px-7 py-4 text-sm font-bold uppercase tracking-[0.12em] text-white"
+      className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.10em] text-white sm:px-6 sm:py-3 sm:text-xs"
       style={{ background: "linear-gradient(135deg, #C69459 0%, #a8825a 100%)" }}
       initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.36, delay: 0.3, ease: EASE_SPRING }}
-      whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(198,148,89,0.50)" }}
+      whileHover={{ scale: 1.04, boxShadow: "0 0 28px rgba(198,148,89,0.45)" }}
       whileTap={{ scale: 0.97 }}
     >
       <motion.span className="pointer-events-none absolute inset-0 -translate-x-full skew-x-[-20deg] bg-white/16"
         whileHover={{ translateX: "200%" }} transition={{ duration: 0.48 }} />
       {text}
-      <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor">
+      <svg className="h-3 w-3 flex-shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" viewBox="0 0 20 20" fill="currentColor">
         <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
       </svg>
     </motion.a>
@@ -61,8 +61,8 @@ function CTAButton({ text, href }) {
 function GhostButton({ text, href }) {
   return (
     <motion.a href={href}
-      className="inline-flex items-center gap-2.5 rounded-full border px-7 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-white/75 hover:text-white"
-      style={{ borderColor: "rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.04)" }}
+      className="inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.10em] text-white/70 hover:text-white sm:px-5 sm:text-xs"
+      style={{ borderColor: "rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.04)" }}
       initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.36, delay: 0.4, ease: EASE_SPRING }}
       whileHover={{ scale: 1.03, borderColor: "rgba(193,154,107,0.55)", background: "rgba(193,154,107,0.08)" }}
@@ -188,11 +188,13 @@ export default function Hero() {
   const slide = slides[index]
 
   return (
-    <section style={{
-      position: "relative", minHeight: "calc(100vh - 30px)", display: "flex",
-      flexDirection: "column", paddingTop: 80, margin: "15px",
-      borderRadius: "20px", overflow: "hidden",
-    }}>
+    <section
+      className="hero-section"
+      style={{
+        position: "relative", minHeight: "calc(100vh - 30px)", display: "flex",
+        flexDirection: "column", paddingTop: 80, overflow: "hidden",
+      }}
+    >
       <HeroBackground />
 
       {/* Decorative top-left corner accent */}
@@ -219,26 +221,26 @@ export default function Hero() {
                 >
                   <Badge text={slide.badge} />
 
-                  {/* Headline with gradient accent on last word */}
-                  <h1 className="font-serif font-semibold leading-[1.06] tracking-tight text-white"
-                    style={{ fontSize: "clamp(1.8rem, 5vw, 3.2rem)" }}>
+                  {/* Headline */}
+                  <h1 className="font-serif font-semibold leading-[1.08] tracking-tight text-white"
+                    style={{ fontSize: "clamp(1.4rem, 3.2vw, 2.2rem)" }}>
                     {slide.headline}
                   </h1>
 
                   {/* Animated underline */}
-                  <motion.div className="mt-4 h-[3px] rounded-full"
-                    style={{ width: "38%", background: "linear-gradient(to right, #C69459, rgba(198,148,89,0.12))", transformOrigin: "left" }}
+                  <motion.div className="mt-3 h-[2px] rounded-full"
+                    style={{ width: "36%", background: "linear-gradient(to right, #C69459, rgba(198,148,89,0.10))", transformOrigin: "left" }}
                     initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
                     transition={{ duration: 0.6, delay: 0.28, ease: EASE_EXPO }} />
 
-                  <motion.p className="mt-4 max-w-lg font-sans font-light leading-[1.72] text-white/60"
-                    style={{ fontSize: "clamp(0.85rem, 1.3vw, 0.95rem)" }}
+                  <motion.p className="mt-3 max-w-xs font-sans font-light leading-[1.65] text-white/58"
+                    style={{ fontSize: "clamp(0.75rem, 1.1vw, 0.85rem)" }}
                     initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.22, ease: EASE }}>
                     {slide.description}
                   </motion.p>
 
-                  <div className="mt-6 flex flex-wrap items-center gap-3.5">
+                  <div className="mt-5 flex flex-wrap items-center gap-2.5">
                     <CTAButton   text={slide.primaryCta.text}   href={slide.primaryCta.href} />
                     <GhostButton text={slide.secondaryCta.text} href={slide.secondaryCta.href} />
                   </div>

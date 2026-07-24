@@ -13,21 +13,18 @@ export default function About() {
   return (
     <section id="about" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#F4EFEA" }}>
 
-      {/* Background image — static, no parallax */}
+      {/* Background image — lazy loaded, only decorative */}
       <div className="absolute inset-0 overflow-hidden">
         <img
           src={bgImage} alt="" aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover object-center"
-          loading="eager"
+          loading="lazy"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-[#F4EFEA]/93" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#F4EFEA]/85 via-transparent to-[#F4EFEA]/85" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#F4EFEA]/75 via-transparent to-[#F4EFEA]/75" />
       </div>
-
-      {/* Ambient orbs — opacity animation only */}
-      <div className="pointer-events-none absolute -left-48 top-8 h-[440px] w-[440px] rounded-full bg-novaderm-gold/7 blur-3xl" style={{ willChange: "opacity" }} />
-      <div className="pointer-events-none absolute -right-48 bottom-4 h-[360px] w-[360px] rounded-full bg-novaderm-brown/6 blur-3xl" style={{ willChange: "opacity" }} />
 
       {/* Decorative ring — static, no rotation */}
       <div className="pointer-events-none absolute right-8 top-8 hidden lg:block">

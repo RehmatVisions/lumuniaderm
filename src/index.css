@@ -215,14 +215,31 @@
   .animate-spin-slow { animation: none !important; }
 }
 
-/* ─── Mobile: disable heavy blur ────────────────────────────── */
+/* ─── Mobile: disable ALL heavy GPU effects ─────────────────── */
 @media (max-width: 767px) {
+  /* Kill all backdrop-filter blur — major GPU drain on phones */
   [style*="backdrop-filter"],
-  [style*="backdropFilter"] {
+  [style*="backdropFilter"],
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
+
+  /* Kill all blur-3xl / blur-2xl ambient orbs — they force compositing */
+  .blur-3xl, .blur-2xl, .blur-xl {
+    filter: none !important;
+  }
+
+  /* Disable clip-path animations */
   .clip-path-reveal { clip-path: none !important; }
+
+  /* Reduce framer-motion willChange hints on mobile — browser decides */
+  [style*="will-change"] {
+    will-change: auto !important;
+  }
 }
 
 /* ─── 3D / perspective helpers ───────────────────────────────── */
@@ -239,7 +256,144 @@
 }
 ::-webkit-scrollbar-thumb:hover { background: rgba(193,154,107,0.55); }
 
-/* ─── Mobile touch active states ────────────────────────────── */
+/* ─── Scroll Reveal — AOS-style, CSS-driven, zero lag ───────── */
+
+/* Base hidden state — applied via JS before element enters view */
+.reveal {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+/* Fired when IntersectionObserver fires — transition does the work */
+.reveal.is-visible {
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Variants ── */
+.reveal-up        { transform: translateY(40px); }
+.reveal-up.is-visible {
+  animation-name: revealUp;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left      { transform: translateX(-40px); }
+.reveal-left.is-visible {
+  animation-name: revealLeft;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right     { transform: translateX(40px); }
+.reveal-right.is-visible {
+  animation-name: revealRight;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale     { transform: scale(0.92); }
+.reveal-scale.is-visible {
+  animation-name: revealScale;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.reveal-fade.is-visible {
+  animation-name: revealFade;
+  opacity: 1;
+}
+
+/* ── Durations ── */
+.reveal-duration-400  { animation-duration: 0.4s; }
+.reveal-duration-500  { animation-duration: 0.5s; }
+.reveal-duration-600  { animation-duration: 0.6s; }
+.reveal-duration-700  { animation-duration: 0.7s; }
+.reveal-duration-800  { animation-duration: 0.8s; }
+
+/* ── Stagger delays ── */
+.reveal-delay-0   { animation-delay: 0ms;   }
+.reveal-delay-1   { animation-delay: 80ms;  }
+.reveal-delay-2   { animation-delay: 160ms; }
+.reveal-delay-3   { animation-delay: 240ms; }
+.reveal-delay-4   { animation-delay: 320ms; }
+.reveal-delay-5   { animation-delay: 400ms; }
+.reveal-delay-6   { animation-delay: 480ms; }
+.reveal-delay-7   { animation-delay: 560ms; }
+.reveal-delay-8   { animation-delay: 640ms; }
+
+/* ── Keyframes ── */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes revealLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+@keyframes revealRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+@keyframes revealScale {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+@keyframes revealFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Disable on reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal.is-visible {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+/* Mobile: full-width, no margin, no radius                       */
+/* ─── Typography word-reveal animation ──────────────────────── */
+/* Each word clips upward from below — plays once on scroll       */
+.word-reveal-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: inherit;
+}
+.word-reveal-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  opacity: 0;
+  animation: wordSlideUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-play-state: paused;
+}
+.words-visible .word-reveal-inner {
+  animation-play-state: running;
+}
+@keyframes wordSlideUp {
+  to { transform: translateY(0); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .word-reveal-inner {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* sm+: floating card with margin and rounded corners             */
+.hero-section {
+  margin: 0;
+  border-radius: 0;
+}
+@media (min-width: 640px) {
+  .hero-section {
+    margin: 15px;
+    border-radius: 20px;
+  }
+}
 /* Ensure hover-only effects gracefully degrade on touch devices  */
 @media (hover: none) and (pointer: coarse) {
   /* Service cards — show content on tap */

@@ -2,6 +2,7 @@ import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import { siteContent } from "../../data/siteContent"
 import { useReducedMotion, VP_ONCE } from "../../hooks/usePerf"
+import TextReveal from "../ui/TextReveal"
 
 const EASE = [0.25, 0.46, 0.45, 0.94]
 
@@ -71,12 +72,14 @@ export default function AboutContent() {
       </motion.div>
 
       {/* Headline */}
-      <motion.h2
+      <TextReveal
+        as="h2"
         className="max-w-lg font-serif text-[1.9rem] font-semibold leading-[1.18] tracking-[-0.01em] text-novaderm-brown sm:text-[2.3rem] lg:text-[2.65rem] lg:leading-[1.14]"
-        {...slideItem(0.15)}
+        delay={80}
+        stagger={60}
       >
         {headline}
-      </motion.h2>
+      </TextReveal>
 
       {/* Gold rule */}
       <motion.div
