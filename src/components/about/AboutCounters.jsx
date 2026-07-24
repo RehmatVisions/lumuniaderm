@@ -2,22 +2,21 @@ import { motion, useInView, useMotionValue, useTransform, animate } from "framer
 import { useRef, useEffect } from "react"
 import { siteContent } from "../../data/siteContent"
 
-/* Single rolling counter — counts up fast at start, eases to final */
+/* ── Single rolling counter — eases to final value on scroll ── */
 function Counter({ target, suffix = "", duration = 1.8, delay = 0 }) {
   const ref    = useRef(null)
   const inView = useInView(ref, { once: true, margin: "-60px" })
   const count  = useMotionValue(0)
-  // Display value rounded
   const rounded = useTransform(count, (v) => Math.round(v).toLocaleString())
 
   useEffect(() => {
     if (!inView) return
     const timer = setTimeout(() => {
-      const controls = animate(count, target, {
+      const ctrl = animate(count, target, {
         duration,
-        ease: [0.16, 1, 0.3, 1], // expo-out — fast start, slow finish
+        ease: [0.16, 1, 0.3, 1], // expo-out
       })
-      return controls.stop
+      return ctrl.stop
     }, delay * 1000)
     return () => clearTimeout(timer)
   }, [inView, count, target, duration, delay])
@@ -30,7 +29,7 @@ function Counter({ target, suffix = "", duration = 1.8, delay = 0 }) {
   )
 }
 
-/* Vertical digit slot machine — extra visual flair for the number */
+/* ── Slot machine slide-in wrapper ── */
 function SlotNumber({ target, suffix = "", delay = 0 }) {
   const ref    = useRef(null)
   const inView = useInView(ref, { once: true, margin: "-60px" })
@@ -38,9 +37,9 @@ function SlotNumber({ target, suffix = "", delay = 0 }) {
   return (
     <div ref={ref} className="overflow-hidden leading-none">
       <motion.div
-        initial={{ y: "100%" }}
-        animate={inView ? { y: "0%" } : { y: "100%" }}
-        transition={{ duration: 0.7, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+        initial={{ y: "110%", opacity: 0 }}
+        animate={inView ? { y: "0%", opacity: 1 } : {}}
+        transition={{ duration: 0.65, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <Counter target={target} suffix={suffix} duration={1.6} delay={delay} />
       </motion.div>
@@ -53,13 +52,14 @@ export default function AboutCounters() {
 
   return (
     <div className="relative py-10">
-      {/* Top divider */}
+
+      {/* Top gold divider */}
       <motion.div
         className="mx-auto mb-10 h-px max-w-[1400px] bg-gradient-to-r from-transparent via-novaderm-gold/30 to-transparent"
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 1, ease: "easeOut" }}
+        transition={{ duration: 1.1, ease: "easeOut" }}
       />
 
       <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-8 px-6 lg:grid-cols-4 lg:px-10">
@@ -67,16 +67,16 @@ export default function AboutCounters() {
           <motion.div
             key={item.label}
             className="group flex flex-col items-center gap-2 text-center"
-            initial={{ opacity: 0, y: 32 }}
+            initial={{ opacity: 0, y: 36 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.55, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.6, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             {/* Icon */}
             <motion.div
-              className="mb-1 flex h-12 w-12 items-center justify-center rounded-2xl border border-novaderm-gold/25 bg-novaderm-gold/10 transition-all duration-300 group-hover:border-novaderm-gold/60 group-hover:bg-novaderm-gold/20"
-              whileHover={{ scale: 1.1, rotate: 3 }}
-              transition={{ duration: 0.3 }}
+              className="mb-1 flex h-12 w-12 items-center justify-center rounded-2xl border border-novaderm-gold/25 bg-novaderm-gold/10 transition-all duration-300 group-hover:border-novaderm-gold/60 group-hover:bg-novaderm-gold/22"
+              whileHover={{ scale: 1.12, rotate: 4 }}
+              transition={{ duration: 0.28 }}
             >
               <CounterIcon type={item.icon} />
             </motion.div>
@@ -92,30 +92,30 @@ export default function AboutCounters() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
+              transition={{ duration: 0.5, delay: 0.55 + i * 0.1 }}
             >
               {item.label}
             </motion.p>
 
-            {/* Underline that grows on inView */}
+            {/* Animated underline */}
             <motion.div
               className="h-0.5 rounded-full bg-novaderm-gold"
               initial={{ width: 0 }}
-              whileInView={{ width: 32 }}
+              whileInView={{ width: 36 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.65 + i * 0.1, ease: "easeOut" }}
+              transition={{ duration: 0.65, delay: 0.7 + i * 0.1, ease: "easeOut" }}
             />
           </motion.div>
         ))}
       </div>
 
-      {/* Bottom divider */}
+      {/* Bottom gold divider */}
       <motion.div
         className="mx-auto mt-10 h-px max-w-[1400px] bg-gradient-to-r from-transparent via-novaderm-gold/30 to-transparent"
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 1, ease: "easeOut" }}
+        transition={{ duration: 1.1, ease: "easeOut" }}
       />
     </div>
   )

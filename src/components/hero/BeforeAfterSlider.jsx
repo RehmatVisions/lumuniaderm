@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import beforeImg from "../../assets/before.jpg"
 import afterImg  from "../../assets/after.jpg"
 
-export default function BeforeAfterSlider() {
+export default function BeforeAfterSlider({ compact = false }) {
   const containerRef            = useRef(null)
   const [position, setPosition] = useState(50)
   const [dragging, setDragging] = useState(false)
@@ -67,7 +67,7 @@ export default function BeforeAfterSlider() {
         className="relative overflow-hidden"
         style={{
           borderRadius: 20,
-          aspectRatio:  "3 / 4",
+          aspectRatio:  compact ? "4 / 3" : "3 / 4",
           cursor:       dragging ? "grabbing" : "ew-resize",
           zIndex:       1,
           boxShadow:    "0 32px 64px rgba(0,0,0,0.55), 0 8px 24px rgba(0,0,0,0.3)",

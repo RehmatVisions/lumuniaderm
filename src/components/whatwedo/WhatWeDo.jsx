@@ -2,11 +2,14 @@ import { motion } from "framer-motion"
 import { useState } from "react"
 import { siteContent } from "../../data/siteContent"
 
+/* top-left + bottom-right rounded — consistent image corner style */
+const IMG_CORNERS = { borderRadius: "2rem 0.5rem 2rem 0.5rem" }
+
 const fadeUp = (delay = 0) => ({
   initial:     { opacity: 0, y: 28 },
   whileInView: { opacity: 1, y: 0  },
   viewport:    { once: true, margin: "-50px" },
-  transition:  { duration: 0.55, delay, ease: [0.25, 0.46, 0.45, 0.94] },
+  transition:  { duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] },
 })
 
 /* ─── Play button ────────────────────────────────────────────── */
@@ -41,10 +44,10 @@ function PlayCircle() {
 function StatCard({ stat }) {
   return (
     <motion.div
-      className="relative flex flex-col justify-between overflow-hidden rounded-3xl"
-      style={{ background: "#1e2018", minHeight: 420 }}
+      className="relative flex flex-col justify-between overflow-hidden"
+      style={{ background: "#1e2018", minHeight: 420, ...IMG_CORNERS }}
       {...fadeUp(0.05)}
-      whileHover={{ y: -4, transition: { duration: 0.3 } }}
+      whileHover={{ y: -6, boxShadow: "0 24px 60px rgba(0,0,0,0.40)", transition: { duration: 0.3 } }}
     >
       {/* Background image */}
       {stat.image && (
@@ -111,10 +114,10 @@ function StatCard({ stat }) {
 function CenterCard({ card }) {
   return (
     <motion.div
-      className="relative overflow-hidden rounded-3xl"
-      style={{ minHeight: 420 }}
+      className="relative overflow-hidden"
+      style={{ minHeight: 420, ...IMG_CORNERS }}
       {...fadeUp(0.12)}
-      whileHover={{ y: -4, transition: { duration: 0.3 } }}
+      whileHover={{ y: -6, boxShadow: "0 24px 60px rgba(0,0,0,0.35)", transition: { duration: 0.3 } }}
     >
       <motion.img
         src={card.image} alt="Treatment"

@@ -3,6 +3,9 @@ import { useState } from "react"
 import { siteContent } from "../../data/siteContent"
 import ArrowUpRight from "../ui/ArrowUpRight"
 
+/* top-left + bottom-right rounded image corners */
+const IMG_CORNERS = { borderRadius: "2rem 0.5rem 2rem 0.5rem" }
+
 /* ─── SERVICE ICONS ─────────────────────────────────────────── */
 function ServiceIcon({ type, className = "h-5 w-5" }) {
   const icons = {
@@ -29,11 +32,12 @@ function CardReveal({ card, index }) {
 
   return (
     <motion.article
-      className="group relative overflow-hidden rounded-[1.75rem]"
-      style={{ height: 440 }}
+      className="group relative overflow-hidden"
+      style={{ height: 440, ...IMG_CORNERS }}
       {...fadeUp(index * 0.06)}
       onMouseLeave={() => setHovered(false)}
       onMouseEnter={() => setHovered(true)}
+      whileHover={{ y: -6, transition: { duration: 0.3 } }}
     >
       {/* image */}
       <motion.img
@@ -97,8 +101,8 @@ function CardReveal({ card, index }) {
 
       {/* border glow */}
       <motion.div
-        className="pointer-events-none absolute inset-0 rounded-[1.75rem]"
-        style={{ boxShadow: "inset 0 0 0 1.5px rgba(193,154,107,0.45)" }}
+        className="pointer-events-none absolute inset-0"
+        style={{ boxShadow: "inset 0 0 0 1.5px rgba(193,154,107,0.45)", borderRadius: "2rem 0.5rem 2rem 0.5rem" }}
         animate={{ opacity: hovered ? 1 : 0 }}
         transition={{ duration: 0.3 }}
       />
@@ -112,11 +116,12 @@ function CardSplit({ card, index }) {
 
   return (
     <motion.article
-      className="group relative flex flex-col overflow-hidden rounded-[1.75rem] bg-[#18110d]"
-      style={{ height: 440 }}
+      className="group relative flex flex-col overflow-hidden bg-[#18110d]"
+      style={{ height: 440, ...IMG_CORNERS }}
       {...fadeUp(index * 0.06)}
       onMouseLeave={() => setHovered(false)}
       onMouseEnter={() => setHovered(true)}
+      whileHover={{ y: -6, transition: { duration: 0.3 } }}
     >
       {/* image half */}
       <div className="relative h-[52%] overflow-hidden">
@@ -193,11 +198,12 @@ function CardWide({ card, index }) {
 
   return (
     <motion.article
-      className="group relative col-span-1 overflow-hidden rounded-[1.75rem] bg-novaderm-brown sm:col-span-2 lg:col-span-2"
-      style={{ height: 300 }}
+      className="group relative col-span-1 overflow-hidden bg-novaderm-brown sm:col-span-2 lg:col-span-2"
+      style={{ height: 300, ...IMG_CORNERS }}
       {...fadeUp(index * 0.06)}
       onMouseLeave={() => setHovered(false)}
       onMouseEnter={() => setHovered(true)}
+      whileHover={{ y: -5, transition: { duration: 0.3 } }}
     >
       {/* right image */}
       <motion.img
