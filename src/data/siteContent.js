@@ -25,8 +25,8 @@ export const siteContent = {
     ctaText: "Reserve Your Consultation",
     ctaHref: "#contact",
     links: [
-      { label: "Help",    href: "#" },
-      { label: "Support", href: "#" },
+      { label: "Help",    href: "#contact" },
+      { label: "Support", href: "#contact" },
       { label: "Contact", href: "#contact" },
     ],
     social: [
@@ -103,7 +103,7 @@ export const siteContent = {
         title:       "Advanced Acne & Scar Revision",
         description: "A multi-modality approach — combining medical-grade peels, targeted topicals, and laser resurfacing — to eliminate active breakouts and visibly reduce post-acne scarring, pigmentation, and textural irregularities.",
         image:       acneImg,
-        href:        "#services",
+        href:        "#contact",
         icon:        "acne",
       },
       {
@@ -111,7 +111,7 @@ export const siteContent = {
         title:       "Laser Hair Removal",
         description: "Powered by industry-leading diode and Nd:YAG technology, our laser hair removal delivers permanent reduction across all skin tones — with clinical precision, minimal discomfort, and zero downtime.",
         image:       laserImg,
-        href:        "#services",
+        href:        "#contact",
         icon:        "laser",
       },
       {
@@ -119,7 +119,7 @@ export const siteContent = {
         title:       "Anti-Aging & Skin Rejuvenation",
         description: "From dermal fillers and bio-stimulators to RF microneedling and collagen-induction therapy — our anti-aging suite restores lost volume, softens deep lines, and renews your skin's structural foundation.",
         image:       antiAgingImg,
-        href:        "#services",
+        href:        "#contact",
         icon:        "aging",
       },
       {
@@ -127,7 +127,7 @@ export const siteContent = {
         title:       "Pigmentation Correction & Glow Treatments",
         description: "Clinically formulated chemical peels, IPL phototherapy, and brightening infusion protocols work synergistically to dissolve stubborn melasma, sun damage, and uneven tone — revealing luminous, even skin.",
         image:       pigmentationImg,
-        href:        "#services",
+        href:        "#contact",
         icon:        "glow",
       },
       {
@@ -135,7 +135,7 @@ export const siteContent = {
         title:       "PRP Hair Restoration Therapy",
         description: "Autologous platelet-rich plasma is extracted, concentrated, and precisely injected into thinning zones to reactivate dormant follicles, dramatically reduce shedding, and stimulate measurable regrowth.",
         image:       prpHairImg,
-        href:        "#services",
+        href:        "#contact",
         icon:        "hair",
       },
     ],
@@ -223,7 +223,7 @@ export const siteContent = {
         headline:    "Get the Skin You Always Wanted.",
         description: "Expert skin treatments done by certified doctors. Safe, effective, and made just for you.",
         primaryCta:   { text: "See Our Treatments", href: "#services" },
-        secondaryCta: { text: "View Results",       href: "#"         },
+        secondaryCta: { text: "View Results",       href: "#transformations" },
       },
       {
         image:       heroImg,
@@ -231,8 +231,8 @@ export const siteContent = {
         tag:         "Laser Treatments",
         headline:    "Smooth Skin. No More Unwanted Hair.",
         description: "Advanced laser technology for permanent hair removal. Works on all skin types. Quick and painless.",
-        primaryCta:   { text: "Book Laser Session", href: "#services" },
-        secondaryCta: { text: "Before & After",     href: "#"         },
+        primaryCta:   { text: "Book Laser Session", href: "#contact"  },
+        secondaryCta: { text: "Before & After",     href: "#transformations" },
       },
       {
         image:       heroImg,
@@ -249,8 +249,8 @@ export const siteContent = {
         tag:         "Look Younger, Feel Better",
         headline:    "Look Younger. Feel Confident Again.",
         description: "Fillers, PRP, and skin boosters that remove wrinkles and bring back your glow — naturally and safely.",
-        primaryCta:   { text: "Explore Anti-Aging", href: "#services" },
-        secondaryCta: { text: "See Transformations",href: "#"         },
+        primaryCta:   { text: "Explore Anti-Aging",  href: "#services"        },
+        secondaryCta: { text: "See Transformations", href: "#transformations"  },
       },
     ],
 

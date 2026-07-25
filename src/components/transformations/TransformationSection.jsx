@@ -317,6 +317,7 @@ export default function TransformationSection() {
 
   return (
     <section
+      id="transformations"
       ref={sectionRef}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}

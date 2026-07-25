@@ -22,11 +22,14 @@ function matchKnowledge(input) {
   const text = input.toLowerCase().trim();
   let bestMatch = null;
   let bestScore = 0;
+
   for (const entry of clinicKnowledge) {
     let score = 0;
     for (const kw of entry.keywords) {
-      if (text.includes(kw.toLowerCase())) {
-        score += kw.split(" ").length > 1 ? 3 : 1;
+      const kwLower = kw.toLowerCase();
+      if (text.includes(kwLower)) {
+        // longer / multi-word keyword = higher score
+        score += kw.split(" ").length > 1 ? 4 : 1;
       }
     }
     if (score > bestScore) {
@@ -34,6 +37,30 @@ function matchKnowledge(input) {
       bestMatch = entry;
     }
   }
+
+  // Extra: if score is 0, try matching individual words of the input
+  // against keywords — catches "tell me about you" → finds "about you"
+  if (bestScore === 0) {
+    const words = text.split(/\s+/).filter(w => w.length > 2);
+    for (const entry of clinicKnowledge) {
+      let score = 0;
+      for (const kw of entry.keywords) {
+        const kwLower = kw.toLowerCase()
+        for (const word of words) {
+          if (kwLower.includes(word) || word.includes(kwLower)) {
+            score += 1
+          }
+        }
+      }
+      if (score > bestScore) {
+        bestScore = score;
+        bestMatch = entry;
+      }
+    }
+    // Only use word-level match if score is meaningful
+    if (bestScore < 2) return null;
+  }
+
   return bestScore > 0 ? bestMatch : null;
 }
 
@@ -86,159 +113,319 @@ const BOOKING_STEPS = [
 // ─── PDF generator ───────────────────────────────────────────────────────────
 
 function generatePDF(bookingData, messages) {
-  const doc = new jsPDF({ unit: "mm", format: "a4" });
-  const pw = doc.internal.pageSize.getWidth();
-  const margin = 18;
-  let y = 0;
+  const doc    = new jsPDF({ unit: "mm", format: "a4" });
+  const pw     = doc.internal.pageSize.getWidth();   // 210
+  const ph     = doc.internal.pageSize.getHeight();  // 297
+  const ml     = 16;   // left margin
+  const mr     = 16;   // right margin
+  const cw     = pw - ml - mr;  // content width
+  let   y      = 0;
 
-  // header bar
-  doc.setFillColor(10, 10, 20);
-  doc.rect(0, 0, pw, 38, "F");
+  // ── colour palette ──────────────────────────────────────────────
+  const GOLD_D  = [168, 130,  90];  // dark gold
+  const GOLD_M  = [212, 175,  95];  // mid gold
+  const GOLD_L  = [245, 225, 170];  // light gold
+  const DARK    = [ 14,  11,   8];  // near-black
+  const DARK2   = [ 30,  22,  12];  // header bg
+  const WHITE   = [255, 255, 255];
+  const CREAM   = [253, 249, 242];  // page bg tint
+  const TEXT_D  = [ 22,  18,  10];
+  const TEXT_M  = [ 80,  65,  45];
+  const TEXT_L  = [140, 120,  90];
+  const DIVIDER = [220, 205, 180];
 
-  doc.setTextColor(212, 175, 95);
-  doc.setFontSize(18);
+  // helper: set fill + stroke to gold
+  const goldFill   = () => { doc.setFillColor(...GOLD_M); doc.setDrawColor(...GOLD_D); };
+  const darkFill   = () => { doc.setFillColor(...DARK2);  doc.setDrawColor(...DARK2);  };
+  const creamFill  = () => { doc.setFillColor(...CREAM);  doc.setDrawColor(...DIVIDER); };
+
+  // helper: add new page if needed
+  const checkPage = (needed = 12) => {
+    if (y + needed > ph - 18) { doc.addPage(); y = 22; }
+  };
+
+  // ══════════════════════════════════════════════════════════════
+  // PAGE 1 — HEADER BANNER
+  // ══════════════════════════════════════════════════════════════
+
+  // Dark header bar
+  darkFill();
+  doc.rect(0, 0, pw, 44, "F");
+
+  // Gold left accent stripe
+  doc.setFillColor(...GOLD_M);
+  doc.rect(0, 0, 5, 44, "F");
+
+  // Brand name
   doc.setFont("helvetica", "bold");
-  doc.text("NovaDerm", margin, 16);
+  doc.setFontSize(22);
+  doc.setTextColor(...GOLD_M);
+  doc.text("NOVADERM", ml + 4, 18);
 
+  // Tagline
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(8.5);
+  doc.setTextColor(...GOLD_L);
+  doc.text("Aesthetic & Dermatology Clinic", ml + 4, 25);
+
+  // Right side clinic info
+  doc.setFontSize(7.5);
+  doc.setTextColor(200, 185, 155);
+  doc.text("2nd Floor, The Galleria, Gulberg III, Lahore", pw - mr, 16, { align: "right" });
+  doc.text("hello@novaderm.pk  |  +92 300 1234567", pw - mr, 22, { align: "right" });
+  doc.text("Mon–Sat: 10:00 AM – 8:00 PM", pw - mr, 28, { align: "right" });
+
+  // Gold bottom line of header
+  doc.setDrawColor(...GOLD_M);
+  doc.setLineWidth(0.8);
+  doc.line(0, 44, pw, 44);
+
+  y = 54;
+
+  // ── VERIFIED APPOINTMENT PASS title row ──────────────────────
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(13);
+  doc.setTextColor(...TEXT_D);
+  doc.text("APPOINTMENT PASS", ml, y);
+
+  // VERIFIED badge — right aligned
+  doc.setFillColor(...GOLD_M);
+  doc.roundedRect(pw - mr - 38, y - 6, 38, 9, 2, 2, "F");
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(7.5);
+  doc.setTextColor(...WHITE);
+  doc.text("VERIFIED", pw - mr - 19, y - 0.5, { align: "center" });
+
+  y += 5;
+
+  // Booking ID + issued date
+  doc.setFont("helvetica", "normal");
   doc.setFontSize(8);
-  doc.setTextColor(180, 160, 120);
-  doc.setFont("helvetica", "normal");
-  doc.text("Aesthetic & Dermatology Clinic", margin, 22);
-  doc.text("2nd Floor, The Galleria, Main Blvd Gulberg III, Lahore", margin, 27);
-  doc.text("hello@novaderm.pk  |  +92 300 1234567", margin, 32);
-
-  // gold rule
-  doc.setDrawColor(212, 175, 95);
-  doc.setLineWidth(0.5);
-  doc.line(margin, 40, pw - margin, 40);
-  y = 48;
-
-  // booking pass title
-  doc.setTextColor(10, 10, 20);
-  doc.setFontSize(14);
-  doc.setFont("helvetica", "bold");
-  doc.text("APPOINTMENT PASS", margin, y);
-  y += 7;
-
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(80, 80, 90);
-  doc.text(`Booking ID: ${bookingData.bookingId}`, margin, y);
+  doc.setTextColor(...TEXT_M);
+  doc.text(`Booking ID: ${bookingData.bookingId}`, ml, y);
   doc.text(
     `Issued: ${new Date(bookingData.timestamp).toLocaleString("en-PK")}`,
-    pw - margin,
-    y,
-    { align: "right" }
+    pw - mr, y, { align: "right" }
   );
   y += 10;
 
-  // details box
-  doc.setFillColor(249, 248, 245);
-  doc.roundedRect(margin, y, pw - margin * 2, 52, 3, 3, "F");
-  doc.setDrawColor(212, 175, 95);
-  doc.setLineWidth(0.3);
-  doc.roundedRect(margin, y, pw - margin * 2, 52, 3, 3, "S");
+  // ── PATIENT DETAILS BOX ───────────────────────────────────────
+  const boxH = 58;
+  creamFill();
+  doc.setLineWidth(0.25);
+  doc.roundedRect(ml, y, cw, boxH, 3, 3, "FD");
 
-  const labelX = margin + 5;
-  const valueX = margin + 55;
-  const rowH = 9;
-  let ry = y + 9;
+  // gold left accent bar inside box
+  doc.setFillColor(...GOLD_M);
+  doc.roundedRect(ml, y, 3, boxH, 1.5, 1.5, "F");
+
+  const labelX = ml + 8;
+  const valueX = ml + 60;
+  const rowH   = 10;
+  let   ry     = y + 11;
 
   const fields = [
-    ["Patient Name", bookingData.name],
-    ["Email Address", bookingData.email],
-    ["Phone / WhatsApp", bookingData.phone],
-    ["Selected Treatment", bookingData.treatment],
-    ["Preferred Date & Time", bookingData.datetime],
+    ["Patient Name",        bookingData.name],
+    ["Email Address",       bookingData.email],
+    ["Phone / WhatsApp",    bookingData.phone],
+    ["Treatment Selected",  bookingData.treatment],
+    ["Preferred Date/Time", bookingData.datetime],
   ];
 
-  doc.setFontSize(8.5);
   for (const [label, value] of fields) {
-    doc.setTextColor(110, 100, 90);
     doc.setFont("helvetica", "bold");
-    doc.text(label + ":", labelX, ry);
-    doc.setTextColor(20, 20, 30);
+    doc.setFontSize(8);
+    doc.setTextColor(...TEXT_L);
+    doc.text(label, labelX, ry);
+
     doc.setFont("helvetica", "normal");
-    doc.text(String(value || "—"), valueX, ry);
+    doc.setFontSize(8.5);
+    doc.setTextColor(...TEXT_D);
+    const wrapped = doc.splitTextToSize(String(value || "—"), cw - 68);
+    doc.text(wrapped, valueX, ry);
     ry += rowH;
   }
-  y += 58;
+  y += boxH + 8;
 
-  // reception note
+  // ── CLINIC NOTE STRIP ─────────────────────────────────────────
   doc.setFillColor(255, 250, 235);
-  doc.setDrawColor(212, 175, 95);
+  doc.setDrawColor(...GOLD_D);
   doc.setLineWidth(0.3);
-  doc.roundedRect(margin, y, pw - margin * 2, 12, 2, 2, "FD");
-  doc.setFontSize(8);
-  doc.setTextColor(140, 100, 20);
+  doc.roundedRect(ml, y, cw, 11, 2, 2, "FD");
   doc.setFont("helvetica", "bolditalic");
+  doc.setFontSize(8);
+  doc.setTextColor(...GOLD_D);
   doc.text(
-    "📋  Please present this pass at reception upon arrival.",
-    margin + 5,
-    y + 8
+    "Please present this pass at reception upon arrival. Slot subject to confirmation.",
+    ml + cw / 2, y + 7, { align: "center" }
   );
-  y += 20;
+  y += 18;
 
-  // transcript
-  doc.setDrawColor(200, 195, 185);
+  // ── DIVIDER with label ────────────────────────────────────────
+  doc.setDrawColor(...DIVIDER);
   doc.setLineWidth(0.3);
-  doc.line(margin, y, pw - margin, y);
+  doc.line(ml, y, pw - mr, y);
   y += 7;
 
-  doc.setFontSize(11);
+  // ══════════════════════════════════════════════════════════════
+  // CHAT TRANSCRIPT SECTION
+  // ══════════════════════════════════════════════════════════════
+
   doc.setFont("helvetica", "bold");
-  doc.setTextColor(10, 10, 20);
-  doc.text("Chat Transcript", margin, y);
-  y += 8;
+  doc.setFontSize(11);
+  doc.setTextColor(...TEXT_D);
+  doc.text("Chat Transcript", ml, y);
 
-  doc.setFontSize(7.5);
-  for (const msg of messages) {
-    if (msg.type === "system") continue;
-    const isBot = msg.type === "bot";
+  // small gold underline
+  doc.setDrawColor(...GOLD_M);
+  doc.setLineWidth(0.6);
+  doc.line(ml, y + 2, ml + 40, y + 2);
+  y += 10;
+
+  const relevantMsgs = messages.filter(m => m.type !== "system");
+
+  for (const msg of relevantMsgs) {
+    const isBot  = msg.type === "bot";
     const speaker = isBot ? "Dr. Assistant" : "You";
-    const lineColor = isBot ? [50, 50, 80] : [80, 50, 20];
-    const time = formatTime(new Date(msg.ts));
+    const time    = formatTime(new Date(msg.ts));
+    // strip markdown bold markers for PDF
+    const cleanText = msg.text
+      .replace(/\*\*(.*?)\*\*/g, "$1")
+      .replace(/\n/g, " ");
 
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(...lineColor);
-    doc.text(`${speaker}  [${time}]`, margin, y);
-    y += 5;
+    // estimate line count
+    const textLines = doc.splitTextToSize(cleanText, cw - 16);
+    const bubbleH   = 8 + textLines.length * 5 + 4;
 
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(40, 40, 50);
-    const lines = doc.splitTextToSize(msg.text, pw - margin * 2 - 4);
-    for (const line of lines) {
-      if (y > 275) {
-        doc.addPage();
-        y = 20;
-      }
-      doc.text(line, margin + 4, y);
-      y += 5;
+    checkPage(bubbleH + 6);
+
+    if (isBot) {
+      // Bot bubble — light cream background, gold left border
+      doc.setFillColor(250, 246, 239);
+      doc.setDrawColor(...DIVIDER);
+      doc.setLineWidth(0.2);
+      doc.roundedRect(ml, y, cw * 0.84, bubbleH, 2, 2, "FD");
+      doc.setFillColor(...GOLD_M);
+      doc.roundedRect(ml, y, 2.5, bubbleH, 1, 1, "F");
+
+      // Speaker label
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(7.5);
+      doc.setTextColor(...GOLD_D);
+      doc.text(`Dr. Assistant`, ml + 6, y + 5.5);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(7);
+      doc.setTextColor(...TEXT_L);
+      doc.text(time, ml + cw * 0.84 - 2, y + 5.5, { align: "right" });
+
+      // Message text
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(...TEXT_D);
+      doc.text(textLines, ml + 6, y + 11);
+
+    } else {
+      // User bubble — dark background, right aligned
+      const bw = cw * 0.72;
+      const bx = ml + cw - bw;
+      doc.setFillColor(...DARK2);
+      doc.setDrawColor(...DARK);
+      doc.setLineWidth(0.2);
+      doc.roundedRect(bx, y, bw, bubbleH, 2, 2, "FD");
+
+      // Speaker label
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(7.5);
+      doc.setTextColor(...GOLD_L);
+      doc.text("You", bx + 6, y + 5.5);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(7);
+      doc.setTextColor(160, 140, 110);
+      doc.text(time, bx + bw - 4, y + 5.5, { align: "right" });
+
+      // Message text
+      const userLines = doc.splitTextToSize(cleanText, bw - 12);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(235, 225, 210);
+      doc.text(userLines, bx + 6, y + 11);
     }
-    y += 3;
+
+    y += bubbleH + 5;
   }
 
-  // footer
-  const pages = doc.internal.getNumberOfPages();
-  for (let i = 1; i <= pages; i++) {
+  // ── FOOTER on every page ──────────────────────────────────────
+  const totalPages = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
-    doc.setFillColor(10, 10, 20);
-    doc.rect(0, 287, pw, 10, "F");
-    doc.setFontSize(7);
-    doc.setTextColor(150, 130, 90);
+
+    // dark footer bar
+    doc.setFillColor(...DARK2);
+    doc.rect(0, ph - 12, pw, 12, "F");
+    doc.setFillColor(...GOLD_M);
+    doc.rect(0, ph - 12, pw, 0.8, "F");
+
     doc.setFont("helvetica", "normal");
-    doc.text("NovaDerm Aesthetic & Dermatology Clinic  |  novaderm.pk", margin, 293);
-    doc.text(`Page ${i} of ${pages}`, pw - margin, 293, { align: "right" });
+    doc.setFontSize(7);
+    doc.setTextColor(...GOLD_L);
+    doc.text("NovaDerm Aesthetic & Dermatology Clinic  |  novaderm.pk", ml, ph - 5.5);
+    doc.text(`Page ${i} of ${totalPages}`, pw - mr, ph - 5.5, { align: "right" });
   }
 
-  doc.save(`NovaDerm-Pass-${bookingData.bookingId.replace("#", "")}.pdf`);
+  doc.save(`NovaDerm-Appointment-${bookingData.bookingId.replace("#", "")}.pdf`);
+}
+
+// ─── Typewriter hook ──────────────────────────────────────────────────────────
+
+function useTypewriter(fullText, enabled) {
+  const [displayed, setDisplayed] = useState(enabled ? "" : fullText);
+  const [done, setDone]           = useState(!enabled);
+  const rafRef   = useRef(null);
+
+  useEffect(() => {
+    if (!enabled) { setDisplayed(fullText); setDone(true); return; }
+    setDisplayed("");
+    setDone(false);
+
+    let index = 0;
+    // Print multiple characters per animation frame for GPT-like speed
+    const CHARS_PER_FRAME = 6;
+
+    const tick = () => {
+      index = Math.min(index + CHARS_PER_FRAME, fullText.length);
+      setDisplayed(fullText.slice(0, index));
+      if (index < fullText.length) {
+        rafRef.current = requestAnimationFrame(tick);
+      } else {
+        setDone(true);
+      }
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fullText, enabled]);
+
+  return { displayed, done };
 }
 
 // ─── Message bubble ───────────────────────────────────────────────────────────
 
-function Bubble({ msg }) {
-  const isBot = msg.type === "bot";
+function renderMarkdown(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\n/g, "<br/>");
+}
+
+function Bubble({ msg, isLatestBot }) {
+  const isBot    = msg.type === "bot";
   const isSystem = msg.type === "system";
+
+  // Typewriter only on the latest bot message
+  const { displayed, done } = useTypewriter(
+    msg.text,
+    isBot && isLatestBot
+  );
 
   if (isSystem) {
     return (
@@ -257,13 +444,16 @@ function Bubble({ msg }) {
       )}
       <div className={`nd-bubble ${isBot ? "nd-bubble-bot" : "nd-bubble-user"}`}>
         <span
-          dangerouslySetInnerHTML={{
-            __html: msg.text
-              .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-              .replace(/\n/g, "<br/>"),
-          }}
+          dangerouslySetInnerHTML={{ __html: renderMarkdown(displayed) }}
         />
-        <span className="nd-ts">{formatTime(new Date(msg.ts))}</span>
+        {/* blinking cursor while typing */}
+        {isBot && isLatestBot && !done && (
+          <span className="nd-cursor" aria-hidden="true">▍</span>
+        )}
+        {/* timestamp only after typing is done */}
+        {(!isBot || done) && (
+          <span className="nd-ts">{formatTime(new Date(msg.ts))}</span>
+        )}
       </div>
     </div>
   );
@@ -444,7 +634,7 @@ export default function ClinicChatbot() {
       if (newCount >= 2 && !nudgeSent && !bookingMode) {
         setNudgeSent(true);
         await botReply(
-          "By the way — would you like me to **reserve a priority consultation spot** for you with our senior dermatologist? It only takes a minute! 😊",
+        "Would you like to book an appointment? I can help you right now — it only takes a minute.",
           1800
         );
       }
@@ -556,9 +746,15 @@ export default function ClinicChatbot() {
 
         {/* messages */}
         <div className="nd-messages">
-          {messages.map((msg) => (
-            <Bubble key={msg.id} msg={msg} />
-          ))}
+          {messages.map((msg, i) => {
+            // find index of last bot message
+            const isLatestBot =
+              msg.type === "bot" &&
+              i === [...messages].map(m => m.type).lastIndexOf("bot");
+            return (
+              <Bubble key={msg.id} msg={msg} isLatestBot={isLatestBot} />
+            );
+          })}
           {isTyping && <TypingDots />}
           {bookingDone && completedBooking && (
             <BookingSuccess

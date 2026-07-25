@@ -176,12 +176,7 @@ function CardSplit({ card, index }) {
           <p className="text-[0.8rem] leading-relaxed text-white/45">{card.description}</p>
         </div>
 
-        <div className="flex items-center justify-between border-t border-white/[0.06] pt-4">
-          <motion.a href={card.href}
-            className="text-xs font-semibold uppercase tracking-widest text-novaderm-gold/60 transition-colors hover:text-novaderm-gold"
-            whileHover={{ x: 3 }} transition={{ duration: 0.18 }}>
-            Read More
-          </motion.a>
+        <div className="flex items-center justify-end border-t border-white/[0.06] pt-4">
           <motion.a href={card.href}
             className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/35 transition-all duration-250 hover:border-novaderm-gold hover:bg-novaderm-gold hover:text-white"
             whileHover={{ rotate: 45 }} transition={{ duration: 0.2 }} aria-label={card.title}>
