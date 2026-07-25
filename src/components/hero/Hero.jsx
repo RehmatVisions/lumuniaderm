@@ -86,9 +86,33 @@ function StatsStrip() {
       initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.62, ease: EASE }}>
       {STATS.map((s, i) => (
-        <motion.div key={i} className="flex flex-col gap-0.5" whileHover={{ y: -3 }} transition={{ duration: 0.2 }}>
-          <span className="font-serif text-xl font-bold leading-none" style={{ color: "#C69459" }}>{s.value}</span>
-          <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/38">{s.label}</span>
+        <motion.div key={i} className="flex flex-col gap-1" whileHover={{ y: -3 }} transition={{ duration: 0.2 }}>
+          <span
+            style={{
+              fontFamily: "'Inter', 'DM Sans', system-ui, sans-serif",
+              fontSize: "1.35rem",
+              fontWeight: 700,
+              lineHeight: 1,
+              letterSpacing: "-0.02em",
+              color: "#F5A623",
+              filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.85))",
+            }}
+          >
+            {s.value}
+          </span>
+          <span
+            style={{
+              fontFamily: "'Inter', 'DM Sans', system-ui, sans-serif",
+              fontSize: "0.62rem",
+              fontWeight: 600,
+              letterSpacing: "0.13em",
+              textTransform: "uppercase",
+              color: "rgba(255,255,255,0.82)",
+              textShadow: "0 1px 3px rgba(0,0,0,0.8)",
+            }}
+          >
+            {s.label}
+          </span>
         </motion.div>
       ))}
     </motion.div>
@@ -128,7 +152,7 @@ function ScrollCue() {
   return (
     <motion.div className="absolute bottom-7 left-1/2 -translate-x-1/2 z-10 hidden sm:flex flex-col items-center gap-1.5"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2, duration: 0.5 }}>
-      <span className="text-[9px] font-bold uppercase tracking-[0.26em] text-white/30">Scroll</span>
+      <span className="text-[9px] font-bold uppercase tracking-[0.26em] text-white/60">Scroll</span>
       <motion.div className="flex h-9 w-5 items-start justify-center rounded-full border border-white/18 pt-1.5"
         animate={{ y: [0, 5, 0] }} transition={{ duration: 1.7, repeat: Infinity, ease: "easeInOut" }}>
         <div className="h-2 w-0.5 rounded-full bg-novaderm-gold" />
@@ -151,7 +175,7 @@ function BeforeAfterCard({ mobile = false }) {
         <div style={{ marginTop: 10, paddingInline: 6, paddingBottom: 4, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div style={{ width: 7, height: 7, borderRadius: "9999px", background: "#C69459", boxShadow: "0 0 9px rgba(198,148,89,0.9)" }} />
-            <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.17em", textTransform: "uppercase", color: "rgba(255,255,255,0.38)" }}>Real Patient Results</span>
+            <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.17em", textTransform: "uppercase", color: "rgba(255,255,255,0.80)", textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}>Real Patient Results</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 5, borderRadius: "9999px", padding: "4px 11px", border: "1px solid rgba(198,148,89,0.28)", background: "rgba(198,148,89,0.08)" }}>
             <svg style={{ width: 9, height: 9, color: "#C69459" }} viewBox="0 0 20 20" fill="currentColor">
@@ -233,8 +257,13 @@ export default function Hero() {
                     initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
                     transition={{ duration: 0.6, delay: 0.28, ease: EASE_EXPO }} />
 
-                  <motion.p className="mt-3 max-w-xs font-sans font-light leading-[1.65] text-white/58"
-                    style={{ fontSize: "clamp(0.75rem, 1.1vw, 0.85rem)" }}
+                  <motion.p
+                    className="mt-3 max-w-xs font-sans font-light leading-[1.65]"
+                    style={{
+                      fontSize: "clamp(0.75rem, 1.1vw, 0.85rem)",
+                      color: "rgba(255,255,255,0.92)",
+                      textShadow: "0 1px 4px rgba(0,0,0,0.85)",
+                    }}
                     initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.22, ease: EASE }}>
                     {slide.description}
@@ -262,7 +291,7 @@ export default function Hero() {
                 <NavArrow dir="prev" onClick={prev} />
                 <SlideDots count={slides.length} current={index} onSelect={goTo} />
                 <NavArrow dir="next" onClick={next} />
-                <span className="ml-2 text-[11px] font-semibold tabular-nums text-white/25">
+                <span className="ml-2 text-[11px] font-semibold tabular-nums text-white/60">
                   {String(index + 1).padStart(2,"0")} / {String(slides.length).padStart(2,"0")}
                 </span>
               </motion.div>

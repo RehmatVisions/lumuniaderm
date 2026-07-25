@@ -1,9 +1,18 @@
 import { lazy, Suspense } from "react"
 import Header from "./components/layout/Header"
 import Hero   from "./components/hero/Hero"
+import ClinicChatbot from "./components/chatbot/ClinicChatbot"
+
+// ─── Placement note ───────────────────────────────────────────────────────────
+// <ClinicChatbot /> must render OUTSIDE any element that establishes a new
+// stacking context (position + z-index, transform, will-change, filter, etc.).
+// It is placed after the closing tag of the main wrapper div below so its own
+// fixed container (z-index: 999999) is never clipped by a parent z-index.
+// ─────────────────────────────────────────────────────────────────────────────
 
 // Below-fold sections — loaded only when browser is idle / scroll reaches them
-const About          = lazy(() => import("./components/about/About"))
+const About              = lazy(() => import("./components/about/About"))
+const TransformationSection = lazy(() => import("./components/transformations/TransformationSection"))
 const WhatWeDo       = lazy(() => import("./components/whatwedo/WhatWeDo"))
 const WhyChooseUs    = lazy(() => import("./components/whyus/WhyChooseUs"))
 const Services       = lazy(() => import("./components/services/Services"))
@@ -18,21 +27,30 @@ function SectionFallback() {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-novaderm-beige">
-      <Header />
-      {/* Dark wrapper so hero margins show dark, not beige */}
-      <div style={{ background: "#080604" }}>
-        <Hero />
+    <>
+      <div className="min-h-screen bg-novaderm-beige">
+        <Header />
+        {/* Dark wrapper so hero margins show dark, not beige */}
+        <div style={{ background: "#080604" }}>
+          <Hero />
+        </div>
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <Suspense fallback={<SectionFallback />}><About /></Suspense>
+          <Suspense fallback={<SectionFallback />}><TransformationSection /></Suspense>
+          <Suspense fallback={<SectionFallback />}><WhatWeDo /></Suspense>
+          <Suspense fallback={<SectionFallback />}><WhyChooseUs /></Suspense>
+          <Suspense fallback={<SectionFallback />}><Services /></Suspense>
+          <Suspense fallback={<SectionFallback />}><ClinicGallery /></Suspense>
+          <Suspense fallback={<SectionFallback />}><BookAppointment /></Suspense>
+          <Suspense fallback={<SectionFallback />}><Footer /></Suspense>
+        </div>
       </div>
-      <div style={{ position: "relative", zIndex: 2 }}>
-        <Suspense fallback={<SectionFallback />}><About /></Suspense>
-        <Suspense fallback={<SectionFallback />}><WhatWeDo /></Suspense>
-        <Suspense fallback={<SectionFallback />}><WhyChooseUs /></Suspense>
-        <Suspense fallback={<SectionFallback />}><Services /></Suspense>
-        <Suspense fallback={<SectionFallback />}><ClinicGallery /></Suspense>
-        <Suspense fallback={<SectionFallback />}><BookAppointment /></Suspense>
-        <Suspense fallback={<SectionFallback />}><Footer /></Suspense>
-      </div>
-    </div>
+
+      {/*
+       * ClinicChatbot sits OUTSIDE the main wrapper div so no parent
+       * stacking context can suppress its z-index: 999999 fixed container.
+       */}
+      <ClinicChatbot />
+    </>
   )
 }

@@ -30,8 +30,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
+    /* transform removed — it creates a new stacking context on body which
+       breaks position:fixed for ALL children (chatbot, modals, tooltips).
+       GPU compositing is handled per-element via .gpu utility class instead. */
   }
 
   h1, h2, h3, h4, h5, h6 {
