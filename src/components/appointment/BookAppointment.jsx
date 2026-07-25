@@ -291,7 +291,7 @@ export default function BookAppointment() {
 
             {/* â”€â”€ Doctor girl â”€â”€ */}
             <motion.div
-              className="flex items-end justify-center self-end overflow-hidden lg:justify-end"
+              className="flex items-end justify-center self-end overflow-hidden img-shine lg:justify-end"
               initial={{ opacity: 0, x: 32 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}

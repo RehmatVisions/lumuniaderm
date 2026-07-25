@@ -29,9 +29,7 @@ export default function TopBar() {
     <motion.div
       className="relative z-50 overflow-hidden"
       style={{
-        background: "linear-gradient(90deg, #3d2e24 0%, #c19a6b 50%, #3d2e24 100%)",
-        backgroundSize: "200% 100%",
-        animation: reduced ? "none" : "gradient-shift 8s ease infinite",
+        background: "#3d2e24",
         height: "38px",
       }}
       initial={{ y: -38, opacity: 0 }}

@@ -73,7 +73,7 @@ function SliderCard({ pair }) {
   }, [touched, pair])
 
   return (
-    <div className="relative select-none" style={{ borderRadius: 22 }}>
+    <div className="relative select-none img-shine" style={{ borderRadius: 22 }}>
       {/* Glow border */}
       <div aria-hidden="true" style={{
         position: "absolute", inset: -1, borderRadius: 22, zIndex: 0,

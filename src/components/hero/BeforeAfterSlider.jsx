@@ -47,7 +47,7 @@ export default function BeforeAfterSlider({ compact = false }) {
   }, [touched])
 
   return (
-    <div className="relative select-none">
+    <div className="relative select-none img-shine">
 
       {/* ── Premium outer glow border ── */}
       <div

@@ -48,7 +48,7 @@ function GalleryCard({ item, index, featured = false }) {
   return (
     <motion.article
       ref={ref}
-      className="group relative w-full overflow-hidden"
+      className="group relative w-full overflow-hidden img-shine"
       style={{
         borderRadius: "1.5rem",
         aspectRatio: featured ? "16/7" : "4/3",

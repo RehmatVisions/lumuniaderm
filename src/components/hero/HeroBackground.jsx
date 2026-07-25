@@ -2,25 +2,27 @@ import { useEffect, useRef } from "react"
 import heroUpImg      from "../../assets/herotwo.jpg"
 import mobileHeroImg  from "../../assets/mobile-heroimage.jpg"
 
-export default function HeroBackground() {
-  const bgRef  = useRef(null)
-  const rafRef = useRef(null)
+export default function HeroBackground({ bgRef }) {
+  const internalRef = useRef(null)
+  const ref         = bgRef ?? internalRef
+  const rafRef      = useRef(null)
+  const tickingRef  = useRef(false)   // ref instead of let — no stale closure
 
   useEffect(() => {
-    const el = bgRef.current
+    const el = ref.current
     if (!el) return
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     const mobile  = window.innerWidth < 768
     if (reduced || mobile) return
 
-    let ticking = false
     const onScroll = () => {
-      if (ticking) return
-      ticking = true
+      if (tickingRef.current) return
+      tickingRef.current = true
       rafRef.current = requestAnimationFrame(() => {
-        el.style.transform = `translate3d(0, ${window.scrollY * 0.28}px, 0)`
-        ticking = false
+        // Lower factor (0.18) = less distance to repaint per frame = smoother
+        el.style.transform = `translate3d(0, ${window.scrollY * 0.18}px, 0)`
+        tickingRef.current = false
       })
     }
 
@@ -29,21 +31,21 @@ export default function HeroBackground() {
       window.removeEventListener("scroll", onScroll)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
-  }, [])
+  }, [ref])
 
   return (
-    <div aria-hidden="true" style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+    <div aria-hidden="true" style={{ position: "absolute", inset: 0, overflow: "hidden", contain: "strict" }}>
 
-      {/* ── Desktop parallax image ── */}
+      {/* ── Desktop parallax image — ref shared with GSAP for zoom-out ── */}
       <div
-        ref={bgRef}
+        ref={ref}
         className="hidden sm:block"
         style={{
           position:           "absolute",
           inset:              0,
           width:              "100%",
-          height:             "130%",
-          top:                "-15%",
+          height:             "150%",
+          top:                "-25%",
           backgroundImage:    `url(${heroUpImg})`,
           backgroundSize:     "cover",
           backgroundPosition: "center 30%",
@@ -101,7 +103,7 @@ export default function HeroBackground() {
         background: "linear-gradient(to top, rgba(5,4,2,0.72) 0%, transparent 50%)",
       }} />
 
-      {/* ── Ambient gold orb A — static, no animation ── */}
+      {/* ── Ambient gold orb A ── */}
       <div style={{
         position:     "absolute",
         top:          "8%",
@@ -113,7 +115,7 @@ export default function HeroBackground() {
         pointerEvents:"none",
       }} />
 
-      {/* ── Ambient gold orb B — static ── */}
+      {/* ── Ambient gold orb B ── */}
       <div style={{
         position:     "absolute",
         bottom:       "6%",
@@ -134,10 +136,6 @@ export default function HeroBackground() {
         maskImage:       "radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%)",
         WebkitMaskImage: "radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%)",
       }} />
-
-      <style>{`
-        @media(prefers-reduced-motion:reduce){}
-      `}</style>
     </div>
   )
 }

@@ -23,7 +23,7 @@ export default function AboutImageCollage() {
 
       {/* ── Main tall image ── */}
       <motion.div
-        className="relative w-[58%] overflow-hidden shadow-2xl"
+        className="relative w-[58%] overflow-hidden shadow-2xl img-shine"
         style={IMG_CORNERS}
         {...child(0.1, 0)}
         whileHover={{ y: -6, transition: { duration: 0.35, ease: EASE } }}
@@ -88,7 +88,7 @@ export default function AboutImageCollage() {
 
         {/* Secondary image */}
         <motion.div
-          className="overflow-hidden shadow-lg"
+          className="overflow-hidden shadow-lg img-shine"
           style={IMG_CORNERS}
           {...child(0.35, 0)}
           whileHover={{ y: -5, transition: { duration: 0.3, ease: EASE } }}

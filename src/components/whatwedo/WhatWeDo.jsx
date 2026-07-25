@@ -46,7 +46,7 @@ function PlayCircle() {
 function StatCard({ stat }) {
   return (
     <motion.div
-      className="relative flex flex-col justify-between overflow-hidden"
+      className="relative flex flex-col justify-between overflow-hidden img-shine"
       style={{ background: "#1e2018", minHeight: 420, ...IMG_CORNERS }}
       {...fadeUp(0.05)}
       whileHover={{ y: -6, boxShadow: "0 24px 60px rgba(0,0,0,0.40)", transition: { duration: 0.3 } }}
@@ -119,7 +119,7 @@ function StatCard({ stat }) {
 function CenterCard({ card }) {
   return (
     <motion.div
-      className="relative overflow-hidden"
+      className="relative overflow-hidden img-shine"
       style={{ minHeight: 420, ...IMG_CORNERS }}
       {...fadeUp(0.12)}
       whileHover={{ y: -6, boxShadow: "0 24px 60px rgba(0,0,0,0.35)", transition: { duration: 0.3 } }}

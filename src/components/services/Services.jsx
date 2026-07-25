@@ -34,7 +34,7 @@ function CardReveal({ card, index }) {
 
   return (
     <motion.article
-      className="group relative overflow-hidden"
+      className="group relative overflow-hidden img-shine"
       style={{ height: 440, ...IMG_CORNERS }}
       {...fadeUp(index * 0.06)}
       onMouseLeave={() => setHovered(false)}
@@ -121,7 +121,7 @@ function CardSplit({ card, index }) {
 
   return (
     <motion.article
-      className="group relative flex flex-col overflow-hidden bg-[#18110d]"
+      className="group relative flex flex-col overflow-hidden bg-[#18110d] img-shine"
       style={{ height: 440, ...IMG_CORNERS }}
       {...fadeUp(index * 0.06)}
       onMouseLeave={() => setHovered(false)}
@@ -206,7 +206,7 @@ function CardWide({ card, index }) {
 
   return (
     <motion.article
-      className="group relative col-span-1 overflow-hidden bg-novaderm-brown sm:col-span-2 lg:col-span-2"
+      className="group relative col-span-1 overflow-hidden bg-novaderm-brown img-shine sm:col-span-2 lg:col-span-2"
       style={{ height: 300, ...IMG_CORNERS }}
       {...fadeUp(index * 0.06)}
       onMouseLeave={() => setHovered(false)}

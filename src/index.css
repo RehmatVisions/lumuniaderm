@@ -157,6 +157,50 @@
     transition: transform 0.55s ease;
   }
   .shimmer-gold:hover::after { transform: translateX(100%); }
+
+  /* ── Image shine effect — hover & touch ── */
+  /*
+   * Works on any element with class .img-shine.
+   * Desktop : triggers on :hover
+   * Mobile  : triggers on :active (touch press)
+   * A diagonal light streak sweeps across once — no permanent glow.
+   */
+  .img-shine {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;          /* keeps pseudo-el clipped to border-radius */
+  }
+  .img-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* diagonal streak — narrow, warm-white + gold band */
+    background: linear-gradient(
+      115deg,
+      transparent       22%,
+      rgba(255,255,255,0.13) 40%,
+      rgba(198,148,89,0.20)  50%,
+      rgba(255,255,255,0.13) 60%,
+      transparent       78%
+    );
+    transform: translateX(-140%) skewX(-12deg);
+    transition: transform 0s;   /* reset instant — no reverse sweep */
+    pointer-events: none;
+    will-change: transform;
+    z-index: 20;
+  }
+  /* Desktop hover — sweep across */
+  @media (hover: hover) {
+    .img-shine:hover::after {
+      transform: translateX(140%) skewX(-12deg);
+      transition: transform 0.68s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+  }
+  /* Mobile / touch — sweep on :active press */
+  .img-shine:active::after {
+    transform: translateX(140%) skewX(-12deg);
+    transition: transform 0.68s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
 }
 
 /* ─── Keyframes ──────────────────────────────────────────────── */
@@ -214,6 +258,7 @@
   .animate-float,
   .animate-pulse-ring,
   .animate-spin-slow { animation: none !important; }
+  .img-shine::after  { content: none !important; }
 }
 
 /* ─── Mobile: disable ALL heavy GPU effects ─────────────────── */

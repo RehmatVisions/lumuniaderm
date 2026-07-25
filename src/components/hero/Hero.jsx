@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion"
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import HeroBackground from "./HeroBackground"
+import HeroPageReveal from "./HeroPageReveal"
 import BeforeAfterSlider from "./BeforeAfterSlider"
 import { siteContent } from "../../data/siteContent"
 import { useReducedMotion } from "../../hooks/usePerf"
@@ -75,11 +76,60 @@ function GhostButton({ text, href }) {
 
 /* ── Stats strip with hover lift ── */
 const STATS = [
-  { value: "3,500+", label: "Happy Patients"  },
-  { value: "12+",    label: "Years Experience" },
-  { value: "4.9★",   label: "Avg. Rating"      },
-  { value: "98%",    label: "Success Rate"      },
+  { target: 3500, suffix: "+",  label: "Happy Patients"  },
+  { target: 12,   suffix: "+",  label: "Years Experience" },
+  { target: 4.9,  suffix: "★",  label: "Avg. Rating",  decimals: 1 },
+  { target: 98,   suffix: "%",  label: "Success Rate"      },
 ]
+
+function CountUpStat({ target, suffix, decimals = 0, delay = 0 }) {
+  const [display, setDisplay] = useState("0")
+  const rafRef  = useRef(null)
+
+  useEffect(() => {
+    // small delay so animation fires after the strip fades in
+    const timeout = setTimeout(() => {
+      const duration = 1200          // ms — fast but readable
+      const startTs  = performance.now()
+
+      const tick = (now) => {
+        const elapsed  = now - startTs
+        const progress = Math.min(elapsed / duration, 1)
+        // ease-out-expo feel
+        const eased    = 1 - Math.pow(1 - progress, 4)
+        const current  = eased * target
+
+        if (decimals > 0) {
+          setDisplay(current.toFixed(decimals))
+        } else {
+          // show comma-formatted integers
+          setDisplay(Math.floor(current).toLocaleString())
+        }
+
+        if (progress < 1) {
+          rafRef.current = requestAnimationFrame(tick)
+        } else {
+          // snap to exact final value
+          setDisplay(decimals > 0 ? target.toFixed(decimals) : target.toLocaleString())
+        }
+      }
+
+      rafRef.current = requestAnimationFrame(tick)
+    }, delay)
+
+    return () => {
+      clearTimeout(timeout)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
+  }, [target, decimals, delay])
+
+  return (
+    <span>
+      {display}{suffix}
+    </span>
+  )
+}
+
 function StatsStrip() {
   return (
     <motion.div className="mt-6 flex flex-wrap gap-5 sm:gap-8"
@@ -98,7 +148,12 @@ function StatsStrip() {
               filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.85))",
             }}
           >
-            {s.value}
+            <CountUpStat
+              target={s.target}
+              suffix={s.suffix}
+              decimals={s.decimals}
+              delay={700 + i * 80}
+            />
           </span>
           <span
             style={{
@@ -195,6 +250,7 @@ export default function Hero() {
   const [index, setIndex]     = useState(0)
   const [dir, setDir]         = useState(1)
   const reduced = useReducedMotion()
+  const bgRef   = useRef(null)   // passed to HeroBackground & HeroPageReveal
 
   const goTo = useCallback((next) => {
     setDir(next > index ? 1 : -1)
@@ -219,7 +275,10 @@ export default function Hero() {
         flexDirection: "column", paddingTop: 80, overflow: "hidden",
       }}
     >
-      <HeroBackground />
+      <HeroBackground bgRef={bgRef} />
+
+      {/* GSAP page-open curtain — self-destructs after animation */}
+      {!reduced && <HeroPageReveal bgRef={bgRef} />}
 
       {/* Decorative top-left corner accent */}
       <div className="pointer-events-none absolute left-6 top-6 z-10 hidden lg:block">
@@ -243,21 +302,27 @@ export default function Hero() {
                   className="flex flex-col"
                   style={{ willChange: "transform, opacity" }}
                 >
-                  <Badge text={slide.badge} />
+                  {/* data-hero-reveal — GSAP targets these on page open */}
+                  <div data-hero-reveal>
+                    <Badge text={slide.badge} />
+                  </div>
 
                   {/* Headline */}
-                  <h1 className="font-serif font-semibold leading-[1.08] tracking-tight text-white"
+                  <h1 data-hero-reveal
+                    className="font-serif font-semibold leading-[1.08] tracking-tight text-white"
                     style={{ fontSize: "clamp(1.4rem, 3.2vw, 2.2rem)" }}>
                     {slide.headline}
                   </h1>
 
                   {/* Animated underline */}
-                  <motion.div className="mt-3 h-[2px] rounded-full"
+                  <motion.div data-hero-reveal
+                    className="mt-3 h-[2px] rounded-full"
                     style={{ width: "36%", background: "linear-gradient(to right, #C69459, rgba(198,148,89,0.10))", transformOrigin: "left" }}
                     initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
                     transition={{ duration: 0.6, delay: 0.28, ease: EASE_EXPO }} />
 
                   <motion.p
+                    data-hero-reveal
                     className="mt-3 max-w-xs font-sans font-light leading-[1.65]"
                     style={{
                       fontSize: "clamp(0.75rem, 1.1vw, 0.85rem)",
@@ -269,23 +334,27 @@ export default function Hero() {
                     {slide.description}
                   </motion.p>
 
-                  <div className="mt-5 flex flex-wrap items-center gap-2.5">
+                  <div data-hero-reveal className="mt-5 flex flex-wrap items-center gap-2.5">
                     <CTAButton   text={slide.primaryCta.text}   href={slide.primaryCta.href} />
                     <GhostButton text={slide.secondaryCta.text} href={slide.secondaryCta.href} />
                   </div>
                 </motion.div>
               </AnimatePresence>
 
-              <StatsStrip />
+              <div data-hero-reveal>
+                <StatsStrip />
+              </div>
 
               {/* Divider */}
-              <motion.div className="my-5 h-px w-full max-w-[340px]"
+              <motion.div data-hero-reveal
+                className="my-5 h-px w-full max-w-[340px]"
                 style={{ background: "linear-gradient(to right, rgba(193,154,107,0.25), transparent)" }}
                 initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
                 transition={{ duration: 0.6, delay: 0.9, ease: EASE }} />
 
               {/* Nav controls */}
-              <motion.div className="flex items-center gap-3"
+              <motion.div data-hero-reveal
+                className="flex items-center gap-3"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.95 }}>
                 <NavArrow dir="prev" onClick={prev} />
@@ -298,7 +367,8 @@ export default function Hero() {
             </div>
 
             {/* ── RIGHT — desktop card ── */}
-            <motion.div className="hidden lg:block"
+            <motion.div data-hero-reveal
+              className="hidden lg:block"
               initial={{ opacity: 0, x: 44, scale: 0.96 }} animate={{ opacity: 1, x: 0, scale: 1 }}
               transition={{ duration: 0.55, delay: 0.42, ease: EASE_EXPO }}>
               <BeforeAfterCard />
@@ -307,7 +377,8 @@ export default function Hero() {
         </div>
 
         {/* ── Mobile card ── */}
-        <motion.div className="block lg:hidden px-5 pb-10 sm:px-10"
+        <motion.div data-hero-reveal
+          className="block lg:hidden px-5 pb-10 sm:px-10"
           initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.5, ease: EASE }}>
           <BeforeAfterCard mobile />
