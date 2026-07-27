@@ -35,9 +35,9 @@ export const siteContent = {
       { label: "Contact", href: "#contact" },
     ],
     social: [
-      { label: "X",         href: "#", icon: "x"         },
-      { label: "Facebook",  href: "#", icon: "facebook"  },
-      { label: "Instagram", href: "#", icon: "instagram" },
+      { label: "X",         href: "#",                                                                icon: "x"         },
+      { label: "Facebook",  href: "https://www.facebook.com/profile.php?id=61592414917780",           icon: "facebook"  },
+      { label: "Instagram", href: "https://www.instagram.com/novaderm42026/",                         icon: "instagram" },
     ],
   },
 

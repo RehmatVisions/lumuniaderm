@@ -44,38 +44,19 @@ function CardReveal({ card, index }) {
       whileHover={{ y: -6, transition: { duration: 0.3 } }}
       whileTap={{ scale: 0.98 }}
     >
-      {/* image — if card has cropHalf:"right", show only right 50% of a side-by-side image */}
-      {card.cropHalf === "right" ? (
-        <div
-          className="absolute inset-0 overflow-hidden"
-          style={{ transform: "none" }}
-        >
-          <motion.img
-            src={card.image} alt={card.title}
-            style={{
-              position:   "absolute",
-              top:        0,
-              left:       "-100%",   /* shift full width left so right half fills container */
-              width:      "200%",    /* double width to fit both halves */
-              height:     "100%",
-              objectFit:  "cover",
-              objectPosition: "right center",
-            }}
-            animate={{ scale: hovered ? 1.07 : 1 }}
-            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-            loading="lazy"
-          />
-        </div>
-      ) : (
-        <motion.img
-          src={card.image} alt={card.title}
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ objectPosition: card.objectPosition ?? "center center" }}
-          animate={{ scale: hovered ? 1.07 : 1 }}
-          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-          loading="lazy"
-        />
-      )}
+      {/* image */}
+      <motion.img
+        src={card.image} alt={card.title}
+        className="absolute inset-0 h-full w-full"
+        style={{
+          objectFit:      card.cropHalf === "right" ? "contain" : "cover",
+          objectPosition: card.cropHalf === "right" ? "right center" : (card.objectPosition ?? "center center"),
+          background:     card.cropHalf === "right" ? "#1a1208" : "transparent",
+        }}
+        animate={{ scale: hovered ? 1.04 : 1 }}
+        transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+        loading="lazy"
+      />
 
       {/* base gradient */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/5" />

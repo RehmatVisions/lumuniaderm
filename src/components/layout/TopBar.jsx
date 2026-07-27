@@ -124,6 +124,8 @@ export default function TopBar() {
                 key={item.label}
                 href={item.href}
                 aria-label={item.label}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-[22px] w-[22px] items-center justify-center rounded-full"
                 style={{
                   background: "rgba(193,154,107,0.08)",

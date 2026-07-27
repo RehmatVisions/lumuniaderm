@@ -197,7 +197,7 @@ function generatePDF(bookingData, messages) {
   doc.setFontSize(7.5);
   doc.setTextColor(200, 185, 155);
   doc.text("2nd Floor, The Galleria, Gulberg III, Lahore", pw - mr, 16, { align: "right" });
-  doc.text("hello@novaderm.pk  |  +92 300 1234567", pw - mr, 22, { align: "right" });
+  doc.text("hello@novaderm.pk  |  novaderm4@gmail.com", pw - mr, 22, { align: "right" });
   doc.text("Mon–Sat: 10:00 AM – 8:00 PM", pw - mr, 28, { align: "right" });
 
   // Gold bottom line of header
