@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, memo } from "react";
 import { jsPDF } from "jspdf";
 import "./ClinicChatbot.css";
 import {
@@ -64,8 +64,40 @@ function matchKnowledge(input) {
   return bestScore > 0 ? bestMatch : null;
 }
 
-const FALLBACK =
-  "I'm not sure about that one, but our team would love to help! You can reach us on WhatsApp at +92 300 1234567, or I can help you book a consultation with our dermatologist. Would you like to try one of the popular topics below?";
+const WHATSAPP_NUMBER = "923244646260"
+const WHATSAPP_FALLBACK_MSG = encodeURIComponent("Hi NovaDerm! I have a question that I couldn't get answered through the chatbot. Can you help me?")
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_FALLBACK_MSG}`
+
+const FALLBACK_TEXT =
+  "I'm not sure about that one, but our team would love to help you personally! 😊\n\nClick below to chat with us directly on **WhatsApp** — we typically reply within a few minutes."
+
+// sentinel so Bubble knows to render the WA button
+const FALLBACK_WITH_WA = "__WHATSAPP_FALLBACK__";
+
+// ─── Google Apps Script — save to sheet ─────────────────────────────────────
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzVYrvnI_uxHges0pgNRjNO7h-C4riL89SblOxI9JYGEsajvudIZg7_4cW-GCOrDTQ/exec"
+
+async function saveToSheet(booking, source = "Bot Lead") {
+  try {
+    await fetch(SHEET_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name:            booking.name      || "",
+        email:           booking.email     || "",
+        phone:           booking.phone     || "",
+        treatment:       booking.treatment || "",
+        appointmentDate: "",
+        source,
+      }),
+    });
+    return true;
+  } catch (err) {
+    console.error("Sheet save failed:", err);
+    return false;
+  }
+}
 
 // ─── booking flow steps ──────────────────────────────────────────────────────
 
@@ -100,13 +132,6 @@ const BOOKING_STEPS = [
     placeholder: "Select a treatment",
     type: "select",
     validate: (v) => v ? null : "Please select a treatment.",
-  },
-  {
-    key: "datetime",
-    prompt: "Almost done! What's your **preferred date and time window**? (e.g. 'Mon–Wed, afternoon' or a specific date)",
-    icon: <Calendar size={14} />,
-    placeholder: "e.g. Tuesday after 4 PM",
-    validate: (v) => v.trim().length >= 3 ? null : "Please enter a preferred time.",
   },
 ];
 
@@ -229,7 +254,6 @@ function generatePDF(bookingData, messages) {
     ["Email Address",       bookingData.email],
     ["Phone / WhatsApp",    bookingData.phone],
     ["Treatment Selected",  bookingData.treatment],
-    ["Preferred Date/Time", bookingData.datetime],
   ];
 
   for (const [label, value] of fields) {
@@ -420,10 +444,11 @@ function renderMarkdown(text) {
 function Bubble({ msg, isLatestBot }) {
   const isBot    = msg.type === "bot";
   const isSystem = msg.type === "system";
+  const isWAFallback = isBot && msg.text === FALLBACK_WITH_WA
 
   // Typewriter only on the latest bot message
   const { displayed, done } = useTypewriter(
-    msg.text,
+    isWAFallback ? FALLBACK_TEXT : msg.text,
     isBot && isLatestBot
   );
 
@@ -449,6 +474,38 @@ function Bubble({ msg, isLatestBot }) {
         {/* blinking cursor while typing */}
         {isBot && isLatestBot && !done && (
           <span className="nd-cursor" aria-hidden="true">▍</span>
+        )}
+        {/* WhatsApp button — shown after typing completes */}
+        {isWAFallback && done && (
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display:        "inline-flex",
+              alignItems:     "center",
+              gap:            8,
+              marginTop:      10,
+              padding:        "9px 16px",
+              borderRadius:   "9999px",
+              background:     "linear-gradient(135deg, #25D366 0%, #128C7E 100%)",
+              color:          "#fff",
+              fontWeight:     700,
+              fontSize:       12,
+              letterSpacing:  "0.04em",
+              textDecoration: "none",
+              boxShadow:      "0 4px 14px rgba(37,211,102,0.38)",
+              transition:     "transform 0.18s ease, box-shadow 0.18s ease",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.04)"; e.currentTarget.style.boxShadow = "0 6px 20px rgba(37,211,102,0.52)" }}
+            onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)";    e.currentTarget.style.boxShadow = "0 4px 14px rgba(37,211,102,0.38)" }}
+          >
+            {/* WhatsApp SVG icon */}
+            <svg width="15" height="15" viewBox="0 0 32 32" fill="currentColor">
+              <path d="M16 0C7.163 0 0 7.163 0 16c0 2.822.736 5.472 2.027 7.774L0 32l8.476-2.003A15.94 15.94 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm8.322 22.293c-.347.977-2.03 1.865-2.789 1.981-.713.11-1.613.156-2.602-.163-.6-.19-1.37-.444-2.357-.87-4.143-1.79-6.845-5.99-7.052-6.268-.207-.278-1.685-2.241-1.685-4.273 0-2.031 1.066-3.027 1.443-3.441.378-.414.824-.518 1.099-.518.275 0 .55.003.791.014.254.013.594-.096.93.709.347.83 1.177 2.862 1.28 3.069.103.207.172.449.034.724-.138.275-.207.449-.414.69-.207.241-.435.538-.621.723-.207.207-.422.43-.181.844.241.414 1.072 1.768 2.302 2.864 1.582 1.41 2.916 1.847 3.33 2.054.414.207.655.172.896-.104.241-.275 1.031-1.203 1.306-1.617.275-.414.55-.345.93-.207.38.138 2.413 1.137 2.827 1.344.414.207.69.31.793.482.103.172.103.996-.244 1.972z"/>
+            </svg>
+            Chat on WhatsApp
+          </a>
         )}
         {/* timestamp only after typing is done */}
         {(!isBot || done) && (
@@ -485,7 +542,6 @@ function BookingSuccess({ data, messages, onDownload }) {
       <div className="nd-success-details">
         <div><User size={13} /><span>{data.name}</span></div>
         <div><Stethoscope size={13} /><span>{data.treatment}</span></div>
-        <div><Clock size={13} /><span>{data.datetime}</span></div>
         <div><MapPin size={13} /><span>NovaDerm, Gulberg III, Lahore</span></div>
       </div>
       <p className="nd-success-note">
@@ -586,12 +642,14 @@ export default function ClinicChatbot() {
         const next = BOOKING_STEPS[bookingStep + 1];
         await botReply(next.prompt, 700);
       } else {
-        // booking complete
+        // booking complete — save to sheet first, then show success
         const booking = {
           ...updated,
           bookingId: generateBookingId(),
           timestamp: new Date().toISOString(),
         };
+        // Fire-and-forget sheet save (no-cors, won't block UI)
+        saveToSheet(booking);
         setCompletedBooking(booking);
         setBookingMode(false);
         setBookingDone(true);
@@ -628,7 +686,7 @@ export default function ClinicChatbot() {
       }
 
       const match = matchKnowledge(text);
-      await botReply(match ? match.answer : FALLBACK);
+      await botReply(match ? match.answer : FALLBACK_WITH_WA);
 
       // smart booking nudge after 2–3 interactions
       if (newCount >= 2 && !nudgeSent && !bookingMode) {
@@ -653,6 +711,7 @@ export default function ClinicChatbot() {
     if (bookingMode) {
       pushMessage("user", val);
       setInput("");
+      setSelectValue("");
       advanceBooking(val);
     } else {
       handleUserMessage(val);

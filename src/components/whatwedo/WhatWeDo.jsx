@@ -1,5 +1,8 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
+import asian1 from "../../assets/asian1.jpg"
+import asian2 from "../../assets/asian2.jpg"
+import asian3 from "../../assets/asian3.jpg"
 import { siteContent } from "../../data/siteContent"
 import { useReveal } from "../../hooks/useReveal"
 import TextReveal from "../ui/TextReveal"
@@ -74,11 +77,7 @@ function StatCard({ stat }) {
       <div className="relative z-10 flex flex-col justify-between h-full p-7">
         {/* Avatar cluster */}
         <div className="flex -space-x-3">
-          {[
-            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop",
-            "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=80&h=80&fit=crop",
-            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop",
-          ].map((src, i) => (
+          {[asian1, asian2, asian3].map((src, i) => (
             <motion.img key={i} src={src} alt=""
               className="h-11 w-11 rounded-full border-2 object-cover"
               style={{ borderColor: "#1e2018" }}

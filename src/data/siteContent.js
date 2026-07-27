@@ -1,13 +1,15 @@
 // ─── Edit this file to customize all text, links, and images ───
 import heroImg from "../assets/hero-backorund-up.jpg"
 import antiAgingImg from "../assets/antiaging.jpg"
-import laserImg from "../assets/laserimage.jpg"
+import rejevImg from "../assets/rejev.png"
+import laserImg from "../assets/laserhairremoval.jpg"
 import prpHairImg from "../assets/PRPHairTreatment.jpg"
 import acneImg from "../assets/acenetreament.jpg"
 import pigmentationImg from "../assets/pigmentationglowcard.jpg"
-import whyChooseMainImg from "../assets/whychooseus.jpg"
-import whyChooseSecondaryImg from "../assets/whychooseuse.jpg"
-import aboutMainImg from "../assets/post-1.jpg"
+import whyChooseMainImg from "../assets/whychoose1.jpg"
+import whyChooseSecondaryImg from "../assets/whychoose2.jpg"
+import whyChooseTertiaryImg from "../assets/whychooseus3.jpg"
+import aboutMainImg from "../assets/ourstory.jpg"
 import aboutSecondaryImg from "../assets/antiaging.jpg"
 import laser2Img from "../assets/laser2.jpg"
 import videocardImg from "../assets/videocardimage.jpg"
@@ -16,6 +18,9 @@ import whatWeImg2 from "../assets/what-we-item-image-1-royal (1).jpg"
 import whatWeImg3 from "../assets/what-we-item-image-1-royal (2).jpg"
 import whatWeImg4 from "../assets/what-we-item-image-1-royal (3).jpg"
 import whatWeImg5 from "../assets/what-we-item-image-1-royal (4).jpg"
+import asian1 from "../assets/asian1.jpg"
+import asian2 from "../assets/asian2.jpg"
+import asian3 from "../assets/asian3.jpg"
 
 export const siteContent = {
   brand: { name: "Novaderm" },
@@ -59,7 +64,7 @@ export const siteContent = {
     images: {
       main:      whyChooseMainImg,
       secondary: whyChooseSecondaryImg,
-      tertiary:  acneImg,
+      tertiary:  whyChooseTertiaryImg,
     },
 
     ctaText: "Book Your Consultation",
@@ -118,7 +123,8 @@ export const siteContent = {
         badge:       "Age Reversal",
         title:       "Anti-Aging & Skin Rejuvenation",
         description: "From dermal fillers and bio-stimulators to RF microneedling and collagen-induction therapy — our anti-aging suite restores lost volume, softens deep lines, and renews your skin's structural foundation.",
-        image:       antiAgingImg,
+        image:       rejevImg,
+        cropHalf:    "right",
         href:        "#contact",
         icon:        "aging",
       },
@@ -255,10 +261,9 @@ export const siteContent = {
     ],
 
     avatars: [
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop",
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop",
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop",
+      asian1,
+      asian2,
+      asian3,
     ],
   },
 }

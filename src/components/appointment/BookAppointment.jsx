@@ -13,6 +13,29 @@ const fadeUp = (delay = 0) => ({
   transition:  { duration: 0.55, delay, ease: EASE },
 })
 
+/* ─── Google Apps Script — save lead to sheet ──────────────────────────── */
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzVYrvnI_uxHges0pgNRjNO7h-C4riL89SblOxI9JYGEsajvudIZg7_4cW-GCOrDTQ/exec"
+
+async function saveFormToSheet(form) {
+  try {
+    await fetch(SHEET_URL, {
+      method:  "POST",
+      mode:    "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name:            form.name    || "",
+        email:           form.email   || "",
+        phone:           form.phone   || "",
+        treatment:       form.message || "General Inquiry",
+        appointmentDate: form.date    || "",
+        source:          "Form Lead",
+      }),
+    });
+  } catch (err) {
+    console.error("Sheet save error:", err);
+  }
+}
+
 /* â”€â”€â”€ Input field wrapper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function Field({ label, error, children }) {
   return (
@@ -139,14 +162,7 @@ export default function BookAppointment() {
       setErrors(errs)
       return
     }
-    console.group("ðŸ“… New Appointment Booking")
-    console.log("Full Name:    ", form.name)
-    console.log("Email:        ", form.email)
-    console.log("Phone:        ", form.phone  || "(not provided)")
-    console.log("Date:         ", form.date)
-    console.log("Message:      ", form.message || "(none)")
-    console.log("Submitted at:", new Date().toLocaleString())
-    console.groupEnd()
+    saveFormToSheet(form)
     setForm(EMPTY)
     setErrors({})
     setSubmitted(true)
@@ -242,7 +258,7 @@ export default function BookAppointment() {
                               className={`${inputCls} ${errors.phone ? errorCls : ""}`}
                               type="tel" name="phone" value={form.phone}
                               onChange={handle} placeholder="Enter Phone Number"
-                            />
+ />
                           </Field>
                         </motion.div>
 

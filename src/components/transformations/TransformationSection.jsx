@@ -1,21 +1,15 @@
 import { useRef, useState, useCallback, useEffect } from "react"
 import { motion, AnimatePresence, useInView } from "framer-motion"
 
-// ── Image pairs (4 sets)
-import before0 from "../../assets/before.jpg"
-import after0  from "../../assets/after.jpg"
-import before1 from "../../assets/before-1.jpg"
-import after1  from "../../assets/after1.jpg"
-import before2 from "../../assets/before2.jpg"
-import after2  from "../../assets/after2.jpg"
-import before3 from "../../assets/before3.jpg"
-import after3  from "../../assets/after3.jpg"
+// ── Image pairs (2 sets)
+import hairBefore   from "../../assets/beforeafter/hairbefore.png"
+import hairAfter    from "../../assets/beforeafter/hairafter.png"
+import jawBefore    from "../../assets/beforeafter/jawlinebefore.png"
+import jawAfter     from "../../assets/beforeafter/jawlineafter.png"
 
 const PAIRS = [
-  { before: before0, after: after0, label: "Acne Clearance",      duration: "6-Week Results",  tag: "Skin Therapy"   },
-  { before: before1, after: after1, label: "Laser Resurfacing",   duration: "8-Week Results",  tag: "Laser Therapy"  },
-  { before: before2, after: after2, label: "Pigmentation Fading", duration: "10-Week Results", tag: "Glow Treatment" },
-  { before: before3, after: after3, label: "Anti-Aging Lift",     duration: "12-Week Results", tag: "Rejuvenation"   },
+  { before: hairBefore, after: hairAfter, label: "Hair Restoration",    duration: "8-Week Results",  tag: "PRP Hair Therapy"      },
+  { before: jawBefore,  after: jawAfter,  label: "Jawline Contouring",  duration: "Single Session",  tag: "Facial Sculpting"      },
 ]
 
 const INTERVAL = 3800
