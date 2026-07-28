@@ -1,4 +1,4 @@
-﻿import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import contactGirl from "../../assets/contactgirl.png"
 import ArrowUpRight from "../ui/ArrowUpRight"
@@ -13,7 +13,7 @@ const fadeUp = (delay = 0) => ({
   transition:  { duration: 0.55, delay, ease: EASE },
 })
 
-/* ─── Google Apps Script — save lead to sheet ──────────────────────────── */
+/* --- Google Apps Script � save lead to sheet ---------------------------- */
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbzVYrvnI_uxHges0pgNRjNO7h-C4riL89SblOxI9JYGEsajvudIZg7_4cW-GCOrDTQ/exec"
 
 async function saveFormToSheet(form) {
@@ -36,7 +36,7 @@ async function saveFormToSheet(form) {
   }
 }
 
-/* â”€â”€â”€ Input field wrapper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── Input field wrapper ────────────────────────────────────── */
 function Field({ label, error, children }) {
   return (
     <div className="flex flex-col gap-1.5">
@@ -68,7 +68,7 @@ const inputCls = [
 
 const errorCls = "border-red-400/60 focus:border-red-400 focus:ring-red-400/20"
 
-/* â”€â”€â”€ Inline success banner â€” no fixed overlay, no body scroll lock â”€â”€ */
+/* ─── Inline success banner — no fixed overlay, no body scroll lock ── */
 function SuccessBanner({ onReset }) {
   return (
     <motion.div
@@ -126,7 +126,7 @@ function SuccessBanner({ onReset }) {
   )
 }
 
-/* â”€â”€â”€ Validation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── Validation ─────────────────────────────────────────────── */
 function validate(form) {
   const errors = {}
   if (!form.name.trim())
@@ -142,7 +142,7 @@ function validate(form) {
   return errors
 }
 
-/* â”€â”€â”€ MAIN COMPONENT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── MAIN COMPONENT ─────────────────────────────────────────── */
 export default function BookAppointment() {
   const EMPTY = { name: "", email: "", phone: "", date: "", message: "" }
   const [form,      setForm]      = useState(EMPTY)
@@ -174,7 +174,7 @@ export default function BookAppointment() {
     <section
       id="contact"
       className="relative overflow-hidden py-16 lg:py-20"
-      style={{ background: "#FCEEE7" }}
+      style={{ background: "#F2D9CF" }}
     >
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute left-1/4 top-0 h-[400px] w-[400px] -translate-x-1/2 rounded-full"
@@ -190,13 +190,13 @@ export default function BookAppointment() {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.65, ease: EASE }}
         >
-          {/* ambient glow — no blur filter */}
+          {/* ambient glow � no blur filter */}
           <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full"
             style={{ background: "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)" }} />
 
           <div className="grid items-end lg:grid-cols-[1fr_auto]">
 
-            {/* â”€â”€ Form / success side â”€â”€ */}
+            {/* ── Form / success side ── */}
             <div className="p-8 sm:p-10 lg:p-14">
 
               <AnimatePresence mode="wait">
@@ -305,7 +305,7 @@ export default function BookAppointment() {
               </AnimatePresence>
             </div>
 
-            {/* â”€â”€ Doctor girl â”€â”€ */}
+            {/* ── Doctor girl ── */}
             <motion.div
               className="flex items-end justify-center self-end overflow-hidden img-shine lg:justify-end"
               initial={{ opacity: 0, x: 32 }}

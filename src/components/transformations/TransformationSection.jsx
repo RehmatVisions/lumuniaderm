@@ -317,7 +317,7 @@ export default function TransformationSection() {
       onMouseLeave={() => setPaused(false)}
       style={{
         position:"relative",
-        background:"#FDF0EB",
+        background:"#F2D9CF",
         padding:"100px 0 110px",
         overflow:"hidden",
       }}

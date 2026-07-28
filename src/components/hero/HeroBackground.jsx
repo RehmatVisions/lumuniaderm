@@ -72,21 +72,21 @@ export default function HeroBackground({ bgRef }) {
       <div style={{
         position:   "absolute",
         inset:      0,
-        background: "linear-gradient(to right, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.48) 55%, rgba(0,0,0,0.62) 100%)",
+        background: "linear-gradient(to right, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0.38) 100%)",
       }} />
 
       {/* ── Radial depth — darkens edges, keeps centre alive ── */}
       <div style={{
         position:   "absolute",
         inset:      0,
-        background: "radial-gradient(ellipse 140% 110% at 50% 50%, rgba(8,6,4,0.08) 0%, rgba(8,6,4,0.42) 55%, rgba(5,4,2,0.85) 100%)",
+        background: "radial-gradient(ellipse 140% 110% at 50% 50%, rgba(8,6,4,0.04) 0%, rgba(8,6,4,0.22) 55%, rgba(5,4,2,0.55) 100%)",
       }} />
 
       {/* ── Directional fade — darker top & bottom for text readability ── */}
       <div style={{
         position:   "absolute",
         inset:      0,
-        background: "linear-gradient(to bottom, rgba(5,4,2,0.55) 0%, transparent 28%, transparent 52%, rgba(5,4,2,0.90) 100%)",
+        background: "linear-gradient(to bottom, rgba(5,4,2,0.32) 0%, transparent 28%, transparent 52%, rgba(5,4,2,0.65) 100%)",
       }} />
 
       {/* ── Warm left-edge tint ── */}
@@ -96,11 +96,11 @@ export default function HeroBackground({ bgRef }) {
         background: "linear-gradient(100deg, rgba(193,154,107,0.07) 0%, transparent 42%)",
       }} />
 
-      {/* ── Mobile: stronger overall scrim so portrait photo doesn't fight text ── */}
-      <div style={{
+      {/* ── Mobile: bottom fade only for text readability ── */}
+      <div className="block sm:hidden" style={{
         position:   "absolute",
         inset:      0,
-        background: "linear-gradient(to top, rgba(5,4,2,0.72) 0%, transparent 50%)",
+        background: "linear-gradient(to top, rgba(5,4,2,0.45) 0%, transparent 40%)",
       }} />
 
       {/* ── Ambient gold orb A ── */}

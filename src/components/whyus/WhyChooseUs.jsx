@@ -277,7 +277,7 @@ export default function WhyChooseUs() {
   const headerRef = useReveal({ rootMargin: "-40px 0px" })
 
   return (
-    <section id="why-us" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#FCEEE7" }}>
+    <section id="why-us" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#F2D9CF" }}>
 
       {/* Static orbs — no blur filter (removed GPU layer) */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">

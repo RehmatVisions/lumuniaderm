@@ -151,7 +151,7 @@ export default function WhatWeDo() {
 
   return (
     <section id="what-we-do" className="relative overflow-hidden py-20 lg:py-28"
-      style={{ background: "#F4EFEA" }}>
+      style={{ background: "#F2D9CF" }}>
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute -left-40 top-0 h-[400px] w-[400px] rounded-full"

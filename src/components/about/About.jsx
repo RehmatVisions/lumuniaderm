@@ -11,7 +11,7 @@ export default function About() {
   const reduced = useReducedMotion()
 
   return (
-    <section id="about" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#FDF0EB" }}>
+    <section id="about" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#F2D9CF" }}>
 
       {/* Background image — lazy loaded, only decorative */}
       <div className="absolute inset-0 overflow-hidden">

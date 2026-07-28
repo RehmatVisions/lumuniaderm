@@ -201,7 +201,7 @@ export default function ClinicGallery() {
   const showHero = activeFilter === "All" && filtered.length > 0
 
   return (
-    <section id="gallery" className="relative overflow-hidden" style={{ background: "#FDF6F0" }}>
+    <section id="gallery" className="relative overflow-hidden" style={{ background: "#F2D9CF" }}>
 
       {/* Static ambient — NO blur filter */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
