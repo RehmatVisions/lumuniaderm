@@ -75,7 +75,7 @@ const FALLBACK_TEXT =
 const FALLBACK_WITH_WA = "__WHATSAPP_FALLBACK__";
 
 // ─── Google Apps Script — save to sheet ─────────────────────────────────────
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbxfNZaWkZfT7LeudJc7r5nGlqtCDyt3AZR6ShqpVvPYPA79VrNplmIqMA9J5ajyDqM/exec"
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbw66bF_PPhFc4VTEHxbYpIC0qDEZK50BdasTnNUXmaMHPXQsVpMHkeNQDp91d2gry8/exec"
 
 async function saveToSheet(booking, source = "Bot Lead") {
   try {
