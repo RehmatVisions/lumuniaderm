@@ -282,19 +282,11 @@ function ProgressBar({ activeIndex }) {
 export default function TransformationSection() {
   const sectionRef  = useRef(null)
   const isInView    = useInView(sectionRef, { once:true, margin:"-80px" })
-  const [active, setActive] = useState(0)   // single shared index
   const [paused, setPaused] = useState(false)
 
-  // Card A = PAIRS[active],  Card B = PAIRS[(active+1) % 4]
-  const idxA = active
-  const idxB = (active + 1) % PAIRS.length
-
-  // Auto-advance single timer
-  useEffect(() => {
-    if (paused) return
-    const id = setInterval(() => setActive(p => (p + 1) % PAIRS.length), INTERVAL)
-    return () => clearInterval(id)
-  }, [paused])
+  // Fixed: Card A always PAIRS[0], Card B always PAIRS[1] — no auto-rotation
+  const idxA = 0
+  const idxB = 1
 
   const containerVariants = {
     hidden: {},
@@ -402,7 +394,7 @@ export default function TransformationSection() {
           </motion.div>
         </motion.div>
 
-        {/* ── Two cards ── */}
+        {/* Cards */}
         <motion.div
           variants={fadeIn}
           style={{
@@ -412,64 +404,28 @@ export default function TransformationSection() {
             alignItems:"start",
           }}
         >
-          {/* Card A — PAIRS[idxA] */}
+        {/* Card A — Hair Restoration (fixed) */}
           <div style={{ display:"flex",flexDirection:"column",gap:14 }}>
             <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between" }}>
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={`label-a-${idxA}`}
-                  initial={{ opacity:0,x:-12 }} animate={{ opacity:1,x:0 }}
-                  exit={{ opacity:0,x:12 }} transition={{ duration:0.35 }}
-                  style={{ fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:"#3d2e24",margin:0 }}
-                >
-                  {PAIRS[idxA].label}
-                </motion.p>
-              </AnimatePresence>
-              <span style={{
-                fontSize:9,fontWeight:700,letterSpacing:"0.16em",textTransform:"uppercase",
-                color:"#c19a6b",background:"rgba(193,154,107,0.12)",
-                border:"1px solid rgba(193,154,107,0.28)",borderRadius:"9999px",padding:"3px 10px",
-              }}>
-                {idxA + 1} / {PAIRS.length}
-              </span>
+              <p style={{ fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:"#3d2e24",margin:0 }}>
+                {PAIRS[idxA].label}
+              </p>
             </div>
             <SliderCard pair={PAIRS[idxA]} />
           </div>
 
-          {/* Card B — PAIRS[idxB]  (always the next pair) */}
+          {/* Card B — Jawline Contouring (fixed) */}
           <div style={{ display:"flex",flexDirection:"column",gap:14 }}>
             <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between" }}>
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={`label-b-${idxB}`}
-                  initial={{ opacity:0,x:-12 }} animate={{ opacity:1,x:0 }}
-                  exit={{ opacity:0,x:12 }} transition={{ duration:0.35 }}
-                  style={{ fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:"#3d2e24",margin:0 }}
-                >
-                  {PAIRS[idxB].label}
-                </motion.p>
-              </AnimatePresence>
-              <span style={{
-                fontSize:9,fontWeight:700,letterSpacing:"0.16em",textTransform:"uppercase",
-                color:"#c19a6b",background:"rgba(193,154,107,0.12)",
-                border:"1px solid rgba(193,154,107,0.28)",borderRadius:"9999px",padding:"3px 10px",
-              }}>
-                {idxB + 1} / {PAIRS.length}
-              </span>
+              <p style={{ fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:"#3d2e24",margin:0 }}>
+                {PAIRS[idxB].label}
+              </p>
             </div>
             <SliderCard pair={PAIRS[idxB]} />
           </div>
         </motion.div>
 
-        {/* ── Shared dots + progress ── */}
-        <div style={{ marginTop:24,display:"flex",flexDirection:"column",gap:10,alignItems:"center" }}>
-          <Dots total={PAIRS.length} active={active} onDotClick={setActive} />
-          <div style={{ width:"100%",maxWidth:320 }}>
-            <ProgressBar activeIndex={active} />
-          </div>
-        </div>
-
-        {/* ── Stats strip ── */}
+        {/* Stats strip */}
         <motion.div
           variants={fadeUp}
           style={{
