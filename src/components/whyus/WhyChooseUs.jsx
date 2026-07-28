@@ -206,7 +206,7 @@ function AccordionItem({ item, isOpen, onToggle, index }) {
       className={`overflow-hidden rounded-2xl transition-all duration-300 ${
         isOpen
           ? "bg-novaderm-brown shadow-lg shadow-novaderm-brown/20"
-          : "bg-[#F4EFEA] hover:bg-[#EDE8E2]"
+          : "bg-[#FBF3EE] hover:bg-[#F8E2D8]"
       }`}
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -277,7 +277,7 @@ export default function WhyChooseUs() {
   const headerRef = useReveal({ rootMargin: "-40px 0px" })
 
   return (
-    <section id="why-us" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#F9F6F0" }}>
+    <section id="why-us" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#FCEEE7" }}>
 
       {/* Static orbs — no blur filter (removed GPU layer) */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">

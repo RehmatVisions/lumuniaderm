@@ -317,7 +317,7 @@ export default function TransformationSection() {
       onMouseLeave={() => setPaused(false)}
       style={{
         position:"relative",
-        background:"linear-gradient(180deg,#F4EFEA 0%,#EDE8E2 40%,#F4EFEA 100%)",
+        background:"linear-gradient(180deg,#F4EFEA 0%,#FCEEE7 40%,#F4EFEA 100%)",
         padding:"100px 0 110px",
         overflow:"hidden",
       }}
@@ -487,7 +487,7 @@ export default function TransformationSection() {
           ].map((stat, i) => (
             <div key={i} style={{
               padding:"24px 20px",textAlign:"center",
-              background: i % 2 === 0 ? "rgba(244,239,234,0.65)" : "rgba(237,232,226,0.65)",
+              background: i % 2 === 0 ? "rgba(244,239,234,0.75)" : "rgba(252,238,231,0.75)",
             }}>
               <p style={{
                 fontFamily:"'Playfair Display',serif",
