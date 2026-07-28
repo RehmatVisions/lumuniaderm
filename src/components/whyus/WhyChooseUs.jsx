@@ -22,7 +22,7 @@ function ImageStack({ images, ctaText, ctaHref }) {
   return (
     <div ref={ref} className="relative w-full" style={{ height: 560 }}>
 
-      {/* ── BACK image — top-right quadrant, stays in its zone ── */}
+      {/* ── BACK image — top-right quadrant ── */}
       <motion.div
         className="absolute overflow-hidden shadow-2xl"
         style={{
@@ -46,7 +46,6 @@ function ImageStack({ images, ctaText, ctaHref }) {
           whileHover={{ scale: 1.06 }}
           transition={{ duration: 0.65, ease: EASE }}
         />
-        {/* subtle gold tint overlay */}
         <div className="absolute inset-0 bg-gradient-to-bl from-novaderm-gold/15 to-transparent" />
       </motion.div>
 
