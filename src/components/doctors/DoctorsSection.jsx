@@ -261,7 +261,7 @@ function DoctorCard({ doc, index }) {
         </motion.a>
       </div>
     </motion.div>
-  )
+  )   
 }
 
 /* ── Main export ─────────────────────────────────────────────── */
