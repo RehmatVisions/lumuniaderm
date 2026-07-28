@@ -14,7 +14,7 @@ const fadeUp = (delay = 0) => ({
 })
 
 /* Google Apps Script - save lead to sheet */
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbzVYrvnI_uxHges0pgNRjNO7h-C4riL89SblOxI9JYGEsajvudIZg7_4cW-GCOrDTQ/exec"
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbxfNZaWkZfT7LeudJc7r5nGlqtCDyt3AZR6ShqpVvPYPA79VrNplmIqMA9J5ajyDqM/exec"
 
 async function saveFormToSheet(form) {
   try {
@@ -26,9 +26,9 @@ async function saveFormToSheet(form) {
         name:            form.name    || "",
         email:           form.email   || "",
         phone:           form.phone   || "",
-        treatment:       form.message || "General Inquiry",
+        treatment:       form.message ? form.message : "General Inquiry",
         appointmentDate: form.date    || "",
-        source:          "Form Lead",
+        source:          "Booking Form",
       }),
     })
   } catch (err) {

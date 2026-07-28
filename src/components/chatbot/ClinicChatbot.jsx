@@ -75,7 +75,7 @@ const FALLBACK_TEXT =
 const FALLBACK_WITH_WA = "__WHATSAPP_FALLBACK__";
 
 // ─── Google Apps Script — save to sheet ─────────────────────────────────────
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbzVYrvnI_uxHges0pgNRjNO7h-C4riL89SblOxI9JYGEsajvudIZg7_4cW-GCOrDTQ/exec"
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbxfNZaWkZfT7LeudJc7r5nGlqtCDyt3AZR6ShqpVvPYPA79VrNplmIqMA9J5ajyDqM/exec"
 
 async function saveToSheet(booking, source = "Bot Lead") {
   try {
@@ -88,7 +88,7 @@ async function saveToSheet(booking, source = "Bot Lead") {
         email:           booking.email     || "",
         phone:           booking.phone     || "",
         treatment:       booking.treatment || "",
-        appointmentDate: "",
+        appointmentDate: booking.date      || "",
         source,
       }),
     });
