@@ -174,17 +174,17 @@ export default function BookAppointment() {
     <section
       id="contact"
       className="relative overflow-hidden py-16 lg:py-20"
-      style={{ background: "#F8E2D8" }}
+      style={{ background: "#FCEEE7" }}
     >
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute left-1/4 top-0 h-[400px] w-[400px] -translate-x-1/2 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(198,148,89,0.08) 0%, transparent 70%)" }} />
+          style={{ background: "radial-gradient(circle, rgba(196,97,74,0.10) 0%, transparent 70%)" }} />
       </div>
 
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-10">
         <motion.div
           className="relative overflow-hidden rounded-[2rem]"
-          style={{ background: "#282A23" }}
+          style={{ background: "#C4614A" }}
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
@@ -192,7 +192,7 @@ export default function BookAppointment() {
         >
           {/* ambient glow — no blur filter */}
           <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(198,148,89,0.07) 0%, transparent 70%)" }} />
+            style={{ background: "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)" }} />
 
           <div className="grid items-end lg:grid-cols-[1fr_auto]">
 

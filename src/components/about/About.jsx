@@ -11,7 +11,7 @@ export default function About() {
   const reduced = useReducedMotion()
 
   return (
-    <section id="about" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#F4EFEA" }}>
+    <section id="about" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#FDF0EB" }}>
 
       {/* Background image — lazy loaded, only decorative */}
       <div className="absolute inset-0 overflow-hidden">
@@ -21,9 +21,9 @@ export default function About() {
           loading="lazy"
           decoding="async"
         />
-        <div className="absolute inset-0 bg-[#F4EFEA]/93" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#F4EFEA]/85 via-transparent to-[#F4EFEA]/85" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F4EFEA]/75 via-transparent to-[#F4EFEA]/75" />
+        <div className="absolute inset-0 bg-[#FDF0EB]/93" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FDF0EB]/85 via-transparent to-[#FDF0EB]/85" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FDF0EB]/75 via-transparent to-[#FDF0EB]/75" />
       </div>
 
       {/* Decorative ring — static, no rotation */}

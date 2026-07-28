@@ -8,13 +8,19 @@ import acneImg from "../assets/acenetreament.jpg"
 import pigmentationImg from "../assets/pigmentationglowcard.jpg"
 import whyChooseMainImg from "../assets/whychooseusen.png"
 import whyChooseSecondaryImg from "../assets/replace.jpg"
-import whyChooseTertiaryImg from "../assets/whychooseus3.jpg"
+import whyChooseTertiaryImg from "../assets/thirdimage.png"
 import aboutMainImg from "../assets/ourstory.jpg"
 import aboutSecondaryImg from "../assets/antiaging.jpg"
 import laser2Img from "../assets/laser2.jpg"
 import videocardImg from "../assets/videocardimage.jpg"
 import whatWeImg1 from "../assets/what-we-item-image-1-royal.jpg"
 import whatWeImg2 from "../assets/what-we-item-image-1-royal (1).jpg"
+// ─── Service section images ───
+import svc1Img from "../assets/serviceimages/first.png"
+import svc2Img from "../assets/serviceimages/second.png"
+import svc3Img from "../assets/serviceimages/third.png"
+import svc4Img from "../assets/serviceimages/fourth.png"
+import svc5Img from "../assets/serviceimages/fifth.png"
 import whatWeImg3 from "../assets/what-we-item-image-1-royal (2).jpg"
 import whatWeImg4 from "../assets/what-we-item-image-1-royal (3).jpg"
 import whatWeImg5 from "../assets/what-we-item-image-1-royal (4).jpg"
@@ -107,7 +113,7 @@ export const siteContent = {
         badge:       "Acne & Scarring",
         title:       "Advanced Acne & Scar Revision",
         description: "A multi-modality approach — combining medical-grade peels, targeted topicals, and laser resurfacing — to eliminate active breakouts and visibly reduce post-acne scarring, pigmentation, and textural irregularities.",
-        image:       acneImg,
+        image:       svc1Img,
         href:        "#contact",
         icon:        "acne",
       },
@@ -115,7 +121,7 @@ export const siteContent = {
         badge:       "Laser Precision",
         title:       "Laser Hair Removal",
         description: "Powered by industry-leading diode and Nd:YAG technology, our laser hair removal delivers permanent reduction across all skin tones — with clinical precision, minimal discomfort, and zero downtime.",
-        image:       laserImg,
+        image:       svc2Img,
         href:        "#contact",
         icon:        "laser",
       },
@@ -123,8 +129,7 @@ export const siteContent = {
         badge:       "Age Reversal",
         title:       "Anti-Aging & Skin Rejuvenation",
         description: "From dermal fillers and bio-stimulators to RF microneedling and collagen-induction therapy — our anti-aging suite restores lost volume, softens deep lines, and renews your skin's structural foundation.",
-        image:       rejevImg,
-        cropHalf:    "right",
+        image:       svc3Img,
         href:        "#contact",
         icon:        "aging",
       },
@@ -132,7 +137,7 @@ export const siteContent = {
         badge:       "Radiance Therapy",
         title:       "Pigmentation Correction & Glow Treatments",
         description: "Clinically formulated chemical peels, IPL phototherapy, and brightening infusion protocols work synergistically to dissolve stubborn melasma, sun damage, and uneven tone — revealing luminous, even skin.",
-        image:       pigmentationImg,
+        image:       svc4Img,
         href:        "#contact",
         icon:        "glow",
       },
@@ -140,7 +145,7 @@ export const siteContent = {
         badge:       "Hair Restoration",
         title:       "PRP Hair Restoration Therapy",
         description: "Autologous platelet-rich plasma is extracted, concentrated, and precisely injected into thinning zones to reactivate dormant follicles, dramatically reduce shedding, and stimulate measurable regrowth.",
-        image:       prpHairImg,
+        image:       svc5Img,
         href:        "#contact",
         icon:        "hair",
       },

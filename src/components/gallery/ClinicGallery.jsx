@@ -54,7 +54,7 @@ function GalleryCard({ item, index, featured = false }) {
         aspectRatio: featured ? "16/7" : "4/3",
         cursor: "default",
         // explicit initial opacity so cards are NEVER invisible before animation
-        backgroundColor: "#1a1612",
+        backgroundColor: "#F5D5C0",
       }}
       initial={{ opacity: 0, y: 28, scale: 0.96 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 28, scale: 0.96 }}
@@ -62,7 +62,7 @@ function GalleryCard({ item, index, featured = false }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onTouchStart={() => setHovered(true)}
-      onTouchEnd={() => setTimeout(() => setHovered(false), 600)}
+      onTouchEnd={() => setTimeout(() => setHovered(false), 5000)}
     >
       {/* Image */}
       <motion.img
@@ -130,7 +130,7 @@ function FilterTab({ label, active, onClick, count }) {
     <motion.button
       onClick={onClick}
       className="relative rounded-full px-4 py-2 text-[12px] font-semibold transition-colors duration-200"
-      style={{ color: active ? "#fff" : "rgba(255,255,255,0.45)" }}
+      style={{ color: active ? "#fff" : "rgba(61,46,36,0.55)" }}
       whileHover={{ scale: 1.04 }}
       whileTap={{ scale: 0.96 }}
     >
@@ -147,8 +147,8 @@ function FilterTab({ label, active, onClick, count }) {
         <span
           className="flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold"
           style={{
-            background: active ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.08)",
-            color: active ? "#fff" : "rgba(255,255,255,0.35)",
+            background: active ? "rgba(255,255,255,0.22)" : "rgba(61,46,36,0.10)",
+            color: active ? "#fff" : "rgba(61,46,36,0.45)",
           }}
         >
           {count}
@@ -168,7 +168,7 @@ function MarqueeStrip() {
   return (
     <div
       className="relative overflow-hidden py-4 border-y"
-      style={{ borderColor: "rgba(193,154,107,0.14)" }}
+      style={{ borderColor: "rgba(193,154,107,0.30)" }}
     >
       <motion.div
         className="flex gap-8 whitespace-nowrap"
@@ -201,14 +201,14 @@ export default function ClinicGallery() {
   const showHero = activeFilter === "All" && filtered.length > 0
 
   return (
-    <section id="gallery" className="relative overflow-hidden" style={{ background: "#080604" }}>
+    <section id="gallery" className="relative overflow-hidden" style={{ background: "#FDF6F0" }}>
 
       {/* Static ambient — NO blur filter */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute -left-60 top-20 h-[600px] w-[600px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(193,154,107,0.05) 0%, transparent 70%)" }} />
+          style={{ background: "radial-gradient(circle, rgba(193,154,107,0.12) 0%, transparent 70%)" }} />
         <div className="absolute -right-60 bottom-20 h-[500px] w-[500px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(193,154,107,0.04) 0%, transparent 70%)" }} />
+          style={{ background: "radial-gradient(circle, rgba(252,238,231,0.60) 0%, transparent 70%)" }} />
       </div>
 
       {/* ── Section Header ── */}
@@ -231,7 +231,7 @@ export default function ClinicGallery() {
 
           <TextReveal
             as="h2"
-            className="max-w-3xl font-serif font-semibold leading-[1.12] tracking-tight text-white"
+            className="max-w-3xl font-serif font-semibold leading-[1.12] tracking-tight text-novaderm-brown"
             style={{ fontSize: "clamp(2rem, 4.5vw, 3.2rem)" }}
             delay={60}
             stagger={50}
@@ -240,7 +240,7 @@ export default function ClinicGallery() {
           </TextReveal>
 
           <motion.p
-            className="max-w-xl text-[0.92rem] font-light leading-[1.8] text-white/45"
+            className="max-w-xl text-[0.92rem] font-light leading-[1.8] text-novaderm-brown/55"
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -281,8 +281,8 @@ export default function ClinicGallery() {
           <div
             className="flex flex-wrap items-center justify-center gap-1 rounded-full p-1.5"
             style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.09)",
+              background: "rgba(252,238,231,0.80)",
+              border: "1px solid rgba(193,154,107,0.25)",
             }}
           >
             {FILTERS.map(f => (
@@ -337,7 +337,7 @@ export default function ClinicGallery() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-sm text-white/30">Experience the difference in person.</p>
+          <p className="text-sm text-novaderm-brown/40">Experience the difference in person.</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <motion.a
               href="#contact"
@@ -364,7 +364,7 @@ export default function ClinicGallery() {
 
             <motion.a
               href="#gallery"
-              className="inline-flex items-center gap-2 rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-white/55 hover:border-novaderm-gold/50 hover:text-white transition-colors duration-200"
+              className="inline-flex items-center gap-2 rounded-full border border-novaderm-brown/20 px-6 py-3.5 text-sm font-semibold text-novaderm-brown/55 hover:border-novaderm-gold/50 hover:text-novaderm-brown transition-colors duration-200"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >

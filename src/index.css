@@ -1,14 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-novaderm-gold:       #c19a6b;
-  --color-novaderm-gold-dark:  #a8825a;
-  --color-novaderm-gold-light: #d4b08a;
-  --color-novaderm-brown:      #3d2e24;
-  --color-novaderm-beige:      #F4EFEA;
-  --color-novaderm-beige-dark: #EDE8E2;
-  --color-novaderm-peach:      #FCEEE7;
-  --color-novaderm-peach-dark: #F8E2D8;
+  --color-novaderm-gold:        #c19a6b;
+  --color-novaderm-gold-dark:   #a8825a;
+  --color-novaderm-gold-light:  #d4b08a;
+  --color-novaderm-brown:       #3d2e24;
+  --color-novaderm-beige:       #F4EFEA;
+  --color-novaderm-beige-dark:  #EDE8E2;
+  --color-novaderm-peach:       #FCEEE7;
+  --color-novaderm-peach-mid:   #F5D5C0;
+  --color-novaderm-peach-dark:  #F8E2D8;
+  --color-novaderm-terracotta:  #C4614A;
+  --color-novaderm-terra-dark:  #A0432E;
   --font-sans:    "Nunito",          system-ui, sans-serif;
   --font-serif:   "Playfair Display","Georgia", serif;
   --font-display: "Playfair Display","Georgia", serif;
@@ -117,7 +120,7 @@
     background-clip: text;
   }
 
-  .service-card { box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); }
+  .service-card { }
 
   /* ── Marquee ── */
   .marquee-track {

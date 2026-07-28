@@ -40,7 +40,7 @@ function CardReveal({ card, index }) {
       onMouseLeave={() => setHovered(false)}
       onMouseEnter={() => setHovered(true)}
       onTouchStart={() => setHovered(true)}
-      onTouchEnd={() => setTimeout(() => setHovered(false), 700)}
+      onTouchEnd={() => setTimeout(() => setHovered(false), 5000)}
       whileHover={{ y: -6, transition: { duration: 0.3 } }}
       whileTap={{ scale: 0.98 }}
     >
@@ -51,19 +51,19 @@ function CardReveal({ card, index }) {
         style={{
           objectFit:      card.cropHalf === "right" ? "contain" : "cover",
           objectPosition: card.cropHalf === "right" ? "right center" : (card.objectPosition ?? "center center"),
-          background:     card.cropHalf === "right" ? "#1a1208" : "transparent",
+          background:     card.cropHalf === "right" ? "#C4614A" : "transparent",
         }}
         animate={{ scale: hovered ? 1.04 : 1 }}
         transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
         loading="lazy"
       />
 
-      {/* base gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/5" />
+      {/* base gradient — readability only */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
       {/* hover gradient boost */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-t from-novaderm-brown/80 via-transparent to-transparent"
+        className="absolute inset-0 bg-gradient-to-t from-[#C4614A]/50 via-transparent to-transparent"
         animate={{ opacity: hovered ? 1 : 0 }}
         transition={{ duration: 0.4 }}
       />
@@ -76,7 +76,7 @@ function CardReveal({ card, index }) {
       {/* badge */}
       <div className="absolute right-4 top-4">
         <motion.span
-          className="inline-flex items-center gap-1.5 rounded-full border border-novaderm-gold/40 bg-black/50 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-novaderm-gold backdrop-blur-md"
+          className="inline-flex items-center gap-1.5 rounded-full border border-novaderm-gold/40 bg-[#C4614A]/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white backdrop-blur-md"
           animate={{ y: hovered ? -2 : 0 }}
           transition={{ duration: 0.3 }}
         >
@@ -86,18 +86,17 @@ function CardReveal({ card, index }) {
 
       {/* content */}
       <div className="absolute inset-x-0 bottom-0 p-6">
-        <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl border border-novaderm-gold/30 bg-novaderm-gold/10 backdrop-blur-sm transition-colors duration-300 group-hover:bg-novaderm-gold/25">
+        <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl border border-novaderm-gold/30 bg-novaderm-gold/15 backdrop-blur-sm transition-colors duration-300 group-hover:bg-novaderm-gold/30">
           <ServiceIcon type={card.icon} className="h-5 w-5 text-novaderm-gold" />
         </div>
         <h3 className="mb-2 text-[1.15rem] font-bold leading-tight text-white">{card.title}</h3>
 
-        {/* description slides up */}
         <motion.div
           className="overflow-hidden"
           animate={{ height: hovered ? "auto" : 0, opacity: hovered ? 1 : 0, marginBottom: hovered ? 14 : 0 }}
           transition={{ duration: 0.38, ease: "easeOut" }}
         >
-          <p className="text-[0.81rem] leading-relaxed text-white/60">{card.description}</p>
+          <p className="text-[0.81rem] leading-relaxed text-white/75">{card.description}</p>
         </motion.div>
 
         <motion.a href={card.href} className="inline-flex items-center gap-2 text-sm font-semibold text-novaderm-gold"
@@ -126,13 +125,13 @@ function CardSplit({ card, index }) {
 
   return (
     <motion.article
-      className="group relative flex flex-col overflow-hidden bg-[#18110d] img-shine"
-      style={{ height: 440, ...IMG_CORNERS }}
+      className="group relative flex flex-col overflow-hidden img-shine"
+      style={{ height: 440, background: "#C4614A", ...IMG_CORNERS }}
       {...fadeUp(index * 0.06)}
       onMouseLeave={() => setHovered(false)}
       onMouseEnter={() => setHovered(true)}
       onTouchStart={() => setHovered(true)}
-      onTouchEnd={() => setTimeout(() => setHovered(false), 700)}
+      onTouchEnd={() => setTimeout(() => setHovered(false), 5000)}
       whileHover={{ y: -6, transition: { duration: 0.3 } }}
       whileTap={{ scale: 0.98 }}
     >
@@ -146,18 +145,18 @@ function CardSplit({ card, index }) {
           transition={{ duration: 0.65, ease: "easeOut" }}
           loading="lazy"
         />
-        {/* shimmer overlay on hover */}
         <motion.div
           className="absolute inset-0 bg-gradient-to-br from-novaderm-gold/15 to-transparent"
           animate={{ opacity: hovered ? 1 : 0 }}
           transition={{ duration: 0.4 }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#18110d]" />
+        {/* image overlay removed */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#C4614A]/80" />
 
         {/* floating badge */}
         <div className="absolute bottom-[-14px] left-1/2 -translate-x-1/2 whitespace-nowrap z-10">
           <motion.span
-            className="inline-flex items-center gap-1.5 rounded-full border border-novaderm-gold/40 bg-[#18110d] px-4 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-novaderm-gold shadow-lg"
+            className="inline-flex items-center gap-1.5 rounded-full border border-novaderm-gold/40 bg-[#C4614A] px-4 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-white shadow-lg"
             animate={{ scale: hovered ? 1.05 : 1 }}
             transition={{ duration: 0.25 }}
           >
@@ -171,20 +170,21 @@ function CardSplit({ card, index }) {
         <div>
           <div className="mb-3 flex items-center gap-3">
             <motion.div
-              className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-novaderm-gold/10"
-              animate={{ backgroundColor: hovered ? "rgba(193,154,107,0.22)" : "rgba(193,154,107,0.10)" }}
+              className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl"
+              style={{ background: "rgba(255,255,255,0.15)" }}
+              animate={{ background: hovered ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.15)" }}
               transition={{ duration: 0.3 }}
             >
-              <ServiceIcon type={card.icon} className="h-4 w-4 text-novaderm-gold" />
+              <ServiceIcon type={card.icon} className="h-4 w-4 text-white" />
             </motion.div>
             <h3 className="text-[1rem] font-bold leading-snug text-white">{card.title}</h3>
           </div>
-          <p className="text-[0.8rem] leading-relaxed text-white/45">{card.description}</p>
+          <p className="text-[0.8rem] leading-relaxed text-white/70">{card.description}</p>
         </div>
 
-        <div className="flex items-center justify-end border-t border-white/[0.06] pt-4">
+        <div className="flex items-center justify-end border-t border-white/[0.18] pt-4">
           <motion.a href={card.href}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/35 transition-all duration-250 hover:border-novaderm-gold hover:bg-novaderm-gold hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-white/70 transition-all duration-250 hover:border-white hover:bg-white hover:text-[#C4614A]"
             whileHover={{ rotate: 45 }} transition={{ duration: 0.2 }} aria-label={card.title}>
             <ArrowUpRight className="h-3.5 w-3.5" />
           </motion.a>
@@ -193,7 +193,7 @@ function CardSplit({ card, index }) {
 
       {/* animated left accent */}
       <motion.div
-        className="absolute inset-y-0 left-0 w-[3px] rounded-r-full bg-gradient-to-b from-novaderm-gold via-novaderm-gold-light to-transparent"
+        className="absolute inset-y-0 left-0 w-[3px] rounded-r-full bg-gradient-to-b from-white via-white/60 to-transparent"
         animate={{ scaleY: hovered ? 1 : 0, originY: 1 }}
         transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
       />
@@ -207,13 +207,13 @@ function CardWide({ card, index }) {
 
   return (
     <motion.article
-      className="group relative col-span-1 overflow-hidden bg-novaderm-brown img-shine sm:col-span-2 lg:col-span-2"
-      style={{ height: 300, ...IMG_CORNERS }}
+      className="group relative col-span-1 overflow-hidden img-shine sm:col-span-2 lg:col-span-2"
+      style={{ height: 300, background: "#A0432E", ...IMG_CORNERS }}
       {...fadeUp(index * 0.06)}
       onMouseLeave={() => setHovered(false)}
       onMouseEnter={() => setHovered(true)}
       onTouchStart={() => setHovered(true)}
-      onTouchEnd={() => setTimeout(() => setHovered(false), 700)}
+      onTouchEnd={() => setTimeout(() => setHovered(false), 5000)}
       whileHover={{ y: -5, transition: { duration: 0.3 } }}
       whileTap={{ scale: 0.98 }}
     >
@@ -225,25 +225,25 @@ function CardWide({ card, index }) {
         transition={{ duration: 0.7, ease: "easeOut" }}
         loading="lazy"
       />
-      {/* gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-novaderm-brown via-novaderm-brown/92 to-transparent" />
+      {/* gradient — left content area background */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#A0432E]/95 via-[#A0432E]/80 to-transparent" />
 
       {/* content */}
       <div className="relative flex h-full flex-col justify-between p-7 sm:p-9" style={{ maxWidth: "56%" }}>
         <div>
           <motion.span
-            className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-novaderm-gold/35 bg-novaderm-gold/12 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-novaderm-gold"
+            className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white"
             animate={{ scale: hovered ? 1.04 : 1 }}
             transition={{ duration: 0.25 }}
           >
             {card.badge}
           </motion.span>
           <h3 className="text-xl font-bold leading-snug text-white sm:text-2xl">{card.title}</h3>
-          <p className="mt-2 text-[0.82rem] leading-relaxed text-white/50">{card.description}</p>
+          <p className="mt-2 text-[0.82rem] leading-relaxed text-white/70">{card.description}</p>
         </div>
 
         <motion.a href={card.href}
-          className="inline-flex w-fit items-center gap-2 rounded-full border border-novaderm-gold/40 px-5 py-2.5 text-sm font-semibold text-novaderm-gold transition-all duration-300 hover:bg-novaderm-gold hover:text-white hover:border-novaderm-gold"
+          className="inline-flex w-fit items-center gap-2 rounded-full border border-white/40 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#A0432E]"
           whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
           Explore Treatment
           <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-250 group-hover:rotate-45" />
@@ -252,7 +252,7 @@ function CardWide({ card, index }) {
 
       {/* shimmer bottom line */}
       <motion.div
-        className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-gradient-to-r from-novaderm-gold via-novaderm-gold-light to-transparent"
+        className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-gradient-to-r from-white/60 via-white/30 to-transparent"
         animate={{ scaleX: hovered ? 1 : 0, originX: 0 }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       />
@@ -267,7 +267,6 @@ export default function Services() {
   const cardsRef  = useReveal({ rootMargin: "-30px 0px", threshold: 0.05 })
   const statsRef  = useReveal({ rootMargin: "-20px 0px" })
 
-  // Layout: Reveal | Split | Reveal | Wide(2col) | Split
   const layout = [
     { Component: CardReveal },
     { Component: CardSplit  },
@@ -277,14 +276,14 @@ export default function Services() {
   ]
 
   return (
-    <section id="services" className="relative overflow-hidden bg-[#0c0806] py-20 lg:py-28">
+    <section id="services" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#FCEEE7" }}>
 
       {/* ── Atmospheric bg ── */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute -left-48 top-16 h-[600px] w-[600px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(193,154,107,0.045) 0%, transparent 70%)" }} />
+          style={{ background: "radial-gradient(circle, rgba(196,97,74,0.10) 0%, transparent 70%)" }} />
         <div className="absolute -right-48 bottom-16 h-[500px] w-[500px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(61,46,36,0.6) 0%, transparent 70%)" }} />
+          style={{ background: "radial-gradient(circle, rgba(245,213,192,0.50) 0%, transparent 70%)" }} />
       </div>
 
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
@@ -292,17 +291,17 @@ export default function Services() {
         {/* ── Section header ── */}
         <div ref={headerRef} className="mb-14 grid gap-6 sm:grid-cols-2 sm:items-end lg:mb-20">
           <div className="flex flex-col gap-4">
-            <span className="reveal reveal-up reveal-duration-500 reveal-delay-0 inline-flex w-fit items-center gap-2 rounded-full border border-novaderm-gold/30 bg-novaderm-gold/[0.08] px-4 py-1.5">
+            <span className="reveal reveal-up reveal-duration-500 reveal-delay-0 inline-flex w-fit items-center gap-2 rounded-full border border-[#C4614A]/40 bg-[#C4614A]/10 px-4 py-1.5">
               <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-novaderm-gold opacity-55" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-novaderm-gold" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#C4614A] opacity-55" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#C4614A]" />
               </span>
-              <span className="text-xs font-semibold uppercase tracking-widest text-novaderm-gold">{badge}</span>
+              <span className="text-xs font-semibold uppercase tracking-widest text-[#C4614A]">{badge}</span>
             </span>
 
             <TextReveal
               as="h2"
-              className="reveal reveal-up reveal-duration-600 reveal-delay-1 text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-[2.5rem] lg:leading-[1.14]"
+              className="reveal reveal-up reveal-duration-600 reveal-delay-1 text-3xl font-semibold leading-tight tracking-tight text-novaderm-brown sm:text-4xl lg:text-[2.5rem] lg:leading-[1.14]"
               delay={60}
               stagger={55}
             >
@@ -310,7 +309,7 @@ export default function Services() {
             </TextReveal>
 
             <motion.div
-              className="reveal reveal-fade reveal-duration-700 reveal-delay-2 h-px w-20 bg-gradient-to-r from-novaderm-gold to-transparent"
+              className="reveal reveal-fade reveal-duration-700 reveal-delay-2 h-px w-20 bg-gradient-to-r from-[#C4614A] to-transparent"
               initial={{ scaleX: 0, originX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
@@ -319,13 +318,13 @@ export default function Services() {
           </div>
 
           <div className="reveal reveal-up reveal-duration-600 reveal-delay-2 flex flex-col items-start gap-4 sm:items-end">
-            <p className="max-w-[280px] text-sm leading-relaxed text-white/40 sm:text-right">{description}</p>
+            <p className="max-w-[280px] text-sm leading-relaxed text-novaderm-brown/55 sm:text-right">{description}</p>
             <motion.a href={ctaHref} className="group inline-flex items-center gap-1"
               whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <span className="rounded-full bg-novaderm-gold px-5 py-2.5 text-[13px] font-semibold text-white transition-colors duration-250 group-hover:bg-novaderm-gold-dark">
+              <span className="rounded-full bg-[#C4614A] px-5 py-2.5 text-[13px] font-semibold text-white transition-colors duration-250 group-hover:bg-[#A0432E]">
                 {ctaText}
               </span>
-              <span className="flex h-10 w-10 items-center justify-center rounded-full border border-novaderm-gold/40 text-novaderm-gold transition-all duration-250 group-hover:rotate-45 group-hover:bg-novaderm-gold group-hover:text-white">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[#C4614A]/40 text-[#C4614A] transition-all duration-250 group-hover:rotate-45 group-hover:bg-[#C4614A] group-hover:text-white">
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </span>
             </motion.a>
@@ -334,12 +333,12 @@ export default function Services() {
 
         {/* ── Divider ── */}
         <motion.div
-          className="mb-10 h-px bg-gradient-to-r from-transparent via-novaderm-gold/18 to-transparent"
+          className="mb-10 h-px bg-gradient-to-r from-transparent via-[#C4614A]/25 to-transparent"
           initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }}
           viewport={{ once: true }} transition={{ duration: 1.1 }}
         />
 
-        {/* ── Cards grid — reveal container ── */}
+        {/* ── Cards grid ── */}
         <div ref={cardsRef} className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {cards.map((card, i) => {
             const { Component } = layout[i] ?? { Component: CardReveal }
@@ -354,7 +353,8 @@ export default function Services() {
 
         {/* ── Bottom stats bar ── */}
         <div ref={statsRef}
-          className="reveal reveal-up reveal-duration-600 reveal-delay-0 mt-14 grid grid-cols-2 gap-4 rounded-[1.5rem] border border-white/[0.06] bg-white/[0.025] p-6 sm:grid-cols-4 sm:p-8">
+          className="reveal reveal-up reveal-duration-600 reveal-delay-0 mt-14 grid grid-cols-2 gap-4 rounded-[1.5rem] border border-[#C4614A]/20 p-6 sm:grid-cols-4 sm:p-8"
+          style={{ background: "rgba(196,97,74,0.08)" }}>
           {[
             { value: "6+",    label: "Specialised Treatments"  },
             { value: "98%",   label: "Treatment Effectiveness" },
@@ -363,8 +363,8 @@ export default function Services() {
           ].map((stat, i) => (
             <div key={stat.label}
               className={`reveal reveal-up reveal-duration-500 reveal-delay-${i} flex flex-col items-center gap-1 text-center`}>
-              <span className="text-2xl font-bold text-novaderm-gold sm:text-3xl">{stat.value}</span>
-              <span className="text-[11px] uppercase tracking-wider text-white/35">{stat.label}</span>
+              <span className="text-2xl font-bold text-[#C4614A] sm:text-3xl">{stat.value}</span>
+              <span className="text-[11px] uppercase tracking-wider text-novaderm-brown/50">{stat.label}</span>
             </div>
           ))}
         </div>

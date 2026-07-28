@@ -144,7 +144,7 @@ function StatsStrip() {
               fontWeight: 700,
               lineHeight: 1,
               letterSpacing: "-0.02em",
-              color: "#F5A623",
+              color: "#c19a6b",
               filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.85))",
             }}
           >

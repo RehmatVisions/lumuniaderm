@@ -30,7 +30,7 @@ export default function App() {
     <>
       <div className="min-h-screen bg-novaderm-beige">
         <Header />
-        {/* Dark wrapper so hero margins show dark, not beige */}
+        {/* Hero wrapper — original dark so hero photos look correct */}
         <div style={{ background: "#080604" }}>
           <Hero />
         </div>
