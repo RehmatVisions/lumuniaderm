@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion"
+﻿import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import contactGirl from "../../assets/contactgirl.png"
 import ArrowUpRight from "../ui/ArrowUpRight"
@@ -13,7 +13,7 @@ const fadeUp = (delay = 0) => ({
   transition:  { duration: 0.55, delay, ease: EASE },
 })
 
-/* --- Google Apps Script � save lead to sheet ---------------------------- */
+/* Google Apps Script - save lead to sheet */
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbzVYrvnI_uxHges0pgNRjNO7h-C4riL89SblOxI9JYGEsajvudIZg7_4cW-GCOrDTQ/exec"
 
 async function saveFormToSheet(form) {
@@ -30,13 +30,13 @@ async function saveFormToSheet(form) {
         appointmentDate: form.date    || "",
         source:          "Form Lead",
       }),
-    });
+    })
   } catch (err) {
-    console.error("Sheet save error:", err);
+    console.error("Sheet save error:", err)
   }
 }
 
-/* ─── Input field wrapper ────────────────────────────────────── */
+/* Input field wrapper */
 function Field({ label, error, children }) {
   return (
     <div className="flex flex-col gap-1.5">
@@ -68,7 +68,7 @@ const inputCls = [
 
 const errorCls = "border-red-400/60 focus:border-red-400 focus:ring-red-400/20"
 
-/* ─── Inline success banner — no fixed overlay, no body scroll lock ── */
+/* Inline success banner */
 function SuccessBanner({ onReset }) {
   return (
     <motion.div
@@ -78,7 +78,6 @@ function SuccessBanner({ onReset }) {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.34, 1.2, 0.64, 1] }}
     >
-      {/* Check circle */}
       <div className="flex h-16 w-16 items-center justify-center rounded-full"
         style={{ background: "rgba(198,148,89,0.15)", border: "1.5px solid rgba(198,148,89,0.45)" }}>
         <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7">
@@ -101,7 +100,6 @@ function SuccessBanner({ onReset }) {
         </p>
       </div>
 
-      {/* Pulsing status dot */}
       <div className="flex items-center gap-2 rounded-full border border-novaderm-gold/20 px-4 py-2"
         style={{ background: "rgba(198,148,89,0.08)" }}>
         <span className="relative flex h-2 w-2">
@@ -126,7 +124,7 @@ function SuccessBanner({ onReset }) {
   )
 }
 
-/* ─── Validation ─────────────────────────────────────────────── */
+/* Validation */
 function validate(form) {
   const errors = {}
   if (!form.name.trim())
@@ -142,7 +140,7 @@ function validate(form) {
   return errors
 }
 
-/* ─── MAIN COMPONENT ─────────────────────────────────────────── */
+/* Main Component */
 export default function BookAppointment() {
   const EMPTY = { name: "", email: "", phone: "", date: "", message: "" }
   const [form,      setForm]      = useState(EMPTY)
@@ -190,15 +188,14 @@ export default function BookAppointment() {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.65, ease: EASE }}
         >
-          {/* ambient glow � no blur filter */}
+          {/* ambient glow */}
           <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full"
             style={{ background: "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)" }} />
 
           <div className="grid items-end lg:grid-cols-[1fr_auto]">
 
-            {/* ── Form / success side ── */}
+            {/* Form / success side */}
             <div className="p-8 sm:p-10 lg:p-14">
-
               <AnimatePresence mode="wait">
                 {submitted ? (
                   <motion.div key="success"
@@ -258,7 +255,7 @@ export default function BookAppointment() {
                               className={`${inputCls} ${errors.phone ? errorCls : ""}`}
                               type="tel" name="phone" value={form.phone}
                               onChange={handle} placeholder="Enter Phone Number"
- />
+                            />
                           </Field>
                         </motion.div>
 
@@ -305,7 +302,7 @@ export default function BookAppointment() {
               </AnimatePresence>
             </div>
 
-            {/* ── Doctor girl ── */}
+            {/* Doctor image */}
             <motion.div
               className="flex items-end justify-center self-end overflow-hidden img-shine lg:justify-end"
               initial={{ opacity: 0, x: 32 }}
