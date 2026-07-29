@@ -1,364 +1,315 @@
-import { useRef, useState } from "react"
-import { motion, useInView, AnimatePresence } from "framer-motion"
-
-import doc1 from "../../assets/doctor1.jpg"
-import doc2 from "../../assets/doctor2.jpg"
-import doc3 from "../../assets/girldoctor3.jpg"
+import { motion } from "framer-motion"
+import ateeqImg from "../../assets/doctorsimages/ateeq.png"
 
 const EASE      = [0.25, 0.46, 0.45, 0.94]
 const EASE_EXPO = [0.16, 1, 0.3, 1]
 
-const DOCTORS = [
-  {
-    id: 1,
-    name:     "Dr. Bilal Siddiqui",
-    title:    "Founder & Lead Dermatologist",
-    qual:     "MBBS · FCPS Dermatology · Fellowship (USA)",
-    image:    doc1,
-    accent:   "#c19a6b",
-    exp:      "15+",
-    expLabel: "Years",
-    patients: "3K+",
-    rating:   "4.9★",
-    specialties: ["Anti-Aging", "Laser Resurfacing", "Skin Rejuvenation"],
-    about: "Dr. Bilal founded NovaDerm on one belief — that every patient deserves a personalised, medically-sound treatment plan. He personally oversees all complex cases, blending 15 years of international dermatology training with a deep understanding of South Asian skin.",
-    steps: [
-      { n: "01", t: "Skin Assessment",   d: "In-depth consultation covering skin type, history and long-term goals." },
-      { n: "02", t: "Personalised Plan", d: "A tailored protocol designed exclusively for your skin — no generics." },
-      { n: "03", t: "Ongoing Support",   d: "Post-treatment follow-ups and WhatsApp access to maintain results." },
-    ],
-  },
-  {
-    id: 2,
-    name:     "Dr. Ali Hassan",
-    title:    "Senior Aesthetic Physician",
-    qual:     "MBBS · MSc Aesthetic Medicine (London) · Board Certified",
-    image:    doc2,
-    accent:   "#b89060",
-    exp:      "8K+",
-    expLabel: "Procedures",
-    patients: "12+",
-    rating:   "4.8★",
-    specialties: ["Botox & Fillers", "Thread Lifts", "PRP Therapy"],
-    about: "Dr. Omar is NovaDerm's lead injector, renowned for results that enhance rather than alter. His philosophy is rooted in restraint — every procedure must look completely natural. He has performed over 8,000 aesthetic procedures with zero serious complications.",
-    steps: [
-      { n: "01", t: "Facial Mapping",      d: "Precise analysis of facial proportions to plan harmonious enhancements." },
-      { n: "02", t: "Conservative Dosing", d: "Minimal-dose injections for a refreshed, natural look." },
-      { n: "03", t: "2-Week Review",       d: "Complimentary follow-up ensures the result matches the vision." },
-    ],
-  },
-  {
-    id: 3,
-    name:     "Dr. Zara khan",
-    title:    "Laser & Pigmentation Specialist",
-    qual:     "MBBS · Diploma Dermatology · Dubai · Fellowship Laser Medicine",
-    image:    doc3,
-    accent:   "#c8a870",
-    exp:      "5K+",
-    expLabel: "Laser Sessions",
-    patients: "98%",
-    rating:   "Satisfaction",
-    specialties: ["Laser Hair Removal", "Melasma", "Chemical Peels"],
-    about: "Dr. Zara is one of Pakistan's most experienced laser specialists, with deep expertise in pigmentation correction across all South Asian skin tones. Her precision-calibrated approach has made her the go-to physician for patients who have struggled elsewhere.",
-    steps: [
-      { n: "01", t: "Skin Tone Analysis",  d: "Fitzpatrick classification to select the right wavelength and energy." },
-      { n: "02", t: "Patch Test Protocol", d: "Supervised patch test before full treatment — safety first, always." },
-      { n: "03", t: "Progressive Results", d: "Staged sessions with clinical photography at each visit." },
-    ],
-  },
-]
+const DOCTOR = {
+  name:        "Dr. Ateeq",
+  role:        "Consultant Dermatologist & Aesthetic Medicine Specialist",
+  badge:       "Board-Certified Dermatologist",
+  about:       "Blending medical expertise with an artistic eye, Dr. Ateeq creates thoughtful treatment plans focused on natural, confident results.",
+  exp:         "12+",
+  expLabel:    "Years Experience",
+  qual1:       "MBBS · MD",
+  qual1Sub:    "Dermatology",
+  qual2:       "Advanced Laser",
+  qual2Sub:    "& Aesthetic Care",
+  expertise:   ["Medical Dermatology","Acne & Scarring","Laser Treatments","Skin Rejuvenation","Anti-Aging Care"],
+  bookHref:    "#contact",
+  profileHref: "#about",
+}
 
-/* ── Floating particles ──────────────────────────────────────── */
-const PTS = Array.from({ length: 18 }, (_, i) => ({
-  id: i, x: 4 + (i * 5.3) % 92, y: 4 + (i * 7.7) % 92,
-  s: 1.5 + (i % 3), dur: 5 + (i % 4) * 1.8, del: (i % 5) * 0.9,
-}))
-function Particles() {
+/* ─── Leaf SVG ──────────────────────────────────────────── */
+function Leaf({ style }) {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      {PTS.map(p => (
-        <motion.div key={p.id} className="absolute rounded-full"
-          style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.s, height: p.s,
-            background: "rgba(193,154,107,0.32)" }}
-          animate={{ y: [0, -16, 0], opacity: [0.1, 0.5, 0.1] }}
-          transition={{ duration: p.dur, delay: p.del, repeat: Infinity, ease: "easeInOut" }} />
+    <svg viewBox="0 0 120 260" aria-hidden="true" style={{ pointerEvents:"none", ...style }}>
+      <path d="M60 250 Q57 175 54 112 Q51 55 60 10" stroke="#C4614A" strokeWidth="1.3" fill="none" strokeLinecap="round"/>
+      {[200,158,120,86].map((y,i)=>(
+        <g key={i}>
+          <path d={`M${59-i} ${y} Q${33-i} ${y-13} ${22-i} ${y-42} Q${40} ${y-36} ${59-i} ${y-25}`}
+            stroke="#C4614A" strokeWidth="0.9" fill="rgba(196,97,74,0.12)" strokeLinecap="round"/>
+          <path d={`M${61+i} ${y-5} Q${87+i} ${y-20} ${96+i} ${y-49} Q${78} ${y-42} ${61+i} ${y-32}`}
+            stroke="#C4614A" strokeWidth="0.9" fill="rgba(196,97,74,0.08)" strokeLinecap="round"/>
+        </g>
       ))}
+    </svg>
+  )
+}
+
+/* ─── Small icon + stat block ───────────────────────────── */
+function StatBlock({ icon, top, sub }) {
+  return (
+    <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+      <div style={{
+        width:40, height:40, borderRadius:"50%", flexShrink:0,
+        border:"1.5px solid rgba(196,97,74,0.25)",
+        background:"rgba(196,97,74,0.07)",
+        display:"flex", alignItems:"center", justifyContent:"center",
+      }}>
+        {icon}
+      </div>
+      <div style={{ lineHeight:1.25 }}>
+        <p style={{ fontSize:"0.85rem", fontWeight:700, color:"#2e1f16", margin:0 }}>{top}</p>
+        <p style={{ fontSize:"0.72rem", color:"#a07060", margin:0 }}>{sub}</p>
+      </div>
     </div>
   )
 }
 
-/* ── Shine sweep ─────────────────────────────────────────────── */
-function Shine({ on }) {
+/* ─── Expertise pill ────────────────────────────────────── */
+function Pill({ label }) {
   return (
-    <AnimatePresence>
-      {on && (
-        <motion.div key="sh" className="pointer-events-none absolute inset-0"
-          style={{ zIndex: 9, borderRadius: "inherit",
-            background: "linear-gradient(115deg,transparent 22%,rgba(255,255,255,0.11) 43%,rgba(198,148,89,0.18) 50%,rgba(255,255,255,0.11) 57%,transparent 78%)" }}
-          initial={{ x: "-140%", skewX: -10 }}
-          animate={{ x: "140%" }}
-          exit={{}}
-          transition={{ duration: 0.68, ease: EASE }} />
-      )}
-    </AnimatePresence>
+    <span style={{
+      display:"inline-flex",
+      border:"1.5px solid rgba(196,97,74,0.28)",
+      borderRadius:999,
+      padding:"5px 14px",
+      fontSize:"0.75rem", fontWeight:500, color:"#5a3e32",
+      background:"rgba(255,255,255,0.55)",
+      whiteSpace:"nowrap",
+    }}>
+      {label}
+    </span>
   )
 }
 
-/* ── Doctor card ─────────────────────────────────────────────── */
-function DoctorCard({ doc, index }) {
-  const ref    = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-70px" })
-  const [hov, setHov]         = useState(false)
-  const [expanded, setExpanded] = useState(false)
-
-  return (
-    <motion.div ref={ref}
-      className="flex flex-col overflow-hidden lg:flex-row"
-      style={{ borderRadius: "1.8rem", background: "#0e0b08", isolation: "isolate" }}
-      initial={{ opacity: 0, y: 55 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.78, delay: index * 0.12, ease: EASE_EXPO }}
-      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-    >
-      {/* animated border */}
-      <motion.div className="pointer-events-none absolute inset-0" style={{ borderRadius: "1.8rem" }}
-        animate={{ boxShadow: hov
-          ? `inset 0 0 0 1.5px ${doc.accent}55, 0 24px 70px ${doc.accent}12`
-          : "inset 0 0 0 1px rgba(255,255,255,0.06)" }}
-        transition={{ duration: 0.3 }} />
-
-      {/* ── IMAGE SIDE ───────────────────────────── */}
-      <div className="relative flex-shrink-0 overflow-hidden lg:w-[300px] xl:w-[340px]"
-        style={{ borderRadius: "1.8rem 0 0 1.8rem" }}>
-
-        {/* portrait image — object-top so face shows */}
-        <div className="relative h-[320px] w-full overflow-hidden lg:h-full" style={{ minHeight: 420 }}>
-          <motion.img src={doc.image} alt={doc.name}
-            className="absolute inset-0 h-full w-full object-cover object-top"
-            animate={{ scale: hov ? 1.06 : 1 }}
-            transition={{ duration: 0.9, ease: EASE }}
-            loading="lazy" decoding="async" />
-
-          {/* overlay — only at bottom so face stays visible */}
-          <div className="pointer-events-none absolute inset-0"
-            style={{ background: "linear-gradient(to top, rgba(8,5,2,0.88) 0%, rgba(8,5,2,0.18) 45%, rgba(8,5,2,0.0) 70%)" }} />
-
-          {/* right-edge fade to blend with content */}
-          <div className="pointer-events-none absolute inset-0 hidden lg:block"
-            style={{ background: "linear-gradient(to right, transparent 55%, rgba(14,11,8,0.95) 100%)" }} />
-
-          <Shine on={hov} />
-
-          {/* experience badge — top left */}
-          <motion.div
-            className="absolute left-3 top-3 flex flex-col items-center rounded-2xl px-3 py-2"
-            style={{ background: "rgba(8,5,2,0.80)", border: `1px solid ${doc.accent}44`,
-              backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)" }}
-            animate={{ scale: hov ? 1.04 : 1, y: hov ? -2 : 0 }}
-            transition={{ duration: 0.28 }}>
-            <span className="text-lg font-bold leading-none" style={{ color: doc.accent }}>{doc.exp}</span>
-            <span className="mt-0.5 text-[8px] font-semibold uppercase tracking-widest text-white/40">{doc.expLabel}</span>
-          </motion.div>
-
-          {/* bottom name on mobile */}
-          <div className="absolute inset-x-0 bottom-0 p-4 lg:hidden">
-            <p className="font-serif text-xl font-semibold text-white">{doc.name}</p>
-            <p className="text-[10px] font-bold uppercase tracking-wider mt-0.5" style={{ color: doc.accent }}>{doc.title}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* ── CONTENT SIDE ─────────────────────────── */}
-      <div className="flex flex-1 flex-col justify-center gap-4 px-7 py-7 lg:px-9 lg:py-8">
-
-        {/* name — hidden on mobile (shown in image overlay) */}
-        <div className="hidden lg:block">
-          <motion.p className="mb-1 text-[10px] font-bold uppercase tracking-[0.18em]"
-            style={{ color: doc.accent }}
-            initial={{ opacity: 0, x: 18 }} animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.22, ease: EASE }}>
-            {doc.title}
-          </motion.p>
-          <motion.h3 className="font-serif text-white leading-tight"
-            style={{ fontSize: "clamp(1.4rem, 2.2vw, 1.85rem)", fontWeight: 500 }}
-            initial={{ opacity: 0, x: 20 }} animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.27, ease: EASE_EXPO }}>
-            {doc.name}
-          </motion.h3>
-          <motion.p className="mt-1 text-[10.5px] text-white/30" style={{ letterSpacing: "0.04em" }}
-            initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.35 }}>
-            {doc.qual}
-          </motion.p>
-        </div>
-
-        {/* gold divider */}
-        <motion.div className="h-px"
-          style={{ background: `linear-gradient(to right, ${doc.accent}55, transparent)` }}
-          initial={{ scaleX: 0, originX: 0 }} animate={inView ? { scaleX: 1 } : {}}
-          transition={{ duration: 0.7, delay: 0.3, ease: EASE }} />
-
-        {/* about */}
-        <motion.p className="text-[0.81rem] leading-[1.8] text-white/50 font-light"
-          initial={{ opacity: 0, y: 10 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.55, delay: 0.38, ease: EASE }}>
-          {doc.about}
-        </motion.p>
-
-        {/* specialties */}
-        <motion.div className="flex flex-wrap gap-1.5"
-          initial={{ opacity: 0, y: 8 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.44, ease: EASE }}>
-          {doc.specialties.map(s => (
-            <span key={s} className="rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wider"
-              style={{ background: `${doc.accent}14`, border: `1px solid ${doc.accent}40`, color: doc.accent }}>
-              {s}
-            </span>
-          ))}
-        </motion.div>
-
-        {/* approach label */}
-        <motion.p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/30"
-          initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.4, delay: 0.5 }}>
-          Approach to Care
-        </motion.p>
-
-        {/* 3 step cards */}
-        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
-          {doc.steps.map((s, i) => (
-            <motion.div key={s.n}
-              className="flex flex-col gap-2 rounded-xl p-3.5"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}
-              initial={{ opacity: 0, y: 18 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.52, delay: 0.56 + i * 0.09, ease: EASE_EXPO }}
-              whileHover={{ background: "rgba(255,255,255,0.055)", borderColor: `${doc.accent}35`,
-                transition: { duration: 0.2 } }}>
-              <div className="flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-bold"
-                style={{ background: `${doc.accent}18`, border: `1.5px solid ${doc.accent}44`, color: doc.accent }}>
-                {s.n}
-              </div>
-              <p className="text-[12.5px] font-semibold text-white/90">{s.t}</p>
-              <p className="text-[11px] font-light leading-relaxed text-white/38">{s.d}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <motion.a href="#contact"
-          className="inline-flex w-fit items-center gap-2 rounded-full px-5 py-2.5 text-[11.5px] font-semibold uppercase tracking-wider text-white"
-          style={{ background: `linear-gradient(135deg,${doc.accent} 0%,#8a6745 100%)`,
-            boxShadow: `0 4px 18px ${doc.accent}30` }}
-          initial={{ opacity: 0, y: 8 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.72, ease: EASE }}
-          whileHover={{ scale: 1.05, boxShadow: `0 8px 28px ${doc.accent}50` }}
-          whileTap={{ scale: 0.96 }}>
-          Book Consultation
-          <svg viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3">
-            <path fillRule="evenodd" d="M8.293 2.293a1 1 0 011.414 0l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414-1.414L11.586 9H2a1 1 0 110-2h9.586L8.293 3.707a1 1 0 010-1.414z" clipRule="evenodd"/>
-          </svg>
-        </motion.a>
-      </div>
-    </motion.div>
-  )   
-}
-
-/* ── Main export ─────────────────────────────────────────────── */
+/* ─── Main Export ───────────────────────────────────────── */
 export default function DoctorsSection() {
+  const d = DOCTOR
+
   return (
-    <section id="doctors" className="relative overflow-hidden"
-      style={{ background: "#080604", paddingTop: 110, paddingBottom: 120 }}>
+    <section id="doctors" style={{
+      position:"relative", overflow:"hidden", background:"transparent",
+      padding:"clamp(56px,7vw,96px) 0",
+    }}>
 
-      <Particles />
+      {/* Leaf decorations */}
+      <Leaf style={{ position:"absolute", top:0, left:0, width:"clamp(80px,10vw,145px)", opacity:0.18 }}/>
+      <Leaf style={{ position:"absolute", top:0, right:0, width:"clamp(80px,10vw,145px)", opacity:0.18, transform:"scaleX(-1)" }}/>
 
-      {/* ambient orbs */}
-      <div aria-hidden="true" className="pointer-events-none absolute -left-60 top-1/3 h-[600px] w-[600px] rounded-full"
-        style={{ background: "radial-gradient(circle,rgba(193,154,107,0.06) 0%,transparent 65%)" }} />
-      <div aria-hidden="true" className="pointer-events-none absolute -right-60 bottom-1/4 h-[500px] w-[500px] rounded-full"
-        style={{ background: "radial-gradient(circle,rgba(193,154,107,0.05) 0%,transparent 65%)" }} />
+      <div style={{ position:"relative", maxWidth:1080, margin:"0 auto", padding:"0 clamp(16px,5vw,56px)" }}>
 
-      {/* top gold line */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px"
-        style={{ background: "linear-gradient(90deg,transparent,rgba(193,154,107,0.45) 40%,rgba(212,176,138,0.70) 50%,rgba(193,154,107,0.45) 60%,transparent)" }} />
+        {/* Header badge */}
+        <motion.div style={{ textAlign:"center", marginBottom:"clamp(28px,4vw,48px)" }}
+          initial={{ opacity:0, y:18 }} whileInView={{ opacity:1, y:0 }}
+          viewport={{ once:true }} transition={{ duration:0.55, ease:EASE_EXPO }}>
+          <p style={{
+            fontSize:"0.66rem", fontWeight:700, letterSpacing:"0.22em",
+            textTransform:"uppercase", color:"#C4614A",
+          }}>
+            Meet Your Skin Expert
+          </p>
+        </motion.div>
 
-      <div className="relative mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-10">
-
-        {/* ── Header ── */}
-        <div className="mb-16 flex flex-col items-center text-center">
-          <motion.div
-            className="mb-5 inline-flex items-center gap-2.5 rounded-full px-5 py-2"
-            style={{ background: "rgba(193,154,107,0.07)", border: "1px solid rgba(193,154,107,0.20)" }}
-            initial={{ opacity: 0, y: -14 }}
-            whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: EASE }}>
-            <motion.span className="h-1.5 w-1.5 rounded-full" style={{ background: "#c19a6b" }}
-              animate={{ scale: [1, 1.6, 1], opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 2, repeat: Infinity }} />
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em]"
-              style={{ color: "rgba(193,154,107,0.82)" }}>Our Medical Team</span>
-            <motion.span className="h-1.5 w-1.5 rounded-full" style={{ background: "#c19a6b" }}
-              animate={{ scale: [1, 1.6, 1], opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 2, delay: 1, repeat: Infinity }} />
-          </motion.div>
-
-          <motion.h2 className="font-serif text-white"
-            style={{ fontSize: "clamp(2rem,4vw,3rem)", fontWeight: 500, lineHeight: 1.13 }}
-            initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1, ease: EASE_EXPO }}>
-            The Physicians Behind
-            <br />
-            <span style={{ background: "linear-gradient(135deg,#c19a6b 0%,#d4b08a 50%,#a8825a 100%)",
-              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              Every Transformation
-            </span>
-          </motion.h2>
-
-          <motion.p className="mt-5 max-w-[540px] text-[0.84rem] font-light leading-relaxed text-white/42"
-            initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.22, ease: EASE }}>
-            Board-certified. Internationally trained. Deeply committed to your skin.
-            Every doctor at NovaDerm brings clinical excellence and genuine care to every single consultation.
-          </motion.p>
-
-          <motion.div className="mt-7 h-px w-28"
-            style={{ background: "linear-gradient(to right,transparent,#c19a6b 50%,transparent)" }}
-            initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }} />
-        </div>
-
-        {/* ── Cards ── */}
-        <div className="flex flex-col gap-7">
-          {DOCTORS.map((doc, i) => (
-            <DoctorCard key={doc.id} doc={doc} index={i} />
-          ))}
-        </div>
-
-        {/* ── Trust bar ── */}
+        {/* ── TWO-COLUMN CARD ────────────────────────────── */}
         <motion.div
-          className="mt-14 flex flex-wrap items-center justify-center gap-8 rounded-2xl px-8 py-6"
-          style={{ background: "rgba(193,154,107,0.05)", border: "1px solid rgba(193,154,107,0.12)" }}
-          initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2, ease: EASE }}>
-          {[
-            { v: "45+",    l: "Certified Specialists" },
-            { v: "4.9★",  l: "Verified Patient Rating" },
-            { v: "3,500+", l: "Lives Transformed" },
-            { v: "12+",   l: "Years of Excellence" },
-            { v: "98%",   l: "Patient Satisfaction" },
-          ].map((s, i) => (
-            <div key={i} className="flex flex-col items-center gap-1">
-              <span className="font-serif text-[1.55rem] font-semibold leading-none"
-                style={{ background: "linear-gradient(135deg,#c19a6b,#d4b08a)",
-                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                {s.v}
+          initial={{ opacity:0, y:32 }} whileInView={{ opacity:1, y:0 }}
+          viewport={{ once:true }} transition={{ duration:0.7, ease:EASE_EXPO }}
+          style={{
+            display:"grid",
+            gridTemplateColumns:"clamp(280px,38%,420px) 1fr",
+            borderRadius:24,
+            overflow:"hidden",
+            background:"rgba(255,255,255,0.60)",
+            border:"1.5px solid rgba(196,97,74,0.15)",
+          }}
+          className="doctor-grid"
+        >
+
+          {/* ── LEFT: image ─────────────────────────────── */}
+          <div style={{ position:"relative", minHeight:"clamp(480px,65vw,620px)" }}>
+            <img
+              src={ateeqImg} alt={d.name}
+              style={{
+                position:"absolute", inset:0,
+                width:"100%", height:"100%",
+                objectFit:"cover", objectPosition:"top center",
+                background:"#f5ebe2",
+              }}
+              loading="eager"
+            />
+
+            {/* Board-certified badge bottom */}
+            <div style={{
+              position:"absolute", bottom:20, left:"50%", transform:"translateX(-50%)",
+              display:"flex", alignItems:"center", gap:8,
+              background:"rgba(255,255,255,0.88)",
+              borderRadius:999,
+              padding:"8px 18px",
+              border:"1.5px solid rgba(196,97,74,0.18)",
+              whiteSpace:"nowrap",
+            }}>
+              <svg viewBox="0 0 24 24" fill="none" width={14} height={14} stroke="#C4614A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="M9 12l2 2 4-4"/>
+              </svg>
+              <span style={{ fontSize:"0.65rem", fontWeight:700, letterSpacing:"0.16em", textTransform:"uppercase", color:"#5a3e32" }}>
+                {d.badge}
               </span>
-              <span className="text-[9.5px] font-semibold uppercase tracking-[0.15em] text-white/30">{s.l}</span>
             </div>
-          ))}
+          </div>
+
+          {/* ── RIGHT: content ──────────────────────────── */}
+          <div style={{
+            padding:"clamp(28px,4vw,52px) clamp(24px,4vw,48px)",
+            display:"flex", flexDirection:"column", gap:"clamp(14px,2vw,22px)",
+            position:"relative",
+          }}>
+
+            {/* Name */}
+            <div>
+              <h2 style={{
+                fontFamily:"'Playfair Display',Georgia,serif",
+                fontSize:"clamp(1.8rem,3.8vw,2.8rem)",
+                fontWeight:700, fontStyle:"italic",
+                color:"#C4614A", lineHeight:1.1,
+                margin:"0 0 6px",
+              }}>
+                {d.name}
+              </h2>
+              <p style={{ fontSize:"clamp(0.82rem,1.1vw,0.95rem)", color:"#5a3e32", fontWeight:500, margin:0 }}>
+                {d.role}
+              </p>
+            </div>
+
+            {/* Divider */}
+            <div style={{ width:48, height:2, background:"#C4614A", borderRadius:2 }}/>
+
+            {/* About */}
+            <p style={{
+              fontSize:"clamp(0.82rem,1vw,0.92rem)",
+              color:"#7a5a4a", lineHeight:1.75, fontWeight:400,
+              margin:0, maxWidth:400,
+            }}>
+              {d.about}
+            </p>
+
+            {/* Stats row */}
+            <div style={{ display:"flex", flexWrap:"wrap", gap:"clamp(14px,2.5vw,32px)" }}>
+              <StatBlock
+                icon={
+                  <svg viewBox="0 0 24 24" fill="none" width={18} height={18} stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round">
+                    <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                  </svg>
+                }
+                top={d.exp}
+                sub={d.expLabel}
+              />
+              <StatBlock
+                icon={
+                  <svg viewBox="0 0 24 24" fill="none" width={18} height={18} stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                  </svg>
+                }
+                top={d.qual1}
+                sub={d.qual1Sub}
+              />
+              <StatBlock
+                icon={
+                  <svg viewBox="0 0 24 24" fill="none" width={18} height={18} stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round">
+                    <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                  </svg>
+                }
+                top={d.qual2}
+                sub={d.qual2Sub}
+              />
+            </div>
+
+            {/* Expertise box */}
+            <div style={{
+              border:"1.5px solid rgba(196,97,74,0.18)",
+              borderRadius:16, padding:"16px 18px",
+              background:"rgba(255,255,255,0.55)",
+              position:"relative",
+            }}>
+              {/* Leaf watermark inside box */}
+              <svg viewBox="0 0 80 160" aria-hidden="true" style={{
+                position:"absolute", bottom:0, right:8, width:70, opacity:0.10, pointerEvents:"none",
+              }}>
+                <path d="M40 155 Q38 110 36 72 Q34 36 40 8" stroke="#C4614A" strokeWidth="1" fill="none" strokeLinecap="round"/>
+                {[125,97,72,50].map((y,i)=>(
+                  <g key={i}>
+                    <path d={`M${39-i} ${y} Q${22} ${y-9} ${16} ${y-29} Q${27} ${y-25} ${39-i} ${y-17}`} stroke="#C4614A" strokeWidth="0.7" fill="rgba(196,97,74,0.5)" strokeLinecap="round"/>
+                    <path d={`M${41+i} ${y-3} Q${58} ${y-14} ${64} ${y-33} Q${53} ${y-28} ${41+i} ${y-21}`} stroke="#C4614A" strokeWidth="0.7" fill="rgba(196,97,74,0.4)" strokeLinecap="round"/>
+                  </g>
+                ))}
+              </svg>
+
+              <p style={{
+                fontFamily:"'Playfair Display',Georgia,serif",
+                fontSize:"1rem", fontStyle:"italic", fontWeight:600,
+                color:"#C4614A", marginBottom:12,
+              }}>
+                Areas of Expertise
+              </p>
+              <div style={{ display:"flex", flexWrap:"wrap", gap:8 }}>
+                {d.expertise.map(e => <Pill key={e} label={e} />)}
+              </div>
+            </div>
+
+            {/* CTA buttons */}
+            <div style={{ display:"flex", flexWrap:"wrap", gap:12, alignItems:"center" }}>
+              <motion.a href={d.bookHref}
+                style={{
+                  display:"inline-flex", alignItems:"center", gap:10,
+                  background:"#C4614A", borderRadius:999,
+                  padding:"12px 26px",
+                  fontSize:"0.7rem", fontWeight:700, letterSpacing:"0.14em",
+                  textTransform:"uppercase", color:"#fff", textDecoration:"none",
+                }}
+                whileHover={{ background:"#a0432e", scale:1.03 }}
+                whileTap={{ scale:0.97 }}
+                transition={{ duration:0.2 }}
+              >
+                Book a Consultation
+                <svg viewBox="0 0 20 20" fill="currentColor" width={13} height={13}>
+                  <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
+                </svg>
+              </motion.a>
+              <motion.a href={d.profileHref}
+                style={{
+                  display:"inline-flex", alignItems:"center",
+                  borderRadius:999,
+                  padding:"11px 26px",
+                  fontSize:"0.7rem", fontWeight:700, letterSpacing:"0.14em",
+                  textTransform:"uppercase", color:"#5a3e32", textDecoration:"none",
+                  border:"1.5px solid rgba(196,97,74,0.35)",
+                  background:"transparent",
+                }}
+                whileHover={{ borderColor:"#C4614A", color:"#C4614A", scale:1.03 }}
+                whileTap={{ scale:0.97 }}
+                transition={{ duration:0.2 }}
+              >
+                View Doctor Profile
+              </motion.a>
+            </div>
+
+            {/* Footer tags */}
+            <div style={{ display:"flex", flexWrap:"wrap", alignItems:"center", gap:"clamp(8px,1.5vw,16px)" }}>
+              {["Personalized care","Evidence-led treatments","Natural-looking results"].map((t,i,arr)=>(
+                <span key={t} style={{ display:"flex", alignItems:"center", gap:8 }}>
+                  <span style={{ fontSize:"0.76rem", color:"#7a5a4a", fontWeight:500 }}>{t}</span>
+                  {i < arr.length-1 && (
+                    <span style={{ width:4, height:4, borderRadius:"50%", background:"rgba(196,97,74,0.45)", display:"inline-block" }}/>
+                  )}
+                </span>
+              ))}
+            </div>
+
+          </div>
         </motion.div>
 
       </div>
+
+      {/* Responsive: stack on mobile */}
+      <style>{`
+        @media (max-width: 767px) {
+          .doctor-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }

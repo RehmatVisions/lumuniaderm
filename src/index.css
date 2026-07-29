@@ -17,6 +17,11 @@
   --font-display: "Playfair Display","Georgia", serif;
 }
 
+/* ─── Remove all image box-shadows globally ─────────────────── */
+img {
+  box-shadow: none !important;
+}
+
 /* ─── Base ───────────────────────────────────────────────────── */
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
@@ -44,18 +49,29 @@
     font-family: var(--font-serif);
     letter-spacing: -0.01em;
     line-height: 1.15;
-    font-weight: 600;
+    font-weight: 700;
   }
-  h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 500; }
-  h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
-  h3 { font-size: clamp(1.15rem, 2vw, 1.45rem); }
+  h1 { font-size: clamp(1.7rem, 4.2vw, 3.1rem); font-weight: 700; font-style: italic; color: #C4614A; }
+  h2 { font-size: clamp(2rem, 4.8vw, 3.2rem); font-style: italic; line-height: 1.1; color: #C4614A; }
+  h3 { font-size: clamp(1rem, 1.5vw, 1.15rem); font-style: italic; line-height: 1.22; color: #C4614A; }
 
-  p { font-family: var(--font-sans); font-weight: 300; letter-spacing: 0.015em; }
+  p { font-family: var(--font-sans); font-weight: 400; letter-spacing: 0.015em; color: #7a5a4a; line-height: 1.72; }
 
+  /* ── Section badge/label — reference: uppercase, tight tracking, terracotta ── */
   .font-label {
     font-family: var(--font-sans);
-    font-size: 0.68rem; font-weight: 600;
-    letter-spacing: 0.13em; text-transform: uppercase;
+    font-size: 0.66rem; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: #C4614A;
+  }
+
+  /* ── Section description — reference body copy style ── */
+  .section-description {
+    font-family: var(--font-sans);
+    font-size: clamp(0.83rem, 1.1vw, 0.94rem);
+    font-weight: 400;
+    color: #7a5a4a;
+    line-height: 1.72;
   }
 
   .overflow-y-auto::-webkit-scrollbar { width: 0; }
@@ -269,8 +285,9 @@
 /* ─── Mobile: disable ALL heavy GPU effects ─────────────────── */
 @media (max-width: 767px) {
   /* Kill all backdrop-filter blur — major GPU drain on phones */
-  [style*="backdrop-filter"],
-  [style*="backdropFilter"],
+  /* Exception: hero slider touch handling uses pointer/touch events directly, not backdrop-filter */
+  [style*="backdrop-filter"]:not(.hero-keep),
+  [style*="backdropFilter"]:not(.hero-keep),
   .backdrop-blur-sm,
   .backdrop-blur-md,
   .backdrop-blur-lg,

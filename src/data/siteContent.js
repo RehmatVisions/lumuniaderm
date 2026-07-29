@@ -49,7 +49,7 @@ export const siteContent = {
 
   nav: {
     links: [
-      { label: "Home",       href: "#",        hasDropdown: true  },
+      { label: "Home",       href: "#"                            },
       { label: "About Us",   href: "#about"                       },
       { label: "Services",   href: "#services"                    },
       { label: "Why Us",     href: "#why-us"                      },
@@ -155,7 +155,7 @@ export const siteContent = {
   // ─── ABOUT ───────────────────────────────────────────────────
   about: {
     badge:       "Our Story",
-    headline:    "A Clinic Built on Science, Designed Around You",
+    headline:    "Real Results. Trusted Care. Designed Around You.",
     description:
       "Novaderm was founded on a single conviction: that exceptional skin outcomes require both clinical mastery and a deeply personal approach. Over twelve years, we have combined medical rigour with luxury-level care to build a clinic our patients return to — not because they have to, but because they choose to.",
 

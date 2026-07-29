@@ -1,33 +1,32 @@
 import { motion } from "framer-motion"
 import { useRef } from "react"
-import { siteContent } from "../../data/siteContent"
 import { useReducedMotion, useIsMobile, VP_ONCE } from "../../hooks/usePerf"
 import AboutImageCollage from "./AboutImageCollage"
 import AboutContent from "./AboutContent"
 import AboutCounters from "./AboutCounters"
+import sectionBg from "../../assets/backgroundall/bacrkound.png"
 
 export default function About() {
-  const { bgImage } = siteContent.about
   const reduced = useReducedMotion()
 
   return (
-    <section id="about" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#F2D9CF" }}>
+    <section id="about" className="relative overflow-hidden py-20 lg:py-28">
 
-      {/* Background image — lazy loaded, only decorative */}
-      <div className="absolute inset-0 overflow-hidden">
-        <img
-          src={bgImage} alt="" aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover object-center"
-          loading="lazy"
-          decoding="async"
-        />
-        <div className="absolute inset-0 bg-[#FDF0EB]/93" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#FDF0EB]/85 via-transparent to-[#FDF0EB]/85" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FDF0EB]/75 via-transparent to-[#FDF0EB]/75" />
-      </div>
+      {/* Full background image — no overlay, no fade */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute", inset: 0, zIndex: 0,
+          backgroundImage: `url(${sectionBg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+        }}
+      />
 
       {/* Decorative ring — static, no rotation */}
-      <div className="pointer-events-none absolute right-8 top-8 hidden lg:block">
+      <div className="pointer-events-none absolute right-8 top-8 hidden lg:block" style={{ zIndex: 1 }}>
         <svg viewBox="0 0 60 60" className="h-14 w-14 text-novaderm-gold/22" fill="none">
           <circle cx="30" cy="30" r="26" stroke="currentColor" strokeWidth="0.8" strokeDasharray="3 5" />
           <circle cx="30" cy="30" r="2"  fill="currentColor" opacity="0.45" />
@@ -35,7 +34,7 @@ export default function About() {
       </div>
 
       {/* Two-column content */}
-      <div className="relative mx-auto grid max-w-[1400px] items-center gap-12 px-6 lg:grid-cols-2 lg:gap-20 lg:px-10">
+      <div className="relative mx-auto grid max-w-[1400px] items-center gap-12 px-6 lg:grid-cols-2 lg:gap-20 lg:px-10" style={{ zIndex: 1 }}>
         <motion.div
           initial={reduced ? false : { opacity: 0, x: -48 }}
           whileInView={{ opacity: 1, x: 0 }}

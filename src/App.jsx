@@ -1,7 +1,8 @@
 import { lazy, Suspense } from "react"
-import Header from "./components/layout/Header"
 import Hero   from "./components/hero/Hero"
 import ClinicChatbot from "./components/chatbot/ClinicChatbot"
+import ScrollToTop from "./components/ui/ScrollToTop"
+import sectionBg from "./assets/backgroundall/bacrkound.png"
 
 // ─── Placement note ───────────────────────────────────────────────────────────
 // <ClinicChatbot /> must render OUTSIDE any element that establishes a new
@@ -16,7 +17,9 @@ const TransformationSection = lazy(() => import("./components/transformations/Tr
 const WhatWeDo       = lazy(() => import("./components/whatwedo/WhatWeDo"))
 const WhyChooseUs    = lazy(() => import("./components/whyus/WhyChooseUs"))
 const Services       = lazy(() => import("./components/services/Services"))
+const DoctorsSection = lazy(() => import("./components/doctors/DoctorsSection"))
 const ClinicGallery  = lazy(() => import("./components/gallery/ClinicGallery"))
+const Testimonials   = lazy(() => import("./components/testimonials/Testimonials"))
 const BookAppointment= lazy(() => import("./components/appointment/BookAppointment"))
 const Footer         = lazy(() => import("./components/layout/Footer"))
 
@@ -29,20 +32,32 @@ export default function App() {
   return (
     <>
       <div className="min-h-screen bg-novaderm-beige">
-        <Header />
-        {/* Hero wrapper — original dark so hero photos look correct */}
-        <div style={{ background: "#080604" }}>
-          <Hero />
-        </div>
-        <div style={{ position: "relative", zIndex: 2 }}>
+        {/* Hero */}
+        <Hero />
+        <div style={{
+          position: "relative", zIndex: 2,
+        }}>
+          {/* Background image — covers all sections below hero */}
+          <div aria-hidden="true" style={{
+            position: "absolute", inset: 0, zIndex: 0,
+            backgroundImage: `url(${sectionBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center top",
+            backgroundRepeat: "no-repeat",
+            backgroundAttachment: "fixed",
+          }} />
+          <div style={{ position: "relative", zIndex: 1 }}>
           <Suspense fallback={<SectionFallback />}><About /></Suspense>
           <Suspense fallback={<SectionFallback />}><TransformationSection /></Suspense>
           <Suspense fallback={<SectionFallback />}><WhatWeDo /></Suspense>
           <Suspense fallback={<SectionFallback />}><WhyChooseUs /></Suspense>
           <Suspense fallback={<SectionFallback />}><Services /></Suspense>
+          <Suspense fallback={<SectionFallback />}><DoctorsSection /></Suspense>
           <Suspense fallback={<SectionFallback />}><ClinicGallery /></Suspense>
+          <Suspense fallback={<SectionFallback />}><Testimonials /></Suspense>
           <Suspense fallback={<SectionFallback />}><BookAppointment /></Suspense>
           <Suspense fallback={<SectionFallback />}><Footer /></Suspense>
+          </div>
         </div>
       </div>
 
@@ -51,6 +66,7 @@ export default function App() {
        * stacking context can suppress its z-index: 999999 fixed container.
        */}
       <ClinicChatbot />
+      <ScrollToTop />
     </>
   )
 }

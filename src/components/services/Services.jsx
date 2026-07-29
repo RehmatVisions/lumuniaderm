@@ -1,375 +1,455 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { siteContent } from "../../data/siteContent"
-import ArrowUpRight from "../ui/ArrowUpRight"
-import { useReveal } from "../../hooks/useReveal"
-import TextReveal from "../ui/TextReveal"
 
-/* top-left + bottom-right rounded image corners */
-const IMG_CORNERS = { borderRadius: "2rem 0.5rem 2rem 0.5rem" }
+const EASE      = [0.25, 0.46, 0.45, 0.94]
+const EASE_EXPO = [0.16, 1, 0.3, 1]
 
-/* ─── SERVICE ICONS ─────────────────────────────────────────── */
-function ServiceIcon({ type, className = "h-5 w-5" }) {
-  const icons = {
-    acne:  <svg viewBox="0 0 24 24" fill="none" className={className}><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5"/><path d="M12 8v4M12 16h.01" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>,
-    laser: <svg viewBox="0 0 24 24" fill="none" className={className}><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-    aging: <svg viewBox="0 0 24 24" fill="none" className={className}><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>,
-    glow:  <svg viewBox="0 0 24 24" fill="none" className={className}><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>,
-    hair:  <svg viewBox="0 0 24 24" fill="none" className={className}><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" stroke="currentColor" strokeWidth="1.5"/><path d="M8 14c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>,
-    body:  <svg viewBox="0 0 24 24" fill="none" className={className}><rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" strokeWidth="1.5"/><path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-  }
-  return icons[type] ?? icons.body
-}
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 32 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-40px" },
-  transition: { duration: 0.55, delay, ease: [0.25, 0.46, 0.45, 0.94] },
-})
-
-/* ─── CARD A — Full-bleed image, overlay reveal on hover ───── */
-function CardReveal({ card, index }) {
-  const [hovered, setHovered] = useState(false)
-
+/* ─── Arrow circle button ──────────────────────────────────── */
+function ArrowBtn({ href, size = 36, dark = false }) {
   return (
-    <motion.article
-      className="group relative overflow-hidden img-shine"
-      style={{ height: 440, ...IMG_CORNERS }}
-      {...fadeUp(index * 0.06)}
-      onMouseLeave={() => setHovered(false)}
-      onMouseEnter={() => setHovered(true)}
-      onTouchStart={() => setHovered(true)}
-      onTouchEnd={() => setTimeout(() => setHovered(false), 5000)}
-      whileHover={{ y: -6, transition: { duration: 0.3 } }}
-      whileTap={{ scale: 0.98 }}
+    <motion.a href={href}
+      className="inline-flex items-center justify-center rounded-full"
+      style={{
+        width: size, height: size, flexShrink: 0,
+        border: dark ? "1.5px solid rgba(196,97,74,0.35)" : "1.5px solid rgba(196,97,74,0.35)",
+        background: dark ? "transparent" : "transparent",
+        color: "#C4614A",
+      }}
+      whileHover={{ background: "#C4614A", borderColor: "#C4614A", color: "#fff", scale: 1.08 }}
+      whileTap={{ scale: 0.93 }}
+      transition={{ duration: 0.22 }}
+      aria-label="Explore treatment"
     >
-      {/* image */}
-      <motion.img
-        src={card.image} alt={card.title}
-        className="absolute inset-0 h-full w-full"
-        style={{
-          objectFit:      card.cropHalf === "right" ? "contain" : "cover",
-          objectPosition: card.cropHalf === "right" ? "right center" : (card.objectPosition ?? "center center"),
-          background:     card.cropHalf === "right" ? "#C4614A" : "transparent",
-        }}
-        animate={{ scale: hovered ? 1.04 : 1 }}
-        transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-        loading="lazy"
-      />
-
-      {/* base gradient — readability only */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-
-      {/* hover gradient boost */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-t from-[#C4614A]/50 via-transparent to-transparent"
-        animate={{ opacity: hovered ? 1 : 0 }}
-        transition={{ duration: 0.4 }}
-      />
-
-      {/* index watermark */}
-      <span className="absolute left-5 top-4 font-black text-[5rem] leading-none text-white/[0.06] select-none">
-        {String(index + 1).padStart(2, "0")}
-      </span>
-
-      {/* badge */}
-      <div className="absolute right-4 top-4">
-        <motion.span
-          className="inline-flex items-center gap-1.5 rounded-full border border-novaderm-gold/40 bg-[#C4614A]/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white backdrop-blur-md"
-          animate={{ y: hovered ? -2 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {card.badge}
-        </motion.span>
-      </div>
-
-      {/* content */}
-      <div className="absolute inset-x-0 bottom-0 p-6">
-        <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl border border-novaderm-gold/30 bg-novaderm-gold/15 backdrop-blur-sm transition-colors duration-300 group-hover:bg-novaderm-gold/30">
-          <ServiceIcon type={card.icon} className="h-5 w-5 text-novaderm-gold" />
-        </div>
-        <h3 className="mb-2 text-[1.15rem] font-bold leading-tight text-white">{card.title}</h3>
-
-        <motion.div
-          className="overflow-hidden"
-          animate={{ height: hovered ? "auto" : 0, opacity: hovered ? 1 : 0, marginBottom: hovered ? 14 : 0 }}
-          transition={{ duration: 0.38, ease: "easeOut" }}
-        >
-          <p className="text-[0.81rem] leading-relaxed text-white/75">{card.description}</p>
-        </motion.div>
-
-        <motion.a href={card.href} className="inline-flex items-center gap-2 text-sm font-semibold text-novaderm-gold"
-          whileHover={{ x: 4 }} transition={{ duration: 0.18 }}>
-          Explore Treatment
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-novaderm-gold text-white transition-transform duration-300 group-hover:rotate-45">
-            <ArrowUpRight className="h-3.5 w-3.5" />
-          </span>
-        </motion.a>
-      </div>
-
-      {/* border glow */}
-      <motion.div
-        className="pointer-events-none absolute inset-0"
-        style={{ boxShadow: "inset 0 0 0 1.5px rgba(193,154,107,0.45)", borderRadius: "2rem 0.5rem 2rem 0.5rem" }}
-        animate={{ opacity: hovered ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-      />
-    </motion.article>
+      <svg viewBox="0 0 20 20" fill="currentColor" width={14} height={14}>
+        <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
+      </svg>
+    </motion.a>
   )
 }
 
-/* ─── CARD B — Split: image top, content bottom ─────────────── */
-function CardSplit({ card, index }) {
-  const [hovered, setHovered] = useState(false)
-
+/* ─── Number label ─────────────────────────────────────────── */
+function Num({ n }) {
   return (
-    <motion.article
-      className="group relative flex flex-col overflow-hidden img-shine"
-      style={{ height: 440, background: "#C4614A", ...IMG_CORNERS }}
-      {...fadeUp(index * 0.06)}
-      onMouseLeave={() => setHovered(false)}
-      onMouseEnter={() => setHovered(true)}
-      onTouchStart={() => setHovered(true)}
-      onTouchEnd={() => setTimeout(() => setHovered(false), 5000)}
-      whileHover={{ y: -6, transition: { duration: 0.3 } }}
-      whileTap={{ scale: 0.98 }}
+    <span style={{
+      fontFamily: "'Playfair Display',Georgia,serif",
+      fontSize: "1.15rem", fontWeight: 700, color: "#C4614A",
+      letterSpacing: "0.02em", lineHeight: 1,
+    }}>
+      {String(n).padStart(2,"0")}
+    </span>
+  )
+}
+
+/* ─── Leaf watermark SVG ───────────────────────────────────── */
+function LeafWatermark() {
+  return (
+    <svg viewBox="0 0 100 200" aria-hidden="true"
+      style={{ position:"absolute", bottom:12, right:12, width:80, opacity:0.10, pointerEvents:"none" }}>
+      <path d="M50 190 Q48 140 46 95 Q44 50 50 10" stroke="#C4614A" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
+      {[150,115,82,52].map((y,i)=>(
+        <g key={i}>
+          <path d={`M${49-i} ${y} Q${28} ${y-12} ${20} ${y-38} Q${36} ${y-32} ${49-i} ${y-22}`} stroke="#C4614A" strokeWidth="0.9" fill="rgba(196,97,74,0.5)" strokeLinecap="round"/>
+          <path d={`M${51+i} ${y-4} Q${72} ${y-18} ${80} ${y-44} Q${64} ${y-36} ${51+i} ${y-28}`} stroke="#C4614A" strokeWidth="0.9" fill="rgba(196,97,74,0.4)" strokeLinecap="round"/>
+        </g>
+      ))}
+    </svg>
+  )
+}
+
+/* ─── CARD 1 — Large featured left card ───────────────────── */
+function CardFeatured({ card, n }) {
+  const [hov, setHov] = useState(false)
+  return (
+    <motion.div
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }}
+      viewport={{ once:true, margin:"-40px" }}
+      transition={{ duration:0.6, ease:EASE_EXPO }}
+      style={{
+        position:"relative", overflow:"hidden", borderRadius:20,
+        gridRow:"1 / 3",
+        background:"#fff",
+        border:"1.5px solid rgba(196,97,74,0.14)",
+        display:"flex", flexDirection:"column",
+        cursor:"default",
+      }}
     >
-      {/* image half */}
-      <div className="relative h-[52%] overflow-hidden">
+      {/* Full image */}
+      <motion.div style={{ flex:1, overflow:"hidden", minHeight:340, position:"relative" }}>
         <motion.img
           src={card.image} alt={card.title}
-          className="h-full w-full object-cover"
-          style={{ objectPosition: card.objectPosition ?? "center center" }}
-          animate={{ scale: hovered ? 1.1 : 1 }}
-          transition={{ duration: 0.65, ease: "easeOut" }}
+          animate={{ scale: hov ? 1.04 : 1 }}
+          transition={{ duration:0.7, ease:EASE }}
+          style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"center top", position:"absolute", inset:0 }}
           loading="lazy"
         />
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-novaderm-gold/15 to-transparent"
-          animate={{ opacity: hovered ? 1 : 0 }}
-          transition={{ duration: 0.4 }}
-        />
-        {/* image overlay removed */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#C4614A]/80" />
+        {/* Subtle bottom fade into content */}
+        <div style={{ position:"absolute", bottom:0, left:0, right:0, height:80,
+          background:"linear-gradient(to top,rgba(255,255,255,0.95),transparent)" }}/>
+      </motion.div>
 
-        {/* floating badge */}
-        <div className="absolute bottom-[-14px] left-1/2 -translate-x-1/2 whitespace-nowrap z-10">
-          <motion.span
-            className="inline-flex items-center gap-1.5 rounded-full border border-novaderm-gold/40 bg-[#C4614A] px-4 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-white shadow-lg"
-            animate={{ scale: hovered ? 1.05 : 1 }}
-            transition={{ duration: 0.25 }}
-          >
+      {/* Content */}
+      <div style={{ padding:"20px 24px 24px", position:"relative" }}>
+        {/* Leaf watermark */}
+        <LeafWatermark />
+
+        {/* Number + badge row */}
+        <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:8 }}>
+          <Num n={n} />
+          <span style={{
+            fontSize:"0.62rem", fontWeight:700, letterSpacing:"0.18em",
+            textTransform:"uppercase", color:"rgba(196,97,74,0.65)",
+          }}>
             {card.badge}
-          </motion.span>
-        </div>
-      </div>
-
-      {/* content half */}
-      <div className="flex flex-1 flex-col justify-between p-5 pt-8">
-        <div>
-          <div className="mb-3 flex items-center gap-3">
-            <motion.div
-              className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl"
-              style={{ background: "rgba(255,255,255,0.15)" }}
-              animate={{ background: hovered ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.15)" }}
-              transition={{ duration: 0.3 }}
-            >
-              <ServiceIcon type={card.icon} className="h-4 w-4 text-white" />
-            </motion.div>
-            <h3 className="text-[1rem] font-bold leading-snug text-white">{card.title}</h3>
-          </div>
-          <p className="text-[0.8rem] leading-relaxed text-white/70">{card.description}</p>
+          </span>
+          <div style={{ flex:1, height:1, background:"rgba(196,97,74,0.18)" }}/>
         </div>
 
-        <div className="flex items-center justify-end border-t border-white/[0.18] pt-4">
-          <motion.a href={card.href}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-white/70 transition-all duration-250 hover:border-white hover:bg-white hover:text-[#C4614A]"
-            whileHover={{ rotate: 45 }} transition={{ duration: 0.2 }} aria-label={card.title}>
-            <ArrowUpRight className="h-3.5 w-3.5" />
-          </motion.a>
-        </div>
-      </div>
+        {/* Title */}
+        <h3 style={{
+          fontFamily:"'Playfair Display',Georgia,serif",
+          fontSize:"clamp(1.4rem,2.2vw,1.75rem)",
+          fontWeight:700, fontStyle:"italic",
+          color:"#C4614A", lineHeight:1.18,
+          margin:"0 0 10px",
+        }}>
+          {card.title}
+        </h3>
 
-      {/* animated left accent */}
-      <motion.div
-        className="absolute inset-y-0 left-0 w-[3px] rounded-r-full bg-gradient-to-b from-white via-white/60 to-transparent"
-        animate={{ scaleY: hovered ? 1 : 0, originY: 1 }}
-        transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-      />
-    </motion.article>
-  )
-}
+        {/* Description */}
+        <p style={{
+          fontSize:"0.82rem", color:"#7a5a4a", lineHeight:1.7,
+          fontWeight:400, marginBottom:18, maxWidth:300,
+        }}>
+          {card.description}
+        </p>
 
-/* ─── CARD WIDE — 2-col span, horizontal layout ─────────────── */
-function CardWide({ card, index }) {
-  const [hovered, setHovered] = useState(false)
-
-  return (
-    <motion.article
-      className="group relative col-span-1 overflow-hidden img-shine sm:col-span-2 lg:col-span-2"
-      style={{ height: 300, background: "#A0432E", ...IMG_CORNERS }}
-      {...fadeUp(index * 0.06)}
-      onMouseLeave={() => setHovered(false)}
-      onMouseEnter={() => setHovered(true)}
-      onTouchStart={() => setHovered(true)}
-      onTouchEnd={() => setTimeout(() => setHovered(false), 5000)}
-      whileHover={{ y: -5, transition: { duration: 0.3 } }}
-      whileTap={{ scale: 0.98 }}
-    >
-      {/* right image */}
-      <motion.img
-        src={card.image} alt={card.title}
-        className="absolute right-0 top-0 h-full w-[55%] object-cover"
-        animate={{ scale: hovered ? 1.06 : 1 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
-        loading="lazy"
-      />
-      {/* gradient — left content area background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#A0432E]/95 via-[#A0432E]/80 to-transparent" />
-
-      {/* content */}
-      <div className="relative flex h-full flex-col justify-between p-7 sm:p-9" style={{ maxWidth: "56%" }}>
-        <div>
-          <motion.span
-            className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white"
-            animate={{ scale: hovered ? 1.04 : 1 }}
-            transition={{ duration: 0.25 }}
-          >
-            {card.badge}
-          </motion.span>
-          <h3 className="text-xl font-bold leading-snug text-white sm:text-2xl">{card.title}</h3>
-          <p className="mt-2 text-[0.82rem] leading-relaxed text-white/70">{card.description}</p>
-        </div>
-
+        {/* CTA button */}
         <motion.a href={card.href}
-          className="inline-flex w-fit items-center gap-2 rounded-full border border-white/40 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#A0432E]"
-          whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+          style={{
+            display:"inline-flex", alignItems:"center", gap:10,
+            background:"#C4614A", borderRadius:999,
+            padding:"10px 22px",
+            fontSize:"0.68rem", fontWeight:700, letterSpacing:"0.14em",
+            textTransform:"uppercase", color:"#fff",
+            textDecoration:"none",
+          }}
+          whileHover={{ background:"#a0432e", scale:1.03 }}
+          whileTap={{ scale:0.97 }}
+          transition={{ duration:0.2 }}
+        >
           Explore Treatment
-          <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-250 group-hover:rotate-45" />
+          <svg viewBox="0 0 20 20" fill="currentColor" width={13} height={13}>
+            <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
+          </svg>
         </motion.a>
       </div>
-
-      {/* shimmer bottom line */}
-      <motion.div
-        className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-gradient-to-r from-white/60 via-white/30 to-transparent"
-        animate={{ scaleX: hovered ? 1 : 0, originX: 0 }}
-        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-      />
-    </motion.article>
+    </motion.div>
   )
 }
 
-/* ─── MAIN SECTION ──────────────────────────────────────────── */
+/* ─── CARD with image top ──────────────────────────────────── */
+function CardWithImage({ card, n, delay = 0 }) {
+  const [hov, setHov] = useState(false)
+  return (
+    <motion.div
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }}
+      viewport={{ once:true, margin:"-40px" }}
+      transition={{ duration:0.6, delay, ease:EASE_EXPO }}
+      style={{
+        position:"relative", overflow:"hidden", borderRadius:20,
+        background:"#fff",
+        border:"1.5px solid rgba(196,97,74,0.14)",
+        display:"flex", flexDirection:"column",
+        cursor:"default",
+      }}
+    >
+      {/* Image */}
+      <div style={{ height:170, overflow:"hidden", position:"relative", flexShrink:0 }}>
+        <motion.img
+          src={card.image} alt={card.title}
+          animate={{ scale: hov ? 1.05 : 1 }}
+          transition={{ duration:0.65, ease:EASE }}
+          style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"center" }}
+          loading="lazy"
+        />
+      </div>
+
+      {/* Content */}
+      <div style={{ padding:"16px 20px 18px", flex:1, display:"flex", flexDirection:"column", gap:6, position:"relative" }}>
+        <Num n={n} />
+        <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:10 }}>
+          <div style={{ flex:1 }}>
+            <h3 style={{
+              fontFamily:"'Playfair Display',Georgia,serif",
+              fontSize:"clamp(1rem,1.5vw,1.15rem)",
+              fontWeight:700, fontStyle:"italic",
+              color:"#C4614A", lineHeight:1.22,
+              margin:"0 0 7px",
+            }}>
+              {card.title}
+            </h3>
+            <p style={{ fontSize:"0.76rem", color:"#7a5a4a", lineHeight:1.65, fontWeight:400 }}>
+              {card.description}
+            </p>
+          </div>
+          <ArrowBtn href={card.href} />
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+/* ─── CARD text only (with leaf) ──────────────────────────── */
+function CardText({ card, n, delay = 0 }) {
+  const [hov, setHov] = useState(false)
+  return (
+    <motion.div
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }}
+      viewport={{ once:true, margin:"-40px" }}
+      transition={{ duration:0.6, delay, ease:EASE_EXPO }}
+      style={{
+        position:"relative", overflow:"hidden", borderRadius:20,
+        background:"#fff",
+        border:"1.5px solid rgba(196,97,74,0.14)",
+        padding:"20px 22px 20px",
+        display:"flex", flexDirection:"column", gap:6,
+        cursor:"default",
+      }}
+    >
+      <LeafWatermark />
+      <Num n={n} />
+      <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:10 }}>
+        <div style={{ flex:1 }}>
+          <h3 style={{
+            fontFamily:"'Playfair Display',Georgia,serif",
+            fontSize:"clamp(1rem,1.5vw,1.15rem)",
+            fontWeight:700, fontStyle:"italic",
+            color:"#C4614A", lineHeight:1.22,
+            margin:"0 0 7px",
+          }}>
+            {card.title}
+          </h3>
+          <p style={{ fontSize:"0.76rem", color:"#7a5a4a", lineHeight:1.65, fontWeight:400 }}>
+            {card.description}
+          </p>
+        </div>
+        <ArrowBtn href={card.href} />
+      </div>
+    </motion.div>
+  )
+}
+
+/* ─── MAIN SECTION ─────────────────────────────────────────── */
 export default function Services() {
   const { badge, headline, description, ctaText, ctaHref, cards } = siteContent.services
-  const headerRef = useReveal({ rootMargin: "-40px 0px" })
-  const cardsRef  = useReveal({ rootMargin: "-30px 0px", threshold: 0.05 })
-  const statsRef  = useReveal({ rootMargin: "-20px 0px" })
-
-  const layout = [
-    { Component: CardReveal },
-    { Component: CardSplit  },
-    { Component: CardReveal },
-    { Component: CardWide   },
-    { Component: CardSplit  },
-  ]
 
   return (
-    <section id="services" className="relative overflow-hidden py-20 lg:py-28" style={{ background: "#F2D9CF" }}>
+    <section id="services" style={{
+      position:"relative", overflow:"hidden", background:"transparent",
+      padding:"clamp(56px,7vw,96px) 0 clamp(48px,6vw,80px)",
+    }}>
 
-      {/* ── Atmospheric bg ── */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute -left-48 top-16 h-[600px] w-[600px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(196,97,74,0.10) 0%, transparent 70%)" }} />
-        <div className="absolute -right-48 bottom-16 h-[500px] w-[500px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(245,213,192,0.50) 0%, transparent 70%)" }} />
-      </div>
+      {/* Botanical leaves */}
+      <svg viewBox="0 0 140 320" aria-hidden="true" style={{
+        position:"absolute", top:0, left:0,
+        width:"clamp(80px,11vw,160px)", opacity:0.14, pointerEvents:"none",
+      }}>
+        <path d="M70 310 Q66 220 62 145 Q58 70 70 12" stroke="#C4614A" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+        {[250,195,148,106].map((y,i)=>(
+          <g key={i}>
+            <path d={`M${69-i} ${y} Q${38-i} ${y-16} ${26-i} ${y-54} Q${48} ${y-46} ${69-i} ${y-32}`} stroke="#C4614A" strokeWidth="1" fill="rgba(196,97,74,0.15)" strokeLinecap="round"/>
+            <path d={`M${71+i} ${y-7} Q${102+i} ${y-24} ${112+i} ${y-62} Q${90} ${y-52} ${71+i} ${y-40}`} stroke="#C4614A" strokeWidth="1" fill="rgba(196,97,74,0.10)" strokeLinecap="round"/>
+          </g>
+        ))}
+      </svg>
+      <svg viewBox="0 0 140 320" aria-hidden="true" style={{
+        position:"absolute", top:0, right:0,
+        width:"clamp(80px,11vw,160px)", opacity:0.14, pointerEvents:"none",
+        transform:"scaleX(-1)",
+      }}>
+        <path d="M70 310 Q66 220 62 145 Q58 70 70 12" stroke="#C4614A" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+        {[250,195,148,106].map((y,i)=>(
+          <g key={i}>
+            <path d={`M${69-i} ${y} Q${38-i} ${y-16} ${26-i} ${y-54} Q${48} ${y-46} ${69-i} ${y-32}`} stroke="#C4614A" strokeWidth="1" fill="rgba(196,97,74,0.15)" strokeLinecap="round"/>
+            <path d={`M${71+i} ${y-7} Q${102+i} ${y-24} ${112+i} ${y-62} Q${90} ${y-52} ${71+i} ${y-40}`} stroke="#C4614A" strokeWidth="1" fill="rgba(196,97,74,0.10)" strokeLinecap="round"/>
+          </g>
+        ))}
+      </svg>
 
-      <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
+      <div style={{ position:"relative", maxWidth:1100, margin:"0 auto", padding:"0 clamp(16px,5vw,56px)" }}>
 
-        {/* ── Section header ── */}
-        <div ref={headerRef} className="mb-14 grid gap-6 sm:grid-cols-2 sm:items-end lg:mb-20">
-          <div className="flex flex-col gap-4">
-            <span className="reveal reveal-up reveal-duration-500 reveal-delay-0 inline-flex w-fit items-center gap-2 rounded-full border border-[#C4614A]/40 bg-[#C4614A]/10 px-4 py-1.5">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#C4614A] opacity-55" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#C4614A]" />
-              </span>
-              <span className="text-xs font-semibold uppercase tracking-widest text-[#C4614A]">{badge}</span>
-            </span>
+        {/* ── HEADER ────────────────────────────────────────── */}
+        <motion.div style={{ textAlign:"center", marginBottom:"clamp(32px,4vw,52px)" }}
+          initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }}
+          viewport={{ once:true }} transition={{ duration:0.6, ease:EASE_EXPO }}>
 
-            <TextReveal
-              as="h2"
-              className="reveal reveal-up reveal-duration-600 reveal-delay-1 text-3xl font-semibold leading-tight tracking-tight text-novaderm-brown sm:text-4xl lg:text-[2.5rem] lg:leading-[1.14]"
-              delay={60}
-              stagger={55}
-            >
-              {headline}
-            </TextReveal>
+          <p style={{
+            fontSize:"0.66rem", fontWeight:700, letterSpacing:"0.22em",
+            textTransform:"uppercase", color:"#C4614A", marginBottom:14,
+          }}>
+            {badge}
+          </p>
 
-            <motion.div
-              className="reveal reveal-fade reveal-duration-700 reveal-delay-2 h-px w-20 bg-gradient-to-r from-[#C4614A] to-transparent"
-              initial={{ scaleX: 0, originX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.18 }}
-            />
+          <h2 style={{
+            fontFamily:"'Playfair Display',Georgia,serif",
+            fontSize:"clamp(2rem,4.8vw,3.2rem)",
+            fontWeight:700, fontStyle:"italic",
+            color:"#C4614A", lineHeight:1.1,
+            margin:"0 0 16px",
+          }}>
+            {headline}
+          </h2>
+
+          <p style={{
+            fontSize:"clamp(0.83rem,1.1vw,0.94rem)", color:"#7a5a4a",
+            lineHeight:1.72, maxWidth:480, margin:"0 auto", fontWeight:400,
+          }}>
+            {description}
+          </p>
+        </motion.div>
+
+        {/* ── CARDS GRID ────────────────────────────────────── */}
+        {/*
+          Reference layout:
+          Col 1 (wide): featured card spanning 2 rows
+          Col 2-3: top row = card with image, bottom row = card with image
+          On the right side: col 3 top = text only, col 3 bottom = text only
+          Simplified to a 3-col grid matching the reference
+        */}
+        <div style={{
+          display:"grid",
+          gridTemplateColumns:"1fr 1fr 1fr",
+          gridTemplateRows:"auto auto",
+          gap:"clamp(10px,1.5vw,16px)",
+        }}
+          className="services-grid"
+        >
+          {/* Card 01 — large featured, spans 2 rows */}
+          <div style={{ gridColumn:"1", gridRow:"1 / 3" }}>
+            <CardFeatured card={cards[0]} n={1} />
           </div>
 
-          <div className="reveal reveal-up reveal-duration-600 reveal-delay-2 flex flex-col items-start gap-4 sm:items-end">
-            <p className="max-w-[280px] text-sm leading-relaxed text-novaderm-brown/55 sm:text-right">{description}</p>
-            <motion.a href={ctaHref} className="group inline-flex items-center gap-1"
-              whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <span className="rounded-full bg-[#C4614A] px-5 py-2.5 text-[13px] font-semibold text-white transition-colors duration-250 group-hover:bg-[#A0432E]">
-                {ctaText}
-              </span>
-              <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[#C4614A]/40 text-[#C4614A] transition-all duration-250 group-hover:rotate-45 group-hover:bg-[#C4614A] group-hover:text-white">
-                <ArrowUpRight className="h-3.5 w-3.5" />
-              </span>
-            </motion.a>
+          {/* Card 02 — image card top-center */}
+          <div style={{ gridColumn:"2", gridRow:"1" }}>
+            <CardWithImage card={cards[1]} n={2} delay={0.08} />
+          </div>
+
+          {/* Card 03 — image card top-right */}
+          <div style={{ gridColumn:"3", gridRow:"1" }}>
+            <CardWithImage card={cards[2]} n={3} delay={0.14} />
+          </div>
+
+          {/* Card 04 — image card bottom-center */}
+          <div style={{ gridColumn:"2", gridRow:"2" }}>
+            <CardWithImage card={cards[3]} n={4} delay={0.18} />
+          </div>
+
+          {/* Card 05 — image card bottom-right */}
+          <div style={{ gridColumn:"3", gridRow:"2" }}>
+            <CardWithImage card={cards[4]} n={5} delay={0.22} />
           </div>
         </div>
 
-        {/* ── Divider ── */}
+        {/* ── FOOTER TRUST BAR ──────────────────────────────── */}
         <motion.div
-          className="mb-10 h-px bg-gradient-to-r from-transparent via-[#C4614A]/25 to-transparent"
-          initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }}
-          viewport={{ once: true }} transition={{ duration: 1.1 }}
-        />
-
-        {/* ── Cards grid ── */}
-        <div ref={cardsRef} className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {cards.map((card, i) => {
-            const { Component } = layout[i] ?? { Component: CardReveal }
-            return (
-              <div key={card.title}
-                className={`reveal reveal-scale reveal-duration-600 reveal-delay-${Math.min(i, 4)}`}>
-                <Component card={card} index={i} />
-              </div>
-            )
-          })}
-        </div>
-
-        {/* ── Bottom stats bar ── */}
-        <div ref={statsRef}
-          className="reveal reveal-up reveal-duration-600 reveal-delay-0 mt-14 grid grid-cols-2 gap-4 rounded-[1.5rem] border border-[#C4614A]/20 p-6 sm:grid-cols-4 sm:p-8"
-          style={{ background: "rgba(196,97,74,0.08)" }}>
+          initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }}
+          viewport={{ once:true }} transition={{ duration:0.6, delay:0.2 }}
+          style={{
+            display:"flex", alignItems:"center", justifyContent:"center",
+            flexWrap:"wrap",
+            marginTop:"clamp(28px,4vw,48px)",
+            gap:0,
+          }}
+        >
           {[
-            { value: "6+",    label: "Specialised Treatments"  },
-            { value: "98%",   label: "Treatment Effectiveness" },
-            { value: "3.5K+", label: "Patients Treated"        },
-            { value: "4.9★",  label: "Average Rating"          },
-          ].map((stat, i) => (
-            <div key={stat.label}
-              className={`reveal reveal-up reveal-duration-500 reveal-delay-${i} flex flex-col items-center gap-1 text-center`}>
-              <span className="text-2xl font-bold text-[#C4614A] sm:text-3xl">{stat.value}</span>
-              <span className="text-[11px] uppercase tracking-wider text-novaderm-brown/50">{stat.label}</span>
+            {
+              icon: (
+                <svg viewBox="0 0 24 24" fill="none" width={22} height={22} stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <path d="M9 12l2 2 4-4"/>
+                </svg>
+              ),
+              label: "Certified Specialists",
+            },
+            {
+              icon: (
+                <svg viewBox="0 0 24 24" fill="none" width={22} height={22} stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+              ),
+              label: "Personalized Plans",
+            },
+            {
+              icon: (
+                <svg viewBox="0 0 24 24" fill="none" width={22} height={22} stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/>
+                </svg>
+              ),
+              label: "Clinically Led Care",
+            },
+          ].map((item, i, arr) => (
+            <div key={item.label} style={{ display:"flex", alignItems:"center" }}>
+              <div style={{
+                display:"flex", alignItems:"center", gap:10,
+                padding:"0 clamp(20px,3vw,44px)",
+              }}>
+                <div style={{
+                  width:40, height:40, borderRadius:"50%",
+                  border:"1.5px solid rgba(196,97,74,0.25)",
+                  display:"flex", alignItems:"center", justifyContent:"center",
+                  background:"rgba(196,97,74,0.06)",
+                  flexShrink:0,
+                }}>
+                  {item.icon}
+                </div>
+                <span style={{
+                  fontSize:"clamp(0.78rem,1vw,0.88rem)",
+                  fontWeight:600, color:"#5a3e32",
+                  whiteSpace:"nowrap",
+                }}>
+                  {item.label}
+                </span>
+              </div>
+              {i < arr.length - 1 && (
+                <div style={{ width:1, height:28, background:"rgba(196,97,74,0.20)", flexShrink:0 }}/>
+              )}
             </div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
+
+      {/* Mobile: stack grid to single column */}
+      <style>{`
+        @media (max-width: 767px) {
+          .services-grid {
+            grid-template-columns: 1fr !important;
+            grid-template-rows: auto !important;
+          }
+          .services-grid > div {
+            grid-column: 1 !important;
+            grid-row: auto !important;
+          }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .services-grid {
+            grid-template-columns: 1fr 1fr !important;
+          }
+          .services-grid > div:first-child {
+            grid-column: 1 / 3 !important;
+            grid-row: auto !important;
+          }
+          .services-grid > div:not(:first-child) {
+            grid-column: auto !important;
+            grid-row: auto !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }

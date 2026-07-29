@@ -201,7 +201,7 @@ export default function ClinicGallery() {
   const showHero = activeFilter === "All" && filtered.length > 0
 
   return (
-    <section id="gallery" className="relative overflow-hidden" style={{ background: "#F2D9CF" }}>
+    <section id="gallery" className="relative overflow-hidden" style={{ background: "transparent" }}>
 
       {/* Static ambient — NO blur filter */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
@@ -236,7 +236,7 @@ export default function ClinicGallery() {
             delay={60}
             stagger={50}
           >
-            Step Inside Novaderm — Where Luxury Meets Science
+            Step Inside Novaderm — Where Luxury Meets Care
           </TextReveal>
 
           <motion.p

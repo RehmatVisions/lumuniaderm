@@ -64,10 +64,7 @@ function StatCard({ stat }) {
             transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
             loading="lazy"
           />
-          <div
-            className="absolute inset-0"
-            style={{ background: "linear-gradient(to top, rgba(160,67,46,0.92) 0%, rgba(196,97,74,0.45) 55%, rgba(196,97,74,0.10) 100%)" }}
-          />
+          
         </>
       )}
 
@@ -127,9 +124,7 @@ function CenterCard({ card }) {
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         loading="lazy"
       />
-      <div className="absolute inset-0"
-        style={{ background: "linear-gradient(to top, rgba(160,67,46,0.92) 0%, rgba(196,97,74,0.30) 50%, rgba(196,97,74,0.08) 100%)" }}
-      />
+      
       <PlayCircle />
       <div className="absolute inset-x-0 bottom-0 p-6">
         <svg viewBox="0 0 40 30" fill="none" className="mb-3 h-6 w-6 opacity-70" style={{ color: "#FCEEE7" }}>
@@ -151,7 +146,7 @@ export default function WhatWeDo() {
 
   return (
     <section id="what-we-do" className="relative overflow-hidden py-20 lg:py-28"
-      style={{ background: "#F2D9CF" }}>
+      style={{ background: "transparent" }}>
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute -left-40 top-0 h-[400px] w-[400px] rounded-full"

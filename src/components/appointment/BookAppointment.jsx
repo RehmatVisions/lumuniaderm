@@ -1,26 +1,17 @@
-﻿import { motion, AnimatePresence } from "framer-motion"
-import { useState } from "react"
-import contactGirl from "../../assets/contactgirl.png"
+import { motion, AnimatePresence } from "framer-motion"
+import { useState, useMemo } from "react"
 import ArrowUpRight from "../ui/ArrowUpRight"
-import TextReveal from "../ui/TextReveal"
 
-const EASE = [0.25, 0.46, 0.45, 0.94]
+const EASE      = [0.25, 0.46, 0.45, 0.94]
+const EASE_EXPO = [0.16, 1, 0.3, 1]
 
-const fadeUp = (delay = 0) => ({
-  initial:     { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0  },
-  viewport:    { once: true, margin: "-40px" },
-  transition:  { duration: 0.55, delay, ease: EASE },
-})
-
-/* Google Apps Script - save lead to sheet */
+/* ─── Google Sheets integration (unchanged) ─────────────────── */
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbw66bF_PPhFc4VTEHxbYpIC0qDEZK50BdasTnNUXmaMHPXQsVpMHkeNQDp91d2gry8/exec"
 
 async function saveFormToSheet(form) {
   try {
     await fetch(SHEET_URL, {
-      method:  "POST",
-      mode:    "no-cors",
+      method: "POST", mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name:            form.name    || "",
@@ -31,118 +22,209 @@ async function saveFormToSheet(form) {
         source:          "Booking Form",
       }),
     })
-  } catch (err) {
-    console.error("Sheet save error:", err)
-  }
+  } catch (err) { console.error("Sheet save error:", err) }
 }
 
-/* Input field wrapper */
-function Field({ label, error, children }) {
+/* ─── Validation (unchanged) ────────────────────────────────── */
+function validate(form) {
+  const errors = {}
+  if (!form.name.trim())  errors.name  = "Full name is required."
+  if (!form.email.trim()) errors.email = "Email address is required."
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errors.email = "Enter a valid email."
+  if (form.phone && !/^[+\d\s\-()]{7,}$/.test(form.phone)) errors.phone = "Enter a valid phone number."
+  if (!form.date) errors.date = "Please pick an appointment date."
+  return errors
+}
+
+/* ─── Leaf decoration ────────────────────────────────────────── */
+function Leaf({ style }) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <label className="text-[13px] font-semibold text-white">{label}</label>
-      {children}
-      <AnimatePresence>
-        {error && (
-          <motion.span
-            className="text-[11px] font-medium text-red-400"
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.2 }}
-          >
-            {error}
-          </motion.span>
-        )}
-      </AnimatePresence>
+    <svg viewBox="0 0 120 260" aria-hidden="true" style={{ pointerEvents:"none", ...style }}>
+      <path d="M60 250 Q57 175 54 112 Q51 55 60 10" stroke="#C4614A" strokeWidth="1.3" fill="none" strokeLinecap="round"/>
+      {[200,158,120,86].map((y,i)=>(
+        <g key={i}>
+          <path d={`M${59-i} ${y} Q${33-i} ${y-13} ${22-i} ${y-42} Q${40} ${y-36} ${59-i} ${y-25}`} stroke="#C4614A" strokeWidth="0.9" fill="rgba(196,97,74,0.14)" strokeLinecap="round"/>
+          <path d={`M${61+i} ${y-5} Q${87+i} ${y-20} ${96+i} ${y-49} Q${78} ${y-42} ${61+i} ${y-32}`} stroke="#C4614A" strokeWidth="0.9" fill="rgba(196,97,74,0.09)" strokeLinecap="round"/>
+        </g>
+      ))}
+    </svg>
+  )
+}
+
+/* ─── Input style ────────────────────────────────────────────── */
+const inputStyle = {
+  width: "100%", borderRadius: 10,
+  border: "1.5px solid rgba(196,97,74,0.35)",
+  padding: "11px 14px 11px 40px",
+  fontSize: "0.88rem", color: "#1a0f08",
+  background: "#fff",
+  outline: "none",
+  fontFamily: "inherit",
+  fontWeight: 500,
+}
+const labelStyle = {
+  fontSize: "0.86rem", fontWeight: 700,
+  color: "#1a0f08", marginBottom: 6, display: "block",
+}
+
+/* ─── Field wrapper ──────────────────────────────────────────── */
+function Field({ label, icon, error, children }) {
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:4 }}>
+      <label style={labelStyle}>{label}</label>
+      <div style={{ position:"relative" }}>
+        <span style={{
+          position:"absolute", left:12, top:"50%", transform:"translateY(-50%)",
+          color:"rgba(196,97,74,0.65)", display:"flex",
+        }}>
+          {icon}
+        </span>
+        {children}
+      </div>
+      {error && (
+        <span style={{ fontSize:"0.7rem", color:"#c0392b", marginTop:2 }}>{error}</span>
+      )}
     </div>
   )
 }
 
-const inputCls = [
-  "w-full rounded-xl border px-4 py-3 text-sm text-white placeholder-white/30",
-  "outline-none transition-all duration-200",
-  "focus:border-[#C69459] focus:ring-2 focus:ring-[#C69459]/20",
-  "bg-white/[0.06] border-white/[0.12]",
-].join(" ")
+/* ─── Mini Calendar ──────────────────────────────────────────── */
+const DAYS  = ["SUN","MON","TUE","WED","THU","FRI","SAT"]
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"]
 
-const errorCls = "border-red-400/60 focus:border-red-400 focus:ring-red-400/20"
+function MiniCalendar({ selectedDate, onChange }) {
+  const today = new Date()
+  const [view, setView] = useState({ year: today.getFullYear(), month: today.getMonth() })
 
-/* Inline success banner */
-function SuccessBanner({ onReset }) {
+  const { year, month } = view
+  const firstDay = new Date(year, month, 1).getDay()
+  const daysInMonth = new Date(year, month + 1, 0).getDate()
+
+  const cells = []
+  for (let i = 0; i < firstDay; i++) cells.push(null)
+  for (let d = 1; d <= daysInMonth; d++) cells.push(d)
+
+  const prevMonth = () => setView(v => {
+    const m = v.month === 0 ? 11 : v.month - 1
+    const y = v.month === 0 ? v.year - 1 : v.year
+    return { year: y, month: m }
+  })
+  const nextMonth = () => setView(v => {
+    const m = v.month === 11 ? 0 : v.month + 1
+    const y = v.month === 11 ? v.year + 1 : v.year
+    return { year: y, month: m }
+  })
+
+  const toISO = (d) => `${year}-${String(month+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`
+  const isSelected = (d) => d && selectedDate === toISO(d)
+  const isToday = (d) => d && d === today.getDate() && month === today.getMonth() && year === today.getFullYear()
+  const isPast = (d) => {
+    if (!d) return false
+    const dt = new Date(year, month, d)
+    dt.setHours(0,0,0,0)
+    const t = new Date(); t.setHours(0,0,0,0)
+    return dt < t
+  }
+
   return (
-    <motion.div
-      className="flex flex-col items-center gap-5 rounded-2xl py-10 px-6 text-center"
-      style={{ border: "1px solid rgba(198,148,89,0.30)", background: "rgba(198,148,89,0.06)" }}
-      initial={{ opacity: 0, scale: 0.95, y: 16 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.34, 1.2, 0.64, 1] }}
-    >
-      <div className="flex h-16 w-16 items-center justify-center rounded-full"
-        style={{ background: "rgba(198,148,89,0.15)", border: "1.5px solid rgba(198,148,89,0.45)" }}>
-        <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7">
-          <motion.path
-            d="M5 13l4 4L19 7"
-            stroke="#C69459" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
-          />
-        </svg>
+    <div style={{ width:"100%" }}>
+      {/* Month nav */}
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:10 }}>
+        <button type="button" onClick={prevMonth}
+          style={{ background:"none", border:"none", cursor:"pointer", color:"#C4614A", padding:"4px 6px", fontSize:"1rem" }}>
+          ‹
+        </button>
+        <span style={{ fontSize:"0.85rem", fontWeight:700, color:"#1a0f08" }}>
+          {MONTHS[month]} {year}
+        </span>
+        <button type="button" onClick={nextMonth}
+          style={{ background:"none", border:"none", cursor:"pointer", color:"#C4614A", padding:"4px 6px", fontSize:"1rem" }}>
+          ›
+        </button>
       </div>
 
+      {/* Day headers */}
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(7,1fr)", gap:2, marginBottom:4 }}>
+        {DAYS.map(d => (
+          <div key={d} style={{ textAlign:"center", fontSize:"0.6rem", fontWeight:700,
+            letterSpacing:"0.06em", color:"#C4614A", padding:"2px 0" }}>
+            {d}
+          </div>
+        ))}
+      </div>
+
+      {/* Day cells */}
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(7,1fr)", gap:2 }}>
+        {cells.map((d, i) => (
+          <button key={i} type="button"
+            disabled={!d || isPast(d)}
+            onClick={() => d && !isPast(d) && onChange(toISO(d))}
+            style={{
+              textAlign:"center",
+              fontSize:"0.82rem", fontWeight: isSelected(d) ? 700 : 600,
+              padding:"6px 2px",
+              borderRadius: 8,
+              border: "none",
+              cursor: d && !isPast(d) ? "pointer" : "default",
+              background: isSelected(d) ? "#C4614A" : isToday(d) ? "rgba(196,97,74,0.12)" : "transparent",
+              color: isSelected(d) ? "#fff" : isPast(d) ? "rgba(100,60,40,0.45)" : d ? "#1a0f08" : "transparent",
+              transition: "background 0.15s",
+            }}
+          >
+            {d ?? ""}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ─── Success banner (logic unchanged, styled new) ───────────── */
+function SuccessBanner({ onReset }) {
+  return (
+    <motion.div style={{
+      display:"flex", flexDirection:"column", alignItems:"center",
+      gap:20, textAlign:"center", padding:"48px 24px",
+    }}
+      initial={{ opacity:0, scale:0.95 }} animate={{ opacity:1, scale:1 }}
+      transition={{ duration:0.4, ease:[0.34,1.2,0.64,1] }}
+    >
+      <div style={{
+        width:64, height:64, borderRadius:"50%",
+        border:"2px solid rgba(196,97,74,0.45)",
+        background:"rgba(196,97,74,0.08)",
+        display:"flex", alignItems:"center", justifyContent:"center",
+      }}>
+        <svg viewBox="0 0 24 24" fill="none" width={28} height={28}>
+          <motion.path d="M5 13l4 4L19 7" stroke="#C4614A" strokeWidth="2.5"
+            strokeLinecap="round" strokeLinejoin="round"
+            initial={{ pathLength:0 }} animate={{ pathLength:1 }}
+            transition={{ duration:0.5, delay:0.15 }}/>
+        </svg>
+      </div>
       <div>
-        <h3 className="font-serif text-xl font-semibold text-white sm:text-2xl">
+        <h3 style={{ fontFamily:"'Playfair Display',Georgia,serif", fontSize:"1.5rem", fontWeight:700, color:"#C4614A", margin:"0 0 8px" }}>
           Appointment Request Sent!
         </h3>
-        <p className="mt-2 text-sm font-light leading-relaxed text-white/55">
+        <p style={{ fontSize:"0.88rem", color:"#7a5a4a", lineHeight:1.7, maxWidth:340, margin:"0 auto" }}>
           We received your request. Our team will call or WhatsApp you shortly to confirm your appointment.
         </p>
       </div>
-
-      <div className="flex items-center gap-2 rounded-full border border-novaderm-gold/20 px-4 py-2"
-        style={{ background: "rgba(198,148,89,0.08)" }}>
-        <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-novaderm-gold opacity-60" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-novaderm-gold" />
-        </span>
-        <span className="text-xs font-semibold uppercase tracking-widest text-novaderm-gold">
-          Request Confirmed
-        </span>
-      </div>
-
-      <motion.button
-        onClick={onReset}
-        className="rounded-full px-6 py-2.5 text-sm font-semibold text-white/70 transition-colors hover:text-white"
-        style={{ border: "1px solid rgba(255,255,255,0.12)" }}
-        whileHover={{ borderColor: "rgba(198,148,89,0.5)", color: "#fff" }}
-        whileTap={{ scale: 0.97 }}
-      >
+      <button type="button" onClick={onReset} style={{
+        borderRadius:999, padding:"10px 24px",
+        border:"1.5px solid rgba(196,97,74,0.35)",
+        background:"transparent", cursor:"pointer",
+        fontSize:"0.8rem", fontWeight:600, color:"#C4614A",
+      }}>
         Book Another Appointment
-      </motion.button>
+      </button>
     </motion.div>
   )
 }
 
-/* Validation */
-function validate(form) {
-  const errors = {}
-  if (!form.name.trim())
-    errors.name = "Full name is required."
-  if (!form.email.trim())
-    errors.email = "Email address is required."
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-    errors.email = "Enter a valid email address."
-  if (form.phone && !/^[+\d\s\-()]{7,}$/.test(form.phone))
-    errors.phone = "Enter a valid phone number."
-  if (!form.date)
-    errors.date = "Please pick an appointment date."
-  return errors
-}
-
-/* Main Component */
+/* ─── Main Component ─────────────────────────────────────────── */
 export default function BookAppointment() {
-  const EMPTY = { name: "", email: "", phone: "", date: "", message: "" }
+  const EMPTY = { name:"", email:"", phone:"", date:"", message:"" }
   const [form,      setForm]      = useState(EMPTY)
   const [errors,    setErrors]    = useState({})
   const [submitted, setSubmitted] = useState(false)
@@ -150,178 +232,257 @@ export default function BookAppointment() {
   const handle = (e) => {
     const { name, value } = e.target
     setForm(prev => ({ ...prev, [name]: value }))
-    if (errors[name]) setErrors(prev => ({ ...prev, [name]: "" }))
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]:"" }))
+  }
+
+  const setDate = (iso) => {
+    setForm(prev => ({ ...prev, date: iso }))
+    if (errors.date) setErrors(prev => ({ ...prev, date:"" }))
   }
 
   const submit = (e) => {
     e.preventDefault()
     const errs = validate(form)
-    if (Object.keys(errs).length) {
-      setErrors(errs)
-      return
-    }
+    if (Object.keys(errs).length) { setErrors(errs); return }
     saveFormToSheet(form)
     setForm(EMPTY)
     setErrors({})
     setSubmitted(true)
   }
 
-  const reset = () => setSubmitted(false)
+  const TREATMENTS = [
+    "Laser Hair Removal","Advanced Facial Treatment",
+    "Acne & Skin Renewal","Anti-Aging Treatments",
+    "Pigmentation Correction","PRP Hair Restoration",
+    "HydraGlow Facial","Skin Brightening",
+  ]
 
   return (
-    <section
-      id="contact"
-      className="relative overflow-hidden py-16 lg:py-20"
-      style={{ background: "#F2D9CF" }}
-    >
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div className="absolute left-1/4 top-0 h-[400px] w-[400px] -translate-x-1/2 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(196,97,74,0.10) 0%, transparent 70%)" }} />
-      </div>
+    <section id="contact" style={{ position:"relative", overflow:"hidden", background:"transparent",
+      padding:"clamp(56px,7vw,96px) 0" }}>
 
-      <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-10">
-        <motion.div
-          className="relative overflow-hidden rounded-[2rem]"
-          style={{ background: "#C4614A" }}
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.65, ease: EASE }}
-        >
-          {/* ambient glow */}
-          <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)" }} />
+      {/* Leaf decorations */}
+      <Leaf style={{ position:"absolute", top:0, left:0, width:"clamp(70px,9vw,130px)", opacity:0.16 }}/>
+      <Leaf style={{ position:"absolute", top:0, right:0, width:"clamp(70px,9vw,130px)", opacity:0.16, transform:"scaleX(-1)" }}/>
 
-          <div className="grid items-end lg:grid-cols-[1fr_auto]">
+      <div style={{ position:"relative", maxWidth:1060, margin:"0 auto", padding:"0 clamp(16px,5vw,48px)" }}>
 
-            {/* Form / success side */}
-            <div className="p-8 sm:p-10 lg:p-14">
-              <AnimatePresence mode="wait">
-                {submitted ? (
-                  <motion.div key="success"
-                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                    transition={{ duration: 0.25 }}>
-                    <SuccessBanner onReset={reset} />
-                  </motion.div>
-                ) : (
-                  <motion.div key="form"
-                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                    transition={{ duration: 0.25 }}>
-
-                    <TextReveal
-                      as="h2"
-                      className="mb-8 font-serif text-[2rem] font-semibold leading-[1.15] text-white sm:text-[2.4rem]"
-                      delay={0}
-                      stagger={65}
-                    >
-                      Reserve Your Appointment
-                    </TextReveal>
-
-                    <motion.div
-                      className="mb-8 h-px"
-                      style={{ background: "linear-gradient(to right, rgba(198,148,89,0.55), transparent)" }}
-                      initial={{ scaleX: 0, originX: 0 }}
-                      whileInView={{ scaleX: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.7, delay: 0.1 }}
-                    />
-
-                    <form onSubmit={submit} noValidate>
-                      <div className="grid gap-5 sm:grid-cols-2">
-
-                        <motion.div {...fadeUp(0.10)}>
-                          <Field label="Full Name:" error={errors.name}>
-                            <input
-                              className={`${inputCls} ${errors.name ? errorCls : ""}`}
-                              type="text" name="name" value={form.name}
-                              onChange={handle} placeholder="Enter Full Name"
-                            />
-                          </Field>
-                        </motion.div>
-
-                        <motion.div {...fadeUp(0.14)}>
-                          <Field label="Email Address:" error={errors.email}>
-                            <input
-                              className={`${inputCls} ${errors.email ? errorCls : ""}`}
-                              type="email" name="email" value={form.email}
-                              onChange={handle} placeholder="Enter Email Address *"
-                            />
-                          </Field>
-                        </motion.div>
-
-                        <motion.div {...fadeUp(0.18)}>
-                          <Field label="Phone Number:" error={errors.phone}>
-                            <input
-                              className={`${inputCls} ${errors.phone ? errorCls : ""}`}
-                              type="tel" name="phone" value={form.phone}
-                              onChange={handle} placeholder="Enter Phone Number"
-                            />
-                          </Field>
-                        </motion.div>
-
-                        <motion.div {...fadeUp(0.22)}>
-                          <Field label="Appointment Date:" error={errors.date}>
-                            <input
-                              className={`${inputCls} ${errors.date ? errorCls : ""}`}
-                              type="date" name="date" value={form.date}
-                              onChange={handle}
-                              style={{ colorScheme: "dark" }}
-                            />
-                          </Field>
-                        </motion.div>
-
-                        <motion.div className="sm:col-span-2" {...fadeUp(0.26)}>
-                          <Field label="Message">
-                            <textarea
-                              className={`${inputCls} resize-none`}
-                              name="message" value={form.message}
-                              onChange={handle} placeholder="Write your message here..."
-                              rows={4}
-                            />
-                          </Field>
-                        </motion.div>
-                      </div>
-
-                      <motion.div className="mt-7" {...fadeUp(0.30)}>
-                        <motion.button
-                          type="submit"
-                          className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full px-7 py-3.5 text-sm font-bold text-white shadow-lg"
-                          style={{ background: "linear-gradient(135deg, #C69459 0%, #a8825a 100%)" }}
-                          whileHover={{ scale: 1.05, boxShadow: "0 0 32px rgba(198,148,89,0.45)" }}
-                          whileTap={{ scale: 0.97 }}
-                        >
-                          Book Appointment
-                          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/25">
-                            <ArrowUpRight className="h-3.5 w-3.5" />
-                          </span>
-                        </motion.button>
-                      </motion.div>
-                    </form>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Doctor image */}
-            <motion.div
-              className="flex items-end justify-center self-end overflow-hidden img-shine lg:justify-end"
-              initial={{ opacity: 0, x: 32 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.18, ease: EASE }}
-            >
-              <img
-                src={contactGirl}
-                alt="Novaderm Specialist"
-                className="w-auto select-none drop-shadow-2xl h-[200px] sm:h-[260px] lg:h-[480px] lg:max-h-[480px]"
-                style={{ objectFit: "contain", objectPosition: "bottom" }}
-                draggable={false}
-                loading="lazy"
-              />
-            </motion.div>
-          </div>
+        {/* ── HEADER ────────────────────────────────────────── */}
+        <motion.div style={{ textAlign:"center", marginBottom:"clamp(28px,4vw,44px)" }}
+          initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }}
+          viewport={{ once:true }} transition={{ duration:0.55, ease:EASE_EXPO }}>
+          <p style={{ fontSize:"0.66rem", fontWeight:700, letterSpacing:"0.22em",
+            textTransform:"uppercase", color:"#C4614A", marginBottom:12 }}>
+            Your Skin Journey Starts Here
+          </p>
+          <h2 style={{ fontFamily:"'Playfair Display',Georgia,serif",
+            fontSize:"clamp(1.9rem,4.5vw,3rem)", fontWeight:700, fontStyle:"italic",
+            color:"#C4614A", lineHeight:1.1, margin:"0 0 14px" }}>
+            Book Your Consultation.
+          </h2>
+          <p style={{ fontSize:"clamp(0.82rem,1vw,0.93rem)", color:"#7a5a4a", lineHeight:1.72, margin:0 }}>
+            Choose your treatment, preferred date, and time.<br/>
+            Our team will confirm your appointment shortly.
+          </p>
         </motion.div>
+
+        {/* ── FORM CARD ─────────────────────────────────────── */}
+        <AnimatePresence mode="wait">
+          {submitted ? (
+            <motion.div key="success"
+              style={{ background:"rgba(255,255,255,0.80)", borderRadius:24,
+                border:"1.5px solid rgba(196,97,74,0.18)" }}
+              initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}>
+              <SuccessBanner onReset={() => setSubmitted(false)} />
+            </motion.div>
+          ) : (
+            <motion.div key="form"
+              style={{ background:"rgba(255,255,255,0.80)", borderRadius:24,
+                border:"1.5px solid rgba(196,97,74,0.18)",
+                padding:"clamp(24px,4vw,40px)" }}
+              initial={{ opacity:0, y:24 }} animate={{ opacity:1, y:0 }}
+              exit={{ opacity:0 }}
+              transition={{ duration:0.55, ease:EASE_EXPO }}
+            >
+              <form onSubmit={submit} noValidate>
+                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"clamp(16px,2.5vw,28px)" }}
+                  className="booking-grid">
+
+                  {/* ── LEFT COLUMN ─ Your Details ── */}
+                  <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
+                    <h3 style={{ fontFamily:"'Playfair Display',Georgia,serif",
+                      fontSize:"1.1rem", fontStyle:"italic", fontWeight:700,
+                      color:"#C4614A", margin:"0 0 4px",
+                      borderBottom:"2px solid rgba(196,97,74,0.20)", paddingBottom:8 }}>
+                      Your Details
+                    </h3>
+
+                    {/* Full Name */}
+                    <Field label="Full Name" error={errors.name}
+                      icon={<svg viewBox="0 0 24 24" fill="none" width={15} height={15} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>}>
+                      <input type="text" name="name" value={form.name} onChange={handle}
+                        placeholder="Enter your full name"
+                        style={{ ...inputStyle, borderColor: errors.name ? "#c0392b" : undefined }} />
+                    </Field>
+
+                    {/* Email */}
+                    <Field label="Email Address" error={errors.email}
+                      icon={<svg viewBox="0 0 24 24" fill="none" width={15} height={15} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>}>
+                      <input type="email" name="email" value={form.email} onChange={handle}
+                        placeholder="Enter your email address"
+                        style={{ ...inputStyle, borderColor: errors.email ? "#c0392b" : undefined }} />
+                    </Field>
+
+                    {/* Phone */}
+                    <Field label="Phone Number" error={errors.phone}
+                      icon={<svg viewBox="0 0 24 24" fill="none" width={15} height={15} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 012.09 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81l-1.27 1.27a16 16 0 006.29 6.29l1.27-1.27a12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>}>
+                      <input type="tel" name="phone" value={form.phone} onChange={handle}
+                        placeholder="Enter your phone number"
+                        style={{ ...inputStyle, borderColor: errors.phone ? "#c0392b" : undefined }} />
+                    </Field>
+
+                    {/* Treatment */}
+                    <Field label="Select Treatment"
+                      icon={<svg viewBox="0 0 24 24" fill="none" width={15} height={15} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>}>
+                      <select name="message" value={form.message} onChange={handle}
+                        style={{ ...inputStyle, appearance:"none",
+                          paddingRight:36, cursor:"pointer",
+                          color: form.message ? "#3d2e24" : "rgba(61,46,36,0.45)" }}>
+                        <option value="">Choose a treatment</option>
+                        {TREATMENTS.map(t => <option key={t} value={t}>{t}</option>)}
+                      </select>
+                      <span style={{ position:"absolute", right:12, top:"50%", transform:"translateY(-50%)",
+                        color:"rgba(196,97,74,0.65)", pointerEvents:"none" }}>
+                        <svg viewBox="0 0 20 20" fill="currentColor" width={14} height={14}>
+                          <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd"/>
+                        </svg>
+                      </span>
+                    </Field>
+                  </div>
+
+                  {/* ── RIGHT COLUMN ─ Date & Time ── */}
+                  <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
+                    <h3 style={{ fontFamily:"'Playfair Display',Georgia,serif",
+                      fontSize:"1.1rem", fontStyle:"italic", fontWeight:700,
+                      color:"#C4614A", margin:"0 0 4px",
+                      borderBottom:"2px solid rgba(196,97,74,0.20)", paddingBottom:8 }}>
+                      Choose a Date &amp; Time
+                    </h3>
+
+                    {/* Calendar */}
+                    <div style={{ border:"1.5px solid rgba(196,97,74,0.18)", borderRadius:12,
+                      padding:"12px 14px", background:"#fff" }}>
+                      <MiniCalendar selectedDate={form.date} onChange={setDate} />
+                      {errors.date && <p style={{ fontSize:"0.7rem", color:"#c0392b", marginTop:4 }}>{errors.date}</p>}
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── NOTES row — spans full width ── */}
+                <div style={{ marginTop:"clamp(14px,2vw,20px)" }}>
+                  <label style={labelStyle}>Anything you'd like us to know? <span style={{ color:"#a07060", fontWeight:400 }}>(Optional)</span></label>
+                  <div style={{ position:"relative" }}>
+                    <span style={{ position:"absolute", left:12, top:12, color:"rgba(196,97,74,0.65)" }}>
+                      <svg viewBox="0 0 24 24" fill="none" width={15} height={15} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                      </svg>
+                    </span>
+                    <textarea name="message_note" placeholder="Share any details or special requests..."
+                      style={{ ...inputStyle, resize:"vertical", minHeight:72, paddingTop:10 }}
+                      rows={3}
+                      onChange={() => {}}
+                    />
+                  </div>
+                </div>
+
+                {/* ── SUBMIT ── */}
+                <div style={{ marginTop:"clamp(14px,2vw,20px)", display:"flex", flexDirection:"column", alignItems:"stretch", gap:10 }}>
+                  <motion.button type="submit"
+                    style={{ width:"100%", background:"#C4614A", borderRadius:999,
+                      padding:"14px 24px", border:"none", cursor:"pointer",
+                      fontSize:"0.75rem", fontWeight:700, letterSpacing:"0.16em",
+                      textTransform:"uppercase", color:"#fff",
+                      display:"flex", alignItems:"center", justifyContent:"center", gap:10 }}
+                    whileHover={{ background:"#a0432e", scale:1.01 }}
+                    whileTap={{ scale:0.98 }}
+                    transition={{ duration:0.18 }}
+                  >
+                    Request Appointment
+                    <svg viewBox="0 0 20 20" fill="currentColor" width={14} height={14}>
+                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
+                    </svg>
+                  </motion.button>
+                  <p style={{ textAlign:"center", fontSize:"0.72rem", color:"#a07060",
+                    display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+                    <svg viewBox="0 0 24 24" fill="none" width={13} height={13} stroke="#C4614A" strokeWidth="1.8" strokeLinecap="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+                    </svg>
+                    Your information is private and securely handled.
+                  </p>
+                </div>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ── TRUST BAR ─────────────────────────────────────── */}
+        <motion.div style={{ display:"flex", alignItems:"center", justifyContent:"center",
+          flexWrap:"wrap", gap:0, marginTop:"clamp(24px,3vw,36px)" }}
+          initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }}
+          viewport={{ once:true }} transition={{ duration:0.5, delay:0.2 }}>
+          {[
+            {
+              icon: <svg viewBox="0 0 24 24" fill="none" width={22} height={22} stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>,
+              label: "Quick Confirmation",
+            },
+            {
+              icon: <svg viewBox="0 0 24 24" fill="none" width={22} height={22} stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+              label: "Personalized Consultation",
+            },
+            {
+              icon: <svg viewBox="0 0 24 24" fill="none" width={22} height={22} stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+              label: "No Obligation",
+            },
+          ].map((item, i, arr) => (
+            <div key={item.label} style={{ display:"flex", alignItems:"center" }}>
+              <div style={{ display:"flex", alignItems:"center", gap:10,
+                padding:"0 clamp(20px,3vw,44px)" }}>
+                <div style={{ width:42, height:42, borderRadius:"50%",
+                  border:"1.5px solid rgba(196,97,74,0.25)",
+                  background:"rgba(196,97,74,0.07)",
+                  display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                  {item.icon}
+                </div>
+                <span style={{ fontSize:"clamp(0.78rem,1vw,0.88rem)", fontWeight:600, color:"#5a3e32", whiteSpace:"nowrap" }}>
+                  {item.label}
+                </span>
+              </div>
+              {i < arr.length-1 && <div style={{ width:1, height:28, background:"rgba(196,97,74,0.20)", flexShrink:0 }}/>}
+            </div>
+          ))}
+        </motion.div>
+
       </div>
+
+      {/* Responsive */}
+      <style>{`
+        @media (max-width: 700px) {
+          .booking-grid { grid-template-columns: 1fr !important; }
+        }
+        .booking-grid input,
+        .booking-grid textarea,
+        .booking-grid select {
+          color: #1a0f08 !important;
+          font-weight: 500 !important;
+        }
+        .booking-grid input::placeholder,
+        .booking-grid textarea::placeholder {
+          color: #7a5040 !important;
+          font-weight: 400 !important;
+        }
+        .booking-grid select option { color: #1a0f08; }
+        .booking-grid label { color: #1a0f08 !important; font-weight: 700 !important; }
+      `}</style>
     </section>
   )
 }

@@ -1,390 +1,611 @@
-import { motion, AnimatePresence } from "framer-motion"
-import { useState, useEffect, useCallback, useRef } from "react"
-import HeroBackground from "./HeroBackground"
-import HeroPageReveal from "./HeroPageReveal"
-import BeforeAfterSlider from "./BeforeAfterSlider"
+import { motion, useScroll, useTransform, useSpring } from "framer-motion"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { siteContent } from "../../data/siteContent"
-import { useReducedMotion } from "../../hooks/usePerf"
+import beforeImg     from "../../assets/hero-images/beforeherobackround.png"
+import afterImg      from "../../assets/hero-images/afterherobackround.png"
+import beforeMobImg  from "../../assets/hero-images/mobilebefore.png"
+import afterMobImg   from "../../assets/hero-images/mobileafter.png"
+import logoImg       from "../../assets/novalogo.png"
 
-const EASE        = [0.25, 0.46, 0.45, 0.94]
-const EASE_EXPO   = [0.16, 1,    0.3,  1   ]
-const EASE_SPRING = [0.34, 1.4,  0.64, 1   ]
+const EASE      = [0.25, 0.46, 0.45, 0.94]
+const EASE_EXPO = [0.16, 1, 0.3, 1]
 
-/* ── Slide variants ── */
-const slideV = {
-  enter:  (d) => ({ x: d > 0 ? "4%" : "-4%", opacity: 0 }),
-  center: { x: 0, opacity: 1, transition: { duration: 0.45, ease: EASE } },
-  exit:   (d) => ({ x: d > 0 ? "-4%" : "4%", opacity: 0, transition: { duration: 0.28, ease: EASE } }),
-}
+/* ══════════════════════════════════════════════════════════
+   FULL-BACKGROUND BEFORE / AFTER DRAG SLIDER
+   z-0 — slider layer (receives all pointer events)
+   z-10 — navbar + text overlay (pointer-events on children)
+══════════════════════════════════════════════════════════ */
+function BackgroundSlider({ sectionRef }) {
+  const wrapRef     = useRef(null)
+  const widthRef    = useRef(0)
+  const [pos, setPos]   = useState(50)
+  const [drag, setDrag] = useState(false)
+  const [hinted, setHinted] = useState(false)
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768)
 
-/* ── Floating badge ── */
-function Badge({ text }) {
-  return (
-    <motion.div
-      className="mb-5 inline-flex"
-      initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.38, ease: EASE }}
-    >
-      <span className="inline-flex items-center gap-2.5 rounded-full border px-5 py-2 text-[11px] font-bold uppercase tracking-[0.20em]"
-        style={{ borderColor: "rgba(193,154,107,0.38)", background: "rgba(193,154,107,0.08)", color: "#C69459" }}>
-        <span className="relative flex h-1.5 w-1.5">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-65" style={{ background: "#C69459" }} />
-          <span className="relative inline-flex h-1.5 w-1.5 rounded-full" style={{ background: "#C69459" }} />
-        </span>
-        {text}
-      </span>
-    </motion.div>
-  )
-}
+  /* Parallax — images move at 40% of scroll speed (slow = deep parallax) */
+  const { scrollY } = useScroll()
+  const rawParallax = useTransform(scrollY, [0, 800], [0, -120])
+  const parallaxY   = useSpring(rawParallax, { stiffness: 80, damping: 20, mass: 0.5 })
 
-/* ── Gold CTA ── */
-function CTAButton({ text, href }) {
-  return (
-    <motion.a href={href}
-      className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.10em] text-white sm:px-6 sm:py-3 sm:text-xs"
-      style={{ background: "linear-gradient(135deg, #C69459 0%, #a8825a 100%)" }}
-      initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.36, delay: 0.3, ease: EASE_SPRING }}
-      whileHover={{ scale: 1.04, boxShadow: "0 0 28px rgba(198,148,89,0.45)" }}
-      whileTap={{ scale: 0.97 }}
-    >
-      <motion.span className="pointer-events-none absolute inset-0 -translate-x-full skew-x-[-20deg] bg-white/16"
-        whileHover={{ translateX: "200%" }} transition={{ duration: 0.48 }} />
-      {text}
-      <svg className="h-3 w-3 flex-shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" viewBox="0 0 20 20" fill="currentColor">
-        <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
-      </svg>
-    </motion.a>
-  )
-}
-
-/* ── Ghost CTA ── */
-function GhostButton({ text, href }) {
-  return (
-    <motion.a href={href}
-      className="inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.10em] text-white/70 hover:text-white sm:px-5 sm:text-xs"
-      style={{ borderColor: "rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.04)" }}
-      initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.36, delay: 0.4, ease: EASE_SPRING }}
-      whileHover={{ scale: 1.03, borderColor: "rgba(193,154,107,0.55)", background: "rgba(193,154,107,0.08)" }}
-      whileTap={{ scale: 0.97 }}
-    >
-      {text}
-    </motion.a>
-  )
-}
-
-/* ── Stats strip with hover lift ── */
-const STATS = [
-  { target: 3500, suffix: "+",  label: "Happy Patients"  },
-  { target: 12,   suffix: "+",  label: "Years Experience" },
-  { target: 4.9,  suffix: "★",  label: "Avg. Rating",  decimals: 1 },
-  { target: 98,   suffix: "%",  label: "Success Rate"      },
-]
-
-function CountUpStat({ target, suffix, decimals = 0, delay = 0 }) {
-  const [display, setDisplay] = useState("0")
-  const rafRef  = useRef(null)
-
+  /* measure container width + detect mobile */
   useEffect(() => {
-    // small delay so animation fires after the strip fades in
-    const timeout = setTimeout(() => {
-      const duration = 1200          // ms — fast but readable
-      const startTs  = performance.now()
-
-      const tick = (now) => {
-        const elapsed  = now - startTs
-        const progress = Math.min(elapsed / duration, 1)
-        // ease-out-expo feel
-        const eased    = 1 - Math.pow(1 - progress, 4)
-        const current  = eased * target
-
-        if (decimals > 0) {
-          setDisplay(current.toFixed(decimals))
-        } else {
-          // show comma-formatted integers
-          setDisplay(Math.floor(current).toLocaleString())
-        }
-
-        if (progress < 1) {
-          rafRef.current = requestAnimationFrame(tick)
-        } else {
-          // snap to exact final value
-          setDisplay(decimals > 0 ? target.toFixed(decimals) : target.toLocaleString())
-        }
-      }
-
-      rafRef.current = requestAnimationFrame(tick)
-    }, delay)
-
-    return () => {
-      clearTimeout(timeout)
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    const measure = () => {
+      if (wrapRef.current) widthRef.current = wrapRef.current.offsetWidth
+      setIsMobile(window.innerWidth < 768)
     }
-  }, [target, decimals, delay])
+    measure()
+    window.addEventListener("resize", measure)
+    return () => window.removeEventListener("resize", measure)
+  }, [])
+
+  const bgBefore = isMobile ? beforeMobImg : beforeImg
+  const bgAfter  = isMobile ? afterMobImg  : afterImg
+
+  const clamp = (v) => Math.min(Math.max(v, 2), 98)
+  const toPercent = useCallback((clientX) => {
+    const r = wrapRef.current?.getBoundingClientRect()
+    if (!r) return pos
+    return clamp(((clientX - r.left) / r.width) * 100)
+  }, [pos])
+
+  const onPointerDown = (e) => {
+    wrapRef.current?.setPointerCapture(e.pointerId)
+    setDrag(true); setHinted(true)
+    setPos(toPercent(e.clientX))
+  }
+  const onPointerMove = (e) => { if (drag) setPos(toPercent(e.clientX)) }
+  const onPointerUp   = () => setDrag(false)
+
+  /* auto-hint sweep on load */
+  useEffect(() => {
+    if (hinted) return
+    const t = setTimeout(() => {
+      const steps = [50, 42, 35, 43, 58, 65, 55, 50]
+      let i = 0
+      const run = () => { if (i >= steps.length) return; setPos(steps[i++]); setTimeout(run, 210) }
+      run()
+    }, 1800)
+    return () => clearTimeout(t)
+  }, [hinted])
 
   return (
-    <span>
-      {display}{suffix}
-    </span>
-  )
-}
+    <div
+      ref={wrapRef}
+      className="absolute inset-0"
+      style={{ zIndex: 0, touchAction: "none", cursor: "ew-resize", userSelect: "none",
+        /* extra height so parallax shift doesn't expose edges */
+        top: "-8%", bottom: "-8%", left: 0, right: 0 }}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerLeave={onPointerUp}
+      onPointerCancel={onPointerUp}
+    >
+      {/* AFTER — full base layer (right side) — moves with parallax */}
+      <motion.img
+        src={bgAfter} alt="" aria-hidden="true" draggable={false}
+        className="absolute inset-0 h-full w-full select-none object-cover"
+        style={{ objectPosition: "center top", pointerEvents: "none", y: parallaxY }}
+      />
 
-function StatsStrip() {
-  return (
-    <motion.div className="mt-6 flex flex-wrap gap-5 sm:gap-8"
-      initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: 0.62, ease: EASE }}>
-      {STATS.map((s, i) => (
-        <motion.div key={i} className="flex flex-col gap-1" whileHover={{ y: -3 }} transition={{ duration: 0.2 }}>
-          <span
-            style={{
-              fontFamily: "'Inter', 'DM Sans', system-ui, sans-serif",
-              fontSize: "1.35rem",
-              fontWeight: 700,
-              lineHeight: 1,
-              letterSpacing: "-0.02em",
-              color: "#c19a6b",
-              filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.85))",
-            }}
-          >
-            <CountUpStat
-              target={s.target}
-              suffix={s.suffix}
-              decimals={s.decimals}
-              delay={700 + i * 80}
-            />
-          </span>
-          <span
-            style={{
-              fontFamily: "'Inter', 'DM Sans', system-ui, sans-serif",
-              fontSize: "0.62rem",
-              fontWeight: 600,
-              letterSpacing: "0.13em",
-              textTransform: "uppercase",
-              color: "rgba(255,255,255,0.82)",
-              textShadow: "0 1px 3px rgba(0,0,0,0.8)",
-            }}
-          >
-            {s.label}
-          </span>
+      {/* BEFORE — clipped to left of divider — same parallax */}
+      <div
+        className="absolute inset-0 overflow-hidden"
+        style={{ width: `${pos}%`, pointerEvents: "none" }}
+      >
+        <motion.img
+          src={bgBefore} alt="" aria-hidden="true" draggable={false}
+          className="absolute inset-0 h-full select-none object-cover"
+          style={{
+            objectPosition: "center top",
+            width: widthRef.current > 0 ? `${widthRef.current}px` : "100vw",
+            maxWidth: "none",
+            pointerEvents: "none",
+            y: parallaxY,
+          }}
+        />
+      </div>
+
+      {/* Divider line */}
+      <div
+        className="pointer-events-none absolute inset-y-0"
+        style={{
+          left: `${pos}%`,
+          width: 2,
+          transform: "translateX(-50%)",
+          background: "linear-gradient(to bottom, transparent 3%, rgba(255,255,255,0.75) 12%, rgba(255,255,255,0.75) 88%, transparent 97%)",
+        }}
+      />
+
+      {/* Handle — dark rounded pill with < > arrows like the example */}
+      <div
+        className="pointer-events-none absolute"
+        style={{ top: "50%", left: `${pos}%`, transform: "translate(-50%,-50%)", zIndex: 3 }}
+      >
+        <motion.div
+          className="flex h-11 w-11 items-center justify-center rounded-full"
+          style={{
+            background: "rgba(30,18,12,0.82)",
+            border: "2px solid rgba(255,255,255,0.22)",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.45)",
+          }}
+          animate={{ scale: drag ? 1.18 : 1 }}
+          transition={{ type: "spring", stiffness: 420, damping: 24 }}
+        >
+          {/* Pulse ring */}
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            style={{ border: "1.5px solid rgba(255,255,255,0.30)" }}
+            animate={{ scale: [1, 1.65], opacity: [0.5, 0] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
+          />
+          {/* < > arrows */}
+          <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 18l-6-6 6-6M15 6l6 6-6 6" />
+          </svg>
         </motion.div>
-      ))}
-    </motion.div>
-  )
-}
+      </div>
 
-/* ── Slide dots ── */
-function SlideDots({ count, current, onSelect }) {
-  return (
-    <div className="flex items-center gap-2">
-      {Array.from({ length: count }).map((_, i) => (
-        <motion.button key={i} onClick={() => onSelect(i)} aria-label={`Slide ${i + 1}`}>
-          <motion.span className="block rounded-full"
-            animate={{ width: i === current ? 28 : 8, height: 8, background: i === current ? "#C69459" : "rgba(255,255,255,0.25)" }}
-            transition={{ duration: 0.3, ease: EASE }} />
-        </motion.button>
-      ))}
-    </div>
-  )
-}
+      {/* BEFORE label */}
+      <div
+        className="pointer-events-none absolute flex items-center gap-1.5 rounded-full px-3 py-1.5"
+        style={{ left: 20, bottom: 32, background: "rgba(20,12,8,0.52)", backdropFilter: "blur(6px)" }}
+      >
+        <span className="h-1.5 w-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.6)" }} />
+        <span className="text-[9px] font-bold uppercase tracking-widest text-white/80">Before</span>
+      </div>
 
-/* ── Arrow ── */
-function NavArrow({ dir, onClick }) {
-  return (
-    <motion.button onClick={onClick} aria-label={dir}
-      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/55 hover:border-novaderm-gold/55 hover:bg-novaderm-gold/12 hover:text-white"
-      whileHover={{ scale: 1.12 }} whileTap={{ scale: 0.92 }}>
-      <svg viewBox="0 0 20 20" fill="currentColor" className={`h-4 w-4 ${dir === "prev" ? "rotate-180" : ""}`}>
-        <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
-      </svg>
-    </motion.button>
-  )
-}
-
-/* ── Scroll cue ── */
-function ScrollCue() {
-  return (
-    <motion.div className="absolute bottom-7 left-1/2 -translate-x-1/2 z-10 hidden sm:flex flex-col items-center gap-1.5"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2, duration: 0.5 }}>
-      <span className="text-[9px] font-bold uppercase tracking-[0.26em] text-white/60">Scroll</span>
-      <motion.div className="flex h-9 w-5 items-start justify-center rounded-full border border-white/18 pt-1.5"
-        animate={{ y: [0, 5, 0] }} transition={{ duration: 1.7, repeat: Infinity, ease: "easeInOut" }}>
-        <div className="h-2 w-0.5 rounded-full bg-novaderm-gold" />
-      </motion.div>
-    </motion.div>
-  )
-}
-
-/* ── Before/After wrapper ── */
-function BeforeAfterCard({ mobile = false }) {
-  return (
-    <div style={{
-      borderRadius: 26, padding: 1.5,
-      background: "linear-gradient(145deg, rgba(198,148,89,0.55) 0%, rgba(255,255,255,0.04) 50%, rgba(198,148,89,0.22) 100%)",
-      boxShadow: "0 0 60px rgba(198,148,89,0.12), 0 28px 64px rgba(0,0,0,0.50)",
-      maxWidth: mobile ? 420 : "none", margin: mobile ? "0 auto" : 0,
-    }}>
-      <div style={{ borderRadius: 24.5, padding: mobile ? 8 : 14, background: "rgba(22,19,14,0.92)" }}>
-        <BeforeAfterSlider compact={mobile} />
-        <div style={{ marginTop: 10, paddingInline: 6, paddingBottom: 4, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div style={{ width: 7, height: 7, borderRadius: "9999px", background: "#C69459", boxShadow: "0 0 9px rgba(198,148,89,0.9)" }} />
-            <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.17em", textTransform: "uppercase", color: "rgba(255,255,255,0.80)", textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}>Real Patient Results</span>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 5, borderRadius: "9999px", padding: "4px 11px", border: "1px solid rgba(198,148,89,0.28)", background: "rgba(198,148,89,0.08)" }}>
-            <svg style={{ width: 9, height: 9, color: "#C69459" }} viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-            </svg>
-            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C69459" }}>Clinically Verified</span>
-          </div>
-        </div>
+      {/* AFTER label */}
+      <div
+        className="pointer-events-none absolute flex items-center gap-1.5 rounded-full px-3 py-1.5"
+        style={{ right: 20, bottom: 32, background: "rgba(196,97,74,0.80)", backdropFilter: "blur(6px)" }}
+      >
+        <span className="h-1.5 w-1.5 rounded-full bg-white/80 rounded-full" />
+        <span className="text-[9px] font-bold uppercase tracking-widest text-white">After</span>
       </div>
     </div>
   )
 }
 
-/* ── MAIN HERO ── */
+/* ══════════════════════════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════════════════════════ */
+function NavLink({ label, href, active, hasDropdown }) {
+  return (
+    <a href={href}
+      className="relative flex items-center gap-0.5 text-[13px] font-medium transition-colors duration-200 hover:text-[#C4614A]"
+      style={{ color: active ? "#C4614A" : "#5a3e32", letterSpacing: "0.01em" }}
+    >
+      {label}
+      {hasDropdown && (
+        <svg className="h-3 w-3 opacity-60" viewBox="0 0 20 20" fill="currentColor">
+          <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd"/>
+        </svg>
+      )}
+      {active && <span className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full" style={{ background: "#C4614A" }} />}
+    </a>
+  )
+}
+
+function Navbar() {
+  const { nav } = siteContent
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  return (
+    <div style={{ position: "relative", zIndex: 50 }}>
+      <div
+        className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10"
+        style={{ background: "transparent", borderBottom: "none" }}
+      >
+        {/* Logo */}
+        <a href="#" aria-label="Novaderm home" className="flex items-center gap-2.5 shrink-0">
+          <img
+            src={logoImg}
+            alt="Novaderm"
+            draggable={false}
+            className="select-none"
+            style={{ height: "clamp(48px,7vw,72px)", width: "auto", objectFit: "contain" }}
+          />
+        </a>
+
+        {/* Desktop links */}
+        <div className="hidden items-center gap-7 lg:flex">
+          {nav.links.map((l) => (
+            <NavLink key={l.label} label={l.label} href={l.href} active={l.label === "Home"} hasDropdown={false} />
+          ))}
+        </div>
+
+        {/* CTA + socials */}
+        <div className="hidden lg:flex items-center gap-3">
+          <motion.a href={nav.ctaHref}
+            className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[12px] font-bold uppercase tracking-wide text-white"
+            style={{ background: "linear-gradient(135deg,#C4614A,#a0432e)", boxShadow: "0 4px 16px rgba(196,97,74,0.35)" }}
+            whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+            {nav.ctaText}
+            <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
+            </svg>
+          </motion.a>
+          {[
+            { label: "Instagram", href: siteContent.topBar?.social?.find(s=>s.icon==="instagram")?.href||"#", d: "M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01M6.5 2h11A3.5 3.5 0 0121 5.5v13a3.5 3.5 0 01-3.5 3.5h-11A3.5 3.5 0 013 18.5v-13A3.5 3.5 0 016.5 2z" },
+          ].map((s) => (
+            <a key={s.label} href={s.href} aria-label={s.label} target="_blank" rel="noreferrer"
+              className="flex h-8 w-8 items-center justify-center rounded-full border transition-colors hover:border-[#C4614A] hover:text-[#C4614A]"
+              style={{ borderColor: "rgba(196,97,74,0.3)", color: "#7a5a4a" }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+                <path d={s.d}/>
+              </svg>
+            </a>
+          ))}
+        </div>
+
+        {/* Mobile hamburger */}
+        <button className="flex flex-col gap-1.5 p-2 lg:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+          {[0,1,2].map((i) => (
+            <motion.span key={i} className="block h-0.5 w-5 rounded-full" style={{ background: "#3d2e24" }}
+              animate={menuOpen ? i===0?{rotate:45,y:8}:i===1?{opacity:0}:{rotate:-45,y:-8}:{rotate:0,y:0,opacity:1}}
+              transition={{ duration: 0.22 }} />
+          ))}
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      <motion.div className="overflow-hidden lg:hidden"
+        animate={{ height: menuOpen ? "auto" : 0, opacity: menuOpen ? 1 : 0 }}
+        transition={{ duration: 0.28, ease: EASE }}
+        style={{ background: "rgba(244,239,234,0.96)", backdropFilter: "blur(12px)" }}>
+        <div className="flex flex-col gap-1 px-6 pb-5 pt-2">
+          {nav.links.map((l) => (
+            <a key={l.label} href={l.href} className="py-2 text-[14px] font-semibold border-b"
+              style={{ color: l.label==="Home"?"#C4614A":"#3d2e24", borderColor:"rgba(61,46,36,0.08)" }}
+              onClick={() => setMenuOpen(false)}>{l.label}</a>
+          ))}
+          <a href={nav.ctaHref}
+            className="mt-3 inline-flex items-center justify-center rounded-full px-5 py-2.5 text-[12px] font-bold uppercase tracking-wide text-white"
+            style={{ background: "linear-gradient(135deg,#C4614A,#a0432e)" }}
+            onClick={() => setMenuOpen(false)}>{nav.ctaText}</a>
+        </div>
+      </motion.div>
+    </div>
+  )
+}
+
+/* ══════════════════════════════════════════════════════════
+   BOTANICAL LEAF SVG
+══════════════════════════════════════════════════════════ */
+function BotanicalLeaf() {
+  return (
+    <motion.svg viewBox="0 0 180 420" aria-hidden="true"
+      className="pointer-events-none select-none absolute"
+      style={{ left: -20, top: "18%", width: "clamp(80px,11vw,155px)", opacity: 0.22, zIndex: 2 }}
+      initial={{ opacity: 0, x: -20 }} animate={{ opacity: 0.22, x: 0 }}
+      transition={{ duration: 1.1, delay: 0.5, ease: EASE_EXPO }}>
+      <path d="M90 400 Q86 300 82 210 Q78 120 90 30" stroke="#C4614A" strokeWidth="1.6" fill="none" strokeLinecap="round"/>
+      {[320,262,204,150].map((y,i) => (
+        <g key={i}>
+          <path d={`M${88-i} ${y} Q${52-i*2} ${y-20} ${38-i*2} ${y-60} Q${62} ${y-52} ${88-i} ${y-40}`} stroke="#C4614A" strokeWidth="1.1" fill="rgba(196,97,74,0.10)" strokeLinecap="round"/>
+          <path d={`M${92+i} ${y-10} Q${128+i*2} ${y-28} ${142+i*2} ${y-68} Q${118} ${y-58} ${92+i} ${y-48}`} stroke="#C4614A" strokeWidth="1.1" fill="rgba(196,97,74,0.07)" strokeLinecap="round"/>
+        </g>
+      ))}
+    </motion.svg>
+  )
+}
+
+/* ══════════════════════════════════════════════════════════
+   STATS
+══════════════════════════════════════════════════════════ */
+const STATS = [
+  { icon: "patients", target: 3500, suffix: "+",  label: "Happy Patients",   dec: 0 },
+  { icon: "years",    target: 12,   suffix: "+",  label: "Years Experience", dec: 0 },
+  { icon: "star",     target: 4.9,  suffix: "★",  label: "Avg. Rating",      dec: 1 },
+  { icon: "shield",   target: 98,   suffix: "%",  label: "Success Rate",     dec: 0 },
+]
+const STAT_ICONS = {
+  patients: <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>,
+  years:    <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
+  star:     <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" stroke="#C4614A" strokeWidth="1.7" fill="rgba(196,97,74,0.1)"/></svg>,
+  shield:   <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+}
+
+function CountUp({ target, suffix, dec = 0, delay = 0 }) {
+  const [v, setV] = useState("0")
+  const r = useRef(null)
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const dur = 1100, s = performance.now()
+      const tick = (now) => {
+        const p = Math.min((now - s) / dur, 1), e = 1 - Math.pow(1 - p, 4)
+        setV(dec > 0 ? (e * target).toFixed(dec) : Math.floor(e * target).toLocaleString())
+        if (p < 1) r.current = requestAnimationFrame(tick)
+        else setV(dec > 0 ? target.toFixed(dec) : target.toLocaleString())
+      }
+      r.current = requestAnimationFrame(tick)
+    }, delay)
+    return () => { clearTimeout(t); if (r.current) cancelAnimationFrame(r.current) }
+  }, [target, dec, delay])
+  return <>{v}{suffix}</>
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE NAVBAR
+══════════════════════════════════════════════════════════ */
+function MobileNavbar() {
+  const { nav } = siteContent
+  const [menuOpen, setMenuOpen] = useState(false)
+  return (
+    <div style={{ background: "transparent" }}>
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"12px 20px" }}>
+        <a href="#" style={{ display:"flex", alignItems:"center", gap:10 }}>
+          <div style={{ width:40, height:40, borderRadius:"50%", border:"2px solid #C4614A", background:"rgba(255,255,255,0.85)",
+            display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+            <span className="font-serif" style={{ fontSize:"1rem", fontWeight:700, color:"#C4614A" }}>N</span>
+          </div>
+          <div style={{ display:"flex", flexDirection:"column", lineHeight:1 }}>
+            <span className="font-serif" style={{ fontSize:"0.95rem", fontWeight:700, color:"#3d2e24" }}>Nova Derm</span>
+            <span style={{ fontSize:"0.55rem", fontWeight:600, color:"#C4614A", letterSpacing:"0.15em", textTransform:"uppercase" }}>Skin &amp; Aesthetics</span>
+          </div>
+        </a>
+        <button onClick={() => setMenuOpen(!menuOpen)} style={{ padding:8, background:"transparent", border:"none", cursor:"pointer" }} aria-label="Toggle menu">
+          <div style={{ display:"flex", flexDirection:"column", gap:5 }}>
+            {[0,1,2].map(i => (
+              <span key={i} style={{ display:"block", width:22, height:2, borderRadius:2, background:"#3d2e24",
+                transform: menuOpen ? (i===0?"rotate(45deg) translate(5px,5px)":i===1?"scaleX(0)":"rotate(-45deg) translate(5px,-5px)") : "none",
+                opacity: menuOpen&&i===1 ? 0 : 1, transition:"transform 0.22s, opacity 0.22s" }}/>
+            ))}
+          </div>
+        </button>
+      </div>
+      {menuOpen && (
+        <div style={{ background:"rgba(244,239,234,0.97)", padding:"8px 20px 20px", borderTop:"1px solid rgba(196,97,74,0.1)" }}>
+          {nav.links.map(l => (
+            <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)}
+              style={{ display:"block", padding:"10px 0", fontSize:14, fontWeight:600, color:l.label==="Home"?"#C4614A":"#3d2e24", borderBottom:"1px solid rgba(61,46,36,0.07)" }}>
+              {l.label}
+            </a>
+          ))}
+          <a href={nav.ctaHref} onClick={() => setMenuOpen(false)}
+            style={{ display:"block", marginTop:14, textAlign:"center", borderRadius:999, padding:"12px 20px",
+              fontSize:"0.72rem", fontWeight:700, textTransform:"uppercase", letterSpacing:"0.07em", color:"#fff",
+              background:"linear-gradient(135deg,#C4614A,#a0432e)" }}>
+            {nav.ctaText}
+          </a>
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE SLIDER — standalone, only covers image zone
+══════════════════════════════════════════════════════════ */
+function MobileSlider() {
+  const wrapRef  = useRef(null)
+  const widthRef = useRef(0)
+  const [pos, setPos]   = useState(50)
+  const [drag, setDrag] = useState(false)
+  const [hinted, setHinted] = useState(false)
+
+  useEffect(() => {
+    const measure = () => { if (wrapRef.current) widthRef.current = wrapRef.current.offsetWidth }
+    measure()
+    window.addEventListener("resize", measure)
+    return () => window.removeEventListener("resize", measure)
+  }, [])
+
+  const clamp = (v) => Math.min(Math.max(v, 2), 98)
+  const getPercent = (clientX) => {
+    const r = wrapRef.current?.getBoundingClientRect()
+    if (!r) return pos
+    return clamp(((clientX - r.left) / r.width) * 100)
+  }
+
+  /* Touch handlers */
+  const onTouchStart = (e) => { setDrag(true); setHinted(true); setPos(getPercent(e.touches[0].clientX)) }
+  const onTouchMove  = (e) => { e.preventDefault(); if (drag) setPos(getPercent(e.touches[0].clientX)) }
+  const onTouchEnd   = () => setDrag(false)
+  /* Pointer handlers (desktop fallback) */
+  const onPointerDown = (e) => { wrapRef.current?.setPointerCapture(e.pointerId); setDrag(true); setHinted(true); setPos(getPercent(e.clientX)) }
+  const onPointerMove = (e) => { if (drag) setPos(getPercent(e.clientX)) }
+  const onPointerUp   = () => setDrag(false)
+
+  useEffect(() => {
+    if (hinted) return
+    const t = setTimeout(() => {
+      const steps = [50,40,32,42,60,68,55,50]
+      let i = 0
+      const run = () => { if (i >= steps.length) return; setPos(steps[i++]); setTimeout(run, 200) }
+      run()
+    }, 1400)
+    return () => clearTimeout(t)
+  }, [hinted])
+
+  return (
+    <div ref={wrapRef}
+      style={{ position: "relative", width: "100%", aspectRatio: "9/16", overflow: "hidden", touchAction: "none", cursor: "ew-resize", userSelect: "none" }}
+      onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp}
+      onPointerLeave={onPointerUp} onPointerCancel={onPointerUp}
+      onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}
+    >
+      {/* After — base */}
+      <img src={afterMobImg} alt="" aria-hidden draggable={false}
+        style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", objectPosition:"center top", pointerEvents:"none" }} />
+      {/* Before — clipped */}
+      <div style={{ position:"absolute", inset:0, width:`${pos}%`, overflow:"hidden", pointerEvents:"none" }}>
+        <img src={beforeMobImg} alt="" aria-hidden draggable={false}
+          style={{ position:"absolute", inset:0, height:"100%", objectFit:"cover", objectPosition:"center top",
+            width: widthRef.current > 0 ? `${widthRef.current}px` : "100vw", maxWidth:"none", pointerEvents:"none" }} />
+      </div>
+      {/* Divider */}
+      <div style={{ position:"absolute", top:0, bottom:0, left:`${pos}%`, width:2, transform:"translateX(-50%)", pointerEvents:"none",
+        background:"linear-gradient(to bottom, transparent 2%, rgba(255,255,255,0.8) 10%, rgba(255,255,255,0.8) 90%, transparent 98%)" }} />
+      {/* Handle */}
+      <div style={{ position:"absolute", top:"50%", left:`${pos}%`, transform:"translate(-50%,-50%)", zIndex:3, pointerEvents:"none" }}>
+        <div style={{ width:44, height:44, borderRadius:"50%", background:"rgba(25,14,8,0.80)",
+          border:"2px solid rgba(255,255,255,0.25)", boxShadow:"0 4px 18px rgba(0,0,0,0.4)",
+          display:"flex", alignItems:"center", justifyContent:"center" }}>
+          <svg viewBox="0 0 24 24" fill="none" width={20} height={20} stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/>
+          </svg>
+        </div>
+      </div>
+      {/* Labels */}
+      <div style={{ position:"absolute", left:12, bottom:12, display:"flex", alignItems:"center", gap:6, borderRadius:999,
+        padding:"4px 10px", background:"rgba(20,12,8,0.50)", pointerEvents:"none" }}>
+        <span style={{ width:6, height:6, borderRadius:"50%", background:"rgba(255,255,255,0.6)", display:"inline-block" }}/>
+        <span style={{ fontSize:9, fontWeight:700, letterSpacing:"0.18em", textTransform:"uppercase", color:"rgba(255,255,255,0.85)" }}>Before</span>
+      </div>
+      <div style={{ position:"absolute", right:12, bottom:12, display:"flex", alignItems:"center", gap:6, borderRadius:999,
+        padding:"4px 10px", background:"rgba(196,97,74,0.82)", pointerEvents:"none" }}>
+        <span style={{ width:6, height:6, borderRadius:"50%", background:"rgba(255,255,255,0.85)", display:"inline-block" }}/>
+        <span style={{ fontSize:9, fontWeight:700, letterSpacing:"0.18em", textTransform:"uppercase", color:"#fff" }}>After</span>
+      </div>
+    </div>
+  )
+}
+
+/* ══════════════════════════════════════════════════════════
+   MAIN HERO
+══════════════════════════════════════════════════════════ */
 export default function Hero() {
   const { slides } = siteContent.hero
-  const [index, setIndex]     = useState(0)
-  const [dir, setDir]         = useState(1)
-  const reduced = useReducedMotion()
-  const bgRef   = useRef(null)   // passed to HeroBackground & HeroPageReveal
+  const slide = slides[0]
 
-  const goTo = useCallback((next) => {
-    setDir(next > index ? 1 : -1)
-    setIndex(next)
-  }, [index])
-
-  const next = useCallback(() => goTo((index + 1) % slides.length), [goTo, index, slides.length])
-  const prev = useCallback(() => goTo((index - 1 + slides.length) % slides.length), [goTo, index, slides.length])
-
-  useEffect(() => {
-    const id = setInterval(next, 6000)
-    return () => clearInterval(id)
-  }, [next])
-
-  const slide = slides[index]
+  /* Parallax scroll for desktop content layer */
+  const { scrollY } = useScroll()
+  const rawContentY = useTransform(scrollY, [0, 600], [0, -40])
+  const contentY    = useSpring(rawContentY, { stiffness: 90, damping: 22, mass: 0.4 })
+  const contentOpacity = useTransform(scrollY, [0, 400], [1, 0.15])
 
   return (
-    <section
-      className="hero-section"
-      style={{
-        position: "relative", minHeight: "calc(100vh - 30px)", display: "flex",
-        flexDirection: "column", paddingTop: 80, overflow: "hidden",
-      }}
-    >
-      <HeroBackground bgRef={bgRef} />
+    <section id="home" style={{
+      position: "relative",
+      overflow: "hidden",
+      minHeight: "100svh",
+      display: "flex",
+      flexDirection: "column",
+    }}>
+      {/* ── z-0: full-screen before/after drag slider (all devices) ── */}
+      <BackgroundSlider />
 
-      {/* GSAP page-open curtain — self-destructs after animation */}
-      {!reduced && <HeroPageReveal bgRef={bgRef} />}
+      {/* ── z-2: botanical leaf ── */}
+      <BotanicalLeaf />
 
-      {/* Decorative top-left corner accent */}
-      <div className="pointer-events-none absolute left-6 top-6 z-10 hidden lg:block">
-        <div className="h-10 w-10 rounded-tl-2xl border-l-2 border-t-2" style={{ borderColor: "rgba(193,154,107,0.35)" }} />
-      </div>
-      {/* Decorative bottom-right corner accent */}
-      <div className="pointer-events-none absolute bottom-12 right-6 z-10 hidden lg:block">
-        <div className="h-10 w-10 rounded-br-2xl border-b-2 border-r-2" style={{ borderColor: "rgba(193,154,107,0.22)" }} />
-      </div>
+      {/* ── z-10: navbar + content overlay ── */}
+      <div style={{ position: "relative", zIndex: 10, display: "flex", flexDirection: "column", flex: 1, pointerEvents: "none" }}>
 
-      <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", flex: 1 }}>
-        <div className="flex flex-1 items-center px-5 py-8 sm:px-10 sm:py-0 lg:px-14">
-          <div className="grid w-full max-w-[1440px] mx-auto items-center gap-10 lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_440px]">
-
-            {/* ── LEFT — content ── */}
-            <div className="flex flex-col">
-              <AnimatePresence mode="wait" custom={dir}>
-                <motion.div key={index} custom={dir}
-                  variants={reduced ? {} : slideV}
-                  initial="enter" animate="center" exit="exit"
-                  className="flex flex-col"
-                  style={{ willChange: "transform, opacity" }}
-                >
-                  {/* data-hero-reveal — GSAP targets these on page open */}
-                  <div data-hero-reveal>
-                    <Badge text={slide.badge} />
-                  </div>
-
-                  {/* Headline */}
-                  <h1 data-hero-reveal
-                    className="font-serif font-semibold leading-[1.08] tracking-tight text-white"
-                    style={{ fontSize: "clamp(1.4rem, 3.2vw, 2.2rem)" }}>
-                    {slide.headline}
-                  </h1>
-
-                  {/* Animated underline */}
-                  <motion.div data-hero-reveal
-                    className="mt-3 h-[2px] rounded-full"
-                    style={{ width: "36%", background: "linear-gradient(to right, #C69459, rgba(198,148,89,0.10))", transformOrigin: "left" }}
-                    initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.6, delay: 0.28, ease: EASE_EXPO }} />
-
-                  <motion.p
-                    data-hero-reveal
-                    className="mt-3 max-w-xs font-sans font-light leading-[1.65]"
-                    style={{
-                      fontSize: "clamp(0.75rem, 1.1vw, 0.85rem)",
-                      color: "rgba(255,255,255,0.92)",
-                      textShadow: "0 1px 4px rgba(0,0,0,0.85)",
-                    }}
-                    initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.22, ease: EASE }}>
-                    {slide.description}
-                  </motion.p>
-
-                  <div data-hero-reveal className="mt-5 flex flex-wrap items-center gap-2.5">
-                    <CTAButton   text={slide.primaryCta.text}   href={slide.primaryCta.href} />
-                    <GhostButton text={slide.secondaryCta.text} href={slide.secondaryCta.href} />
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-
-              <div data-hero-reveal>
-                <StatsStrip />
-              </div>
-
-              {/* Divider */}
-              <motion.div data-hero-reveal
-                className="my-5 h-px w-full max-w-[340px]"
-                style={{ background: "linear-gradient(to right, rgba(193,154,107,0.25), transparent)" }}
-                initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
-                transition={{ duration: 0.6, delay: 0.9, ease: EASE }} />
-
-              {/* Nav controls */}
-              <motion.div data-hero-reveal
-                className="flex items-center gap-3"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.95 }}>
-                <NavArrow dir="prev" onClick={prev} />
-                <SlideDots count={slides.length} current={index} onSelect={goTo} />
-                <NavArrow dir="next" onClick={next} />
-                <span className="ml-2 text-[11px] font-semibold tabular-nums text-white/60">
-                  {String(index + 1).padStart(2,"0")} / {String(slides.length).padStart(2,"0")}
-                </span>
-              </motion.div>
-            </div>
-
-            {/* ── RIGHT — desktop card ── */}
-            <motion.div data-hero-reveal
-              className="hidden lg:block"
-              initial={{ opacity: 0, x: 44, scale: 0.96 }} animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ duration: 0.55, delay: 0.42, ease: EASE_EXPO }}>
-              <BeforeAfterCard />
-            </motion.div>
-          </div>
+        {/* Navbar */}
+        <div style={{ pointerEvents: "auto" }}>
+          <Navbar />
         </div>
 
-        {/* ── Mobile card ── */}
-        <motion.div data-hero-reveal
-          className="block lg:hidden px-5 pb-10 sm:px-10"
-          initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.5, ease: EASE }}>
-          <BeforeAfterCard mobile />
-        </motion.div>
+        {/* Content — sits in top portion on mobile, centered on desktop */}
+        <motion.div
+          className="flex items-start md:items-center mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10"
+          style={{
+            flex: 1,
+            paddingTop: "clamp(20px, 5vw, 80px)",
+            paddingBottom: "clamp(32px, 5vw, 80px)",
+            y: contentY,
+            opacity: contentOpacity,
+          }}
+        >
+          <div className="flex flex-col justify-start md:justify-center" style={{ maxWidth: 500, pointerEvents: "auto" }}>
 
-        <ScrollCue />
+            {/* Badge */}
+            <motion.span className="mb-3 inline-flex items-center gap-2"
+              style={{ fontSize: "0.63rem", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#a07060" }}
+              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.08 }}>
+              <span className="inline-block h-px w-5" style={{ background: "rgba(160,112,96,0.5)" }} />
+              {slide.badge}
+            </motion.span>
+
+            {/* Headline */}
+            <motion.h1 style={{ lineHeight: 1.08, letterSpacing: "-0.02em", margin: 0 }}
+              initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.14, ease: EASE_EXPO }}>
+              {(() => {
+                const parts = slide.headline.split(/\.\s*/).filter(Boolean)
+                return <>
+                  <span className="font-serif block"
+                    style={{ fontSize: "clamp(1.7rem,4.2vw,3.1rem)", color: "#C4614A", fontWeight: 700, fontStyle: "italic" }}>
+                    {parts[0]}.
+                  </span>
+                  {parts.slice(1).map((p, i) => (
+                    <span key={i} className="font-serif block"
+                      style={{ fontSize: "clamp(1.7rem,4.2vw,3.1rem)", color: "#2e1f16", fontWeight: 700 }}>
+                      {p}.
+                    </span>
+                  ))}
+                </>
+              })()}
+            </motion.h1>
+
+            {/* Description */}
+            <motion.p className="font-sans"
+              style={{ fontSize: "clamp(0.8rem,1.1vw,0.93rem)", color: "#7a5a4a", lineHeight: 1.72,
+                maxWidth: 370, fontWeight: 400, marginTop: "clamp(10px,1.5vw,16px)" }}
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.24, ease: EASE }}>
+              {slide.description}
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div className="flex flex-wrap items-center gap-3"
+              style={{ marginTop: "clamp(18px,2.5vw,28px)" }}
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.34, ease: EASE }}>
+              <motion.a href={slide.primaryCta.href}
+                className="group inline-flex items-center gap-2 rounded-full text-white font-bold uppercase"
+                style={{ padding: "clamp(9px,1.2vw,12px) clamp(18px,2.5vw,24px)",
+                  fontSize: "clamp(0.68rem,0.85vw,0.75rem)", letterSpacing: "0.07em",
+                  background: "linear-gradient(135deg,#C4614A,#9a3d2a)", boxShadow: "0 4px 18px rgba(196,97,74,0.42)" }}
+                whileHover={{ scale: 1.04, boxShadow: "0 7px 24px rgba(196,97,74,0.55)" }}
+                whileTap={{ scale: 0.97 }}>
+                {slide.primaryCta.text}
+                <svg className="h-3 w-3 transition-transform group-hover:translate-x-0.5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
+                </svg>
+              </motion.a>
+              <motion.a href={slide.secondaryCta.href}
+                className="inline-flex items-center gap-2 rounded-full font-semibold"
+                style={{ padding: "clamp(9px,1.2vw,12px) clamp(16px,2vw,20px)",
+                  fontSize: "clamp(0.68rem,0.85vw,0.75rem)",
+                  borderColor: "rgba(196,97,74,0.40)", color: "#7a4a38",
+                  background: "rgba(255,255,255,0.65)", border: "1.5px solid rgba(196,97,74,0.4)" }}
+                whileHover={{ scale: 1.03, borderColor: "#C4614A", color: "#C4614A", background: "rgba(255,255,255,0.88)" }}
+                whileTap={{ scale: 0.97 }}>
+                {slide.secondaryCta.text}
+              </motion.a>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              className="grid grid-cols-2 gap-x-4 gap-y-3 md:flex md:flex-wrap md:gap-6"
+              style={{ marginTop: "clamp(20px,3vw,36px)" }}
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.5, ease: EASE }}>
+              {STATS.map((s, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <div className="flex shrink-0 items-center justify-center rounded-lg"
+                    style={{ width: 30, height: 30, background: "rgba(255,255,255,0.60)" }}>
+                    {STAT_ICONS[s.icon]}
+                  </div>
+                  <div className="flex flex-col leading-none gap-0.5">
+                    <span className="font-serif font-bold tabular-nums"
+                      style={{ fontSize: "clamp(0.92rem,1.4vw,1.1rem)", color: "#2e1f16", letterSpacing: "-0.01em" }}>
+                      <CountUp target={s.target} suffix={s.suffix} dec={s.dec} delay={700 + i * 80} />
+                    </span>
+                    <span style={{ fontSize: "0.52rem", fontWeight: 600, letterSpacing: "0.13em", textTransform: "uppercase", color: "#a07060" }}>
+                      {s.label}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </motion.div>
       </div>
     </section>
   )

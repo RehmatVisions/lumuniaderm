@@ -3,6 +3,7 @@ import { useState } from "react"
 import ArrowUpRight from "../ui/ArrowUpRight"
 import { useReveal } from "../../hooks/useReveal"
 import TextReveal from "../ui/TextReveal"
+import sectionBg from "../../assets/backgroundall/bacrkound.png"
 
 /* ─── Social icons ───────────────────────────────────────────── */
 function SocialIcon({ type }) {
@@ -106,14 +107,20 @@ export default function Footer() {
 
       <footer style={{ background: "#FCEEE7" }}>
 
-        {/* ── CTA banner — rich terracotta ── */}
+        {/* ── CTA banner — background image with terracotta overlay ── */}
         <div
           className="relative overflow-hidden py-14 lg:py-16"
-          style={{ background: "#C4614A", borderBottom: "1px solid rgba(255,255,255,0.12)" }}
+          style={{
+            backgroundImage: `url(${sectionBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundAttachment: "fixed",
+            borderBottom: "1px solid rgba(255,255,255,0.12)",
+          }}
         >
-          {/* glow */}
-          <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-[600px] -translate-x-1/2 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)" }} />
+          {/* terracotta tint so text stays readable */}
+          <div className="absolute inset-0" style={{ background: "rgba(196,97,74,0.72)" }} />
 
           <div className="relative mx-auto max-w-[1300px] px-4 sm:px-6 lg:px-10 flex flex-col items-center gap-6 text-center">
 
