@@ -451,7 +451,7 @@ function Navbar() {
             <motion.span
               key={i}
               className="block h-0.5 w-5 rounded-full"
-              style={{ background: "#3d2e24" }}
+              style={{ background: "#c4614a" }}
               animate={
                 menuOpen
                   ? i === 0 ? { rotate: 45, y: 8 }
