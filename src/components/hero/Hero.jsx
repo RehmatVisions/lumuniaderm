@@ -49,268 +49,302 @@ const SOFT_REVEAL = {
 }
 
 /* ══════════════════════════════════════════════════════════
-   BACKGROUND BEFORE/AFTER SLIDER
-   ─ Desktop: drag anywhere on the image to move the divider
-   ─ Mobile:  drag the circular handle; image area scrolls normally
+   BEFORE / AFTER BACKGROUND SLIDER  — rebuilt from scratch
+   ─────────────────────────────────────────────────────────
+   Strategy: Pointer Events API + setPointerCapture.
+   • pointerdown  → capture pointer on the handle element
+   • pointermove  → fires on the handle even when the finger
+                    moves anywhere on screen (capture does this)
+   • pointerup    → release capture, stop drag
+   Pointer capture makes touch-move work exactly like mouse-
+   drag with zero extra document listeners and no passive/
+   active listener conflict. Works on iOS Safari ≥ 13,
+   Android Chrome, and all desktop browsers.
 ══════════════════════════════════════════════════════════ */
 function BackgroundSlider() {
-  // All mutable state lives in refs so touch event handlers (registered once
-  // via addEventListener) never close over stale values.
-  const wrapRef      = useRef(null)
-  const handleRef    = useRef(null)
-  const posRef       = useRef(50)       // current divider % — source of truth for handlers
-  const isDragging   = useRef(false)
+  const containerRef = useRef(null)   // the full-bleed wrapper div
+  const thumbRef     = useRef(null)   // the draggable handle element
+  const activePtr    = useRef(null)   // pointerId being tracked, null when idle
 
-  const [pos,    setPos]    = useState(50)
-  const [drag,   setDrag]   = useState(false)
-  const [hinted, setHinted] = useState(false)
+  const [pct,    setPct]    = useState(50)   // divider position 0–100
+  const [active, setActive] = useState(false) // true while dragging (for thumb animation)
+  const [hinted, setHinted] = useState(false) // intro sweep played?
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768)
+
   const reduceMotion = useReducedMotion()
 
+  // Parallax on scroll
   const { scrollY } = useScroll()
-  const rawParallax = useTransform(scrollY, [0, 800], [0, reduceMotion ? 0 : -72])
-  const parallaxY   = useSpring(rawParallax, { stiffness: 80, damping: 20, mass: 0.5 })
+  const rawPar  = useTransform(scrollY, [0, 800], [0, reduceMotion ? 0 : -72])
+  const parallaxY = useSpring(rawPar, { stiffness: 80, damping: 20, mass: 0.5 })
 
+  // Track mobile breakpoint
   useEffect(() => {
-    const measure = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    measure()
-    window.addEventListener("resize", measure)
-    return () => window.removeEventListener("resize", measure)
+    const onResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener("resize", onResize)
+    return () => window.removeEventListener("resize", onResize)
   }, [])
 
   const bgBefore = isMobile ? beforeMobImg : beforeImg
   const bgAfter  = isMobile ? afterMobImg  : afterImg
 
-  // Compute % from a raw clientX — reads wrapRef directly (no closure)
-  const clientXToPercent = (clientX) => {
-    const rect = wrapRef.current?.getBoundingClientRect()
-    if (!rect || rect.width === 0) return posRef.current
+  // Convert clientX into a clamped 0–100 percentage inside the container
+  const toPct = (clientX) => {
+    const rect = containerRef.current?.getBoundingClientRect()
+    if (!rect || rect.width === 0) return pct
     const raw = ((clientX - rect.left) / rect.width) * 100
-    return Math.min(Math.max(raw, 2), 98)
+    return Math.min(Math.max(raw, 1), 99)
   }
 
-  const applyPos = (pct) => {
-    posRef.current = pct
-    setPos(pct)
-  }
-
-  // ── TOUCH EVENTS — attached imperatively with passive:false ───────────────
-  // This is the ONLY reliable way to call preventDefault on touch events in
-  // modern browsers (React always registers its synthetic listeners as passive).
-  // We also attach touchmove/touchend on DOCUMENT during a drag so that the
-  // browser cannot intercept the event once the finger leaves the handle rect.
-  useEffect(() => {
-    const handle = handleRef.current
-    if (!handle) return
-
-    // document-level move/end — added on touchstart, removed on touchend
-    const onDocTouchMove = (e) => {
-      if (!isDragging.current) return
-      e.preventDefault()
-      const t = e.touches[0]
-      if (t) applyPos(clientXToPercent(t.clientX))
-    }
-
-    const onDocTouchEnd = () => {
-      if (!isDragging.current) return
-      isDragging.current = false
-      setDrag(false)
-      document.removeEventListener("touchmove",  onDocTouchMove)
-      document.removeEventListener("touchend",   onDocTouchEnd)
-      document.removeEventListener("touchcancel",onDocTouchEnd)
-    }
-
-    const onHandleTouchStart = (e) => {
-      e.preventDefault()   // prevents scroll + text selection
-      e.stopPropagation()
-
-      isDragging.current = true
-      setDrag(true)
-      setHinted(true)
-
-      const t = e.touches[0]
-      if (t) applyPos(clientXToPercent(t.clientX))
-
-      // Hook document-level listeners so move fires everywhere, not just on handle
-      document.addEventListener("touchmove",  onDocTouchMove,  { passive: false })
-      document.addEventListener("touchend",   onDocTouchEnd,   { passive: false })
-      document.addEventListener("touchcancel",onDocTouchEnd,   { passive: false })
-    }
-
-    handle.addEventListener("touchstart", onHandleTouchStart, { passive: false })
-
-    return () => {
-      handle.removeEventListener("touchstart", onHandleTouchStart)
-      document.removeEventListener("touchmove",  onDocTouchMove)
-      document.removeEventListener("touchend",   onDocTouchEnd)
-      document.removeEventListener("touchcancel",onDocTouchEnd)
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // ── MOUSE EVENTS — React synthetic events are fine for mouse ──────────────
-  const onMouseDown = (e) => {
-    // only fire on left button
-    if (e.button !== 0) return
-    isDragging.current = true
-    setDrag(true)
+  // ── Pointer handlers — attached directly to the thumb via JSX ────────────
+  // The key insight: we call thumb.setPointerCapture(e.pointerId) on pointerdown.
+  // After capture, ALL pointermove / pointerup events for that pointer are
+  // delivered to the thumb regardless of where the finger moves on screen.
+  // This replaces every document-level listener hack from the old code.
+  const onPointerDown = (e) => {
+    // Capture this pointer to the thumb element
+    e.currentTarget.setPointerCapture(e.pointerId)
+    activePtr.current = e.pointerId
+    setActive(true)
     setHinted(true)
-    applyPos(clientXToPercent(e.clientX))
-  }
-  const onMouseMove = (e) => {
-    if (!isDragging.current) return
-    applyPos(clientXToPercent(e.clientX))
-  }
-  const onMouseUp = () => {
-    if (!isDragging.current) return
-    isDragging.current = false
-    setDrag(false)
+    setPct(toPct(e.clientX))
   }
 
-  // Intro sweep — plays once so first-time visitors discover the slider
+  const onPointerMove = (e) => {
+    // Only process the captured pointer
+    if (activePtr.current !== e.pointerId) return
+    setPct(toPct(e.clientX))
+  }
+
+  const onPointerUp = (e) => {
+    if (activePtr.current !== e.pointerId) return
+    activePtr.current = null
+    setActive(false)
+    // Release is implicit when the pointer is captured, but explicit is cleaner
+    if (e.currentTarget.hasPointerCapture?.(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId)
+    }
+  }
+
+  // Intro sweep — animates the handle left/right once on load
   useEffect(() => {
     if (hinted || reduceMotion) return
-    const timer = setTimeout(() => {
-      const steps = [50, 42, 35, 43, 58, 65, 55, 50]
+    const t = setTimeout(() => {
+      const steps = [50, 40, 32, 42, 60, 68, 56, 50]
       let i = 0
-      const run = () => {
+      const tick = () => {
         if (i >= steps.length) return
-        setPos(steps[i++])
-        setTimeout(run, 210)
+        setPct(steps[i++])
+        setTimeout(tick, 220)
       }
-      run()
-    }, 1800)
-    return () => clearTimeout(timer)
+      tick()
+    }, 1600)
+    return () => clearTimeout(t)
   }, [hinted, reduceMotion])
 
   return (
     <motion.div
-      ref={wrapRef}
-      className="absolute inset-0"
+      ref={containerRef}
+      aria-hidden="true"
       style={{
+        position: "absolute",
+        // Extend slightly beyond section edges so parallax never shows gaps
+        top: "-8%", bottom: "-8%", left: 0, right: 0,
         zIndex: 0,
-        // pan-y: lets page scroll when touching the image area.
-        // The handle's touchstart calls preventDefault so its own touch
-        // overrides this and moves the divider instead of scrolling.
-        touchAction: "pan-y",
         userSelect: "none",
         WebkitUserSelect: "none",
-        top: "-8%", bottom: "-8%", left: 0, right: 0,
-        cursor: isMobile ? "default" : "ew-resize",
+        // pan-y: the image area scrolls the page normally on mobile.
+        // The thumb overrides this because setPointerCapture() suppresses
+        // the browser's default scroll-gesture handling for that pointer.
+        touchAction: "pan-y",
       }}
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
-      onMouseLeave={onMouseUp}
-      initial={reduceMotion ? false : { opacity: 0, scale: 1.035 }}
+      initial={reduceMotion ? false : { opacity: 0, scale: 1.04 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1.45, ease: EASE_EXPO }}
+      transition={{ duration: 1.4, ease: EASE_EXPO }}
     >
-      {/* AFTER image */}
+
+      {/* ── AFTER image (full width, behind the clip) ── */}
       <motion.img
-        src={bgAfter} alt="" aria-hidden="true" draggable={false}
-        className="absolute inset-0 h-full w-full select-none object-cover"
-        style={{ objectPosition: "center top", pointerEvents: "none", y: parallaxY }}
+        src={bgAfter}
+        alt="" aria-hidden="true" draggable={false}
+        style={{
+          position: "absolute", inset: 0,
+          width: "100%", height: "100%",
+          objectFit: "cover", objectPosition: "center top",
+          pointerEvents: "none", userSelect: "none",
+          y: parallaxY,
+        }}
         loading="eager" decoding="async" fetchPriority="high"
       />
 
-      {/* BEFORE image — clipped to the left of the divider */}
+      {/* ── BEFORE image (clipped to left of divider) ── */}
       <div
-        className="absolute inset-0 overflow-hidden"
-        style={{ width: `${pos}%`, pointerEvents: "none" }}
+        style={{
+          position: "absolute", inset: 0,
+          width: `${pct}%`,
+          overflow: "hidden",
+          pointerEvents: "none",
+        }}
       >
         <motion.img
-          src={bgBefore} alt="" aria-hidden="true" draggable={false}
-          className="absolute inset-0 h-full select-none object-cover"
+          src={bgBefore}
+          alt="" aria-hidden="true" draggable={false}
           style={{
-            objectPosition: "center top",
-            width: wrapRef.current ? `${wrapRef.current.offsetWidth}px` : "100vw",
+            position: "absolute", inset: 0,
+            // Fix pixel width so image doesn't stretch when container is clipped
+            width: containerRef.current ? `${containerRef.current.offsetWidth}px` : "100vw",
+            height: "100%",
             maxWidth: "none",
-            pointerEvents: "none",
+            objectFit: "cover", objectPosition: "center top",
+            pointerEvents: "none", userSelect: "none",
             y: parallaxY,
           }}
           loading="eager" decoding="async" fetchPriority="high"
         />
       </div>
 
-      {/* Divider line */}
+      {/* ── Divider line ── */}
       <div
-        className="pointer-events-none absolute inset-y-0"
         style={{
-          left: `${pos}%`,
+          position: "absolute", top: 0, bottom: 0,
+          left: `${pct}%`,
           width: 2,
           transform: "translateX(-50%)",
-          background: "linear-gradient(to bottom, transparent 3%, rgba(255,255,255,0.75) 12%, rgba(255,255,255,0.75) 88%, transparent 97%)",
+          pointerEvents: "none",
+          background:
+            "linear-gradient(to bottom, transparent 2%, rgba(255,255,255,0.80) 10%, rgba(255,255,255,0.80) 90%, transparent 98%)",
         }}
       />
 
-      {/* ── Handle ──────────────────────────────────────────────────────────
-          touch-action:none + will-change:transform are set inline so the
-          browser commits a separate GPU layer for this element, which prevents
-          iOS from re-routing the touch to the scroll handler after the first
-          frame of movement. The outer div is 72×72 for a comfortable hit area. */}
+      {/* ── Thumb ─────────────────────────────────────────────────────────────
+          Outer div: 80×80px invisible hit area — generous for fat fingers.
+          Inner visual: 48×48 styled circle with chevron arrows.
+          All pointer handlers live on the outer div.
+          touch-action:none on the outer div tells the browser this element
+          handles its own touch — combined with pointer capture this is the
+          complete, correct solution. No passive hacks needed.
+      ──────────────────────────────────────────────────────────────────────── */}
       <div
-        ref={handleRef}
+        ref={thumbRef}
         data-handle="true"
-        className="absolute"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
         style={{
+          position: "absolute",
           top: "50%",
-          left: `${pos}%`,
-          width: 72,
-          height: 72,
+          left: `${pct}%`,
+          width: 80,
+          height: 80,
           transform: "translate(-50%, -50%)",
-          zIndex: 10,
+          zIndex: 20,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          touchAction: "none",          // critical: tells browser "I own this touch"
-          WebkitTouchCallout: "none",   // prevents iOS long-press menu
-          cursor: "ew-resize",
-          willChange: "left",           // GPU layer hint
+          // touchAction:none — tells the browser this element owns its touch.
+          // Combined with setPointerCapture this fully suppresses scroll-gesture
+          // hijacking on Android Chrome and iOS Safari.
+          touchAction: "none",
+          cursor: active ? "grabbing" : "ew-resize",
+          WebkitTouchCallout: "none",
+          // will-change keeps this element on a composited GPU layer.
+          // The index.css mobile rule strips will-change from all elements
+          // EXCEPT [data-handle], so this hint survives on mobile.
+          willChange: "transform",
         }}
       >
+        {/* Visual circle */}
         <motion.div
-          className="flex h-11 w-11 items-center justify-center rounded-full"
           style={{
-            background: "rgba(30,18,12,0.82)",
-            border: "2px solid rgba(255,255,255,0.22)",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.45)",
-            pointerEvents: "none",      // inner circle doesn't need events; outer div handles them
+            width: 48,
+            height: 48,
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            // Glassmorphism style: dark tinted with frosted ring
+            background: active
+              ? "rgba(196,97,74,0.92)"
+              : "rgba(15,8,4,0.78)",
+            border: active
+              ? "2px solid rgba(255,255,255,0.55)"
+              : "2px solid rgba(255,255,255,0.28)",
+            boxShadow: active
+              ? "0 0 0 6px rgba(196,97,74,0.22), 0 6px 28px rgba(0,0,0,0.55)"
+              : "0 4px 24px rgba(0,0,0,0.50)",
+            pointerEvents: "none",  // parent div owns all events
+            transition: "background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease",
           }}
-          animate={{ scale: drag ? 1.18 : 1 }}
-          transition={{ type: "spring", stiffness: 420, damping: 24 }}
+          animate={{ scale: active ? 1.14 : 1 }}
+          transition={{ type: "spring", stiffness: 500, damping: 28 }}
         >
-          <motion.div
-            className="absolute inset-0 rounded-full"
-            style={{ border: "1.5px solid rgba(255,255,255,0.30)" }}
-            animate={reduceMotion ? { opacity: 0 } : { scale: [1, 1.65], opacity: [0.5, 0] }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
-          />
-          <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5"
-            stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9 18l-6-6 6-6M15 6l6 6-6 6" />
+          {/* Pulse ring — visible only when idle */}
+          {!active && !reduceMotion && (
+            <motion.div
+              style={{
+                position: "absolute", inset: -2,
+                borderRadius: "50%",
+                border: "1.5px solid rgba(255,255,255,0.35)",
+                pointerEvents: "none",
+              }}
+              animate={{ scale: [1, 1.7], opacity: [0.6, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+            />
+          )}
+          {/* Left-right chevron icon */}
+          <svg
+            viewBox="0 0 24 24" fill="none"
+            width={20} height={20}
+            stroke="white" strokeWidth="2.4"
+            strokeLinecap="round" strokeLinejoin="round"
+            style={{ flexShrink: 0 }}
+          >
+            <path d="M9 18l-6-6 6-6" />
+            <path d="M15 6l6 6-6 6" />
           </svg>
         </motion.div>
       </div>
 
-      {/* BEFORE label */}
+      {/* ── BEFORE label (bottom-left) ── */}
       <div
-        className="pointer-events-none absolute flex items-center gap-1.5 rounded-full px-3 py-1.5"
-        style={{ left: 20, bottom: 32, background: "rgba(20,12,8,0.52)", backdropFilter: "blur(6px)" }}
+        style={{
+          position: "absolute", left: 18, bottom: 28,
+          display: "flex", alignItems: "center", gap: 6,
+          padding: "5px 12px",
+          borderRadius: 99,
+          background: "rgba(15,8,4,0.55)",
+          backdropFilter: "blur(6px)",
+          WebkitBackdropFilter: "blur(6px)",
+          pointerEvents: "none",
+        }}
       >
-        <span className="h-1.5 w-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.6)" }} />
-        <span className="text-[9px] font-bold uppercase tracking-widest text-white/80">Before</span>
+        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.55)", flexShrink: 0 }} />
+        <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.80)" }}>
+          Before
+        </span>
       </div>
 
-      {/* AFTER label */}
+      {/* ── AFTER label (bottom-right) ── */}
       <div
-        className="pointer-events-none absolute flex items-center gap-1.5 rounded-full px-3 py-1.5"
-        style={{ right: 20, bottom: 32, background: "rgba(196,97,74,0.80)", backdropFilter: "blur(6px)" }}
+        style={{
+          position: "absolute", right: 18, bottom: 28,
+          display: "flex", alignItems: "center", gap: 6,
+          padding: "5px 12px",
+          borderRadius: 99,
+          background: "rgba(196,97,74,0.82)",
+          backdropFilter: "blur(6px)",
+          WebkitBackdropFilter: "blur(6px)",
+          pointerEvents: "none",
+        }}
       >
-        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-        <span className="text-[9px] font-bold uppercase tracking-widest text-white">After</span>
+        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.85)", flexShrink: 0 }} />
+        <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "white" }}>
+          After
+        </span>
       </div>
+
     </motion.div>
   )
 }
@@ -596,13 +630,14 @@ export default function Hero() {
       id="home"
       style={{
         position: "relative",
-        // overflow:hidden removed — it causes iOS Safari to intercept touchmove
-        // events on child elements (the slider handle) and route them to the
-        // section's scroll handler instead. Clipping is handled by the
-        // BackgroundSlider's own absolute positioning within the section bounds.
+        // No overflow:hidden — that causes iOS Safari to steal touchmove
+        // from child elements and route it to the section scroll handler.
         minHeight: "100svh",
         display: "flex",
         flexDirection: "column",
+        // Explicitly allow vertical scroll on the section itself.
+        // The thumb overrides this for its own pointer via setPointerCapture.
+        touchAction: "pan-y",
       }}
     >
       {/* Layer 0 — full-screen before/after drag slider (behind everything) */}

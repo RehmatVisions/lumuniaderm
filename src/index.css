@@ -304,8 +304,12 @@ img {
   /* Disable clip-path animations */
   .clip-path-reveal { clip-path: none !important; }
 
-  /* Reduce framer-motion willChange hints on mobile — browser decides */
-  [style*="will-change"] {
+  /* Reduce framer-motion willChange hints on mobile — browser decides.
+     EXCEPTION: the hero slider thumb ([data-handle]) must keep its
+     will-change so the browser promotes it to a composited layer.
+     Without a composited layer, pointer capture cannot fully suppress
+     the scroll gesture on Android Chrome / Samsung Internet. */
+  [style*="will-change"]:not([data-handle]) {
     will-change: auto !important;
   }
 }
