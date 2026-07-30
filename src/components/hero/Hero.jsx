@@ -55,18 +55,17 @@ const SOFT_REVEAL = {
               touching the image area scrolls the page normally
 ══════════════════════════════════════════════════════════ */
 function BackgroundSlider() {
-  const wrapRef      = useRef(null)   // reference to the full-width container
-  const handleRef    = useRef(null)   // reference to the drag handle element
-  const widthRef     = useRef(0)      // cached container width — avoids layout reads on every move
-  const isDraggingRef = useRef(false) // ref (not state) so pointer-move always sees current value
+  const wrapRef    = useRef(null)   // full-width container
+  const handleRef  = useRef(null)   // circular drag handle
+  const widthRef   = useRef(0)      // cached container width
+  const posRef     = useRef(50)     // live position ref (avoids stale closures in touch handlers)
 
-  const [pos,      setPos]      = useState(50)    // divider position as % (0–100)
-  const [drag,     setDrag]     = useState(false) // true while actively dragging (for handle scale)
-  const [hinted,   setHinted]   = useState(false) // whether the intro sweep has already played
+  const [pos,    setPos]    = useState(50)
+  const [drag,   setDrag]   = useState(false)
+  const [hinted, setHinted] = useState(false)
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768)
   const reduceMotion = useReducedMotion()
 
-  // Parallax: images drift upward slowly as the user scrolls down
   const { scrollY } = useScroll()
   const rawParallax = useTransform(scrollY, [0, 800], [0, reduceMotion ? 0 : -72])
   const parallaxY   = useSpring(rawParallax, { stiffness: 80, damping: 20, mass: 0.5 })
@@ -85,63 +84,80 @@ function BackgroundSlider() {
   const bgBefore = isMobile ? beforeMobImg : beforeImg
   const bgAfter  = isMobile ? afterMobImg  : afterImg
 
-  // Convert a raw clientX pixel value into a 0–100 percentage inside the container
   const clamp     = (v) => Math.min(Math.max(v, 2), 98)
   const toPercent = (clientX) => {
     const rect = wrapRef.current?.getBoundingClientRect()
-    if (!rect) return 50
+    if (!rect) return posRef.current
     return clamp(((clientX - rect.left) / rect.width) * 100)
   }
 
-  // ── Desktop: the whole container is draggable ──────────────────────────────
-  const onContainerPointerDown = (e) => {
-    const isTouch = window.matchMedia("(pointer: coarse)").matches
-    // On touch devices this handler is skipped — handle has its own events below
-    if (isTouch) return
+  const updatePos = (clientX) => {
+    const next = toPercent(clientX)
+    posRef.current = next
+    setPos(next)
+  }
 
-    wrapRef.current?.setPointerCapture(e.pointerId)
+  // ── NATIVE TOUCH EVENTS on the handle (registered via useEffect) ───────────
+  // React registers synthetic touch listeners as PASSIVE, which means the
+  // browser ignores preventDefault() and keeps scrolling. We must use
+  // addEventListener with { passive: false } directly on the DOM node.
+  useEffect(() => {
+    const handle = handleRef.current
+    if (!handle) return
+
+    const onTouchStart = (e) => {
+      // Stop the page from scrolling while dragging the handle
+      e.preventDefault()
+      e.stopPropagation()
+      setDrag(true)
+      setHinted(true)
+      if (e.touches[0]) updatePos(e.touches[0].clientX)
+    }
+
+    const onTouchMove = (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      if (e.touches[0]) updatePos(e.touches[0].clientX)
+    }
+
+    const onTouchEnd = (e) => {
+      e.stopPropagation()
+      setDrag(false)
+    }
+
+    handle.addEventListener("touchstart", onTouchStart, { passive: false })
+    handle.addEventListener("touchmove",  onTouchMove,  { passive: false })
+    handle.addEventListener("touchend",   onTouchEnd,   { passive: false })
+    handle.addEventListener("touchcancel",onTouchEnd,   { passive: false })
+
+    return () => {
+      handle.removeEventListener("touchstart", onTouchStart)
+      handle.removeEventListener("touchmove",  onTouchMove)
+      handle.removeEventListener("touchend",   onTouchEnd)
+      handle.removeEventListener("touchcancel",onTouchEnd)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // only runs once after mount — handlers read from refs, not stale state
+
+  // ── MOUSE (desktop) — whole container is draggable ────────────────────────
+  const isDraggingRef = useRef(false)
+
+  const onMouseDown = (e) => {
     isDraggingRef.current = true
     setDrag(true)
     setHinted(true)
-    setPos(toPercent(e.clientX))
+    updatePos(e.clientX)
   }
-
-  const onContainerPointerMove = (e) => {
+  const onMouseMove = (e) => {
     if (!isDraggingRef.current) return
-    setPos(toPercent(e.clientX))
+    updatePos(e.clientX)
   }
-
-  const onContainerPointerUp = () => {
+  const onMouseUp = () => {
     isDraggingRef.current = false
     setDrag(false)
   }
 
-  // ── Mobile: only the handle is draggable ───────────────────────────────────
-  // Attach these directly to the handle element so the browser reads its
-  // touchAction:"none" before deciding whether to scroll — this is the key fix.
-  const onHandlePointerDown = (e) => {
-    e.stopPropagation()
-    // Capture on the handle so move/up keep firing anywhere on screen
-    e.currentTarget.setPointerCapture(e.pointerId)
-    isDraggingRef.current = true
-    setDrag(true)
-    setHinted(true)
-    setPos(toPercent(e.clientX))
-  }
-
-  const onHandlePointerMove = (e) => {
-    if (!isDraggingRef.current) return
-    e.stopPropagation()
-    setPos(toPercent(e.clientX))
-  }
-
-  const onHandlePointerUp = (e) => {
-    e.stopPropagation()
-    isDraggingRef.current = false
-    setDrag(false)
-  }
-
-  // Intro sweep: plays once on load so the user discovers the slider
+  // Intro sweep
   useEffect(() => {
     if (hinted || reduceMotion) return
     const timer = setTimeout(() => {
@@ -163,24 +179,22 @@ function BackgroundSlider() {
       className="absolute inset-0"
       style={{
         zIndex: 0,
-        // On mobile: allow vertical scroll (pan-y) — the handle has its own touchAction:"none".
-        // On desktop: none — the whole image is draggable.
-        touchAction: isMobile ? "pan-y" : "none",
-        cursor: isMobile ? "default" : "ew-resize",
+        // pan-y lets the page scroll on mobile when touching the image area.
+        // The handle overrides this with its own native listeners + preventDefault.
+        touchAction: "pan-y",
         userSelect: "none",
-        // Extra height so parallax movement never exposes white edges
         top: "-8%", bottom: "-8%", left: 0, right: 0,
+        cursor: isMobile ? "default" : "ew-resize",
       }}
-      onPointerDown={onContainerPointerDown}
-      onPointerMove={onContainerPointerMove}
-      onPointerUp={onContainerPointerUp}
-      onPointerLeave={onContainerPointerUp}
-      onPointerCancel={onContainerPointerUp}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
+      onMouseLeave={onMouseUp}
       initial={reduceMotion ? false : { opacity: 0, scale: 1.035 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 1.45, ease: EASE_EXPO }}
     >
-      {/* AFTER image — above the fold, load eagerly with high priority */}
+      {/* AFTER image */}
       <motion.img
         src={bgAfter} alt="" aria-hidden="true" draggable={false}
         className="absolute inset-0 h-full w-full select-none object-cover"
@@ -190,7 +204,7 @@ function BackgroundSlider() {
         fetchPriority="high"
       />
 
-      {/* BEFORE image — clipped to the left of the divider line */}
+      {/* BEFORE image — clipped to the left of the divider */}
       <div
         className="absolute inset-0 overflow-hidden"
         style={{ width: `${pos}%`, pointerEvents: "none" }}
@@ -200,7 +214,6 @@ function BackgroundSlider() {
           className="absolute inset-0 h-full select-none object-cover"
           style={{
             objectPosition: "center top",
-            // Use the cached pixel width so the image doesn't stretch when clipped
             width: widthRef.current > 0 ? `${widthRef.current}px` : "100vw",
             maxWidth: "none",
             pointerEvents: "none",
@@ -212,7 +225,7 @@ function BackgroundSlider() {
         />
       </div>
 
-      {/* Divider line — the vertical white line between before and after */}
+      {/* Divider line */}
       <div
         className="pointer-events-none absolute inset-y-0"
         style={{
@@ -223,24 +236,20 @@ function BackgroundSlider() {
         }}
       />
 
-      {/* Handle — the circular drag button sitting on the divider line.
-          data-handle="true" marks this as the drag target on mobile.
-          Pointer events are attached directly here so the browser honours
-          touchAction:"none" on this element before deciding to scroll. */}
+      {/* Handle — native touch events are wired up in useEffect above.
+          The element is sized generously so fingers hit it easily on mobile. */}
       <div
         ref={handleRef}
         className="absolute"
         data-handle="true"
-        onPointerDown={onHandlePointerDown}
-        onPointerMove={onHandlePointerMove}
-        onPointerUp={onHandlePointerUp}
-        onPointerCancel={onHandlePointerUp}
         style={{
           top: "50%", left: `${pos}%`,
+          // Make the tap target bigger than the visible circle (44px → 64px)
+          width: 64, height: 64,
           transform: "translate(-50%,-50%)",
           zIndex: 3,
-          // touchAction:"none" must be on the element that receives the pointerdown
-          // so the browser doesn't claim the touch for scrolling first.
+          display: "flex", alignItems: "center", justifyContent: "center",
+          // touch-action none tells the browser this element handles its own touch
           touchAction: "none",
           cursor: "ew-resize",
         }}
