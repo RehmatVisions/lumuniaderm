@@ -65,7 +65,6 @@ function StatCard({ stat }) {
             whileHover={{ scale: 1.04 }}
             transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
             loading="lazy"
-            decoding="async"
           />
           
         </>
@@ -89,7 +88,7 @@ function StatCard({ stat }) {
 
         <div className="mt-auto pt-8">
           <motion.p
-            className="font-serif text-[3.2rem] font-bold leading-none text-white"
+            className="font-serif text-[3.2rem] font-bold leading-none text-[#3F2D26]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -97,8 +96,8 @@ function StatCard({ stat }) {
           >
             {stat.value}
           </motion.p>
-          <p className="mt-2 text-base font-semibold text-white">{stat.label}</p>
-          <p className="mt-1 text-sm leading-relaxed text-white/75">
+          <p className="mt-2 text-base font-semibold  text-[#3F2D26]">{stat.label}</p>
+          <p className="mt-1 text-sm leading-relaxed text-[#3F2D26]/75">
             {stat.description}
           </p>
         </div>
