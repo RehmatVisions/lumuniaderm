@@ -56,6 +56,7 @@ const SOFT_REVEAL = {
 ══════════════════════════════════════════════════════════ */
 function BackgroundSlider() {
   const wrapRef      = useRef(null)   // reference to the full-width container
+  const handleRef    = useRef(null)   // reference to the drag handle element
   const widthRef     = useRef(0)      // cached container width — avoids layout reads on every move
   const isDraggingRef = useRef(false) // ref (not state) so pointer-move always sees current value
 
@@ -92,28 +93,50 @@ function BackgroundSlider() {
     return clamp(((clientX - rect.left) / rect.width) * 100)
   }
 
-  const onPointerDown = (e) => {
-    // On touch devices: only start drag when the finger lands on the handle.
-    // On mouse devices: the whole image is draggable (standard desktop UX).
+  // ── Desktop: the whole container is draggable ──────────────────────────────
+  const onContainerPointerDown = (e) => {
     const isTouch = window.matchMedia("(pointer: coarse)").matches
-    if (isTouch && !e.target.closest("[data-handle]")) return
+    // On touch devices this handler is skipped — handle has its own events below
+    if (isTouch) return
 
-    // Capture the pointer so move/up events keep firing even if the finger leaves the element
     wrapRef.current?.setPointerCapture(e.pointerId)
-
-    isDraggingRef.current = true  // use ref so onPointerMove never sees a stale value
+    isDraggingRef.current = true
     setDrag(true)
     setHinted(true)
     setPos(toPercent(e.clientX))
   }
 
-  const onPointerMove = (e) => {
-    // Read from ref, not state — state updates are async and would cause a 1-frame lag
+  const onContainerPointerMove = (e) => {
     if (!isDraggingRef.current) return
     setPos(toPercent(e.clientX))
   }
 
-  const onPointerUp = () => {
+  const onContainerPointerUp = () => {
+    isDraggingRef.current = false
+    setDrag(false)
+  }
+
+  // ── Mobile: only the handle is draggable ───────────────────────────────────
+  // Attach these directly to the handle element so the browser reads its
+  // touchAction:"none" before deciding whether to scroll — this is the key fix.
+  const onHandlePointerDown = (e) => {
+    e.stopPropagation()
+    // Capture on the handle so move/up keep firing anywhere on screen
+    e.currentTarget.setPointerCapture(e.pointerId)
+    isDraggingRef.current = true
+    setDrag(true)
+    setHinted(true)
+    setPos(toPercent(e.clientX))
+  }
+
+  const onHandlePointerMove = (e) => {
+    if (!isDraggingRef.current) return
+    e.stopPropagation()
+    setPos(toPercent(e.clientX))
+  }
+
+  const onHandlePointerUp = (e) => {
+    e.stopPropagation()
     isDraggingRef.current = false
     setDrag(false)
   }
@@ -140,19 +163,19 @@ function BackgroundSlider() {
       className="absolute inset-0"
       style={{
         zIndex: 0,
-        // On mobile: allow vertical scroll (pan-y), only horizontal drag on the handle is captured.
+        // On mobile: allow vertical scroll (pan-y) — the handle has its own touchAction:"none".
         // On desktop: none — the whole image is draggable.
         touchAction: isMobile ? "pan-y" : "none",
-        cursor: "ew-resize",
+        cursor: isMobile ? "default" : "ew-resize",
         userSelect: "none",
         // Extra height so parallax movement never exposes white edges
         top: "-8%", bottom: "-8%", left: 0, right: 0,
       }}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerLeave={onPointerUp}
-      onPointerCancel={onPointerUp}
+      onPointerDown={onContainerPointerDown}
+      onPointerMove={onContainerPointerMove}
+      onPointerUp={onContainerPointerUp}
+      onPointerLeave={onContainerPointerUp}
+      onPointerCancel={onContainerPointerUp}
       initial={reduceMotion ? false : { opacity: 0, scale: 1.035 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 1.45, ease: EASE_EXPO }}
@@ -201,16 +224,23 @@ function BackgroundSlider() {
       />
 
       {/* Handle — the circular drag button sitting on the divider line.
-          data-handle="true" marks this as the drag target on mobile. */}
+          data-handle="true" marks this as the drag target on mobile.
+          Pointer events are attached directly here so the browser honours
+          touchAction:"none" on this element before deciding to scroll. */}
       <div
+        ref={handleRef}
         className="absolute"
         data-handle="true"
+        onPointerDown={onHandlePointerDown}
+        onPointerMove={onHandlePointerMove}
+        onPointerUp={onHandlePointerUp}
+        onPointerCancel={onHandlePointerUp}
         style={{
           top: "50%", left: `${pos}%`,
           transform: "translate(-50%,-50%)",
           zIndex: 3,
-          // On mobile the handle needs its own pointer events so it can capture drag
-          // while the rest of the image lets vertical scroll pass through
+          // touchAction:"none" must be on the element that receives the pointerdown
+          // so the browser doesn't claim the touch for scrolling first.
           touchAction: "none",
           cursor: "ew-resize",
         }}
