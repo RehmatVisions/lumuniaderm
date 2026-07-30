@@ -1,4 +1,4 @@
-import {
+ import {
   motion,
   useMotionValue,
   useReducedMotion,
@@ -47,6 +47,94 @@ const SOFT_REVEAL = {
     y: 0,
     transition: { duration: 0.65, ease: EASE_EXPO },
   },
+}
+
+/* Isolated opening layer: absolute and pointer-free, so it cannot affect
+   hero sizing, mobile layout, scrolling, slider gestures, or responsiveness. */
+function PremiumOpeningOverlay() {
+  const reduceMotion = useReducedMotion()
+
+  if (reduceMotion) return null
+
+  const curtainTransition = {
+    duration: 0.86,
+    delay: 0.42,
+    ease: [0.76, 0, 0.24, 1],
+  }
+
+  return (
+    <>
+      <motion.div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 100,
+          overflow: "hidden",
+          contain: "paint",
+          pointerEvents: "none",
+        }}
+        initial={{ visibility: "visible" }}
+        animate={{ visibility: "hidden" }}
+        transition={{ delay: 1.34 }}
+      >
+        <motion.img
+          src={logoImg}
+          alt=""
+          draggable={false}
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            zIndex: 102,
+            width: "clamp(108px,14vw,188px)",
+            height: "auto",
+            objectFit: "contain",
+            willChange: "transform, opacity",
+          }}
+          initial={{ opacity: 0, x: "-50%", y: "-45%", scale: 0.97 }}
+          animate={{
+            opacity: [0, 1, 1, 0],
+            x: "-50%",
+            y: ["-45%", "-50%", "-50%", "-55%"],
+            scale: [0.97, 1, 1, 1.02],
+          }}
+          transition={{
+            duration: 0.84,
+            times: [0, 0.3, 0.66, 1],
+            ease: EASE_EXPO,
+          }}
+        />
+
+        <motion.div
+          style={{
+            position: "absolute",
+            inset: 0,
+            right: "50%",
+            background: "linear-gradient(135deg,#f8e9dc 0%,#f4ded0 100%)",
+            willChange: "transform",
+          }}
+          initial={{ x: 0 }}
+          animate={{ x: "-101%" }}
+          transition={curtainTransition}
+        />
+
+        <motion.div
+          style={{
+            position: "absolute",
+            inset: 0,
+            left: "50%",
+            background: "linear-gradient(225deg,#f8e9dc 0%,#f4ded0 100%)",
+            willChange: "transform",
+          }}
+          initial={{ x: 0 }}
+          animate={{ x: "101%" }}
+          transition={curtainTransition}
+        />
+      </motion.div>
+
+    </>
+  )
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -651,6 +739,8 @@ export default function Hero() {
         touchAction: "pan-y",
       }}
     >
+      <PremiumOpeningOverlay />
+
       {/* Layer 0 — full-screen before/after drag slider (behind everything) */}
       <BackgroundSlider />
 
