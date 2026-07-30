@@ -88,7 +88,7 @@ function StatCard({ stat }) {
 
         <div className="mt-auto pt-8">
           <motion.p
-            className="font-serif text-[3.2rem] font-bold leading-none text-[#3F2D26]"
+            className="font-serif text-[3.1rem] font-bold leading-none text-[#3F2D26]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -96,9 +96,9 @@ function StatCard({ stat }) {
           >
             {stat.value}
           </motion.p>
-          <p className="mt-2 text-base font-semibold  text-[#3F2D26]">{stat.label}</p>
+          <p className="mt-1 text-base font-semibold  text-[#3F2D26]">{stat.label}</p>
           <p className="mt-1 text-sm leading-relaxed text-[#3F2D26]/75">
-            {stat.description}
+            {/* {stat.description} */}
           </p>
         </div>
       </div>
@@ -135,7 +135,7 @@ function CenterCard({ card }) {
         </svg>
         <p className="text-[0.95rem] font-medium italic leading-[1.65] text-white">"{card.quote}"</p>
         <p className="mt-3 text-sm font-semibold text-white">
-          {card.author} <span style={{ color: "rgba(255,255,255,0.60)" }}>/ {card.role}</span>
+          {/* {card.author} <span style={{ color: "rgba(255,255,255,0.60)" }}>/ {card.role}</span> */}
         </p>
       </div>
     </motion.div>

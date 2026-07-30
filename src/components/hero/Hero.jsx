@@ -1,4 +1,10 @@
-import { motion, useScroll, useTransform, useSpring } from "framer-motion"
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion"
 import { useState, useEffect, useRef } from "react"
 import { siteContent } from "../../data/siteContent"
 import beforeImg    from "../../assets/hero-images/beforeherobackround.png"
@@ -10,6 +16,37 @@ import logoImg      from "../../assets/novalogo.png"
 // Standard easing curves used across all animations in this file
 const EASE      = [0.25, 0.46, 0.45, 0.94]
 const EASE_EXPO = [0.16, 1, 0.3, 1]
+
+// Shared orchestration keeps the opening calm and cohesive instead of making
+// every element feel like a separate animation.
+const HERO_REVEAL = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.18,
+      staggerChildren: 0.09,
+    },
+  },
+}
+
+const LUXURY_REVEAL = {
+  hidden: { opacity: 0, y: 22, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.85, ease: EASE_EXPO },
+  },
+}
+
+const SOFT_REVEAL = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: EASE_EXPO },
+  },
+}
 
 /* ══════════════════════════════════════════════════════════
    BACKGROUND BEFORE/AFTER SLIDER
@@ -25,10 +62,11 @@ function BackgroundSlider() {
   const [drag,   setDrag]   = useState(false) // is the user currently dragging?
   const [hinted, setHinted] = useState(false) // has the auto-hint sweep already played?
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768)
+  const reduceMotion = useReducedMotion()
 
   // Parallax: images move upward slowly as user scrolls down
   const { scrollY } = useScroll()
-  const rawParallax = useTransform(scrollY, [0, 800], [0, -120])
+  const rawParallax = useTransform(scrollY, [0, 800], [0, reduceMotion ? 0 : -72])
   const parallaxY   = useSpring(rawParallax, { stiffness: 80, damping: 20, mass: 0.5 })
 
   // Measure the container width and detect mobile on mount and on resize
@@ -71,7 +109,7 @@ function BackgroundSlider() {
   // Auto-hint: plays a small sweep animation on first load so the user
   // discovers the before/after slider. Only runs once, before any interaction.
   useEffect(() => {
-    if (hinted) return
+    if (hinted || reduceMotion) return
     const timer = setTimeout(() => {
       const steps = [50, 42, 35, 43, 58, 65, 55, 50]
       let i = 0
@@ -83,10 +121,10 @@ function BackgroundSlider() {
       run()
     }, 1800)
     return () => clearTimeout(timer)
-  }, [hinted])
+  }, [hinted, reduceMotion])
 
   return (
-    <div
+    <motion.div
       ref={wrapRef}
       className="absolute inset-0"
       style={{
@@ -104,6 +142,9 @@ function BackgroundSlider() {
       onPointerUp={onPointerUp}
       onPointerLeave={onPointerUp}
       onPointerCancel={onPointerUp}
+      initial={reduceMotion ? false : { opacity: 0, scale: 1.035 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1.45, ease: EASE_EXPO }}
     >
       {/* AFTER image — above the fold, load eagerly with high priority */}
       <motion.img
@@ -177,7 +218,7 @@ function BackgroundSlider() {
           <motion.div
             className="absolute inset-0 rounded-full"
             style={{ border: "1.5px solid rgba(255,255,255,0.30)" }}
-            animate={{ scale: [1, 1.65], opacity: [0.5, 0] }}
+            animate={reduceMotion ? { opacity: 0 } : { scale: [1, 1.65], opacity: [0.5, 0] }}
             transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
           />
           {/* Left-right arrows icon */}
@@ -205,7 +246,7 @@ function BackgroundSlider() {
         <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
         <span className="text-[9px] font-bold uppercase tracking-widest text-white">After</span>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -221,7 +262,7 @@ function NavLink({ label, href, active }) {
   return (
     <a
       href={href}
-      className="relative flex items-center gap-0.5 text-[13px] font-medium transition-colors duration-200 hover:text-[#C4614A]"
+className="relative flex items-center gap-0.5 text-[13px] font-semibold transition-colors duration-200 hover:text-[#C4614A]"
       style={{ color: active ? "#C4614A" : "#5a3e32", letterSpacing: "0.01em" }}
     >
       {label}
@@ -237,9 +278,15 @@ function Navbar() {
   const { nav } = siteContent
   const instagramHref = siteContent.topBar?.social?.find(s => s.icon === "instagram")?.href || "#"
   const [menuOpen, setMenuOpen] = useState(false)
+  const reduceMotion = useReducedMotion()
 
   return (
-    <div style={{ position: "relative", zIndex: 50 }}>
+    <motion.div
+      style={{ position: "relative", zIndex: 50 }}
+      initial={reduceMotion ? false : { opacity: 0, y: -14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.12, ease: EASE_EXPO }}
+    >
 
       {/* ── Desktop + tablet nav bar ── */}
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
@@ -251,7 +298,7 @@ function Navbar() {
             alt="Novaderm"
             draggable={false}
             className="select-none"
-            style={{ height: "clamp(48px,7vw,72px)", width: "auto", objectFit: "contain" }}
+ style={{ height: "clamp(72px,10vw,110px)", width: "auto", objectFit: "contain" }}
             loading="eager"
             decoding="async"
           />
@@ -270,8 +317,9 @@ function Navbar() {
             href={nav.ctaHref}
             className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[12px] font-bold uppercase tracking-wide text-white"
             style={{ background: "linear-gradient(135deg,#C4614A,#a0432e)", boxShadow: "0 4px 16px rgba(196,97,74,0.35)" }}
-            whileHover={{ scale: 1.04 }}
+            whileHover={reduceMotion ? undefined : { y: -2, scale: 1.025, boxShadow: "0 8px 24px rgba(196,97,74,0.42)" }}
             whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 360, damping: 24 }}
           >
             {nav.ctaText}
             <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
@@ -280,18 +328,7 @@ function Navbar() {
           </motion.a>
 
           {/* Instagram icon link */}
-          <a
-            href={instagramHref}
-            aria-label="Instagram"
-            target="_blank"
-            rel="noreferrer"
-            className="flex h-8 w-8 items-center justify-center rounded-full border transition-colors hover:border-[#C4614A] hover:text-[#C4614A]"
-            style={{ borderColor: "rgba(196,97,74,0.3)", color: "#7a5a4a" }}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
-              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01M6.5 2h11A3.5 3.5 0 0121 5.5v13a3.5 3.5 0 01-3.5 3.5h-11A3.5 3.5 0 013 18.5v-13A3.5 3.5 0 016.5 2z"/>
-            </svg>
-          </a>
+         
         </div>
 
         {/* Mobile hamburger button — visible only on mobile */}
@@ -347,7 +384,7 @@ function Navbar() {
           </a>
         </div>
       </motion.div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -355,13 +392,15 @@ function Navbar() {
    BOTANICAL LEAF — decorative SVG on the left side of hero
 ══════════════════════════════════════════════════════════ */
 function BotanicalLeaf() {
+  const reduceMotion = useReducedMotion()
+
   return (
     <motion.svg
       viewBox="0 0 180 420"
       aria-hidden="true"
       className="pointer-events-none select-none absolute"
       style={{ left: -20, top: "18%", width: "clamp(80px,11vw,155px)", opacity: 0.22, zIndex: 2 }}
-      initial={{ opacity: 0, x: -20 }}
+      initial={reduceMotion ? false : { opacity: 0, x: -20 }}
       animate={{ opacity: 0.22, x: 0 }}
       transition={{ duration: 1.1, delay: 0.5, ease: EASE_EXPO }}
     >
@@ -423,11 +462,16 @@ const STAT_ICONS = {
 }
 
 // Animates a number from 0 to `target` over ~1.1 seconds using requestAnimationFrame
-function CountUp({ target, suffix, decimals = 0, delay = 0 }) {
+function CountUp({ target, suffix, decimals = 0, delay = 0, reduceMotion = false }) {
   const [displayValue, setDisplayValue] = useState("0")
   const rafRef = useRef(null)
 
   useEffect(() => {
+    if (reduceMotion) {
+      setDisplayValue(decimals > 0 ? target.toFixed(decimals) : target.toLocaleString())
+      return undefined
+    }
+
     const startTimer = setTimeout(() => {
       const duration  = 1100
       const startTime = performance.now()
@@ -459,7 +503,7 @@ function CountUp({ target, suffix, decimals = 0, delay = 0 }) {
       clearTimeout(startTimer)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
-  }, [target, decimals, delay])
+  }, [target, decimals, delay, reduceMotion])
 
   return <>{displayValue}{suffix}</>
 }
@@ -469,15 +513,21 @@ function CountUp({ target, suffix, decimals = 0, delay = 0 }) {
 ══════════════════════════════════════════════════════════ */
 export default function Hero() {
   const slide = siteContent.hero.slides[0]
+  const heroRef = useRef(null)
+  const reduceMotion = useReducedMotion()
 
   // Parallax + fade for the text content layer as user scrolls
-  const { scrollY }    = useScroll()
-  const rawContentY    = useTransform(scrollY, [0, 600], [0, -40])
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  })
+  const rawContentY    = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : -34])
   const contentY       = useSpring(rawContentY, { stiffness: 90, damping: 22, mass: 0.4 })
-  const contentOpacity = useTransform(scrollY, [0, 400], [1, 0.15])
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.82], [1, reduceMotion ? 1 : 0.18])
 
   return (
     <section
+      ref={heroRef}
       id="home"
       style={{
         position: "relative",
@@ -511,6 +561,9 @@ export default function Hero() {
             y: contentY,
             opacity: contentOpacity,
           }}
+          variants={HERO_REVEAL}
+          initial={reduceMotion ? false : "hidden"}
+          animate="visible"
         >
           <div
             className="flex flex-col justify-start md:justify-center"
@@ -520,9 +573,7 @@ export default function Hero() {
             <motion.span
               className="mb-3 inline-flex items-center gap-2"
               style={{ fontSize: "0.63rem", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#a07060" }}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.08 }}
+              variants={SOFT_REVEAL}
             >
               <span className="inline-block h-px w-5" style={{ background: "rgba(160,112,96,0.5)" }} />
               {slide.badge}
@@ -531,22 +582,27 @@ export default function Hero() {
             {/* Headline — split on "." so each sentence gets its own line */}
             <motion.h1
               style={{ lineHeight: 1.08, letterSpacing: "-0.02em", margin: 0 }}
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.14, ease: EASE_EXPO }}
+              variants={HERO_REVEAL}
             >
               {slide.headline.split(/\.\s*/).filter(Boolean).map((part, i) => (
                 <span
                   key={i}
                   className="font-serif block"
                   style={{
+                    overflow: "hidden",
                     fontSize: "clamp(1.7rem,4.2vw,3.1rem)",
                     color: i === 0 ? "#C4614A" : "#2e1f16",
                     fontWeight: 700,
                     fontStyle: i === 0 ? "italic" : "normal",
                   }}
                 >
-                  {part}.
+                  <motion.span
+                    className="block"
+                    variants={LUXURY_REVEAL}
+                    style={{ willChange: "transform, opacity, filter" }}
+                  >
+                    {part}.
+                  </motion.span>
                 </span>
               ))}
             </motion.h1>
@@ -562,9 +618,7 @@ export default function Hero() {
                 fontWeight: 400,
                 marginTop: "clamp(10px,1.5vw,16px)",
               }}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.24, ease: EASE }}
+              variants={SOFT_REVEAL}
             >
               {slide.description}
             </motion.p>
@@ -573,9 +627,7 @@ export default function Hero() {
             <motion.div
               className="flex flex-wrap items-center gap-3"
               style={{ marginTop: "clamp(18px,2.5vw,28px)" }}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.34, ease: EASE }}
+              variants={SOFT_REVEAL}
             >
               <motion.a
                 href={slide.primaryCta.href}
@@ -587,8 +639,9 @@ export default function Hero() {
                   background: "linear-gradient(135deg,#C4614A,#9a3d2a)",
                   boxShadow: "0 4px 18px rgba(196,97,74,0.42)",
                 }}
-                whileHover={{ scale: 1.04, boxShadow: "0 7px 24px rgba(196,97,74,0.55)" }}
+                whileHover={reduceMotion ? undefined : { y: -2, scale: 1.025, boxShadow: "0 9px 28px rgba(196,97,74,0.52)" }}
                 whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 360, damping: 24 }}
               >
                 {slide.primaryCta.text}
                 <svg className="h-3 w-3 transition-transform group-hover:translate-x-0.5" viewBox="0 0 20 20" fill="currentColor">
@@ -606,8 +659,9 @@ export default function Hero() {
                   background: "rgba(255,255,255,0.65)",
                   border: "1.5px solid rgba(196,97,74,0.4)",
                 }}
-                whileHover={{ scale: 1.03, borderColor: "#C4614A", color: "#C4614A", background: "rgba(255,255,255,0.88)" }}
+                whileHover={reduceMotion ? undefined : { y: -2, scale: 1.018, borderColor: "#C4614A", color: "#C4614A", background: "rgba(255,255,255,0.88)" }}
                 whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 360, damping: 24 }}
               >
                 {slide.secondaryCta.text}
               </motion.a>
@@ -617,12 +671,16 @@ export default function Hero() {
             <motion.div
               className="grid grid-cols-2 gap-x-4 gap-y-3 md:flex md:flex-wrap md:gap-6"
               style={{ marginTop: "clamp(20px,3vw,36px)" }}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.5, ease: EASE }}
+              variants={HERO_REVEAL}
             >
               {STATS.map((stat, i) => (
-                <div key={stat.icon} className="flex items-center gap-2">
+                <motion.div
+                  key={stat.icon}
+                  className="flex items-center gap-2"
+                  variants={SOFT_REVEAL}
+                  whileHover={reduceMotion ? undefined : { y: -2 }}
+                  transition={{ type: "spring", stiffness: 320, damping: 24 }}
+                >
                   {/* Icon box */}
                   <div
                     className="flex shrink-0 items-center justify-center rounded-lg"
@@ -636,13 +694,19 @@ export default function Hero() {
                       className="font-serif font-bold tabular-nums"
                       style={{ fontSize: "clamp(0.92rem,1.4vw,1.1rem)", color: "#2e1f16", letterSpacing: "-0.01em" }}
                     >
-                      <CountUp target={stat.target} suffix={stat.suffix} decimals={stat.decimals} delay={700 + i * 80} />
+                      <CountUp
+                        target={stat.target}
+                        suffix={stat.suffix}
+                        decimals={stat.decimals}
+                        delay={700 + i * 80}
+                        reduceMotion={reduceMotion}
+                      />
                     </span>
                     <span style={{ fontSize: "0.52rem", fontWeight: 600, letterSpacing: "0.13em", textTransform: "uppercase", color: "#a07060" }}>
                       {stat.label}
                     </span>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </motion.div>
           </div>

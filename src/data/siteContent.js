@@ -194,7 +194,7 @@ export const siteContent = {
     headline: "Precision Aesthetics Backed by Over a Decade of Clinical Mastery",
     stat: {
       value:       "8,500+",
-      label:       "Laser Procedures Performed",
+      label:       "Laser Procedures",
       description: "A decade of laser excellence — each session delivered by certified physicians using calibrated, medical-grade technology for consistently superior outcomes.",
       image:       laser2Img,
     },
