@@ -94,6 +94,8 @@ function SliderCard({ pair }) {
           <motion.img
             key={`after-${pair.label}`}
             src={pair.after} alt="After treatment" draggable={false}
+            loading="lazy"
+            decoding="async"
             initial={{ opacity: 0, scale: 1.06 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.97 }}
@@ -112,6 +114,8 @@ function SliderCard({ pair }) {
             <motion.img
               key={`before-${pair.label}`}
               src={pair.before} alt="Before treatment" draggable={false}
+              loading="lazy"
+              decoding="async"
               initial={{ opacity: 0, scale: 1.06 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.97 }}

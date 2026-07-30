@@ -5,6 +5,8 @@ import asian2 from "../../assets/asian2.jpg"
 import asian3 from "../../assets/asian3.jpg"
 import { siteContent } from "../../data/siteContent"
 import { useReveal } from "../../hooks/useReveal"
+// useReveal stays in its own file — it uses IntersectionObserver for CSS class toggling,
+// which is different from framer-motion animations used in animations.js
 import TextReveal from "../ui/TextReveal"
 
 const IMG_CORNERS = { borderRadius: "2rem 0.5rem 2rem 0.5rem" }
@@ -63,6 +65,7 @@ function StatCard({ stat }) {
             whileHover={{ scale: 1.04 }}
             transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
             loading="lazy"
+            decoding="async"
           />
           
         </>
@@ -123,6 +126,7 @@ function CenterCard({ card }) {
         whileHover={{ scale: 1.04 }}
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         loading="lazy"
+        decoding="async"
       />
       
       <PlayCircle />

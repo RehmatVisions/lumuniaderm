@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion"
-import { useState, useMemo } from "react"
+import { useState } from "react"
 import ArrowUpRight from "../ui/ArrowUpRight"
 
 const EASE      = [0.25, 0.46, 0.45, 0.94]

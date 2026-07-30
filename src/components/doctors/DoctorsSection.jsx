@@ -127,7 +127,8 @@ export default function DoctorsSection() {
                 objectFit:"cover", objectPosition:"top center",
                 background:"#f5ebe2",
               }}
-              loading="eager"
+              loading="lazy"
+              decoding="async"
             />
 
             {/* Board-certified badge bottom */}

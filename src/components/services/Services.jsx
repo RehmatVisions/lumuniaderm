@@ -83,6 +83,7 @@ function CardFeatured({ card, n }) {
           transition={{ duration:0.7, ease:EASE }}
           style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"center top", position:"absolute", inset:0 }}
           loading="lazy"
+          decoding="async"
         />
         {/* Subtle bottom fade into content */}
         <div style={{ position:"absolute", bottom:0, left:0, right:0, height:80,
@@ -174,6 +175,7 @@ function CardWithImage({ card, n, delay = 0 }) {
           transition={{ duration:0.65, ease:EASE }}
           style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"center" }}
           loading="lazy"
+          decoding="async"
         />
       </div>
 

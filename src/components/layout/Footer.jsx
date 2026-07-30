@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import ArrowUpRight from "../ui/ArrowUpRight"
 import { useReveal } from "../../hooks/useReveal"
+// useReveal uses IntersectionObserver to add CSS 'is-visible' classes — kept separate from animations.js
 import TextReveal from "../ui/TextReveal"
 import sectionBg from "../../assets/backgroundall/bacrkound.png"
 

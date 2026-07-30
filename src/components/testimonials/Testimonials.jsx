@@ -365,7 +365,7 @@ export default function Testimonials() {
             gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",
             gap:"clamp(10px,1.5vw,16px)",
           }}>
-            <AnimatePresence mode="wait" custom={dir}>
+            <AnimatePresence mode="popLayout" custom={dir}>
               {visible.map((r, i) => <ReviewCard key={r.id} r={r} i={i} />)}
             </AnimatePresence>
           </div>

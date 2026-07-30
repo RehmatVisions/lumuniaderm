@@ -1,11 +1,5 @@
 // ─── Edit this file to customize all text, links, and images ───
 import heroImg from "../assets/hero-backorund-up.jpg"
-import antiAgingImg from "../assets/antiaging.jpg"
-import rejevImg from "../assets/rejev.png"
-import laserImg from "../assets/laserhairremoval.jpg"
-import prpHairImg from "../assets/PRPHairTreatment.jpg"
-import acneImg from "../assets/acenetreament.jpg"
-import pigmentationImg from "../assets/pigmentationglowcard.jpg"
 import whyChooseMainImg from "../assets/whychooseusen.png"
 import whyChooseSecondaryImg from "../assets/replace.jpg"
 import whyChooseTertiaryImg from "../assets/thirdimage.png"
