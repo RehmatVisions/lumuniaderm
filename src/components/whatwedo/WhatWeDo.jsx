@@ -22,7 +22,7 @@ const fadeUp = (delay = 0) => ({
 function PlayCircle() {
   const [hovered, setHovered] = useState(false)
   return (
-    <motion.button
+    <motion.button  
       aria-label="Watch video"
       className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 flex h-14 w-14 items-center justify-center rounded-full"
       style={{ background: "rgba(196,97,74,0.92)", backdropFilter: "blur(8px)" }}
@@ -174,8 +174,8 @@ export default function WhatWeDo() {
 
           <TextReveal
             as="h2"
-            className="reveal reveal-up reveal-duration-600 reveal-delay-1 max-w-2xl font-serif font-semibold leading-[1.15] text-novaderm-brown"
-            style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.6rem)" }}
+            className="reveal reveal-up reveal-duration-600 reveal-delay-1 max-w-2xl font-serif font-semibold leading-[1.15]"
+            style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.6rem)", color: "#1a0f0a" }}
             delay={60}
             stagger={55}
           >

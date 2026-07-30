@@ -375,21 +375,18 @@ export default function TransformationSection() {
 
           <h2 style={{
             fontFamily:"'Playfair Display',Georgia,serif",
-            fontSize:"clamp(2rem,4.5vw,3rem)",fontWeight:500,
-            color:"#3d2e24",margin:"0 0 18px",lineHeight:1.15,
+            fontSize:"clamp(2rem,4.5vw,3rem)",fontWeight:700,
+            color:"#1a0f0a",margin:"0 0 18px",lineHeight:1.15,
           }}>
             Visible results that{" "}
-            <span style={{
-              background:"linear-gradient(135deg,#c19a6b 0%,#d4b08a 50%,#a8825a 100%)",
-              WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",
-            }}>
+            <span style={{ color: "#1a0f0a" }}>
               reflect care
             </span>
           </h2>
 
           <p style={{
-            fontFamily:"'Nunito',sans-serif",fontWeight:300,
-            fontSize:"clamp(0.92rem,1.5vw,1.05rem)",color:"#7a6555",
+            fontFamily:"'Nunito',sans-serif",fontWeight:400,
+            fontSize:"clamp(0.92rem,1.5vw,1.05rem)",color:"#3d2416",
             maxWidth:580,margin:"0 auto",lineHeight:1.75,letterSpacing:"0.015em",
           }}>
             Our before and after gallery showcases genuine patient outcomes from acne treatments,
@@ -421,7 +418,7 @@ export default function TransformationSection() {
         {/* Card A — Hair Restoration (fixed) */}
           <div style={{ display:"flex",flexDirection:"column",gap:14 }}>
             <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between" }}>
-              <p style={{ fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:"#3d2e24",margin:0 }}>
+              <p style={{ fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:"#1a0f0a",margin:0 }}>
                 {PAIRS[idxA].label}
               </p>
             </div>
@@ -431,7 +428,7 @@ export default function TransformationSection() {
           {/* Card B — Jawline Contouring (fixed) */}
           <div style={{ display:"flex",flexDirection:"column",gap:14 }}>
             <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between" }}>
-              <p style={{ fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:"#3d2e24",margin:0 }}>
+              <p style={{ fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:"#1a0f0a",margin:0 }}>
                 {PAIRS[idxB].label}
               </p>
             </div>
@@ -467,9 +464,9 @@ export default function TransformationSection() {
                 margin:"0 0 4px",
               }}>{stat.num}</p>
               <p style={{
-                fontFamily:"'Nunito',sans-serif",fontWeight:400,
+                fontFamily:"'Nunito',sans-serif",fontWeight:500,
                 fontSize:"0.78rem",letterSpacing:"0.1em",textTransform:"uppercase",
-                color:"#7a6555",margin:0,
+                color:"#3d2416",margin:0,
               }}>{stat.label}</p>
             </div>
           ))}

@@ -460,11 +460,16 @@ function NavLink({ label, href, active }) {
   return (
     <a
       href={href}
-className="relative flex items-center gap-0.5 text-[13px] font-semibold transition-colors duration-200 hover:text-[#C4614A]"
-      style={{ color: active ? "#C4614A" : "#5a3e32", letterSpacing: "0.01em" }}
+      className="relative flex items-center gap-0.5 transition-colors duration-200 hover:text-[#C4614A]"
+      style={{
+        fontSize: "17px",
+        fontFamily: "'Nunito', system-ui, sans-serif",
+        fontWeight: 800,
+        color: active ? "#C4614A" : "#1a0f0a",
+        letterSpacing: "0.01em",
+      }}
     >
       {label}
-      {/* Active underline indicator */}
       {active && (
         <span className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full" style={{ background: "#C4614A" }} />
       )}
@@ -496,7 +501,7 @@ function Navbar() {
             alt="Novaderm"
             draggable={false}
             className="select-none"
- style={{ height: "clamp(72px,10vw,110px)", width: "auto", objectFit: "contain" }}
+ style={{ height: "clamp(90px,12vw,130px)", width: "auto", objectFit: "contain" }}
             loading="eager"
             decoding="async"
           />
@@ -566,7 +571,7 @@ function Navbar() {
               key={link.label}
               href={link.href}
               className="py-2 text-[14px] font-semibold border-b"
-              style={{ color: link.label === "Home" ? "#C4614A" : "#3d2e24", borderColor: "rgba(61,46,36,0.08)" }}
+              style={{ color: link.label === "Home" ? "#C4614A" : "#1a0f0a", borderColor: "rgba(61,46,36,0.08)", fontWeight: 800, fontFamily: "'Nunito', system-ui, sans-serif", fontSize: "15px" }}
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
@@ -784,21 +789,22 @@ export default function Hero() {
               {slide.badge}
             </motion.span>
 
-            {/* Headline — split on "." so each sentence gets its own line */}
+            {/* Headline — clean sans-serif, black */}
             <motion.h1
-              style={{ lineHeight: 1.08, letterSpacing: "-0.02em", margin: 0 }}
+              style={{ lineHeight: 1.1, letterSpacing: "-0.01em", margin: 0 }}
               variants={HERO_REVEAL}
             >
               {slide.headline.split(/\.\s*/).filter(Boolean).map((part, i) => (
                 <span
                   key={i}
-                  className="font-serif block"
+                  className="block"
                   style={{
                     overflow: "hidden",
                     fontSize: "clamp(1.7rem,4.2vw,3.1rem)",
-                    color: i === 0 ? "#C4614A" : "#2e1f16",
-                    fontWeight: 700,
-                    fontStyle: i === 0 ? "italic" : "normal",
+                    fontFamily: "'Nunito', system-ui, sans-serif",
+                    color: "#1a0f0a",
+                    fontWeight: 900,
+                    fontStyle: "normal",
                   }}
                 >
                   <motion.span
@@ -814,13 +820,13 @@ export default function Hero() {
 
             {/* Description paragraph */}
             <motion.p
-              className="font-sans"
               style={{
-                fontSize: "clamp(0.8rem,1.1vw,0.93rem)",
-                color: "#7a5a4a",
-                lineHeight: 1.72,
+                fontFamily: "'Nunito', system-ui, sans-serif",
+                fontSize: "clamp(0.92rem,1.3vw,1.05rem)",
+                color: "#3d2416",
+                lineHeight: 1.7,
                 maxWidth: 370,
-                fontWeight: 400,
+                fontWeight: 500,
                 marginTop: "clamp(10px,1.5vw,16px)",
               }}
               variants={SOFT_REVEAL}
@@ -872,49 +878,126 @@ export default function Hero() {
               </motion.a>
             </motion.div>
 
-            {/* Stats row — animated counters */}
+            {/* Stats — 2×2 grid on mobile, horizontal row on desktop */}
             <motion.div
-              className="grid grid-cols-2 gap-x-4 gap-y-3 md:flex md:flex-wrap md:gap-6"
               style={{ marginTop: "clamp(20px,3vw,36px)" }}
               variants={HERO_REVEAL}
             >
-              {STATS.map((stat, i) => (
-                <motion.div
-                  key={stat.icon}
-                  className="flex items-center gap-2"
-                  variants={SOFT_REVEAL}
-                  whileHover={reduceMotion ? undefined : { y: -2 }}
-                  transition={{ type: "spring", stiffness: 320, damping: 24 }}
-                >
-                  {/* Icon box */}
-                  <div
-                    className="flex shrink-0 items-center justify-center rounded-lg"
-                    style={{ width: 30, height: 30, background: "rgba(255,255,255,0.60)" }}
+              {/* Mobile: single column, all 4 cards stacked — left-aligned to stay off the face */}
+              <div className="grid grid-cols-1 md:hidden" style={{ gap: 8, maxWidth: 200 }}>
+                {STATS.map((stat, i) => (
+                  <motion.div
+                    key={stat.icon}
+                    variants={SOFT_REVEAL}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 12,
+                      background: "rgba(255,255,255,0.18)",
+                      borderRadius: 12,
+                      padding: "10px 14px",
+                      border: "none",
+                    }}
                   >
-                    {STAT_ICONS[stat.icon]}
-                  </div>
-                  {/* Number + label */}
-                  <div className="flex flex-col leading-none gap-0.5">
-                    <span
-                      className="font-serif font-bold tabular-nums"
-                      style={{ fontSize: "clamp(0.92rem,1.4vw,1.1rem)", color: "#2e1f16", letterSpacing: "-0.01em",
-                        textShadow: "0 0 6px #fff, 0 0 12px #fff, 0 1px 4px rgba(255,255,255,0.95)" }}
-                    >
-                      <CountUp
-                        target={stat.target}
-                        suffix={stat.suffix}
-                        decimals={stat.decimals}
-                        delay={700 + i * 80}
-                        reduceMotion={reduceMotion}
-                      />
-                    </span>
-                    <span style={{ fontSize: "0.62rem", fontWeight: 900, letterSpacing: "0.13em", textTransform: "uppercase", color: "#2C1A14",
-                      textShadow: "0 0 6px #fff, 0 0 12px #fff, 0 1px 4px rgba(255,255,255,0.95)" }}>
-                      {stat.label}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
+                    {/* Icon box */}
+                    <div style={{
+                      width: 36, height: 36, flexShrink: 0,
+                      borderRadius: 9,
+                      background: "rgba(255,255,255,0.40)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    }}>
+                      {STAT_ICONS[stat.icon]}
+                    </div>
+                    {/* Number + label */}
+                    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                      <span style={{
+                        fontFamily: "'Nunito', system-ui, sans-serif",
+                        fontSize: "1.15rem",
+                        fontWeight: 900,
+                        color: "#1a0f0a",
+                        letterSpacing: "-0.01em",
+                        lineHeight: 1,
+                        textShadow: "0 0 8px rgba(255,255,255,0.95), 0 0 20px rgba(255,255,255,0.95)",
+                      }}>
+                        <CountUp
+                          target={stat.target}
+                          suffix={stat.suffix}
+                          decimals={stat.decimals}
+                          delay={700 + i * 80}
+                          reduceMotion={reduceMotion}
+                        />
+                      </span>
+                      <span style={{
+                        fontFamily: "'Nunito', system-ui, sans-serif",
+                        fontSize: "0.65rem",
+                        fontWeight: 800,
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase",
+                        color: "#1a0f0a",
+                        lineHeight: 1,
+                        textShadow: "0 0 8px rgba(255,255,255,0.95), 0 0 20px rgba(255,255,255,0.95)",
+                      }}>
+                        {stat.label}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Desktop: horizontal flex row */}
+              <div className="hidden md:flex" style={{ flexWrap: "wrap", gap: 24 }}>
+                {STATS.map((stat, i) => (
+                  <motion.div
+                    key={stat.icon}
+                    style={{ display: "flex", alignItems: "center", gap: 12 }}
+                    variants={SOFT_REVEAL}
+                    whileHover={reduceMotion ? undefined : { y: -2 }}
+                    transition={{ type: "spring", stiffness: 320, damping: 24 }}
+                  >
+                    {/* Icon box */}
+                    <div style={{
+                      width: 36, height: 36, flexShrink: 0,
+                      borderRadius: 10,
+                      background: "rgba(255,255,255,0.65)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    }}>
+                      {STAT_ICONS[stat.icon]}
+                    </div>
+                    {/* Number + label */}
+                    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                      <span style={{
+                        fontFamily: "'Nunito', system-ui, sans-serif",
+                        fontSize: "1.15rem",
+                        fontWeight: 900,
+                        color: "#1a0f0a",
+                        letterSpacing: "-0.01em",
+                        lineHeight: 1,
+                        textShadow: "0 0 8px rgba(255,255,255,0.9), 0 0 16px rgba(255,255,255,0.9)",
+                      }}>
+                        <CountUp
+                          target={stat.target}
+                          suffix={stat.suffix}
+                          decimals={stat.decimals}
+                          delay={700 + i * 80}
+                          reduceMotion={reduceMotion}
+                        />
+                      </span>
+                      <span style={{
+                        fontFamily: "'Nunito', system-ui, sans-serif",
+                        fontSize: "0.62rem",
+                        fontWeight: 800,
+                        letterSpacing: "0.13em",
+                        textTransform: "uppercase",
+                        color: "#2C1A14",
+                        lineHeight: 1,
+                        textShadow: "0 0 8px rgba(255,255,255,0.9), 0 0 16px rgba(255,255,255,0.9)",
+                      }}>
+                        {stat.label}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </motion.div>
           </div>
         </motion.div>

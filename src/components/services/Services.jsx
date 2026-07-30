@@ -32,8 +32,8 @@ function ArrowBtn({ href, size = 36, dark = false }) {
 function Num({ n }) {
   return (
     <span style={{
-      fontFamily: "'Playfair Display',Georgia,serif",
-      fontSize: "1.15rem", fontWeight: 700, color: "#C4614A",
+      fontFamily: "'Nunito',system-ui,sans-serif",
+      fontSize: "1.15rem", fontWeight: 900, color: "#C4614A",
       letterSpacing: "0.02em", lineHeight: 1,
     }}>
       {String(n).padStart(2,"0")}
@@ -109,10 +109,10 @@ function CardFeatured({ card, n }) {
 
         {/* Title */}
         <h3 style={{
-          fontFamily:"'Playfair Display',Georgia,serif",
+          fontFamily:"'Nunito',system-ui,sans-serif",
           fontSize:"clamp(1.4rem,2.2vw,1.75rem)",
-          fontWeight:700, fontStyle:"italic",
-          color:"#C4614A", lineHeight:1.18,
+          fontWeight:900, fontStyle:"normal",
+          color:"#1a0f0a", lineHeight:1.18,
           margin:"0 0 10px",
         }}>
           {card.title}
@@ -120,7 +120,7 @@ function CardFeatured({ card, n }) {
 
         {/* Description */}
         <p style={{
-          fontSize:"0.82rem", color:"#7a5a4a", lineHeight:1.7,
+          fontSize:"0.82rem", color:"#3d2416", lineHeight:1.7,
           fontWeight:400, marginBottom:18, maxWidth:300,
         }}>
           {card.description}
@@ -185,15 +185,15 @@ function CardWithImage({ card, n, delay = 0 }) {
         <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:10 }}>
           <div style={{ flex:1 }}>
             <h3 style={{
-              fontFamily:"'Playfair Display',Georgia,serif",
+              fontFamily:"'Nunito',system-ui,sans-serif",
               fontSize:"clamp(1rem,1.5vw,1.15rem)",
-              fontWeight:700, fontStyle:"italic",
-              color:"#C4614A", lineHeight:1.22,
+              fontWeight:800, fontStyle:"normal",
+              color:"#1a0f0a", lineHeight:1.22,
               margin:"0 0 7px",
             }}>
               {card.title}
             </h3>
-            <p style={{ fontSize:"0.76rem", color:"#7a5a4a", lineHeight:1.65, fontWeight:400 }}>
+            <p style={{ fontSize:"0.76rem", color:"#3d2416", lineHeight:1.65, fontWeight:400 }}>
               {card.description}
             </p>
           </div>
@@ -235,7 +235,7 @@ function CardText({ card, n, delay = 0 }) {
           }}>
             {card.title}
           </h3>
-          <p style={{ fontSize:"0.76rem", color:"#7a5a4a", lineHeight:1.65, fontWeight:400 }}>
+          <p style={{ fontSize:"0.76rem", color:"#3d2416", lineHeight:1.65, fontWeight:400 }}>
             {card.description}
           </p>
         </div>
@@ -300,14 +300,14 @@ export default function Services() {
             fontFamily:"'Playfair Display',Georgia,serif",
             fontSize:"clamp(2rem,4.8vw,3.2rem)",
             fontWeight:700, fontStyle:"italic",
-            color:"#C4614A", lineHeight:1.1,
+            color:"#1a0f0a", lineHeight:1.1,
             margin:"0 0 16px",
           }}>
             {headline}
           </h2>
 
           <p style={{
-            fontSize:"clamp(0.83rem,1.1vw,0.94rem)", color:"#7a5a4a",
+            fontSize:"clamp(0.83rem,1.1vw,0.94rem)", color:"#3d2416",
             lineHeight:1.72, maxWidth:480, margin:"0 auto", fontWeight:400,
           }}>
             {description}

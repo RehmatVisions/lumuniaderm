@@ -193,7 +193,7 @@ export default function Footer() {
 
             {/* Col 1 — Brand */}
             <div className="reveal reveal-up reveal-duration-600 reveal-delay-0 flex flex-col gap-5">
-              <p className="max-w-[220px] text-sm leading-[1.75] text-novaderm-brown/65">
+              <p className="max-w-[220px] text-sm font-normal leading-[1.75]" style={{ color: "#3d2416" }}>
                 Novaderm is a premium aesthetic dermatology clinic dedicated to delivering{" "}
                 <span className="font-semibold text-[#C4614A]">medically precise, confidence-restoring results</span>{" "}
                 for every patient we serve.

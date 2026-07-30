@@ -169,7 +169,7 @@ export default function DoctorsSection() {
               }}>
                 {d.name}
               </h2>
-              <p style={{ fontSize:"clamp(0.82rem,1.1vw,0.95rem)", color:"#5a3e32", fontWeight:500, margin:0 }}>
+              <p style={{ fontSize:"clamp(0.82rem,1.1vw,0.95rem)", color:"#1a0f0a", fontWeight:500, margin:0 }}>
                 {d.role}
               </p>
             </div>
@@ -180,7 +180,7 @@ export default function DoctorsSection() {
             {/* About */}
             <p style={{
               fontSize:"clamp(0.82rem,1vw,0.92rem)",
-              color:"#7a5a4a", lineHeight:1.75, fontWeight:400,
+              color:"#3d2416", lineHeight:1.75, fontWeight:400,
               margin:0, maxWidth:400,
             }}>
               {d.about}

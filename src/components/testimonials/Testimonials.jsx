@@ -250,14 +250,14 @@ export default function Testimonials() {
           <h2 style={{
             fontFamily:"'Playfair Display',Georgia,serif",
             fontSize:"clamp(2rem,4.8vw,3.2rem)",
-            fontWeight:700, fontStyle:"italic", color:"#C4614A",
+            fontWeight:700, fontStyle:"italic", color:"#1a0f0a",
             lineHeight:1.1, margin:"0 0 16px",
           }}>
             Loved by Our Clients.
           </h2>
 
           <p style={{
-            fontSize:"clamp(0.83rem,1.1vw,0.94rem)", color:"#7a5a4a",
+            fontSize:"clamp(0.83rem,1.1vw,0.94rem)", color:"#3d2416",
             lineHeight:1.72, maxWidth:400, margin:"0 auto", fontWeight:400,
           }}>
             Trusted care, expert treatments, aur visible results —<br/>

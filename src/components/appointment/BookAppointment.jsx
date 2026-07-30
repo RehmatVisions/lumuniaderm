@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion"
+﻿import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import ArrowUpRight from "../ui/ArrowUpRight"
 
@@ -59,6 +59,7 @@ const inputStyle = {
   fontSize: "0.88rem", color: "#1a0f08",
   background: "#fff",
   outline: "none",
+  boxShadow: "none",
   fontFamily: "inherit",
   fontWeight: 500,
 }
@@ -203,10 +204,10 @@ function SuccessBanner({ onReset }) {
         </svg>
       </div>
       <div>
-        <h3 style={{ fontFamily:"'Playfair Display',Georgia,serif", fontSize:"1.5rem", fontWeight:700, color:"#C4614A", margin:"0 0 8px" }}>
+        <h3 style={{ fontFamily:"'Nunito',system-ui,sans-serif", fontSize:"1.5rem", fontWeight:800, fontStyle:"normal", color:"#1a0f0a", margin:"0 0 8px" }}>
           Appointment Request Sent!
         </h3>
-        <p style={{ fontSize:"0.88rem", color:"#7a5a4a", lineHeight:1.7, maxWidth:340, margin:"0 auto" }}>
+        <p style={{ fontSize:"0.88rem", color:"#3d2416", lineHeight:1.7, maxWidth:340, margin:"0 auto" }}>
           We received your request. Our team will call or WhatsApp you shortly to confirm your appointment.
         </p>
       </div>
@@ -275,12 +276,12 @@ export default function BookAppointment() {
             textTransform:"uppercase", color:"#C4614A", marginBottom:12 }}>
             Your Skin Journey Starts Here
           </p>
-          <h2 style={{ fontFamily:"'Playfair Display',Georgia,serif",
-            fontSize:"clamp(1.9rem,4.5vw,3rem)", fontWeight:700, fontStyle:"italic",
-            color:"#C4614A", lineHeight:1.1, margin:"0 0 14px" }}>
+          <h2 style={{ fontFamily:"'Nunito',system-ui,sans-serif",
+            fontSize:"clamp(1.9rem,4.5vw,3rem)", fontWeight:900, fontStyle:"normal",
+            color:"#1a0f0a", lineHeight:1.1, margin:"0 0 14px" }}>
             Book Your Consultation.
           </h2>
-          <p style={{ fontSize:"clamp(0.82rem,1vw,0.93rem)", color:"#7a5a4a", lineHeight:1.72, margin:0 }}>
+          <p style={{ fontSize:"clamp(0.82rem,1vw,0.93rem)", color:"#3d2416", lineHeight:1.72, margin:0 }}>
             Choose your treatment, preferred date, and time.<br/>
             Our team will confirm your appointment shortly.
           </p>
@@ -310,9 +311,9 @@ export default function BookAppointment() {
 
                   {/* ── LEFT COLUMN ─ Your Details ── */}
                   <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
-                    <h3 style={{ fontFamily:"'Playfair Display',Georgia,serif",
-                      fontSize:"1.1rem", fontStyle:"italic", fontWeight:700,
-                      color:"#C4614A", margin:"0 0 4px",
+                    <h3 style={{ fontFamily:"'Nunito',system-ui,sans-serif",
+                      fontSize:"1.1rem", fontStyle:"normal", fontWeight:800,
+                      color:"#1a0f0a", margin:"0 0 4px",
                       borderBottom:"2px solid rgba(196,97,74,0.20)", paddingBottom:8 }}>
                       Your Details
                     </h3>
@@ -362,9 +363,9 @@ export default function BookAppointment() {
 
                   {/* ── RIGHT COLUMN ─ Date & Time ── */}
                   <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
-                    <h3 style={{ fontFamily:"'Playfair Display',Georgia,serif",
-                      fontSize:"1.1rem", fontStyle:"italic", fontWeight:700,
-                      color:"#C4614A", margin:"0 0 4px",
+                    <h3 style={{ fontFamily:"'Nunito',system-ui,sans-serif",
+                      fontSize:"1.1rem", fontStyle:"normal", fontWeight:800,
+                      color:"#1a0f0a", margin:"0 0 4px",
                       borderBottom:"2px solid rgba(196,97,74,0.20)", paddingBottom:8 }}>
                       Choose a Date &amp; Time
                     </h3>
@@ -482,6 +483,8 @@ export default function BookAppointment() {
         }
         .booking-grid select option { color: #1a0f08; }
         .booking-grid label { color: #1a0f08 !important; font-weight: 700 !important; }
+        
+        
       `}</style>
     </section>
   )

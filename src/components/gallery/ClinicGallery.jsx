@@ -231,8 +231,8 @@ export default function ClinicGallery() {
 
           <TextReveal
             as="h2"
-            className="max-w-3xl font-serif font-semibold leading-[1.12] tracking-tight text-novaderm-brown"
-            style={{ fontSize: "clamp(2rem, 4.5vw, 3.2rem)" }}
+            className="max-w-3xl font-serif font-semibold leading-[1.12] tracking-tight"
+            style={{ fontSize: "clamp(2rem, 4.5vw, 3.2rem)", color: "#1a0f0a" }}
             delay={60}
             stagger={50}
           >
@@ -240,7 +240,8 @@ export default function ClinicGallery() {
           </TextReveal>
 
           <motion.p
-            className="max-w-xl text-[0.92rem] font-light leading-[1.8] text-novaderm-brown/55"
+            className="max-w-xl text-[0.92rem] font-normal leading-[1.8]"
+            style={{ color: "#3d2416" }}
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

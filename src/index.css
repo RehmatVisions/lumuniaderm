@@ -46,16 +46,16 @@ img {
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-serif);
+    font-family: 'Nunito', system-ui, sans-serif;
     letter-spacing: -0.01em;
     line-height: 1.15;
-    font-weight: 700;
+    font-weight: 800;
   }
-  h1 { font-size: clamp(1.7rem, 4.2vw, 3.1rem); font-weight: 700; font-style: italic; color: #C4614A; }
-  h2 { font-size: clamp(2rem, 4.8vw, 3.2rem); font-style: italic; line-height: 1.1; color: #C4614A; }
-  h3 { font-size: clamp(1rem, 1.5vw, 1.15rem); font-style: italic; line-height: 1.22; color: #C4614A; }
+  h1 { font-size: clamp(1.7rem, 4.2vw, 3.1rem); font-weight: 900; font-style: normal; color: #1a0f0a; }
+  h2 { font-size: clamp(2rem, 4.8vw, 3.2rem); font-style: normal; font-weight: 800; line-height: 1.1; color: #1a0f0a; }
+  h3 { font-size: clamp(1rem, 1.5vw, 1.15rem); font-style: normal; font-weight: 700; line-height: 1.22; color: #1a0f0a; }
 
-  p { font-family: var(--font-sans); font-weight: 400; letter-spacing: 0.015em; color: #7a5a4a; line-height: 1.72; }
+  p { font-family: var(--font-sans); font-weight: 400; letter-spacing: 0.015em; color: #3d2416; line-height: 1.72; }
 
   /* ── Section badge/label — reference: uppercase, tight tracking, terracotta ── */
   .font-label {
@@ -70,7 +70,7 @@ img {
     font-family: var(--font-sans);
     font-size: clamp(0.83rem, 1.1vw, 0.94rem);
     font-weight: 400;
-    color: #7a5a4a;
+    color: #3d2416;
     line-height: 1.72;
   }
 

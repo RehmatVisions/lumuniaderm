@@ -205,7 +205,8 @@ function AboutContent() {
       {/* Headline */}
       <TextReveal
         as="h2"
-        className="max-w-lg font-serif text-[1.9rem] font-semibold leading-[1.18] tracking-[-0.01em] text-novaderm-brown sm:text-[2.3rem] lg:text-[2.65rem] lg:leading-[1.14]"
+        className="max-w-lg font-serif text-[1.9rem] font-semibold leading-[1.18] tracking-[-0.01em] sm:text-[2.3rem] lg:text-[2.65rem] lg:leading-[1.14]"
+        style={{ color: "#1a0f0a" }}
         delay={80}
         stagger={60}
       >
@@ -224,7 +225,8 @@ function AboutContent() {
 
       {/* Description */}
       <motion.p
-        className="max-w-md font-sans text-[0.88rem] font-light leading-relaxed tracking-wide text-novaderm-brown/65 sm:text-[0.95rem]"
+        className="max-w-md font-sans text-[0.88rem] font-normal leading-relaxed tracking-wide sm:text-[0.95rem]"
+        style={{ color: "#3d2416" }}
         {...fadeUp(0.25)}
       >
         {description}
