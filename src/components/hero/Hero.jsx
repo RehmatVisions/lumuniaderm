@@ -55,21 +55,22 @@ const SOFT_REVEAL = {
               touching the image area scrolls the page normally
 ══════════════════════════════════════════════════════════ */
 function BackgroundSlider() {
-  const wrapRef  = useRef(null)  // reference to the full-width container
-  const widthRef = useRef(0)     // cached container width (avoids layout reads on every move)
+  const wrapRef      = useRef(null)   // reference to the full-width container
+  const widthRef     = useRef(0)      // cached container width — avoids layout reads on every move
+  const isDraggingRef = useRef(false) // ref (not state) so pointer-move always sees current value
 
-  const [pos,    setPos]    = useState(50)    // divider position as % (0–100)
-  const [drag,   setDrag]   = useState(false) // is the user currently dragging?
-  const [hinted, setHinted] = useState(false) // has the auto-hint sweep already played?
+  const [pos,      setPos]      = useState(50)    // divider position as % (0–100)
+  const [drag,     setDrag]     = useState(false) // true while actively dragging (for handle scale)
+  const [hinted,   setHinted]   = useState(false) // whether the intro sweep has already played
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768)
   const reduceMotion = useReducedMotion()
 
-  // Parallax: images move upward slowly as user scrolls down
+  // Parallax: images drift upward slowly as the user scrolls down
   const { scrollY } = useScroll()
   const rawParallax = useTransform(scrollY, [0, 800], [0, reduceMotion ? 0 : -72])
   const parallaxY   = useSpring(rawParallax, { stiffness: 80, damping: 20, mass: 0.5 })
 
-  // Measure the container width and detect mobile on mount and on resize
+  // Measure container width + track mobile breakpoint
   useEffect(() => {
     const measure = () => {
       if (wrapRef.current) widthRef.current = wrapRef.current.offsetWidth
@@ -80,34 +81,44 @@ function BackgroundSlider() {
     return () => window.removeEventListener("resize", measure)
   }, [])
 
-  // Pick the correct before/after image based on screen size
   const bgBefore = isMobile ? beforeMobImg : beforeImg
   const bgAfter  = isMobile ? afterMobImg  : afterImg
 
-  // Convert a raw clientX pixel position into a 0–100 percentage within the container
-  const clamp      = (v) => Math.min(Math.max(v, 2), 98)
-  const toPercent  = (clientX) => {
+  // Convert a raw clientX pixel value into a 0–100 percentage inside the container
+  const clamp     = (v) => Math.min(Math.max(v, 2), 98)
+  const toPercent = (clientX) => {
     const rect = wrapRef.current?.getBoundingClientRect()
-    if (!rect) return pos
+    if (!rect) return 50
     return clamp(((clientX - rect.left) / rect.width) * 100)
   }
 
-  // ── Desktop drag: the whole wrapper handles pointer events ──
-  // On desktop (hover device) the whole image is draggable — this is the expected UX.
   const onPointerDown = (e) => {
-    // On mobile (touch device) we only want the handle to trigger drag.
-    // The handle sets data-handle="true" so we check for that here.
-    if (window.matchMedia("(pointer: coarse)").matches && !e.target.closest("[data-handle]")) return
+    // On touch devices: only start drag when the finger lands on the handle.
+    // On mouse devices: the whole image is draggable (standard desktop UX).
+    const isTouch = window.matchMedia("(pointer: coarse)").matches
+    if (isTouch && !e.target.closest("[data-handle]")) return
+
+    // Capture the pointer so move/up events keep firing even if the finger leaves the element
     wrapRef.current?.setPointerCapture(e.pointerId)
+
+    isDraggingRef.current = true  // use ref so onPointerMove never sees a stale value
     setDrag(true)
     setHinted(true)
     setPos(toPercent(e.clientX))
   }
-  const onPointerMove   = (e) => { if (drag) setPos(toPercent(e.clientX)) }
-  const onPointerUp     = ()  => setDrag(false)
 
-  // Auto-hint: plays a small sweep animation on first load so the user
-  // discovers the before/after slider. Only runs once, before any interaction.
+  const onPointerMove = (e) => {
+    // Read from ref, not state — state updates are async and would cause a 1-frame lag
+    if (!isDraggingRef.current) return
+    setPos(toPercent(e.clientX))
+  }
+
+  const onPointerUp = () => {
+    isDraggingRef.current = false
+    setDrag(false)
+  }
+
+  // Intro sweep: plays once on load so the user discovers the slider
   useEffect(() => {
     if (hinted || reduceMotion) return
     const timer = setTimeout(() => {
@@ -557,6 +568,7 @@ export default function Hero() {
           style={{
             flex: 1,
             paddingTop: "clamp(20px, 5vw, 80px)",
+            
             paddingBottom: "clamp(32px, 5vw, 80px)",
             y: contentY,
             opacity: contentOpacity,
@@ -692,7 +704,8 @@ export default function Hero() {
                   <div className="flex flex-col leading-none gap-0.5">
                     <span
                       className="font-serif font-bold tabular-nums"
-                      style={{ fontSize: "clamp(0.92rem,1.4vw,1.1rem)", color: "#2e1f16", letterSpacing: "-0.01em" }}
+                      style={{ fontSize: "clamp(0.92rem,1.4vw,1.1rem)", color: "#2e1f16", letterSpacing: "-0.01em",
+                        textShadow: "0 0 6px #fff, 0 0 12px #fff, 0 1px 4px rgba(255,255,255,0.95)" }}
                     >
                       <CountUp
                         target={stat.target}
@@ -702,7 +715,8 @@ export default function Hero() {
                         reduceMotion={reduceMotion}
                       />
                     </span>
-                    <span style={{ fontSize: "0.52rem", fontWeight: 600, letterSpacing: "0.13em", textTransform: "uppercase", color: "#a07060" }}>
+                    <span style={{ fontSize: "0.62rem", fontWeight: 900, letterSpacing: "0.13em", textTransform: "uppercase", color: "#2C1A14",
+                      textShadow: "0 0 6px #fff, 0 0 12px #fff, 0 1px 4px rgba(255,255,255,0.95)" }}>
                       {stat.label}
                     </span>
                   </div>

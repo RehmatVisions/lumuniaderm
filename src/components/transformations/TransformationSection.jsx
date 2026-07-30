@@ -18,11 +18,14 @@ const INTERVAL = 3800
 // SliderCard — single draggable before/after card
 // ─────────────────────────────────────────────────────────────
 function SliderCard({ pair }) {
-  const containerRef            = useRef(null)
+  const containerRef   = useRef(null)
+  const isDraggingRef  = useRef(false) // ref so onPointerMove always reads the current value
+
   const [position, setPosition] = useState(50)
-  const [dragging, setDragging] = useState(false)
+  const [dragging, setDragging] = useState(false) // only used for the handle scale animation
   const [touched,  setTouched]  = useState(false)
 
+  // Convert a raw clientX pixel value into a 0–100 percentage inside the card
   const toPercent = useCallback((clientX) => {
     const rect = containerRef.current?.getBoundingClientRect()
     if (!rect) return 50
@@ -30,27 +33,31 @@ function SliderCard({ pair }) {
   }, [])
 
   const onPointerDown = useCallback((e) => {
-    e.preventDefault()
+    // Capture the pointer so move/up events keep firing even off the element
+    containerRef.current?.setPointerCapture(e.pointerId)
+    isDraggingRef.current = true   // write to ref immediately — no async lag
     setDragging(true)
     setTouched(true)
-    containerRef.current?.setPointerCapture(e.pointerId)
     setPosition(toPercent(e.clientX))
   }, [toPercent])
 
   const onPointerMove = useCallback((e) => {
-    if (!dragging) return
+    if (!isDraggingRef.current) return   // read ref, not state — always up to date
     setPosition(toPercent(e.clientX))
-  }, [dragging, toPercent])
+  }, [toPercent])
 
-  const onPointerUp = useCallback(() => setDragging(false), [])
+  const onPointerUp = useCallback(() => {
+    isDraggingRef.current = false
+    setDragging(false)
+  }, [])
 
-  // Reset when pair changes
+  // Reset position when the pair image changes
   useEffect(() => {
     setPosition(50)
     setTouched(false)
   }, [pair])
 
-  // Auto hint sweep after pair change
+  // Intro hint sweep — shows the user this is draggable
   useEffect(() => {
     if (touched) return
     const id = setTimeout(() => {
@@ -74,13 +81,15 @@ function SliderCard({ pair }) {
         background: "linear-gradient(135deg,rgba(193,154,107,0.55) 0%,rgba(255,255,255,0.04) 50%,rgba(193,154,107,0.2) 100%)",
       }} />
 
-      {/* Container */}
+      {/* Container — touchAction:none lets pointer events work on all touch devices */}
       <motion.div
         ref={containerRef}
         className="relative overflow-hidden"
         style={{
           borderRadius: 20, aspectRatio: "4 / 5",
           cursor: dragging ? "grabbing" : "ew-resize",
+          touchAction: "none",   // tell the browser: we handle all touch gestures here
+          userSelect: "none",
           zIndex: 1,
           boxShadow: "0 40px 80px rgba(0,0,0,0.45), 0 8px 24px rgba(0,0,0,0.28)",
         }}
@@ -88,6 +97,7 @@ function SliderCard({ pair }) {
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerLeave={onPointerUp}
+        onPointerCancel={onPointerUp}
       >
         {/* AFTER base */}
         <AnimatePresence mode="wait">
