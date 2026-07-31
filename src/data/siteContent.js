@@ -227,7 +227,7 @@ export const siteContent = {
         tag:         "Advanced Skin Treatments",
         headline:    "Get the Skin You Always Wanted.",
         description: "Expert skin treatments done by certified doctors. Safe, effective, and made just for you.",
-        primaryCta:   { text: "Treatments", href: "#services" },
+        primaryCta:   { text: "Our Treatments", href: "#services" },
         secondaryCta: { text: "View Results",       href: "#transformations" },
       },
       {

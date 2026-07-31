@@ -431,7 +431,7 @@ function BackgroundSlider() {
           aria-label={showAfter ? "Show Before" : "Show After"}
           style={{
             position: "absolute",
-            bottom: 32, left: "50%",
+        bottom: 12, left: "50%",
             transform: "translateX(-50%)",
             zIndex: 20,
             display: "flex", alignItems: "center", gap: 10,
