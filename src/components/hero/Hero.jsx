@@ -140,26 +140,36 @@ function PremiumOpeningOverlay() {
 /* ══════════════════════════════════════════════════════════
    BEFORE / AFTER BACKGROUND SLIDER
    ───────────────────────────────────────────────────────
-   DESKTOP  – pointer capture drag on the full container.
-              Grab anywhere on the image and slide.
+   DESKTOP  – The full-width AFTER image is a static base.
+              A right-side clipped zone (left: IMAGE_LEFT_PCT%)
+              contains the BEFORE image + drag handle.
+              The wipe divider is confined entirely within
+              that zone — it never touches the left content.
    MOBILE   – zero drag, zero scroll conflict.
               A tap-toggle pill button at bottom-center
               switches between Before and After with a
               spring-animated wipe. onClick only.
 ══════════════════════════════════════════════════════════ */
-function BackgroundSlider() {
-  const containerRef = useRef(null)
-  const capturedPtr  = useRef(null)   // active pointerId during desktop drag
 
-  // Desktop: free 0-100 position. Mobile: snaps to 5 (After) or 95 (Before).
-  const [pct,       setPct]       = useState(50)
+// Desktop-only portrait zone. Keeping this boundary near the girl's shoulder
+// prevents the comparison layer from covering the hero copy/navigation.
+const IMAGE_LEFT_PCT = 66
+const DESKTOP_DEFAULT_PCT = 20
+
+function BackgroundSlider() {
+  // Desktop drag ref — scoped to the right-side image zone only
+  const imageZoneRef = useRef(null)
+  const capturedPtr  = useRef(null)
+
+  // pct = 0–100 position *within the image zone* (not the full viewport).
+  // Start beside the portrait instead of splitting the girl's face on load.
+  const [pct,       setPct]       = useState(DESKTOP_DEFAULT_PCT)
   const [showAfter, setShowAfter] = useState(true)   // mobile toggle state
   const [dragging,  setDragging]  = useState(false)
-  const [hinted,    setHinted]    = useState(false)
   const [isMobile,  setIsMobile]  = useState(() => window.innerWidth < 768)
   const reduceMotion = useReducedMotion()
 
-  // Parallax
+  // Parallax — applied to both static BG images so they scroll together
   const { scrollY } = useScroll()
   const rawPar    = useTransform(scrollY, [0, 800], [0, reduceMotion ? 0 : -72])
   const parallaxY = useSpring(rawPar, { stiffness: 80, damping: 20, mass: 0.5 })
@@ -173,22 +183,20 @@ function BackgroundSlider() {
   const bgBefore = isMobile ? beforeMobImg : beforeImg
   const bgAfter  = isMobile ? afterMobImg  : afterImg
 
-  // Motion value drives the spring — declared before the useEffect that uses it
-  const dividerMV     = useMotionValue(50)
+  // Spring-driven divider position (0–100% within the image zone)
+  const dividerMV     = useMotionValue(DESKTOP_DEFAULT_PCT)
   const dividerSpring = useSpring(dividerMV, { stiffness: 260, damping: 28, mass: 0.6 })
+  // dividerLeft = % within the image zone container
   const dividerLeft   = useTransform(dividerSpring, v => `${v}%`)
 
-  // Sync motion value whenever state changes.
-  // During drag, jump() bypasses the spring (instant tracking).
-  // On mobile toggle, set() lets the spring animate smoothly.
   useEffect(() => {
     const target = isMobile ? (showAfter ? 5 : 95) : pct
     if (dragging) { dividerMV.jump(target) } else { dividerMV.set(target) }
   }, [pct, isMobile, showAfter, dragging]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Desktop drag helpers ──────────────────────────────────────────────────
+  // ── Desktop drag helpers — coordinates relative to image zone ────────────
   const clientXtoPct = (clientX) => {
-    const r = containerRef.current?.getBoundingClientRect()
+    const r = imageZoneRef.current?.getBoundingClientRect()
     if (!r || r.width === 0) return pct
     return Math.min(Math.max(((clientX - r.left) / r.width) * 100, 1), 99)
   }
@@ -198,7 +206,6 @@ function BackgroundSlider() {
     e.currentTarget.setPointerCapture(e.pointerId)
     capturedPtr.current = e.pointerId
     setDragging(true)
-    setHinted(true)
     setPct(clientXtoPct(e.clientX))
   }
   const onPtrMove = (e) => {
@@ -212,46 +219,30 @@ function BackgroundSlider() {
     e.currentTarget.releasePointerCapture?.(e.pointerId)
   }
 
-  // Desktop intro sweep
-  useEffect(() => {
-    if (isMobile || hinted || reduceMotion) return
-    const t = setTimeout(() => {
-      const steps = [50, 38, 28, 40, 62, 72, 58, 50]
-      let i = 0
-      const tick = () => {
-        if (i < steps.length) { setPct(steps[i++]); setTimeout(tick, 210) }
-      }
-      tick()
-    }, 1500)
-    return () => clearTimeout(t)
-  }, [isMobile, hinted, reduceMotion]) // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <>
-      {/* ── Image layer ───────────────────────────────────────────────────── */}
+      {/* ══════════════════════════════════════════════════════════════════
+          STATIC FULL-WIDTH BACKGROUND
+          Both images sit here as non-interactive layers.
+          On desktop the AFTER image is always visible; the BEFORE image
+          is revealed only inside the right-side image zone below.
+          On mobile both images are here but the mobile wipe logic
+          (full-width container + toggle button) takes over.
+      ══════════════════════════════════════════════════════════════════ */}
       <motion.div
-        ref={containerRef}
         aria-hidden="true"
         style={{
           position: "absolute",
           top: "-8%", bottom: "-8%", left: 0, right: 0,
           zIndex: 0,
-          userSelect: "none", WebkitUserSelect: "none",
-          // Desktop: none so the whole container is draggable.
-          // Mobile: pan-y so vertical scroll works freely; the button
-          //         is onClick-only so it never conflicts with scroll.
-          touchAction: isMobile ? "pan-y" : "none",
-          cursor: isMobile ? "default" : (dragging ? "grabbing" : "ew-resize"),
+          pointerEvents: "none",
+          userSelect: "none",
         }}
-        onPointerDown={onPtrDown}
-        onPointerMove={onPtrMove}
-        onPointerUp={onPtrUp}
-        onPointerCancel={onPtrUp}
         initial={reduceMotion ? false : { opacity: 0, scale: 1.04 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.4, ease: EASE_EXPO }}
       >
-        {/* AFTER — base layer, always full width */}
+        {/* AFTER — always shown as full-width base */}
         <motion.img
           src={bgAfter} alt="" aria-hidden="true" draggable={false}
           style={{
@@ -264,36 +255,91 @@ function BackgroundSlider() {
           loading="eager" decoding="async" fetchPriority="high"
         />
 
-        {/* BEFORE — clipped to dividerLeft width, spring-animated */}
-        <motion.div
-          style={{
-            position: "absolute", inset: 0,
-            overflow: "hidden", pointerEvents: "none",
-            width: dividerLeft,
-          }}
-        >
-          <div style={{
-            position: "absolute", inset: 0,
-            width: containerRef.current ? `${containerRef.current.offsetWidth}px` : "100vw",
-            overflow: "hidden",
-          }}>
+        {/* BEFORE — mobile only: full-width, wiped by the mobile toggle.
+            On desktop this layer is hidden; the image zone below handles it. */}
+        {isMobile && (
+          <motion.div
+            style={{
+              position: "absolute", inset: 0,
+              overflow: "hidden", pointerEvents: "none",
+              width: dividerLeft,
+            }}
+          >
             <motion.img
               src={bgBefore} alt="" aria-hidden="true" draggable={false}
               style={{
                 position: "absolute", inset: 0,
-                width: containerRef.current ? `${containerRef.current.offsetWidth}px` : "100vw",
-                height: "100%", maxWidth: "none",
+                width: "100vw", height: "100%", maxWidth: "none",
                 objectFit: "cover", objectPosition: "center top",
                 pointerEvents: "none", userSelect: "none",
                 y: parallaxY,
               }}
               loading="eager" decoding="async" fetchPriority="high"
             />
-          </div>
-        </motion.div>
+          </motion.div>
+        )}
+      </motion.div>
 
-        {/* Divider line — desktop only */}
-        {!isMobile && (
+      {/* ══════════════════════════════════════════════════════════════════
+          DESKTOP — RIGHT-SIDE IMAGE ZONE (slider confined here)
+          Positioned over the girl's image only (left: IMAGE_LEFT_PCT%).
+          overflow:hidden clips everything: the before image wipe,
+          the divider line, the handle, and the labels.
+          The draggable surface is this entire zone.
+      ══════════════════════════════════════════════════════════════════ */}
+      {!isMobile && (
+        <motion.div
+          ref={imageZoneRef}
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: "-8%", bottom: "-8%",
+            left: `${IMAGE_LEFT_PCT}%`, right: 0,
+            zIndex: 1,
+            overflow: "hidden",
+            userSelect: "none", WebkitUserSelect: "none",
+            touchAction: "none",
+            cursor: dragging ? "grabbing" : "ew-resize",
+          }}
+          onPointerDown={onPtrDown}
+          onPointerMove={onPtrMove}
+          onPointerUp={onPtrUp}
+          onPointerCancel={onPtrUp}
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.4, ease: EASE_EXPO }}
+        >
+          {/* BEFORE image — viewport-sized and shifted by the portrait-zone
+              offset so it stays perfectly aligned with the static base. */}
+          <motion.div
+            style={{
+              position: "absolute", inset: 0,
+              overflow: "hidden", pointerEvents: "none",
+              width: dividerLeft,
+            }}
+          >
+            <div style={{
+              position: "absolute",
+              top: 0, bottom: 0,
+              left: `-${IMAGE_LEFT_PCT}vw`,
+              width: "100vw",
+              overflow: "hidden",
+            }}>
+              <motion.img
+                src={beforeImg} alt="" aria-hidden="true" draggable={false}
+                style={{
+                  position: "absolute", inset: 0,
+                  width: "100%", height: "100%",
+                  objectFit: "cover", objectPosition: "center top",
+                  pointerEvents: "none", userSelect: "none",
+                  y: parallaxY,
+                }}
+                loading="eager" decoding="async" fetchPriority="high"
+              />
+            </div>
+          </motion.div>
+
+          {/* Divider line — confined inside image zone */}
           <motion.div
             style={{
               position: "absolute", top: 0, bottom: 0,
@@ -304,16 +350,14 @@ function BackgroundSlider() {
               background: "linear-gradient(to bottom,transparent 2%,rgba(255,255,255,0.85) 10%,rgba(255,255,255,0.85) 90%,transparent 98%)",
             }}
           />
-        )}
 
-        {/* Desktop drag handle */}
-        {!isMobile && (
+          {/* Compact desktop drag handle */}
           <motion.div
             data-handle="true"
             style={{
               position: "absolute",
               top: "50%", left: dividerLeft,
-              width: 72, height: 72,
+              width: 46, height: 46,
               x: "-50%", y: "-50%",
               zIndex: 10,
               display: "flex", alignItems: "center", justifyContent: "center",
@@ -322,14 +366,14 @@ function BackgroundSlider() {
           >
             <motion.div
               style={{
-                width: 48, height: 48, borderRadius: "50%",
+                width: 30, height: 30, borderRadius: "50%",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 position: "relative",
                 background: dragging ? "rgba(196,97,74,0.92)" : "rgba(12,6,2,0.80)",
                 border: dragging ? "2px solid rgba(255,255,255,0.6)" : "2px solid rgba(255,255,255,0.30)",
                 boxShadow: dragging
-                  ? "0 0 0 7px rgba(196,97,74,0.20),0 8px 32px rgba(0,0,0,0.6)"
-                  : "0 4px 22px rgba(0,0,0,0.55)",
+                  ? "0 0 0 5px rgba(196,97,74,0.20),0 6px 24px rgba(0,0,0,0.6)"
+                  : "0 3px 16px rgba(0,0,0,0.55)",
                 transition: "background .18s,border-color .18s,box-shadow .18s",
               }}
               animate={{ scale: dragging ? 1.15 : 1 }}
@@ -346,38 +390,34 @@ function BackgroundSlider() {
                   transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
                 />
               )}
-              <svg viewBox="0 0 24 24" fill="none" width={20} height={20}
+              <svg viewBox="0 0 24 24" fill="none" width={13} height={13}
                 stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 18l-6-6 6-6"/><path d="M15 6l6 6-6 6"/>
               </svg>
             </motion.div>
           </motion.div>
-        )}
 
-        {/* Desktop corner labels */}
-        {!isMobile && (
-          <>
-            <div style={{
-              position: "absolute", left: 18, bottom: 28,
-              display: "flex", alignItems: "center", gap: 6,
-              padding: "5px 12px", borderRadius: 99,
-              background: "rgba(10,5,2,0.55)", pointerEvents: "none",
-            }}>
-              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.5)" }} />
-              <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.78)" }}>Before</span>
-            </div>
-            <div style={{
-              position: "absolute", right: 18, bottom: 28,
-              display: "flex", alignItems: "center", gap: 6,
-              padding: "5px 12px", borderRadius: 99,
-              background: "rgba(196,97,74,0.82)", pointerEvents: "none",
-            }}>
-              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.85)" }} />
-              <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "white" }}>After</span>
-            </div>
-          </>
-        )}
-      </motion.div>
+          {/* Corner labels — anchored inside the image zone */}
+          <div style={{
+            position: "absolute", left: 14, bottom: 28,
+            display: "flex", alignItems: "center", gap: 6,
+            padding: "5px 12px", borderRadius: 99,
+            background: "rgba(10,5,2,0.55)", pointerEvents: "none",
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.5)" }} />
+            <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.78)" }}>Before</span>
+          </div>
+          <div style={{
+            position: "absolute", right: 14, bottom: 28,
+            display: "flex", alignItems: "center", gap: 6,
+            padding: "5px 12px", borderRadius: 99,
+            background: "rgba(196,97,74,0.82)", pointerEvents: "none",
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.85)" }} />
+            <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "white" }}>After</span>
+          </div>
+        </motion.div>
+      )}
 
       {/* ── Mobile tap-toggle button ───────────────────────────────────────
           Positioned just above the hero bottom edge.
@@ -775,14 +815,17 @@ export default function Hero() {
           initial={reduceMotion ? false : "hidden"}
           animate="visible"
         >
+          {/* On mobile: constrain to ~44vw (left half) so nothing bleeds over the face.
+              On md+: standard 500px desktop layout. */}
+          <style>{`.hero-text-col{max-width:min(220px,44vw)}@media(min-width:768px){.hero-text-col{max-width:500px}}`}</style>
           <div
-            className="flex flex-col justify-start md:justify-center"
-            style={{ maxWidth: 500, pointerEvents: "auto" }}
+            className="hero-text-col flex flex-col justify-start md:justify-center"
+            style={{ pointerEvents: "auto" }}
           >
             {/* Badge — small label above the headline */}
             <motion.span
               className="mb-3 inline-flex items-center gap-2"
-              style={{ fontSize: "0.63rem", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#a07060" }}
+              style={{ fontSize: "0.67rem", fontWeight: 800, letterSpacing: "0.22em", textTransform: "uppercase", color: "#893d23" }}
               variants={SOFT_REVEAL}
             >
               <span className="inline-block h-px w-5" style={{ background: "rgba(160,112,96,0.5)" }} />
@@ -834,21 +877,24 @@ export default function Hero() {
               {slide.description}
             </motion.p>
 
-            {/* CTA buttons — primary (filled) + secondary (outlined) */}
+            {/* CTA buttons — stacked column on mobile, row on md+ */}
             <motion.div
-              className="flex flex-wrap items-center gap-3"
-              style={{ marginTop: "clamp(18px,2.5vw,28px)" }}
+              className="flex flex-col md:flex-row md:flex-wrap md:items-center gap-3"
+              style={{
+                marginTop: "clamp(18px,2.5vw,28px)",
+              }}
               variants={SOFT_REVEAL}
             >
               <motion.a
                 href={slide.primaryCta.href}
-                className="group inline-flex items-center gap-2 rounded-full text-white font-bold uppercase"
+                className="group inline-flex items-center justify-center gap-2 rounded-full text-white font-bold uppercase"
                 style={{
-                  padding: "clamp(9px,1.2vw,12px) clamp(18px,2.5vw,24px)",
+            padding: "clamp(8px,1vw,10px) clamp(16px,2vw,20px)",
                   fontSize: "clamp(0.68rem,0.85vw,0.75rem)",
                   letterSpacing: "0.07em",
                   background: "linear-gradient(135deg,#C4614A,#9a3d2a)",
                   boxShadow: "0 4px 18px rgba(196,97,74,0.42)",
+ 
                 }}
                 whileHover={reduceMotion ? undefined : { y: -2, scale: 1.025, boxShadow: "0 9px 28px rgba(196,97,74,0.52)" }}
                 whileTap={{ scale: 0.97 }}
@@ -862,13 +908,14 @@ export default function Hero() {
 
               <motion.a
                 href={slide.secondaryCta.href}
-                className="inline-flex items-center gap-2 rounded-full font-semibold"
+                className="inline-flex items-center justify-center gap-2 rounded-full font-semibold"
                 style={{
-                  padding: "clamp(9px,1.2vw,12px) clamp(16px,2vw,20px)",
+           padding: "clamp(8px,1vw,10px) clamp(16px,2vw,20px)",
                   fontSize: "clamp(0.68rem,0.85vw,0.75rem)",
                   color: "#7a4a38",
                   background: "rgba(255,255,255,0.65)",
                   border: "1.5px solid rgba(196,97,74,0.4)",
+      
                 }}
                 whileHover={reduceMotion ? undefined : { y: -2, scale: 1.018, borderColor: "#C4614A", color: "#C4614A", background: "rgba(255,255,255,0.88)" }}
                 whileTap={{ scale: 0.97 }}
@@ -884,7 +931,7 @@ export default function Hero() {
               variants={HERO_REVEAL}
             >
               {/* Mobile: single column, all 4 cards stacked — left-aligned to stay off the face */}
-              <div className="grid grid-cols-1 md:hidden" style={{ gap: 8, maxWidth: 200 }}>
+              <div className="grid grid-cols-1 md:hidden" style={{ gap: 8, maxWidth: 220 }}>
                 {STATS.map((stat, i) => (
                   <motion.div
                     key={stat.icon}
@@ -964,11 +1011,11 @@ export default function Hero() {
                       {STAT_ICONS[stat.icon]}
                     </div>
                     {/* Number + label */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                       <span style={{
                         fontFamily: "'Nunito', system-ui, sans-serif",
-                        fontSize: "1.15rem",
-                        fontWeight: 900,
+          fontSize: "1.35rem",
+                        fontWeight: 1000,
                         color: "#1a0f0a",
                         letterSpacing: "-0.01em",
                         lineHeight: 1,
