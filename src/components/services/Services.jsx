@@ -408,6 +408,7 @@ export default function Services() {
                 <span style={{
                   fontSize:"clamp(0.84rem,1vw,0.94rem)",
                   fontWeight:700, color:"#2e1a10",
+                  
                   whiteSpace:"nowrap",
                 }}>
                   {item.label}
