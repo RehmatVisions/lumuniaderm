@@ -8,42 +8,70 @@ const EASE_EXPO = [0.16, 1, 0.3, 1]
 /* ─── Pakistani testimonials ─────────────────────────────────── */
 const ALL = [
   {
-    id: 1, initials: "SM", name: "Sana Malik", city: "Lahore", treatment: "Advanced Facial Treatment",
-    rating: 5, featured: true,
+    id: 1,
+    initials: "SM",
+    name: "Sana Malik",
+    city: "Cantt, Sialkot",
+    treatment: "Advanced Facial Treatment",
+    rating: 5,
+    featured: true,
     text: "My skin has never felt this good before. Every visit feels warm and personal. The team really cares about you. I am so happy with my results!",
   },
   {
-    id: 2, initials: "AK", name: "Ayesha Khan", city: "Karachi", treatment: "HydraGlow Treatment",
+    id: 2,
+    initials: "AK",
+    name: "Ayesha Khan",
+    city: "Paris Road, Sialkot",
+    treatment: "HydraGlow Treatment",
     rating: 5,
     text: "The results are amazing. My skin looks so much clearer and brighter now. I feel more confident every day. Thank you NovaDerm!",
   },
   {
-    id: 3, initials: "FN", name: "Fatima Noor", city: "Islamabad", treatment: "Skin Renewal Therapy",
+    id: 3,
+    initials: "FN",
+    name: "Fatima Noor",
+    city: "Model Town, Sialkot",
+    treatment: "Skin Renewal Therapy",
     rating: 5,
     text: "Very professional and friendly staff. The treatment worked really well for me. I would not go anywhere else for my skin care.",
   },
   {
-    id: 4, initials: "ZA", name: "Zainab Ahmed", city: "Rawalpindi", treatment: "Radiance Boost Facial",
+    id: 4,
+    initials: "ZA",
+    name: "Zainab Ahmed",
+    city: "Ugoki, Sialkot",
+    treatment: "Radiance Boost Facial",
     rating: 5,
     text: "A very relaxing experience with great results. My skin looks natural and healthy. I highly recommend this clinic to everyone.",
   },
   {
-    id: 5, initials: "NN", name: "Nadia Nawaz", city: "Multan", treatment: "Laser Brightening",
+    id: 5,
+    initials: "NN",
+    name: "Nadia Nawaz",
+    city: "Kashmir Road, Sialkot",
+    treatment: "Laser Brightening",
     rating: 5,
     text: "From the first visit to the last, the care was excellent. My skin tone has completely changed. I am very satisfied with the outcome.",
   },
   {
-    id: 6, initials: "HR", name: "Hina Rizvi", city: "Faisalabad", treatment: "Anti-Aging Therapy",
+    id: 6,
+    initials: "HR",
+    name: "Hina Rizvi",
+    city: "Shahabpura, Sialkot",
+    treatment: "Anti-Aging Therapy",
     rating: 5,
     text: "I look so fresh and young again. The team is very kind and skilled. I feel great every time I walk out of the clinic.",
   },
   {
-    id: 7, initials: "MB", name: "Maryam Butt", city: "Sialkot", treatment: "PRP Hair Restoration",
+    id: 7,
+    initials: "MB",
+    name: "Maryam Butt",
+    city: "Hajipura, Sialkot",
+    treatment: "PRP Hair Restoration",
     rating: 5,
     text: "I saw real hair growth after just a few sessions. This is the only treatment that actually worked for me. Very happy with NovaDerm.",
   },
-]
-
+];
 const FEATURED = ALL.find(r => r.featured)
 const REGULAR  = ALL.filter(r => !r.featured)
 
