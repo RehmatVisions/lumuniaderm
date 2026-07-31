@@ -541,7 +541,7 @@ function Navbar() {
             alt="Novaderm"
             draggable={false}
             className="select-none"
- style={{ height: "clamp(90px,12vw,130px)", width: "auto", objectFit: "contain" }}
+ style={{ height: "clamp(80px,12vw,130px)", width: "auto", objectFit: "contain" }}
             loading="eager"
             decoding="async"
           />
@@ -805,9 +805,9 @@ export default function Hero() {
           className="flex items-start md:items-center mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10"
           style={{
             flex: 1,
-            paddingTop: "clamp(20px, 5vw, 80px)",
+       paddingTop: "clamp(8px, 2svh, 30px)",
             
-            paddingBottom: "clamp(32px, 5vw, 80px)",
+     paddingBottom: "clamp(15px, 3svh, 50px)",
             y: contentY,
             opacity: contentOpacity,
           }}
@@ -927,7 +927,7 @@ export default function Hero() {
 
             {/* Stats — 2×2 grid on mobile, horizontal row on desktop */}
             <motion.div
-              style={{ marginTop: "clamp(20px,3vw,36px)" }}
+              style={{ marginTop: "clamp(12px,2svh,30px)"}}
               variants={HERO_REVEAL}
             >
               {/* Mobile: single column, all 4 cards stacked — left-aligned to stay off the face */}
