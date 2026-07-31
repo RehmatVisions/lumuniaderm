@@ -256,7 +256,7 @@ export default function BookAppointment() {
     "Laser Hair Removal","Advanced Facial Treatment",
     "Acne & Skin Renewal","Anti-Aging Treatments",
     "Pigmentation Correction","PRP Hair Restoration",
-    "HydraGlow Facial","Skin Brightening",
+    "HydraGlow Facial","Skin Brightening","Other"
   ]
 
   return (

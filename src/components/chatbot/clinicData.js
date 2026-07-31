@@ -78,7 +78,7 @@ export const clinicKnowledge = [
     id: 1,
     keywords: [
       "botox", "botulinum", "wrinkle", "wrinkles", "anti aging", "anti-aging",
-      "frown line", "forehead lines", "crow feet", "injection", "toxin",
+      "frown line", "forehead lines", "crow feet", "injection", "toxin","others"
     ],
     question: "What is Botox and what can it treat?",
     answer:
@@ -468,4 +468,5 @@ export const treatmentOptions = [
   "Thread Lift",
   "Pigmentation / Dark Spots Treatment",
   "General Dermatology Consultation",
+  "Others"
 ];
