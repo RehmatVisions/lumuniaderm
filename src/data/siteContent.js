@@ -177,7 +177,7 @@ export const siteContent = {
     },
 
     bgImage:     heroImg,
-    experience:  { years: "12+", label: "Years of Clinical Excellence" },
+    experience:  { years: "9+", label: "Years of Clinical Excellence" },
     specialists: { count: "45+", label: "Certified Specialists"        },
 
     counters: [
@@ -226,7 +226,7 @@ export const siteContent = {
         badge:       "Trusted Skin Care Clinic",
         tag:         "Advanced Skin Treatments",
         headline:    "Get the Skin You Always Wanted.",
-        description: "Expert skin treatments done by certified doctors. Safe, effective, and made just for you.",
+description: "Quality skin treatments in Sialkot by certified doctors. Safe, effective, and specially designed for you.",
         primaryCta:   { text: "Our Treatments", href: "#services" },
         secondaryCta: { text: "View Results",       href: "#transformations" },
       },

@@ -1,6 +1,7 @@
 ﻿import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import ArrowUpRight from "../ui/ArrowUpRight"
+import SectionBadge from "../ui/SectionBadge"
 
 const EASE      = [0.25, 0.46, 0.45, 0.94]
 const EASE_EXPO = [0.16, 1, 0.3, 1]
@@ -272,10 +273,7 @@ export default function BookAppointment() {
         <motion.div style={{ textAlign:"center", marginBottom:"clamp(28px,4vw,44px)" }}
           initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }}
           viewport={{ once:true }} transition={{ duration:0.55, ease:EASE_EXPO }}>
-          <p style={{ fontSize:"0.66rem", fontWeight:700, letterSpacing:"0.22em",
-            textTransform:"uppercase", color:"#C4614A", marginBottom:12 }}>
-            Your Skin Journey Starts Here
-          </p>
+          <SectionBadge text="Your Skin Journey Starts Here" className="mb-3" />
           <h2 style={{ fontFamily:"'Nunito',system-ui,sans-serif",
             fontSize:"clamp(1.9rem,4.5vw,3rem)", fontWeight:900, fontStyle:"normal",
             color:"#1a0f0a", lineHeight:1.1, margin:"0 0 14px" }}>

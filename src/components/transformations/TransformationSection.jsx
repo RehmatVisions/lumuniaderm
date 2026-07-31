@@ -1,5 +1,6 @@
 import { useRef, useState, useCallback, useEffect } from "react"
 import { motion, AnimatePresence, useInView } from "framer-motion"
+import SectionBadge from "../ui/SectionBadge"
 
 // ── Image pairs (2 sets)
 import hairBefore   from "../../assets/beforeafter/hairbefore.png"
@@ -204,7 +205,7 @@ function SliderCard({ pair }) {
               transition={{ duration:0.4, ease:[0.16,1,0.3,1] }}
               style={{ borderRadius:10,padding:"7px 11px",background:"rgba(0,0,0,0.68)" }}
             >
-              <p style={{ fontSize:9,fontWeight:600,letterSpacing:"0.15em",textTransform:"uppercase",color:"rgba(255,255,255,0.55)",margin:0 }}>{pair.tag}</p>
+              <p style={{ fontSize:10,fontWeight:700,letterSpacing:"0.15em",textTransform:"uppercase",color:"rgba(255,255,255,0.90)",margin:0 }}>{pair.tag}</p>
               <p style={{ fontSize:12,fontWeight:700,color:"#c19a6b",margin:0,lineHeight:1.3 }}>{pair.duration}</p>
             </motion.div>
           </AnimatePresence>
@@ -216,7 +217,7 @@ function SliderCard({ pair }) {
                 </svg>
               ))}
             </div>
-            <span style={{ fontSize:9,fontWeight:500,color:"rgba(255,255,255,0.5)" }}>Verified</span>
+            <span style={{ fontSize:10,fontWeight:700,color:"rgba(255,255,255,0.95)" }}>Verified</span>
           </div>
         </div>
 
@@ -353,25 +354,7 @@ export default function TransformationSection() {
       >
         {/* ── Header ── */}
         <motion.div variants={fadeUp} style={{ textAlign:"center", marginBottom:64 }}>
-          <motion.div
-            style={{
-              display:"inline-flex",alignItems:"center",gap:8,marginBottom:20,
-              borderRadius:"9999px",padding:"7px 18px",
-              background:"rgba(193,154,107,0.12)",border:"1px solid rgba(193,154,107,0.3)",
-            }}
-            initial={{ opacity:0,scale:0.85 }}
-            animate={isInView ? { opacity:1,scale:1 } : {}}
-            transition={{ duration:0.6,delay:0.1,ease:[0.16,1,0.3,1] }}
-          >
-            <motion.div
-              style={{ width:6,height:6,borderRadius:"9999px",background:"#c19a6b",boxShadow:"0 0 8px rgba(193,154,107,0.9)" }}
-              animate={{ scale:[1,1.5,1],opacity:[1,0.6,1] }}
-              transition={{ duration:2,repeat:Infinity,ease:"easeInOut" }}
-            />
-            <span style={{ fontSize:10,fontWeight:700,letterSpacing:"0.2em",textTransform:"uppercase",color:"#c19a6b" }}>
-              Treatment Transformations
-            </span>
-          </motion.div>
+          <SectionBadge text="Treatment Transformations" delay={0.1} />
 
           <h2 style={{
             fontFamily:"'Playfair Display',Georgia,serif",
@@ -464,9 +447,9 @@ export default function TransformationSection() {
                 margin:"0 0 4px",
               }}>{stat.num}</p>
               <p style={{
-                fontFamily:"'Nunito',sans-serif",fontWeight:500,
-                fontSize:"0.78rem",letterSpacing:"0.1em",textTransform:"uppercase",
-                color:"#3d2416",margin:0,
+                fontFamily:"'Nunito',sans-serif",fontWeight:700,
+                fontSize:"0.82rem",letterSpacing:"0.1em",textTransform:"uppercase",
+                color:"#2e1a10",margin:0,
               }}>{stat.label}</p>
             </div>
           ))}

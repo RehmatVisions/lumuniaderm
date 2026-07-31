@@ -8,6 +8,7 @@ import { useReveal } from "../../hooks/useReveal"
 // useReveal stays in its own file — it uses IntersectionObserver for CSS class toggling,
 // which is different from framer-motion animations used in animations.js
 import TextReveal from "../ui/TextReveal"
+import SectionBadge from "../ui/SectionBadge"
 
 const IMG_CORNERS = { borderRadius: "2rem 0.5rem 2rem 0.5rem" }
 
@@ -162,15 +163,7 @@ export default function WhatWeDo() {
 
         {/* Header */}
         <div className="mb-12 flex flex-col items-center gap-4 text-center">
-          <span className="reveal reveal-up reveal-duration-500 reveal-delay-0 inline-flex items-center gap-2 rounded-full border px-4 py-1.5"
-            style={{ borderColor: "rgba(196,97,74,0.35)", background: "rgba(196,97,74,0.10)" }}>
-            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" style={{ color: "#C4614A" }} fill="currentColor">
-              <path d="M8 0a1 1 0 011 1v5.586l3.95-3.95a1 1 0 111.414 1.414L10.414 8l3.95 3.95a1 1 0 01-1.414 1.414L9 9.414V15a1 1 0 11-2 0V9.414l-3.95 3.95A1 1 0 011.636 11.95L5.586 8l-3.95-3.95A1 1 0 013.05 2.636L7 6.586V1a1 1 0 011-1z"/>
-            </svg>
-            <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#C4614A" }}>
-              {badge}
-            </span>
-          </span>
+          <SectionBadge text={badge} />
 
           <TextReveal
             as="h2"

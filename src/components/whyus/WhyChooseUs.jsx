@@ -283,11 +283,12 @@ export default function WhyChooseUs() {
 
           {/* Description */}
           <p style={{
-            fontSize: "clamp(0.82rem,1vw,0.93rem)",
-            color: "#7a5a4a",
+            fontSize: "clamp(0.84rem,1vw,0.95rem)",
+            color: "#4a2e1a",
             lineHeight: 1.78,
             maxWidth: 560,
             margin: "0 auto",
+            fontWeight: 500,
           }}>
             {description}
           </p>

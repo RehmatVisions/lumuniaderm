@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import SectionBadge from "../ui/SectionBadge"
 
 const EASE      = [0.25, 0.46, 0.45, 0.94]
 const EASE_EXPO = [0.16, 1, 0.3, 1]
@@ -162,7 +163,7 @@ function ReviewCard({ r, i }) {
           <Avatar initials={r.initials} size={40} gradient />
           <div>
             <p style={{ fontSize: "0.8rem", fontWeight: 700, color: "#2e1f16", lineHeight: 1.2 }}>{r.name}</p>
-            <p style={{ fontSize: "0.62rem", color: "#a07060" }}>{r.city}</p>
+            <p style={{ fontSize: "0.62rem", color: "#7a4a38", fontWeight: 600 }}>{r.city}</p>
           </div>
         </div>
         <Stars size={11} />
@@ -170,8 +171,8 @@ function ReviewCard({ r, i }) {
 
       {/* Quote */}
       <p style={{
-        fontSize: "0.78rem", color: "#6a4a3a", lineHeight: 1.75,
-        fontWeight: 400, flex: 1,
+        fontSize: "0.82rem", color: "#3d2010", lineHeight: 1.75,
+        fontWeight: 500, flex: 1,
         borderLeft: "2px solid rgba(196,97,74,0.25)",
         paddingLeft: 10,
       }}>
@@ -237,15 +238,7 @@ export default function Testimonials() {
           initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }}
           viewport={{ once:true }} transition={{ duration:0.6, ease:EASE_EXPO }}>
 
-          <span style={{
-            display:"inline-flex", alignItems:"center", gap:6,
-            fontSize:"0.66rem", fontWeight:700, letterSpacing:"0.22em",
-            textTransform:"uppercase", color:"#C4614A", marginBottom:14,
-          }}>
-            <span style={{ width:24, height:1, background:"#C4614A", display:"inline-block", opacity:0.5 }}/>
-            Real Stories, Real Results
-            <span style={{ width:24, height:1, background:"#C4614A", display:"inline-block", opacity:0.5 }}/>
-          </span>
+          <SectionBadge text="Real Stories, Real Results" />
 
           <h2 style={{
             fontFamily:"'Playfair Display',Georgia,serif",
@@ -326,7 +319,7 @@ export default function Testimonials() {
               <p style={{ fontSize:"0.95rem", fontWeight:700, color:"#2e1f16", lineHeight:1.3 }}>
                 {FEATURED.name}
               </p>
-              <p style={{ fontSize:"0.72rem", color:"#a07060" }}>
+              <p style={{ fontSize:"0.74rem", color:"#7a4a38", fontWeight:600 }}>
                 {FEATURED.city} · {FEATURED.treatment}
               </p>
             </div>
@@ -410,7 +403,7 @@ export default function Testimonials() {
           style={{
             display:"flex", alignItems:"center", justifyContent:"center",
             flexWrap:"wrap", gap:"clamp(8px,1.5vw,14px)", marginTop:32,
-            fontSize:"clamp(0.74rem,1vw,0.82rem)", color:"#7a5a4a", fontWeight:500,
+            fontSize:"clamp(0.80rem,1vw,0.88rem)", color:"#3d2010", fontWeight:600,
           }}
         >
           <svg viewBox="0 0 20 20" width={16} height={16}>

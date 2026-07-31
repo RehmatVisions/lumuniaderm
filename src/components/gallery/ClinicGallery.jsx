@@ -1,6 +1,7 @@
 import { motion, AnimatePresence, useInView } from "framer-motion"
 import { useState, useRef } from "react"
 import TextReveal from "../ui/TextReveal"
+import SectionBadge from "../ui/SectionBadge"
 
 /* ── Clinic images ── */
 import img0  from "../../assets/clinicimages/image.png"
@@ -113,7 +114,7 @@ function GalleryCard({ item, index, featured = false }) {
           {item.title}
         </h3>
         <motion.p
-          className="mt-1 text-xs leading-relaxed text-white/50"
+          className="mt-1 text-[11px] font-semibold leading-relaxed text-white/85"
           animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 6 }}
           transition={{ duration: 0.25 }}
         >
@@ -129,8 +130,7 @@ function FilterTab({ label, active, onClick, count }) {
   return (
     <motion.button
       onClick={onClick}
-      className="relative rounded-full px-4 py-2 text-[12px] font-semibold transition-colors duration-200"
-      style={{ color: active ? "#fff" : "rgba(61,46,36,0.55)" }}
+className="relative rounded-full px-5 py-3 text-[15px] font-bold tracking-wide transition-colors duration-200"      style={{ color: active ? "#fff" : "rgba(64, 35, 18, 0.85)" }}
       whileHover={{ scale: 1.04 }}
       whileTap={{ scale: 0.96 }}
     >
@@ -148,7 +148,7 @@ function FilterTab({ label, active, onClick, count }) {
           className="flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold"
           style={{
             background: active ? "rgba(255,255,255,0.22)" : "rgba(61,46,36,0.10)",
-            color: active ? "#fff" : "rgba(61,46,36,0.45)",
+         color: active ? "#fff" : "#1A0F0A",
           }}
         >
           {count}
@@ -178,8 +178,8 @@ function MarqueeStrip() {
         {words.map((w, i) => (
           <span
             key={i}
-            className="flex items-center gap-4 text-xs font-semibold uppercase tracking-[0.22em]"
-            style={{ color: "rgba(193,154,107,0.55)" }}
+            className="flex items-center gap-4 text-[11px] font-bold uppercase tracking-[0.22em]"
+            style={{ color: "rgba(27, 15, 3, 0.85)" }}
           >
             {w}
             <span className="h-1 w-1 rounded-full" style={{ background: "rgba(193,154,107,0.40)" }} />
@@ -215,19 +215,7 @@ export default function ClinicGallery() {
       <div className="relative mx-auto max-w-[1440px] px-4 pt-20 sm:px-6 lg:px-12 lg:pt-28">
         <div className="mb-14 flex flex-col items-center gap-4 text-center">
 
-          <motion.span
-            className="inline-flex items-center gap-2 rounded-full border border-novaderm-gold/35 bg-novaderm-gold/10 px-5 py-2"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-novaderm-gold opacity-70" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-novaderm-gold" />
-            </span>
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-novaderm-gold">Our Clinic</span>
-          </motion.span>
+          <SectionBadge text="Our Clinic" />
 
           <TextReveal
             as="h2"
@@ -241,7 +229,7 @@ export default function ClinicGallery() {
 
           <motion.p
             className="max-w-xl text-[0.92rem] font-normal leading-[1.8]"
-            style={{ color: "#3d2416" }}
+            style={{ color: "#361c0c" }}
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -338,12 +326,12 @@ export default function ClinicGallery() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-sm text-novaderm-brown/40">Experience the difference in person.</p>
+          <p className="text-sm font-semibold text-novaderm-brown">Experience the difference in person.</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <motion.a
               href="#contact"
               className="group inline-flex items-center gap-0 overflow-hidden rounded-full"
-              style={{ boxShadow: "0 10px 36px rgba(193,154,107,0.30)" }}
+              style={{ boxShadow: "0 10px 36px rgba(220, 177, 124, 0.3)" }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
@@ -365,7 +353,7 @@ export default function ClinicGallery() {
 
             <motion.a
               href="#gallery"
-              className="inline-flex items-center gap-2 rounded-full border border-novaderm-brown/20 px-6 py-3.5 text-sm font-semibold text-novaderm-brown/55 hover:border-novaderm-gold/50 hover:text-novaderm-brown transition-colors duration-200"
+              className="inline-flex items-center gap-2 rounded-full border border-novaderm-brown/30 px-6 py-3.5 text-sm font-bold text-novaderm-brown/85 hover:border-novaderm-gold/50 hover:text-novaderm-brown transition-colors duration-200"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >

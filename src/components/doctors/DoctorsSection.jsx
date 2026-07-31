@@ -1,5 +1,6 @@
 import { motion } from "framer-motion"
 import ateeqImg from "../../assets/doctorsimages/ateeq.png"
+import SectionBadge from "../ui/SectionBadge"
 
 const EASE      = [0.25, 0.46, 0.45, 0.94]
 const EASE_EXPO = [0.16, 1, 0.3, 1]
@@ -51,7 +52,7 @@ function StatBlock({ icon, top, sub }) {
       </div>
       <div style={{ lineHeight:1.25 }}>
         <p style={{ fontSize:"0.85rem", fontWeight:700, color:"#2e1f16", margin:0 }}>{top}</p>
-        <p style={{ fontSize:"0.72rem", color:"#a07060", margin:0 }}>{sub}</p>
+        <p style={{ fontSize:"0.74rem", color:"#5a3a28", fontWeight:600, margin:0 }}>{sub}</p>
       </div>
     </div>
   )
@@ -62,11 +63,11 @@ function Pill({ label }) {
   return (
     <span style={{
       display:"inline-flex",
-      border:"1.5px solid rgba(196,97,74,0.28)",
+      border:"1.5px solid rgba(196,97,74,0.35)",
       borderRadius:999,
-      padding:"5px 14px",
-      fontSize:"0.75rem", fontWeight:500, color:"#5a3e32",
-      background:"rgba(255,255,255,0.55)",
+      padding:"6px 16px",
+      fontSize:"0.78rem", fontWeight:700, color:"#3d2010",
+      background:"rgba(196,97,74,0.08)",
       whiteSpace:"nowrap",
     }}>
       {label}
@@ -94,12 +95,7 @@ export default function DoctorsSection() {
         <motion.div style={{ textAlign:"center", marginBottom:"clamp(28px,4vw,48px)" }}
           initial={{ opacity:0, y:18 }} whileInView={{ opacity:1, y:0 }}
           viewport={{ once:true }} transition={{ duration:0.55, ease:EASE_EXPO }}>
-          <p style={{
-            fontSize:"0.66rem", fontWeight:700, letterSpacing:"0.22em",
-            textTransform:"uppercase", color:"#C4614A",
-          }}>
-            Meet Your Skin Expert
-          </p>
+        <SectionBadge text="Meet Your Skin Expert" className="mb-2" />
         </motion.div>
 
         {/* ── TWO-COLUMN CARD ────────────────────────────── */}
@@ -145,7 +141,7 @@ export default function DoctorsSection() {
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 <path d="M9 12l2 2 4-4"/>
               </svg>
-              <span style={{ fontSize:"0.65rem", fontWeight:700, letterSpacing:"0.16em", textTransform:"uppercase", color:"#5a3e32" }}>
+              <span style={{ fontSize:"0.68rem", fontWeight:800, letterSpacing:"0.16em", textTransform:"uppercase", color:"#2e1a10" }}>
                 {d.badge}
               </span>
             </div>
@@ -290,7 +286,7 @@ export default function DoctorsSection() {
             <div style={{ display:"flex", flexWrap:"wrap", alignItems:"center", gap:"clamp(8px,1.5vw,16px)" }}>
               {["Personalized care","Evidence-led treatments","Natural-looking results"].map((t,i,arr)=>(
                 <span key={t} style={{ display:"flex", alignItems:"center", gap:8 }}>
-                  <span style={{ fontSize:"0.76rem", color:"#7a5a4a", fontWeight:500 }}>{t}</span>
+                  <span style={{ fontSize:"0.80rem", color:"#2e1a10", fontWeight:700 }}>{t}</span>
                   {i < arr.length-1 && (
                     <span style={{ width:4, height:4, borderRadius:"50%", background:"rgba(196,97,74,0.45)", display:"inline-block" }}/>
                   )}

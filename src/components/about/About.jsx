@@ -4,6 +4,7 @@ import { siteContent } from "../../data/siteContent"
 import { useReducedMotion, VP_ONCE } from "../../hooks/animations"
 // Note: sectionBg background is set by App.jsx on the parent wrapper — no need to import it here
 import TextReveal from "../ui/TextReveal"
+import SectionBadge from "../ui/SectionBadge"
 
 // ─── Shared constants ─────────────────────────────────────────
 const EASE = [0.25, 0.46, 0.45, 0.94]
@@ -57,7 +58,7 @@ function AboutImageCollage() {
           whileHover={{ scale: 1.07, transition: { duration: 0.25 } }}
         >
           <p className="text-2xl font-bold text-novaderm-gold">{experience.years}</p>
-          <p className="text-xs text-white/80">{experience.label}</p>
+          <p className="text-xs text-white/95 font-semibold">{experience.label}</p>
         </motion.div>
       </motion.div>
 
@@ -118,7 +119,7 @@ function AboutImageCollage() {
           whileHover={{ scale: 1.05, boxShadow: "0 8px 28px rgba(193,154,107,0.22)", transition: { duration: 0.25 } }}
         >
           <p className="text-2xl font-bold text-novaderm-gold">{specialists.count}</p>
-          <p className="text-xs text-novaderm-brown/65">{specialists.label}</p>
+          <p className="text-xs font-semibold text-novaderm-brown/90">{specialists.label}</p>
         </motion.div>
       </div>
 
@@ -192,15 +193,7 @@ function AboutContent() {
     <div className="flex flex-col justify-center gap-6">
 
       {/* Badge */}
-      <motion.div {...fadeUp(0.05)}>
-        <span className="inline-flex items-center gap-2 rounded-full border border-novaderm-gold/40 bg-novaderm-gold/10 px-4 py-1.5">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-novaderm-gold opacity-60" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-novaderm-gold" />
-          </span>
-          <span className="text-xs font-semibold uppercase tracking-wider text-novaderm-gold">{badge}</span>
-        </span>
-      </motion.div>
+      <SectionBadge text={badge} delay={0.05} />
 
       {/* Headline */}
       <TextReveal
@@ -248,7 +241,7 @@ function AboutContent() {
             <span className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-novaderm-gold/15 transition-colors duration-300 group-hover:bg-novaderm-gold/25">
               <FeatureIcon type={feature.icon} />
             </span>
-            <span className="text-sm font-medium leading-snug text-novaderm-brown">{feature.title}</span>
+      <span className="text-sm font-semibold leading-snug text-novaderm-brown">{feature.title}</span>
           </motion.div>
         ))}
       </div>
@@ -273,7 +266,7 @@ function AboutContent() {
         >
           <svg
             viewBox="0 0 100 100"
-            className="absolute inset-0 h-full w-full text-novaderm-brown/55"
+className="relative flex h-12 w-12 items-center justify-center rounded-full bg-novaderm-gold text-white shadow-lg..."
             style={{ animation: "spin 14s linear infinite" }}
             aria-hidden="true"
           >
@@ -409,7 +402,7 @@ function AboutCounters() {
             </div>
 
             <motion.p
-              className="text-xs font-medium uppercase tracking-widest text-novaderm-brown/55"
+              className="text-xs font-bold uppercase tracking-widest text-novaderm-brown"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}

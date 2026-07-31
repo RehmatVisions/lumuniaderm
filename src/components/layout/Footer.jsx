@@ -75,7 +75,7 @@ function SubToast({ visible }) {
           </span>
           <div>
             <p className="text-sm font-bold text-novaderm-brown">Subscribed!</p>
-            <p className="text-xs text-novaderm-brown/55">Thanks for joining Novaderm.</p>
+            <p className="text-xs font-semibold text-novaderm-brown/85">Thanks for joining Novaderm.</p>
           </div>
         </motion.div>
       )}
@@ -204,7 +204,7 @@ export default function Footer() {
                     key={type} href={href} aria-label={label}
                     target="_blank" rel="noopener noreferrer"
                     className="flex h-9 w-9 items-center justify-center rounded-xl border transition-all duration-200"
-                    style={{ borderColor: "rgba(196,97,74,0.25)", color: "rgba(61,46,36,0.55)", background: "rgba(196,97,74,0.06)" }}
+                    style={{ borderColor: "rgba(196,97,74,0.30)", color: "rgba(61,36,20,0.80)", background: "rgba(196,97,74,0.06)" }}
                     whileHover={{ scale: 1.1, borderColor: "#C4614A", color: "#C4614A", background: "rgba(196,97,74,0.12)" }}
                   >
                     <SocialIcon type={type} />
@@ -220,7 +220,7 @@ export default function Footer() {
                 {QUICK_LINKS.map(({ label, href }) => (
                   <li key={label}>
                     <a href={href}
-                      className="group flex items-center gap-2.5 text-sm text-novaderm-brown/60 transition-colors duration-200 hover:text-[#C4614A]"
+                      className="group flex items-center gap-2.5 text-sm font-semibold text-novaderm-brown/80 transition-colors duration-200 hover:text-[#C4614A]"
                     >
                       <AsteriskDot />
                       {label}
@@ -237,7 +237,7 @@ export default function Footer() {
                 {SERVICES.map(({ label, href }) => (
                   <li key={label}>
                     <a href={href}
-                      className="flex items-center gap-2.5 text-sm text-novaderm-brown/60 transition-colors duration-200 hover:text-[#C4614A]"
+                      className="flex items-center gap-2.5 text-sm font-semibold text-novaderm-brown/80 transition-colors duration-200 hover:text-[#C4614A]"
                     >
                       <AsteriskDot />
                       {label}
@@ -254,7 +254,7 @@ export default function Footer() {
                 {HOURS.map(({ day, hours }) => (
                   <li key={day} className="flex items-center justify-between gap-4 text-sm">
                     <span className="font-semibold text-novaderm-brown">{day}</span>
-                    <span style={{ color: hours === "Closed" ? "rgba(200,50,50,0.80)" : "rgba(61,46,36,0.55)" }}>
+                    <span style={{ color: hours === "Closed" ? "rgba(200,50,50,0.90)" : "rgba(61,36,20,0.80)", fontWeight: 600 }}>
                       {hours}
                     </span>
                   </li>
@@ -267,7 +267,7 @@ export default function Footer() {
 
         {/* ── Copyright bar ── */}
         <div
-          className="py-5 text-center text-sm text-novaderm-brown/40"
+          className="py-5 text-center text-sm font-semibold text-novaderm-brown/65"
           style={{ borderTop: "1px solid rgba(196,97,74,0.15)" }}
         >
           Copyright &copy; {new Date().getFullYear()} All Rights Reserved.

@@ -153,7 +153,7 @@ function PremiumOpeningOverlay() {
 
 // Desktop-only portrait zone. Keeping this boundary near the girl's shoulder
 // prevents the comparison layer from covering the hero copy/navigation.
-const IMAGE_LEFT_PCT = 66
+const IMAGE_LEFT_PCT = 60
 const DESKTOP_DEFAULT_PCT = 20
 
 function BackgroundSlider() {
@@ -190,7 +190,7 @@ function BackgroundSlider() {
   const dividerLeft   = useTransform(dividerSpring, v => `${v}%`)
 
   useEffect(() => {
-    const target = isMobile ? (showAfter ? 5 : 95) : pct
+ const target = isMobile ? (showAfter ? 0 : 100) : pct
     if (dragging) { dividerMV.jump(target) } else { dividerMV.set(target) }
   }, [pct, isMobile, showAfter, dragging]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -198,7 +198,12 @@ function BackgroundSlider() {
   const clientXtoPct = (clientX) => {
     const r = imageZoneRef.current?.getBoundingClientRect()
     if (!r || r.width === 0) return pct
-    return Math.min(Math.max(((clientX - r.left) / r.width) * 100, 1), 99)
+    // Keep the complete 46px handle inside the clipped image zone.
+    // A fixed 1–99% clamp still cuts the circle in half near either edge.
+    const handleRadiusPct = (23 / r.width) * 100
+    const minPct = Math.min(handleRadiusPct, 50)
+    const maxPct = 100 - minPct
+    return Math.min(Math.max(((clientX - r.left) / r.width) * 100, minPct), maxPct)
   }
 
   const onPtrDown = (e) => {
@@ -316,6 +321,10 @@ function BackgroundSlider() {
               position: "absolute", inset: 0,
               overflow: "hidden", pointerEvents: "none",
               width: dividerLeft,
+              // Feather only the desktop BEFORE layer into the AFTER base so
+              // its left boundary never looks like a shaded section.
+              WebkitMaskImage: "linear-gradient(to right, transparent 0px, rgba(0,0,0,0.35) 28px, #000 84px)",
+              maskImage: "linear-gradient(to right, transparent 0px, rgba(0,0,0,0.35) 28px, #000 84px)",
             }}
           >
             <div style={{
@@ -371,9 +380,7 @@ function BackgroundSlider() {
                 position: "relative",
                 background: dragging ? "rgba(196,97,74,0.92)" : "rgba(12,6,2,0.80)",
                 border: dragging ? "2px solid rgba(255,255,255,0.6)" : "2px solid rgba(255,255,255,0.30)",
-                boxShadow: dragging
-                  ? "0 0 0 5px rgba(196,97,74,0.20),0 6px 24px rgba(0,0,0,0.6)"
-                  : "0 3px 16px rgba(0,0,0,0.55)",
+                boxShadow:"none",
                 transition: "background .18s,border-color .18s,box-shadow .18s",
               }}
               animate={{ scale: dragging ? 1.15 : 1 }}
@@ -541,7 +548,7 @@ function Navbar() {
             alt="Novaderm"
             draggable={false}
             className="select-none"
- style={{ height: "clamp(80px,12vw,130px)", width: "auto", objectFit: "contain" }}
+ style={{ height: "clamp(90px,13vw,145px)", width: "auto", objectFit: "contain" }}
             loading="eager"
             decoding="async"
           />
@@ -819,13 +826,13 @@ export default function Hero() {
               On md+: standard 500px desktop layout. */}
           <style>{`.hero-text-col{max-width:min(220px,44vw)}@media(min-width:768px){.hero-text-col{max-width:500px}}`}</style>
           <div
-            className="hero-text-col flex flex-col justify-start md:justify-center"
+       className="hero-text-col flex flex-col justify-start md:justify-center md:ml-20"
             style={{ pointerEvents: "auto" }}
           >
             {/* Badge — small label above the headline */}
             <motion.span
               className="mb-3 inline-flex items-center gap-2"
-              style={{ fontSize: "0.67rem", fontWeight: 800, letterSpacing: "0.22em", textTransform: "uppercase", color: "#893d23" }}
+              style={{ fontSize: "0.69rem", fontWeight: 900, letterSpacing: "0.22em", textTransform: "uppercase", color: "#49190a" }}
               variants={SOFT_REVEAL}
             >
               <span className="inline-block h-px w-5" style={{ background: "rgba(160,112,96,0.5)" }} />

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { siteContent } from "../../data/siteContent"
+import SectionBadge from "../ui/SectionBadge"
 
 const EASE      = [0.25, 0.46, 0.45, 0.94]
 const EASE_EXPO = [0.16, 1, 0.3, 1]
@@ -99,8 +100,8 @@ function CardFeatured({ card, n }) {
         <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:8 }}>
           <Num n={n} />
           <span style={{
-            fontSize:"0.62rem", fontWeight:700, letterSpacing:"0.18em",
-            textTransform:"uppercase", color:"rgba(196,97,74,0.65)",
+            fontSize:"0.70rem", fontWeight:800, letterSpacing:"0.18em",
+            textTransform:"uppercase", color:"#C4614A",
           }}>
             {card.badge}
           </span>
@@ -120,8 +121,8 @@ function CardFeatured({ card, n }) {
 
         {/* Description */}
         <p style={{
-          fontSize:"0.82rem", color:"#3d2416", lineHeight:1.7,
-          fontWeight:400, marginBottom:18, maxWidth:300,
+          fontSize:"0.84rem", color:"#2e1a10", lineHeight:1.7,
+          fontWeight:500, marginBottom:18, maxWidth:300,
         }}>
           {card.description}
         </p>
@@ -193,7 +194,7 @@ function CardWithImage({ card, n, delay = 0 }) {
             }}>
               {card.title}
             </h3>
-            <p style={{ fontSize:"0.76rem", color:"#3d2416", lineHeight:1.65, fontWeight:400 }}>
+            <p style={{ fontSize:"0.80rem", color:"#2e1a10", lineHeight:1.65, fontWeight:500 }}>
               {card.description}
             </p>
           </div>
@@ -235,7 +236,7 @@ function CardText({ card, n, delay = 0 }) {
           }}>
             {card.title}
           </h3>
-          <p style={{ fontSize:"0.76rem", color:"#3d2416", lineHeight:1.65, fontWeight:400 }}>
+          <p style={{ fontSize:"0.80rem", color:"#2e1a10", lineHeight:1.65, fontWeight:500 }}>
             {card.description}
           </p>
         </div>
@@ -289,12 +290,7 @@ export default function Services() {
           initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }}
           viewport={{ once:true }} transition={{ duration:0.6, ease:EASE_EXPO }}>
 
-          <p style={{
-            fontSize:"0.66rem", fontWeight:700, letterSpacing:"0.22em",
-            textTransform:"uppercase", color:"#C4614A", marginBottom:14,
-          }}>
-            {badge}
-          </p>
+          <SectionBadge text={badge} className="mb-2" />
 
           <h2 style={{
             fontFamily:"'Playfair Display',Georgia,serif",
@@ -410,8 +406,8 @@ export default function Services() {
                   {item.icon}
                 </div>
                 <span style={{
-                  fontSize:"clamp(0.78rem,1vw,0.88rem)",
-                  fontWeight:600, color:"#5a3e32",
+                  fontSize:"clamp(0.84rem,1vw,0.94rem)",
+                  fontWeight:700, color:"#2e1a10",
                   whiteSpace:"nowrap",
                 }}>
                   {item.label}
