@@ -391,7 +391,7 @@
 
 
 import { AnimatePresence, motion } from "framer-motion"
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 
 /*
@@ -432,14 +432,30 @@ const PREVIEW_IMAGES = [
 ]
 
 function GalleryImage({ image, className = "" }) {
+  const [loaded, setLoaded] = useState(false)
+  const onLoad = useCallback(() => setLoaded(true), [])
+
   return (
     <div className={`group relative min-h-0 overflow-hidden rounded-[16px] bg-[#efd9ca] ${className}`}>
+      {/* Skeleton shimmer shown until image loads */}
+      {!loaded && (
+        <div
+          className="absolute inset-0 animate-pulse"
+          style={{ background: "linear-gradient(90deg,#efd9ca 25%,#f5e4d8 50%,#efd9ca 75%)", backgroundSize: "200% 100%" }}
+          aria-hidden="true"
+        />
+      )}
       <img
         src={image.src}
         alt={image.alt}
         loading="lazy"
         decoding="async"
-        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+        onLoad={onLoad}
+        className="h-full w-full object-cover transition-[transform,opacity] duration-700 ease-out group-hover:scale-[1.035]"
+        style={{
+          opacity: loaded ? 1 : 0,
+          willChange: "transform, opacity",
+        }}
       />
     </div>
   )

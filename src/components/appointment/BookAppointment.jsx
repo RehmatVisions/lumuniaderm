@@ -11,18 +11,22 @@ const SHEET_URL = "https://script.google.com/macros/s/AKfycbw66bF_PPhFc4VTEHxbYp
 
 async function saveFormToSheet(form) {
   try {
+    // no-cors only allows "simple" requests — JSON triggers a preflight that
+    // Google Apps Script blocks. URLSearchParams sends as
+    // application/x-www-form-urlencoded which is a simple request and works.
+    const params = new URLSearchParams({
+      name:            form.name || "",
+      email:           form.email || "",
+      phone:           form.phone || "",
+      treatment:       form.message || "General Inquiry",
+      appointmentDate: form.date || "",
+      notes:           form.notes || "",
+      source:          "Booking Form",
+    })
     await fetch(SHEET_URL, {
-      method: "POST", mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: form.name || "",
-        email: form.email || "",
-        phone: form.phone || "",
-        treatment: form.message ? form.message : "General Inquiry",
-        appointmentDate: form.date || "",
-        notes: form.notes || "",
-        source: "Booking Form",
-      }),
+      method: "POST",
+      mode: "no-cors",
+      body: params,
     })
   } catch (err) { console.error("Sheet save error:", err) }
 }

@@ -9,7 +9,7 @@
  */
 
 import { motion, AnimatePresence } from "framer-motion"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import PageLayout from "../components/layout/PageLayout"
 
@@ -144,6 +144,8 @@ function Lightbox({ image, onClose, onPrev, onNext }) {
         transition={{ duration: 0.3, ease: EASE_EXPO }}
         onClick={(e) => e.stopPropagation()}
         draggable={false}
+        loading="eager"
+        decoding="async"
       />
 
       {/* Next */}
@@ -164,6 +166,9 @@ function Lightbox({ image, onClose, onPrev, onNext }) {
 
 // ── Gallery Card ──────────────────────────────────────────────
 function GalleryCard({ image, index, onOpen }) {
+  const [loaded, setLoaded] = useState(false)
+  const onLoad = useCallback(() => setLoaded(true), [])
+
   return (
     <motion.article
       className="group relative cursor-pointer overflow-hidden"
@@ -177,15 +182,32 @@ function GalleryCard({ image, index, onOpen }) {
       role="button"
       aria-label={`View ${image.alt}`}
     >
+      {/* Skeleton shimmer */}
+      {!loaded && (
+        <div
+          className="absolute inset-0 animate-pulse"
+          style={{
+            background: "linear-gradient(90deg,#f0ddd0 25%,#f7ece4 50%,#f0ddd0 75%)",
+            backgroundSize: "200% 100%",
+          }}
+          aria-hidden="true"
+        />
+      )}
+
       <img
         src={image.src}
         alt={image.alt}
         loading="lazy"
         decoding="async"
-        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+        onLoad={onLoad}
+        className="h-full w-full object-cover transition-[transform,opacity] duration-700 ease-out group-hover:scale-[1.06]"
+        style={{
+          opacity: loaded ? 1 : 0,
+          willChange: "transform, opacity",
+        }}
       />
 
-      {/* Overlay on hover — clean gradient only, no text */}
+      {/* Overlay on hover */}
       <div
         className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{ background: "linear-gradient(to top, rgba(10,5,2,0.45) 0%, transparent 60%)" }}
