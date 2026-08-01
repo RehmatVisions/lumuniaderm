@@ -464,7 +464,7 @@ export default function BookAppointment() {
                     </svg>
                   </motion.button>
                   <p style={{
-                    textAlign: "center", fontSize: "0.72rem", color: "#a07060",
+                    textAlign: "center", fontSize: "0.78rem", color: "#2e1a10",
                     display: "flex", alignItems: "center", justifyContent: "center", gap: 6
                   }}>
                     <svg viewBox="0 0 24 24" fill="none" width={13} height={13} stroke="#C4614A" strokeWidth="1.8" strokeLinecap="round">
@@ -512,7 +512,7 @@ export default function BookAppointment() {
                 }}>
                   {item.icon}
                 </div>
-                <span style={{ fontSize: "clamp(0.78rem,1vw,0.88rem)", fontWeight: 600, color: "#5a3e32", whiteSpace: "nowrap" }}>
+                <span style={{ fontSize: "clamp(0.84rem,1vw,0.94rem)", fontWeight: 700, color: "#1a0f0a", whiteSpace: "nowrap" }}>
                   {item.label}
                 </span>
               </div>

@@ -198,7 +198,7 @@ function AboutContent() {
       {/* Headline */}
       <TextReveal
         as="h2"
-        className="max-w-lg font-serif text-[1.9rem] font-semibold leading-[1.18] tracking-[-0.01em] sm:text-[2.3rem] lg:text-[2.65rem] lg:leading-[1.14]"
+        className="max-w-lg font-sans text-[1.9rem] font-semibold leading-[1.18] tracking-[-0.01em] sm:text-[2.3rem] lg:text-[2.65rem] lg:leading-[1.14]"
         style={{ color: "#1a0f0a" }}
         delay={80}
         stagger={60}

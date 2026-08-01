@@ -183,8 +183,7 @@ function CardWithImage({ card, n, delay = 0 }) {
       {/* Content */}
       <div style={{ padding:"16px 20px 18px", flex:1, display:"flex", flexDirection:"column", gap:6, position:"relative" }}>
         <Num n={n} />
-        <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:10 }}>
-          <div style={{ flex:1 }}>
+        <div style={{ flex:1 }}>
             <h3 style={{
               fontFamily:"'Nunito',system-ui,sans-serif",
               fontSize:"clamp(1rem,1.5vw,1.15rem)",
@@ -194,12 +193,10 @@ function CardWithImage({ card, n, delay = 0 }) {
             }}>
               {card.title}
             </h3>
-            <p style={{ fontSize:"0.80rem", color:"#2e1a10", lineHeight:1.65, fontWeight:500 }}>
+            <p style={{ fontSize:"0.84rem", color:"#2e1a10", lineHeight:1.65, fontWeight:500 }}>
               {card.description}
             </p>
           </div>
-          <ArrowBtn href={card.href} />
-        </div>
       </div>
     </motion.div>
   )
@@ -225,22 +222,19 @@ function CardText({ card, n, delay = 0 }) {
     >
       <LeafWatermark />
       <Num n={n} />
-      <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:10 }}>
-        <div style={{ flex:1 }}>
-          <h3 style={{
-            fontFamily:"'Playfair Display',Georgia,serif",
-            fontSize:"clamp(1rem,1.5vw,1.15rem)",
-            fontWeight:700, fontStyle:"italic",
-            color:"#C4614A", lineHeight:1.22,
-            margin:"0 0 7px",
-          }}>
-            {card.title}
-          </h3>
-          <p style={{ fontSize:"0.80rem", color:"#2e1a10", lineHeight:1.65, fontWeight:500 }}>
-            {card.description}
-          </p>
-        </div>
-        <ArrowBtn href={card.href} />
+      <div style={{ flex:1 }}>
+        <h3 style={{
+          fontFamily:"'Nunito',system-ui,sans-serif",
+          fontSize:"clamp(1rem,1.5vw,1.15rem)",
+          fontWeight:700, fontStyle:"italic",
+          color:"#C4614A", lineHeight:1.22,
+          margin:"0 0 7px",
+        }}>
+          {card.title}
+        </h3>
+        <p style={{ fontSize:"0.84rem", color:"#2e1a10", lineHeight:1.65, fontWeight:500 }}>
+          {card.description}
+        </p>
       </div>
     </motion.div>
   )
@@ -293,7 +287,7 @@ export default function Services() {
           <SectionBadge text={badge} className="mb-2" />
 
           <h2 style={{
-            fontFamily:"'Playfair Display',Georgia,serif",
+            fontFamily:"'Nunito',system-ui,sans-serif",
             fontSize:"clamp(2rem,4.8vw,3.2rem)",
             fontWeight:700, fontStyle:"italic",
             color:"#1a0f0a", lineHeight:1.1,

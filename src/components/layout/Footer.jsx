@@ -127,7 +127,7 @@ export default function Footer() {
 
             <TextReveal
               as="h2"
-              className="font-serif text-[1.9rem] font-semibold leading-[1.2] text-white sm:text-[2.4rem] lg:text-[2.8rem]"
+              className="font-sans text-[1.9rem] font-semibold leading-[1.2] text-white sm:text-[2.4rem] lg:text-[2.8rem]"
               delay={0}
               stagger={60}
             >

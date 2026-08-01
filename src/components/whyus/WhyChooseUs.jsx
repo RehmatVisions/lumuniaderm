@@ -136,7 +136,7 @@ function AccordionItem({ item, isOpen, onOpen, index }) {
           fontSize: "0.78rem", fontWeight: 700,
           color: "#C4614A",
           minWidth: 28, flexShrink: 0,
-          fontFamily: "'Playfair Display', Georgia, serif",
+          fontFamily: "'Nunito',system-ui,sans-serif",
           letterSpacing: "0.02em",
         }}>
           {item.number}
@@ -197,7 +197,7 @@ function AccordionItem({ item, isOpen, onOpen, index }) {
               padding: "0 18px 16px 18px",
               fontSize: "0.83rem",
               lineHeight: 1.75,
-              color: "#5a3a28",
+              color:"#1a0f0a",
               fontFamily: "inherit",
               margin: 0,
             }}>
@@ -268,7 +268,7 @@ export default function WhyChooseUs() {
 
           {/* Headline */}
           <h2 style={{
-            fontFamily: "'Playfair Display', Georgia, serif",
+            fontFamily: "'Nunito',system-ui,sans-serif",
             fontSize: "clamp(1.9rem, 4vw, 3rem)",
             fontWeight: 700,
             color: "#2a1208",

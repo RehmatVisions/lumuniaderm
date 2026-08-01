@@ -101,7 +101,7 @@ function Avatar({ initials, size = 44, gradient = false }) {
       boxShadow: gradient ? "0 4px 14px rgba(196,97,74,0.35)" : "0 2px 8px rgba(196,97,74,0.12)",
     }}>
       <span style={{
-        fontFamily: "'Playfair Display',Georgia,serif",
+        fontFamily: "'Nunito',system-ui,sans-serif",
         fontSize: size * 0.31, fontWeight: 700,
         color: gradient ? "#fff" : "#C4614A",
         letterSpacing: "0.04em",
@@ -199,7 +199,7 @@ function ReviewCard({ r, i }) {
 
       {/* Quote */}
       <p style={{
-        fontSize: "0.82rem", color: "#3d2010", lineHeight: 1.75,
+        fontSize:"0.88rem", color: "#3d2010", lineHeight: 1.75,
         fontWeight: 500, flex: 1,
         borderLeft: "2px solid rgba(196,97,74,0.25)",
         paddingLeft: 10,
@@ -269,7 +269,7 @@ export default function Testimonials() {
           <SectionBadge text="Real Stories, Real Results" />
 
           <h2 style={{
-            fontFamily:"'Playfair Display',Georgia,serif",
+            fontFamily:"'Nunito',system-ui,sans-serif",
             fontSize:"clamp(2rem,4.8vw,3.2rem)",
             fontWeight:700, fontStyle:"italic", color:"#1a0f0a",
             lineHeight:1.1, margin:"0 0 16px",
@@ -324,7 +324,7 @@ export default function Testimonials() {
 
           {/* Quote text */}
           <p style={{
-            fontFamily:"'Playfair Display',Georgia,serif",
+            fontFamily:"'Nunito',system-ui,sans-serif",
             fontSize:"clamp(1.05rem,2.2vw,1.4rem)",
             fontStyle:"italic", fontWeight:500,
             color:"#C4614A", lineHeight:1.72,
@@ -347,7 +347,7 @@ export default function Testimonials() {
               <p style={{ fontSize:"0.95rem", fontWeight:700, color:"#2e1f16", lineHeight:1.3 }}>
                 {FEATURED.name}
               </p>
-              <p style={{ fontSize:"0.74rem", color:"#7a4a38", fontWeight:600 }}>
+              <p style={{ fontSize:"0.82rem", color:"#7a4a38", fontWeight:600 }}>
                 {FEATURED.city} · {FEATURED.treatment}
               </p>
             </div>

@@ -392,6 +392,7 @@
 
 import { AnimatePresence, motion } from "framer-motion"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 /*
  * ADDING PHOTOS IS EASY:
@@ -471,7 +472,7 @@ function LeafDecoration({ side }) {
 }
 
 export default function ClinicGallery() {
-  const [showAll, setShowAll] = useState(false)
+  const navigate = useNavigate()
 
   return (
     <section
@@ -532,39 +533,20 @@ export default function ClinicGallery() {
         <div className="mt-[24px] flex justify-center">
           <button
             type="button"
-            onClick={() => setShowAll((current) => !current)}
+            onClick={() => navigate("/gallery")}
             className="group inline-flex min-w-[292px] items-center justify-center gap-6 rounded-full bg-gradient-to-r from-[#c94e37] to-[#b83c27] px-8 py-[17px] text-[14px] font-bold uppercase tracking-[0.075em] text-white shadow-[0_7px_14px_rgba(160,57,36,.2)] transition-transform duration-300 hover:-translate-y-0.5"
-            aria-expanded={showAll}
           >
-            {showAll ? "Close Full Gallery" : "View Full Gallery"}
+            View Full Gallery
             <svg
               viewBox="0 0 24 24"
               fill="none"
-              className={`h-[19px] w-[19px] transition-transform duration-300 ${showAll ? "rotate-[-90deg]" : "group-hover:translate-x-1"}`}
+              className="h-[19px] w-[19px] transition-transform duration-300 group-hover:translate-x-1"
               aria-hidden="true"
             >
               <path d="M5 12h13M14 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>
-
-        <AnimatePresence initial={false}>
-          {showAll && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="overflow-hidden"
-            >
-              <div className="grid grid-cols-1 gap-3 pt-10 sm:grid-cols-2 lg:grid-cols-3">
-                {CLINIC_IMAGES.map((image) => (
-                  <GalleryImage key={image.src} image={image} className="aspect-[4/3]" />
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </section>
   )

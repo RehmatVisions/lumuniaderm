@@ -357,7 +357,7 @@ export default function TransformationSection() {
           <SectionBadge text="Treatment Transformations" delay={0.1} />
 
           <h2 style={{
-            fontFamily:"'Playfair Display',Georgia,serif",
+            fontFamily:"'Nunito',system-ui,sans-serif",
             fontSize:"clamp(2rem,4.5vw,3rem)",fontWeight:700,
             color:"#1a0f0a",margin:"0 0 18px",lineHeight:1.15,
           }}>
@@ -401,7 +401,7 @@ export default function TransformationSection() {
         {/* Card A — Hair Restoration (fixed) */}
           <div style={{ display:"flex",flexDirection:"column",gap:14 }}>
             <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between" }}>
-              <p style={{ fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:"#1a0f0a",margin:0 }}>
+              <p style={{ fontFamily:"'Nunito',system-ui,sans-serif",fontSize:"1.05rem",fontWeight:600,color:"#1a0f0a",margin:0 }}>
                 {PAIRS[idxA].label}
               </p>
             </div>
@@ -411,7 +411,7 @@ export default function TransformationSection() {
           {/* Card B — Jawline Contouring (fixed) */}
           <div style={{ display:"flex",flexDirection:"column",gap:14 }}>
             <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between" }}>
-              <p style={{ fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:"#1a0f0a",margin:0 }}>
+              <p style={{ fontFamily:"'Nunito',system-ui,sans-serif",fontSize:"1.05rem",fontWeight:600,color:"#1a0f0a",margin:0 }}>
                 {PAIRS[idxB].label}
               </p>
             </div>
@@ -440,7 +440,7 @@ export default function TransformationSection() {
               background: i % 2 === 0 ? "rgba(244,239,234,0.75)" : "rgba(252,238,231,0.75)",
             }}>
               <p style={{
-                fontFamily:"'Playfair Display',serif",
+                fontFamily:"'Nunito',system-ui,sans-serif",
                 fontSize:"clamp(1.6rem,3vw,2.1rem)",fontWeight:600,
                 background:"linear-gradient(135deg,#c19a6b,#a8825a)",
                 WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",
@@ -448,7 +448,7 @@ export default function TransformationSection() {
               }}>{stat.num}</p>
               <p style={{
                 fontFamily:"'Nunito',sans-serif",fontWeight:700,
-                fontSize:"0.82rem",letterSpacing:"0.1em",textTransform:"uppercase",
+                fontSize:"0.88rem",letterSpacing:"0.1em",textTransform:"uppercase",
                 color:"#2e1a10",margin:0,
               }}>{stat.label}</p>
             </div>

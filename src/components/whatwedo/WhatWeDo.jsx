@@ -89,7 +89,7 @@ function StatCard({ stat }) {
 
         <div className="mt-auto pt-8">
           <motion.p
-            className="font-serif text-[3.1rem] font-bold leading-none text-[#3F2D26]"
+            className="font-sans text-[3.1rem] font-bold leading-none text-[#3F2D26]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -167,7 +167,7 @@ export default function WhatWeDo() {
 
           <TextReveal
             as="h2"
-            className="reveal reveal-up reveal-duration-600 reveal-delay-1 max-w-2xl font-serif font-semibold leading-[1.15]"
+            className="reveal reveal-up reveal-duration-600 reveal-delay-1 max-w-2xl font-sans font-semibold leading-[1.15]"
             style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.6rem)", color: "#1a0f0a" }}
             delay={60}
             stagger={55}

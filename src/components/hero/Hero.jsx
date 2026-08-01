@@ -13,6 +13,7 @@ import afterImg     from "../../assets/hero-images/afterherobackround.png"
 import beforeMobImg from "../../assets/hero-images/mobilebefore.png"
 import afterMobImg  from "../../assets/hero-images/mobileafter.png"
 import logoImg      from "../../assets/novalogo.png"
+import Navbar       from "../layout/Navbar"
 
 // Standard easing curves used across all animations in this file
 const EASE      = [0.25, 0.46, 0.45, 0.94]
@@ -502,142 +503,6 @@ function BackgroundSlider() {
    Mobile:  hamburger button + slide-down menu
 ══════════════════════════════════════════════════════════ */
 
-// A single nav link — highlights when active, optional chevron for dropdowns
-function NavLink({ label, href, active }) {
-  return (
-    <a
-      href={href}
-      className="relative flex items-center gap-0.5 transition-colors duration-200 hover:text-[#C4614A]"
-      style={{
-        fontSize: "17px",
-        fontFamily: "'Nunito', system-ui, sans-serif",
-        fontWeight: 800,
-        color: active ? "#C4614A" : "#1a0f0a",
-        letterSpacing: "0.01em",
-      }}
-    >
-      {label}
-      {active && (
-        <span className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full" style={{ background: "#C4614A" }} />
-      )}
-    </a>
-  )
-}
-
-function Navbar() {
-  const { nav } = siteContent
-  const instagramHref = siteContent.topBar?.social?.find(s => s.icon === "instagram")?.href || "#"
-  const [menuOpen, setMenuOpen] = useState(false)
-  const reduceMotion = useReducedMotion()
-
-  return (
-    <motion.div
-      style={{ position: "relative", zIndex: 50 }}
-      initial={reduceMotion ? false : { opacity: 0, y: -14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.12, ease: EASE_EXPO }}
-    >
-
-      {/* ── Desktop + tablet nav bar ── */}
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
-
-        {/* Logo */}
-        <a href="#" aria-label="Novaderm home" className="flex items-center shrink-0">
-          <img
-            src={logoImg}
-            alt="Novaderm"
-            draggable={false}
-            className="select-none"
- style={{ height: "clamp(90px,13vw,145px)", width: "auto", objectFit: "contain" }}
-            loading="eager"
-            decoding="async"
-          />
-        </a>
-
-        {/* Desktop nav links — hidden on mobile */}
-        <div className="hidden items-center gap-7 lg:flex">
-          {nav.links.map((link) => (
-            <NavLink key={link.label} label={link.label} href={link.href} active={link.label === "Home"} />
-          ))}
-        </div>
-
-        {/* Desktop CTA + Instagram icon — hidden on mobile */}
-        <div className="hidden lg:flex items-center gap-3">
-          <motion.a
-            href={nav.ctaHref}
-            className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[12px] font-bold uppercase tracking-wide text-white"
-            style={{ background: "linear-gradient(135deg,#C4614A,#a0432e)", boxShadow: "0 4px 16px rgba(196,97,74,0.35)" }}
-            whileHover={reduceMotion ? undefined : { y: -2, scale: 1.025, boxShadow: "0 8px 24px rgba(196,97,74,0.42)" }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 360, damping: 24 }}
-          >
-            {nav.ctaText}
-            <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
-            </svg>
-          </motion.a>
-
-          {/* Instagram icon link */}
-         
-        </div>
-
-        {/* Mobile hamburger button — visible only on mobile */}
-        <button
-          className="flex flex-col gap-1.5 p-2 lg:hidden"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          {[0, 1, 2].map((i) => (
-            <motion.span
-              key={i}
-              className="block h-0.5 w-5 rounded-full"
-              style={{ background: "#c4614a" }}
-              animate={
-                menuOpen
-                  ? i === 0 ? { rotate: 45, y: 8 }
-                  : i === 1 ? { opacity: 0 }
-                  : { rotate: -45, y: -8 }
-                  : { rotate: 0, y: 0, opacity: 1 }
-              }
-              transition={{ duration: 0.22 }}
-            />
-          ))}
-        </button>
-      </div>
-
-      {/* ── Mobile slide-down menu ── */}
-      <motion.div
-        className="overflow-hidden lg:hidden"
-        animate={{ height: menuOpen ? "auto" : 0, opacity: menuOpen ? 1 : 0 }}
-        transition={{ duration: 0.28, ease: EASE }}
-        style={{ background: "rgba(244,239,234,0.96)", backdropFilter: "blur(12px)" }}
-      >
-        <div className="flex flex-col gap-1 px-6 pb-5 pt-2">
-          {nav.links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="py-2 text-[14px] font-semibold border-b"
-              style={{ color: link.label === "Home" ? "#C4614A" : "#1a0f0a", borderColor: "rgba(61,46,36,0.08)", fontWeight: 800, fontFamily: "'Nunito', system-ui, sans-serif", fontSize: "15px" }}
-              onClick={() => setMenuOpen(false)}
-            >
-              {link.label}
-            </a>
-          ))}
-          <a
-            href={nav.ctaHref}
-            className="mt-3 inline-flex items-center justify-center rounded-full px-5 py-2.5 text-[12px] font-bold uppercase tracking-wide text-white"
-            style={{ background: "linear-gradient(135deg,#C4614A,#a0432e)" }}
-            onClick={() => setMenuOpen(false)}
-          >
-            {nav.ctaText}
-          </a>
-        </div>
-      </motion.div>
-    </motion.div>
-  )
-}
-
 /* ══════════════════════════════════════════════════════════
    BOTANICAL LEAF — decorative SVG on the left side of hero
 ══════════════════════════════════════════════════════════ */
@@ -804,7 +669,7 @@ export default function Hero() {
 
         {/* Navbar — re-enable pointer events so clicks work */}
         <div style={{ pointerEvents: "auto" }}>
-          <Navbar />
+          <Navbar variant="hero" />
         </div>
 
         {/* Hero text content — scrolls upward slightly with parallax */}

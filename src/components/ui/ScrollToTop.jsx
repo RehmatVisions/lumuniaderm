@@ -1,8 +1,15 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { useLocation } from "react-router-dom"
 
 export default function ScrollToTop() {
   const [visible, setVisible] = useState(false)
+  const { pathname } = useLocation()
+
+  // Scroll to top on every route change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" })
+  }, [pathname])
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 200)

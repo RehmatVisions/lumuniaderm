@@ -1,4 +1,5 @@
 import { motion } from "framer-motion"
+import { useNavigate } from "react-router-dom"
 import ateeqImg from "../../assets/doctorsimages/ateeq.png"
 import SectionBadge from "../ui/SectionBadge"
 
@@ -10,7 +11,7 @@ const DOCTOR = {
   role:        "Consultant Dermatologist & Aesthetic Medicine Specialist",
   badge:       "Board-Certified Dermatologist",
   about:       "Blending medical expertise with an artistic eye, Dr. Ateeq creates thoughtful treatment plans focused on natural, confident results.",
-  exp:         "12+",
+  exp:         "9+",
   expLabel:    "Years Experience",
   qual1:       "MBBS · MD",
   qual1Sub:    "Dermatology",
@@ -52,7 +53,7 @@ function StatBlock({ icon, top, sub }) {
       </div>
       <div style={{ lineHeight:1.25 }}>
         <p style={{ fontSize:"0.85rem", fontWeight:700, color:"#2e1f16", margin:0 }}>{top}</p>
-        <p style={{ fontSize:"0.74rem", color:"#5a3a28", fontWeight:600, margin:0 }}>{sub}</p>
+        <p style={{ fontSize:"0.82rem", color:"#1a0f0a", fontWeight:600, margin:0 }}>{sub}</p>
       </div>
     </div>
   )
@@ -78,6 +79,7 @@ function Pill({ label }) {
 /* ─── Main Export ───────────────────────────────────────── */
 export default function DoctorsSection() {
   const d = DOCTOR
+  const navigate = useNavigate()
 
   return (
     <section id="doctors" style={{
@@ -157,7 +159,7 @@ export default function DoctorsSection() {
             {/* Name */}
             <div>
               <h2 style={{
-                fontFamily:"'Playfair Display',Georgia,serif",
+                fontFamily:"'Nunito',system-ui,sans-serif",
                 fontSize:"clamp(1.8rem,3.8vw,2.8rem)",
                 fontWeight:700, fontStyle:"italic",
                 color:"#C4614A", lineHeight:1.1,
@@ -234,7 +236,7 @@ export default function DoctorsSection() {
               </svg>
 
               <p style={{
-                fontFamily:"'Playfair Display',Georgia,serif",
+                fontFamily:"'Nunito',system-ui,sans-serif",
                 fontSize:"1rem", fontStyle:"italic", fontWeight:600,
                 color:"#C4614A", marginBottom:12,
               }}>
@@ -264,29 +266,31 @@ export default function DoctorsSection() {
                   <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
                 </svg>
               </motion.a>
-              <motion.a href={d.profileHref}
+              <motion.button
+                onClick={() => navigate("/doctors")}
                 style={{
                   display:"inline-flex", alignItems:"center",
                   borderRadius:999,
                   padding:"11px 26px",
                   fontSize:"0.7rem", fontWeight:700, letterSpacing:"0.14em",
-                  textTransform:"uppercase", color:"#5a3e32", textDecoration:"none",
+                  textTransform:"uppercase", color:"#1a0f0a",
                   border:"1.5px solid rgba(196,97,74,0.35)",
                   background:"transparent",
+                  cursor:"pointer",
                 }}
                 whileHover={{ borderColor:"#C4614A", color:"#C4614A", scale:1.03 }}
                 whileTap={{ scale:0.97 }}
                 transition={{ duration:0.2 }}
               >
                 View Doctor Profile
-              </motion.a>
+              </motion.button>
             </div>
 
             {/* Footer tags */}
             <div style={{ display:"flex", flexWrap:"wrap", alignItems:"center", gap:"clamp(8px,1.5vw,16px)" }}>
               {["Personalized care","Evidence-led treatments","Natural-looking results"].map((t,i,arr)=>(
                 <span key={t} style={{ display:"flex", alignItems:"center", gap:8 }}>
-                  <span style={{ fontSize:"0.80rem", color:"#2e1a10", fontWeight:700 }}>{t}</span>
+                  <span style={{ fontSize:"0.88rem", color:"#2e1a10", fontWeight:700 }}>{t}</span>
                   {i < arr.length-1 && (
                     <span style={{ width:4, height:4, borderRadius:"50%", background:"rgba(196,97,74,0.45)", display:"inline-block" }}/>
                   )}
