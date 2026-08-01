@@ -29,7 +29,6 @@ import hd12 from "../assets/clinicimages/Nova_Derm_Clinic_HD/12_Vanity_Oval_Mirr
 import hd13 from "../assets/clinicimages/Nova_Derm_Clinic_HD/13_Staff_Pantry_Coffee_Bar_HD.jpg"
 import hd14 from "../assets/clinicimages/Nova_Derm_Clinic_HD/14_Consultation_Office_Warm_Brown_HD.jpg"
 import hd15 from "../assets/clinicimages/Nova_Derm_Clinic_HD/15_Consultation_Office_Sage_Green_HD.jpg"
-import hd16 from "../assets/clinicimages/Nova_Derm_Clinic_HD/16_Consultation_Office_Soft_Grey_HD.jpg"
 import hd17 from "../assets/clinicimages/Nova_Derm_Clinic_HD/17_Treatment_Room_Amber_Chair_Angle_HD.jpg"
 import hd18 from "../assets/clinicimages/Nova_Derm_Clinic_HD/18_Treatment_Room_Equipment_View_HD.jpg"
 import hd19 from "../assets/clinicimages/Nova_Derm_Clinic_HD/19_Consultation_Nook_Orange_Chairs_HD.jpg"
@@ -44,7 +43,6 @@ import hd27 from "../assets/clinicimages/Nova_Derm_Clinic_HD/27_Treatment_Room_P
 import hd28 from "../assets/clinicimages/Nova_Derm_Clinic_HD/28_Executive_Office_Motivation_Wall_HD.jpg"
 import hd29 from "../assets/clinicimages/Nova_Derm_Clinic_HD/29_Beauty_Service_Room_Twin_Chairs_HD.jpg"
 import hd30 from "../assets/clinicimages/Nova_Derm_Clinic_HD/30_Architectural_Ceiling_Lighting_HD.jpg"
-import hd31 from "../assets/clinicimages/Nova_Derm_Clinic_HD/31_Executive_Office_Desk_View_HD.jpg"
 
 // ── All 31 clinic images with categories ──────────────────────
 const CLINIC_IMAGES = [
@@ -67,18 +65,16 @@ const CLINIC_IMAGES = [
   { id: 17, src: hd29, alt: "Beauty service room — twin chairs",          cat: "Treatment"    },
   { id: 18, src: hd14, alt: "Consultation office — warm brown",           cat: "Consultation" },
   { id: 19, src: hd15, alt: "Consultation office — sage green",           cat: "Consultation" },
-  { id: 20, src: hd16, alt: "Consultation office — soft grey",            cat: "Consultation" },
-  { id: 21, src: hd19, alt: "Consultation nook — orange chairs",          cat: "Consultation" },
-  { id: 22, src: hd28, alt: "Executive office — motivation wall",         cat: "Consultation" },
-  { id: 23, src: hd31, alt: "Executive office — desk view",               cat: "Consultation" },
-  { id: 24, src: hd04, alt: "Illuminated product display",                cat: "Interiors"    },
-  { id: 25, src: hd07, alt: "Clinic corridor with artwork",               cat: "Interiors"    },
-  { id: 26, src: hd30, alt: "Architectural ceiling lighting",             cat: "Interiors"    },
-  { id: 27, src: hd13, alt: "Staff pantry — coffee bar",                  cat: "Interiors"    },
-  { id: 28, src: hd08, alt: "Powder room — floating vanity",              cat: "Amenities"    },
-  { id: 29, src: hd10, alt: "Compact restroom with shelving",             cat: "Amenities"    },
-  { id: 30, src: hd11, alt: "Restroom — mosaic feature wall",             cat: "Amenities"    },
-  { id: 31, src: hd12, alt: "Vanity with oval mirror",                    cat: "Amenities"    },
+  { id: 20, src: hd19, alt: "Consultation nook — orange chairs",          cat: "Consultation" },
+  { id: 21, src: hd28, alt: "Executive office — motivation wall",         cat: "Consultation" },
+  { id: 22, src: hd04, alt: "Illuminated product display",                cat: "Interiors"    },
+  { id: 23, src: hd07, alt: "Clinic corridor with artwork",               cat: "Interiors"    },
+  { id: 24, src: hd30, alt: "Architectural ceiling lighting",             cat: "Interiors"    },
+  { id: 25, src: hd13, alt: "Staff pantry — coffee bar",                  cat: "Interiors"    },
+  { id: 26, src: hd08, alt: "Powder room — floating vanity",              cat: "Amenities"    },
+  { id: 27, src: hd10, alt: "Compact restroom with shelving",             cat: "Amenities"    },
+  { id: 28, src: hd11, alt: "Restroom — mosaic feature wall",             cat: "Amenities"    },
+  { id: 29, src: hd12, alt: "Vanity with oval mirror",                    cat: "Amenities"    },
 ]
 
 // ── Filter categories ─────────────────────────────────────────

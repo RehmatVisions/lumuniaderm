@@ -404,24 +404,24 @@ import { useNavigate } from "react-router-dom"
 // ── HD clinic images ──────────────────────────────────────────
 import hd01 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/01_Reception_Lobby_Wide_HD.jpg"
 import hd02 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/02_Waiting_Lounge_Quote_Wall_HD.jpg"
-import hd05 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/05_Waiting_Area_Skin_Is_Art_HD.jpg"
-import hd09 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/09_Treatment_Room_Curved_Wall_HD.jpg"
+import hd04 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/04_Illuminated_Product_Display_HD.jpg"
+import hd07 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/07_Clinic_Corridor_Artwork_HD.jpg"
 import hd14 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/14_Consultation_Office_Warm_Brown_HD.jpg"
 import hd17 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/17_Treatment_Room_Amber_Chair_Angle_HD.jpg"
 import hd29 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/29_Beauty_Service_Room_Twin_Chairs_HD.jpg"
 
-// Total images count (matches GalleryPage — all 31 photos)
-const TOTAL_IMAGES = 31
+// Total images count (matches GalleryPage — all 29 photos)
+const TOTAL_IMAGES = 29
 
 /*
  * 7 distinct preview images for the homepage grid.
- * One image per space — no duplicates:
- *   [0] hd01  — Reception lobby (Office 1, wide)
- *   [1] hd14  — Consultation / doctor's office (Office 2, warm brown)
+ * Every slot shows a different space — no duplicates:
+ *   [0] hd01  — Reception lobby (wide view)
+ *   [1] hd14  — Consultation office (warm brown)
  *   [2] hd02  — Waiting lounge (quote wall)
  *   [3] hd17  — Treatment room (amber chair)
- *   [4] hd09  — Treatment room (curved wall)
- *   [5] hd05  — Waiting area (skin is art)
+ *   [4] hd07  — Clinic corridor & artwork
+ *   [5] hd04  — Illuminated product display
  *   [6] hd29  — Beauty service room (twin chairs)
  */
 const PREVIEW_IMAGES = [
@@ -429,8 +429,8 @@ const PREVIEW_IMAGES = [
   { src: hd14, alt: "Consultation office — warm brown" },
   { src: hd02, alt: "Waiting lounge — quote wall" },
   { src: hd17, alt: "Treatment room — amber chair" },
-  { src: hd09, alt: "Treatment room — curved wall" },
-  { src: hd05, alt: "Waiting area — skin is art" },
+  { src: hd07, alt: "Clinic corridor & artwork" },
+  { src: hd04, alt: "Illuminated product display" },
   { src: hd29, alt: "Beauty service room — twin chairs" },
 ]
 
