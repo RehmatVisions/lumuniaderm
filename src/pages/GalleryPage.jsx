@@ -13,41 +13,76 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import PageLayout from "../components/layout/PageLayout"
 
-// ── Clinic images — easy to add more ──────────────────────────
-// Just import and add to CLINIC_IMAGES below
-import image01 from "../assets/clinicimages/image.png"
-import image02 from "../assets/clinicimages/image copy.png"
-import image03 from "../assets/clinicimages/image copy 2.png"
-import image04 from "../assets/clinicimages/image copy 3.png"
-import image05 from "../assets/clinicimages/image copy 4.png"
-import image06 from "../assets/clinicimages/image copy 5.png"
-import image07 from "../assets/clinicimages/image copy 6.png"
-import image08 from "../assets/clinicimages/image copy 7.png"
-import image09 from "../assets/clinicimages/image copy 8.png"
-import image10 from "../assets/clinicimages/image copy 9.png"
-import image11 from "../assets/clinicimages/image copy 10.png"
-import image12 from "../assets/clinicimages/image copy 11.png"
-import image13 from "../assets/clinicimages/image copy 12.png"
+// ── Clinic images — HD set (31 images) ───────────────────────
+import hd01 from "../assets/clinicimages/Nova_Derm_Clinic_HD/01_Reception_Lobby_Wide_HD.jpg"
+import hd02 from "../assets/clinicimages/Nova_Derm_Clinic_HD/02_Waiting_Lounge_Quote_Wall_HD.jpg"
+import hd03 from "../assets/clinicimages/Nova_Derm_Clinic_HD/03_Waiting_Lounge_Panoramic_HD.jpg"
+import hd04 from "../assets/clinicimages/Nova_Derm_Clinic_HD/04_Illuminated_Product_Display_HD.jpg"
+import hd05 from "../assets/clinicimages/Nova_Derm_Clinic_HD/05_Waiting_Area_Skin_Is_Art_HD.jpg"
+import hd06 from "../assets/clinicimages/Nova_Derm_Clinic_HD/06_Reception_Desk_Angle_HD.jpg"
+import hd07 from "../assets/clinicimages/Nova_Derm_Clinic_HD/07_Clinic_Corridor_Artwork_HD.jpg"
+import hd08 from "../assets/clinicimages/Nova_Derm_Clinic_HD/08_Powder_Room_Floating_Vanity_HD.jpg"
+import hd09 from "../assets/clinicimages/Nova_Derm_Clinic_HD/09_Treatment_Room_Curved_Wall_HD.jpg"
+import hd10 from "../assets/clinicimages/Nova_Derm_Clinic_HD/10_Compact_Restroom_Shelving_HD.jpg"
+import hd11 from "../assets/clinicimages/Nova_Derm_Clinic_HD/11_Restroom_Mosaic_Feature_Wall_HD.jpg"
+import hd12 from "../assets/clinicimages/Nova_Derm_Clinic_HD/12_Vanity_Oval_Mirror_HD.jpg"
+import hd13 from "../assets/clinicimages/Nova_Derm_Clinic_HD/13_Staff_Pantry_Coffee_Bar_HD.jpg"
+import hd14 from "../assets/clinicimages/Nova_Derm_Clinic_HD/14_Consultation_Office_Warm_Brown_HD.jpg"
+import hd15 from "../assets/clinicimages/Nova_Derm_Clinic_HD/15_Consultation_Office_Sage_Green_HD.jpg"
+import hd16 from "../assets/clinicimages/Nova_Derm_Clinic_HD/16_Consultation_Office_Soft_Grey_HD.jpg"
+import hd17 from "../assets/clinicimages/Nova_Derm_Clinic_HD/17_Treatment_Room_Amber_Chair_Angle_HD.jpg"
+import hd18 from "../assets/clinicimages/Nova_Derm_Clinic_HD/18_Treatment_Room_Equipment_View_HD.jpg"
+import hd19 from "../assets/clinicimages/Nova_Derm_Clinic_HD/19_Consultation_Nook_Orange_Chairs_HD.jpg"
+import hd20 from "../assets/clinicimages/Nova_Derm_Clinic_HD/20_Treatment_Room_Amber_Chair_Front_HD.jpg"
+import hd21 from "../assets/clinicimages/Nova_Derm_Clinic_HD/21_Reception_Desk_Close_View_HD.jpg"
+import hd22 from "../assets/clinicimages/Nova_Derm_Clinic_HD/22_Reception_Lobby_Front_View_HD.jpg"
+import hd23 from "../assets/clinicimages/Nova_Derm_Clinic_HD/23_Waiting_Nook_Orange_Chairs_HD.jpg"
+import hd24 from "../assets/clinicimages/Nova_Derm_Clinic_HD/24_Treatment_Room_Pink_Chair_Window_HD.jpg"
+import hd25 from "../assets/clinicimages/Nova_Derm_Clinic_HD/25_Treatment_Room_Vanity_Cabinet_HD.jpg"
+import hd26 from "../assets/clinicimages/Nova_Derm_Clinic_HD/26_Treatment_Room_Pink_Chair_Side_HD.jpg"
+import hd27 from "../assets/clinicimages/Nova_Derm_Clinic_HD/27_Treatment_Room_Pink_Chair_Wide_HD.jpg"
+import hd28 from "../assets/clinicimages/Nova_Derm_Clinic_HD/28_Executive_Office_Motivation_Wall_HD.jpg"
+import hd29 from "../assets/clinicimages/Nova_Derm_Clinic_HD/29_Beauty_Service_Room_Twin_Chairs_HD.jpg"
+import hd30 from "../assets/clinicimages/Nova_Derm_Clinic_HD/30_Architectural_Ceiling_Lighting_HD.jpg"
+import hd31 from "../assets/clinicimages/Nova_Derm_Clinic_HD/31_Executive_Office_Desk_View_HD.jpg"
 
-// ── Add or remove images here ─────────────────────────────────
+// ── All 31 clinic images with categories ──────────────────────
 const CLINIC_IMAGES = [
-  { id: 1,  src: image03, alt: "Nova Derm reception area",         cat: "Reception"    },
-  { id: 2,  src: image04, alt: "Reception lounge view",            cat: "Reception"    },
-  { id: 3,  src: image01, alt: "Consultation lounge",              cat: "Waiting"      },
-  { id: 4,  src: image02, alt: "Waiting area seating",             cat: "Waiting"      },
-  { id: 5,  src: image06, alt: "Treatment room corridor",          cat: "Treatment"    },
-  { id: 6,  src: image05, alt: "Treatment room interior",          cat: "Treatment"    },
-  { id: 7,  src: image08, alt: "Treatment suite - wide view",      cat: "Treatment"    },
-  { id: 8,  src: image09, alt: "Skincare treatment station",       cat: "Treatment"    },
-  { id: 9,  src: image10, alt: "Treatment suite with equipment",   cat: "Treatment"    },
-  { id: 10, src: image07, alt: "Luxury preparation room",          cat: "Interiors"    },
-  { id: 11, src: image11, alt: "Clinic interior detail",           cat: "Interiors"    },
-  { id: 12, src: image12, alt: "Doctor consultation room",         cat: "Details"      },
-  { id: 13, src: image13, alt: "Specialist consultation suite",    cat: "Details"      },
+  { id:  1, src: hd01, alt: "Reception lobby — wide view",                cat: "Reception"    },
+  { id:  2, src: hd22, alt: "Reception lobby — front view",               cat: "Reception"    },
+  { id:  3, src: hd06, alt: "Reception desk — angle view",                cat: "Reception"    },
+  { id:  4, src: hd21, alt: "Reception desk — close view",                cat: "Reception"    },
+  { id:  5, src: hd02, alt: "Waiting lounge — quote wall",                cat: "Waiting"      },
+  { id:  6, src: hd03, alt: "Waiting lounge — panoramic",                 cat: "Waiting"      },
+  { id:  7, src: hd05, alt: "Waiting area — skin is art",                 cat: "Waiting"      },
+  { id:  8, src: hd23, alt: "Waiting nook — orange chairs",               cat: "Waiting"      },
+  { id:  9, src: hd09, alt: "Treatment room — curved wall",               cat: "Treatment"    },
+  { id: 10, src: hd17, alt: "Treatment room — amber chair angle",         cat: "Treatment"    },
+  { id: 11, src: hd18, alt: "Treatment room — equipment view",            cat: "Treatment"    },
+  { id: 12, src: hd20, alt: "Treatment room — amber chair front",         cat: "Treatment"    },
+  { id: 13, src: hd24, alt: "Treatment room — pink chair by window",      cat: "Treatment"    },
+  { id: 14, src: hd25, alt: "Treatment room — vanity cabinet",            cat: "Treatment"    },
+  { id: 15, src: hd26, alt: "Treatment room — pink chair side",           cat: "Treatment"    },
+  { id: 16, src: hd27, alt: "Treatment room — pink chair wide",           cat: "Treatment"    },
+  { id: 17, src: hd29, alt: "Beauty service room — twin chairs",          cat: "Treatment"    },
+  { id: 18, src: hd14, alt: "Consultation office — warm brown",           cat: "Consultation" },
+  { id: 19, src: hd15, alt: "Consultation office — sage green",           cat: "Consultation" },
+  { id: 20, src: hd16, alt: "Consultation office — soft grey",            cat: "Consultation" },
+  { id: 21, src: hd19, alt: "Consultation nook — orange chairs",          cat: "Consultation" },
+  { id: 22, src: hd28, alt: "Executive office — motivation wall",         cat: "Consultation" },
+  { id: 23, src: hd31, alt: "Executive office — desk view",               cat: "Consultation" },
+  { id: 24, src: hd04, alt: "Illuminated product display",                cat: "Interiors"    },
+  { id: 25, src: hd07, alt: "Clinic corridor with artwork",               cat: "Interiors"    },
+  { id: 26, src: hd30, alt: "Architectural ceiling lighting",             cat: "Interiors"    },
+  { id: 27, src: hd13, alt: "Staff pantry — coffee bar",                  cat: "Interiors"    },
+  { id: 28, src: hd08, alt: "Powder room — floating vanity",              cat: "Amenities"    },
+  { id: 29, src: hd10, alt: "Compact restroom with shelving",             cat: "Amenities"    },
+  { id: 30, src: hd11, alt: "Restroom — mosaic feature wall",             cat: "Amenities"    },
+  { id: 31, src: hd12, alt: "Vanity with oval mirror",                    cat: "Amenities"    },
 ]
 
-// ── Filter categories — add new ones as needed ────────────────
-const FILTERS = ["All", "Reception", "Waiting", "Treatment", "Interiors", "Details"]
+// ── Filter categories ─────────────────────────────────────────
+const FILTERS = ["All", "Reception", "Waiting", "Treatment", "Consultation", "Interiors", "Amenities"]
 
 const EASE_EXPO = [0.16, 1, 0.3, 1]
 
@@ -123,15 +158,6 @@ function Lightbox({ image, onClose, onPrev, onNext }) {
         </svg>
       </button>
 
-      {/* Caption */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
-        <span
-          className="rounded-full px-5 py-2 text-sm font-semibold text-white/80"
-          style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)" }}
-        >
-          {image.alt}
-        </span>
-      </div>
     </motion.div>
   )
 }
@@ -159,19 +185,11 @@ function GalleryCard({ image, index, onOpen }) {
         className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
       />
 
-      {/* Overlay on hover */}
+      {/* Overlay on hover — clean gradient only, no text */}
       <div
-        className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{ background: "linear-gradient(to top, rgba(10,5,2,0.75) 0%, transparent 60%)" }}
-      >
-        <span
-          className="inline-flex items-center gap-2 self-start rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white/90"
-          style={{ background: "rgba(196,97,74,0.80)" }}
-        >
-          {image.cat}
-        </span>
-        <p className="mt-1.5 text-sm font-semibold text-white/90">{image.alt}</p>
-      </div>
+        className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ background: "linear-gradient(to top, rgba(10,5,2,0.45) 0%, transparent 60%)" }}
+      />
 
       {/* Zoom icon */}
       <div

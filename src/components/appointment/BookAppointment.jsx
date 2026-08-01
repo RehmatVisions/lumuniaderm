@@ -6,7 +6,7 @@ import SectionBadge from "../ui/SectionBadge"
 const EASE = [0.25, 0.46, 0.45, 0.94]
 const EASE_EXPO = [0.16, 1, 0.3, 1]
 
-/* ─── Google Sheets integration (unchanged) ─────────────────── */
+/* ─── Google Sheets integration ─────────────────────────────── */
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbw66bF_PPhFc4VTEHxbYpIC0qDEZK50BdasTnNUXmaMHPXQsVpMHkeNQDp91d2gry8/exec"
 
 async function saveFormToSheet(form) {
@@ -25,6 +25,55 @@ async function saveFormToSheet(form) {
       }),
     })
   } catch (err) { console.error("Sheet save error:", err) }
+}
+
+/* ─── Bot Protection Helpers ─────────────────────────────────── */
+
+// Sanitize: strip HTML/script tags to block injection attempts
+function sanitize(str) {
+  return String(str).replace(/<[^>]*>/g, "").replace(/[<>'"`;]/g, "").trim()
+}
+
+// Rate limiting: max 2 submissions per 5 minutes via localStorage
+const RATE_KEY = "nd_form_submissions"
+const RATE_LIMIT = 2
+const RATE_WINDOW_MS = 5 * 60 * 1000 // 5 minutes
+
+function isRateLimited() {
+  try {
+    const raw = localStorage.getItem(RATE_KEY)
+    const timestamps = raw ? JSON.parse(raw) : []
+    const now = Date.now()
+    const recent = timestamps.filter(t => now - t < RATE_WINDOW_MS)
+    return recent.length >= RATE_LIMIT
+  } catch {
+    return false
+  }
+}
+
+function recordSubmission() {
+  try {
+    const raw = localStorage.getItem(RATE_KEY)
+    const timestamps = raw ? JSON.parse(raw) : []
+    const now = Date.now()
+    const recent = timestamps.filter(t => now - t < RATE_WINDOW_MS)
+    recent.push(now)
+    localStorage.setItem(RATE_KEY, JSON.stringify(recent))
+  } catch { /* ignore */ }
+}
+
+function getRetryAfterSeconds() {
+  try {
+    const raw = localStorage.getItem(RATE_KEY)
+    const timestamps = raw ? JSON.parse(raw) : []
+    const now = Date.now()
+    const recent = timestamps.filter(t => now - t < RATE_WINDOW_MS)
+    if (recent.length < RATE_LIMIT) return 0
+    const oldest = Math.min(...recent)
+    return Math.ceil((RATE_WINDOW_MS - (now - oldest)) / 1000)
+  } catch {
+    return 0
+  }
 }
 
 /* ─── Validation (unchanged) ────────────────────────────────── */
@@ -236,6 +285,10 @@ export default function BookAppointment() {
   const [form, setForm] = useState(EMPTY)
   const [errors, setErrors] = useState({})
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [rateLimitMsg, setRateLimitMsg] = useState("")
+  // Honeypot: bots will fill this, humans won't see it
+  const [honeypot, setHoneypot] = useState("")
 
   const handle = (e) => {
     const { name, value } = e.target
@@ -248,11 +301,40 @@ export default function BookAppointment() {
     if (errors.date) setErrors(prev => ({ ...prev, date: "" }))
   }
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
+
+    // 1. Honeypot check — if filled, silently block (bot detected)
+    if (honeypot) return
+
+    // 2. Rate limit check
+    if (isRateLimited()) {
+      const secs = getRetryAfterSeconds()
+      const mins = Math.ceil(secs / 60)
+      setRateLimitMsg(`Too many requests. Please try again in ${mins} minute${mins > 1 ? "s" : ""}.`)
+      return
+    }
+    setRateLimitMsg("")
+
+    // 3. Validation
     const errs = validate(form)
     if (Object.keys(errs).length) { setErrors(errs); return }
-    saveFormToSheet(form)
+
+    // 4. Sanitize all text fields before sending
+    const safeForm = {
+      name: sanitize(form.name),
+      email: sanitize(form.email),
+      phone: sanitize(form.phone),
+      date: form.date,
+      message: form.message,
+      notes: sanitize(form.notes),
+    }
+
+    // 5. Submit with loading state
+    setLoading(true)
+    await saveFormToSheet(safeForm)
+    recordSubmission()
+    setLoading(false)
     setForm(EMPTY)
     setErrors({})
     setSubmitted(true)
@@ -318,6 +400,17 @@ export default function BookAppointment() {
               transition={{ duration: 0.55, ease: EASE_EXPO }}
             >
               <form onSubmit={submit} noValidate>
+                {/* ── HONEYPOT — hidden from humans, bots will fill it ── */}
+                <div style={{ position: "absolute", left: "-9999px", top: "-9999px", opacity: 0, pointerEvents: "none" }} aria-hidden="true">
+                  <input
+                    type="text"
+                    name="website"
+                    value={honeypot}
+                    onChange={e => setHoneypot(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(16px,2.5vw,28px)" }}
                   className="booking-grid">
 
@@ -446,22 +539,44 @@ export default function BookAppointment() {
 
                 {/* ── SUBMIT ── */}
                 <div style={{ marginTop: "clamp(14px,2vw,20px)", display: "flex", flexDirection: "column", alignItems: "stretch", gap: 10 }}>
+                  {rateLimitMsg && (
+                    <div style={{
+                      background: "rgba(192,57,43,0.08)", border: "1.5px solid rgba(192,57,43,0.30)",
+                      borderRadius: 10, padding: "10px 14px",
+                      fontSize: "0.8rem", color: "#c0392b", fontWeight: 600, textAlign: "center"
+                    }}>
+                      ⚠ {rateLimitMsg}
+                    </div>
+                  )}
                   <motion.button type="submit"
+                    disabled={loading}
                     style={{
-                      width: "100%", background: "#C4614A", borderRadius: 999,
-                      padding: "14px 24px", border: "none", cursor: "pointer",
+                      width: "100%", background: loading ? "rgba(196,97,74,0.55)" : "#C4614A", borderRadius: 999,
+                      padding: "14px 24px", border: "none", cursor: loading ? "not-allowed" : "pointer",
                       fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.16em",
                       textTransform: "uppercase", color: "#fff",
-                      display: "flex", alignItems: "center", justifyContent: "center", gap: 10
+                      display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                      transition: "background 0.2s",
                     }}
-                    whileHover={{ background: "#a0432e", scale: 1.01 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={!loading ? { background: "#a0432e", scale: 1.01 } : {}}
+                    whileTap={!loading ? { scale: 0.98 } : {}}
                     transition={{ duration: 0.18 }}
                   >
-                    Request Appointment
-                    <svg viewBox="0 0 20 20" fill="currentColor" width={14} height={14}>
-                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
+                    {loading ? (
+                      <>
+                        <svg style={{ animation: "nd-spin 0.8s linear infinite" }} viewBox="0 0 24 24" fill="none" width={16} height={16} stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
+                          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                        </svg>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Request Appointment
+                        <svg viewBox="0 0 20 20" fill="currentColor" width={14} height={14}>
+                          <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                      </>
+                    )}
                   </motion.button>
                   <p style={{
                     textAlign: "center", fontSize: "0.78rem", color: "#2e1a10",
@@ -541,8 +656,10 @@ export default function BookAppointment() {
         }
         .booking-grid select option { color: #1a0f08; }
         .booking-grid label { color: #1a0f08 !important; font-weight: 700 !important; }
-        
-        
+        @keyframes nd-spin {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
       `}</style>
     </section>
   )

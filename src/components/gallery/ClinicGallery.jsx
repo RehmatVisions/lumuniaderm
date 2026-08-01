@@ -400,37 +400,36 @@ import { useNavigate } from "react-router-dom"
  * 2. Add it to CLINIC_IMAGES.
  * The photo counter and full gallery update automatically.
  */
-import image01 from "../../assets/clinicimages/image.png"
-import image02 from "../../assets/clinicimages/image copy.png"
-import image03 from "../../assets/clinicimages/image copy 2.png"
-import image04 from "../../assets/clinicimages/image copy 3.png"
-import image05 from "../../assets/clinicimages/image copy 4.png"
-import image06 from "../../assets/clinicimages/image copy 5.png"
-import image07 from "../../assets/clinicimages/image copy 6.png"
-import image08 from "../../assets/clinicimages/image copy 7.png"
-import image09 from "../../assets/clinicimages/image copy 8.png"
-import image10 from "../../assets/clinicimages/image copy 9.png"
-import image11 from "../../assets/clinicimages/image copy 10.png"
-import image12 from "../../assets/clinicimages/image copy 11.png"
-import image13 from "../../assets/clinicimages/image copy 12.png"
 
-const CLINIC_IMAGES = [
-  { src: image03, alt: "Nova Derm reception" },
-  { src: image04, alt: "Clinic waiting lounge" },
-  { src: image06, alt: "Clinic hallway" },
-  { src: image05, alt: "Consultation office" },
-  { src: image01, alt: "Treatment room" },
-  { src: image02, alt: "Clinic vanity" },
-  { src: image08, alt: "Clinic interior detail" },
-  { src: image10, alt: "Treatment suite" },
-  { src: image11, alt: "Skincare station" },
-  { src: image09, alt: "Treatment suite interior" },
-  { src: image07, alt: "Luxury preparation room" },
-  { src: image12, alt: "Doctor consultation room" },
-  { src: image13, alt: "Specialist consultation suite" },
+// ── HD clinic images ──────────────────────────────────────────
+import hd01 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/01_Reception_Lobby_Wide_HD.jpg"
+import hd02 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/02_Waiting_Lounge_Quote_Wall_HD.jpg"
+import hd03 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/03_Waiting_Lounge_Panoramic_HD.jpg"
+import hd05 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/05_Waiting_Area_Skin_Is_Art_HD.jpg"
+import hd06 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/06_Reception_Desk_Angle_HD.jpg"
+import hd09 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/09_Treatment_Room_Curved_Wall_HD.jpg"
+import hd14 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/14_Consultation_Office_Warm_Brown_HD.jpg"
+import hd17 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/17_Treatment_Room_Amber_Chair_Angle_HD.jpg"
+import hd18 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/18_Treatment_Room_Equipment_View_HD.jpg"
+import hd22 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/22_Reception_Lobby_Front_View_HD.jpg"
+import hd24 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/24_Treatment_Room_Pink_Chair_Window_HD.jpg"
+import hd27 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/27_Treatment_Room_Pink_Chair_Wide_HD.jpg"
+import hd29 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/29_Beauty_Service_Room_Twin_Chairs_HD.jpg"
+
+// Total images count (matches GalleryPage)
+const TOTAL_IMAGES = 31
+
+// 7 best preview images for homepage grid
+// Selected for visual variety: reception, waiting, treatment, consultation
+const PREVIEW_IMAGES = [
+  { src: hd01, alt: "Reception lobby — wide view" },
+  { src: hd22, alt: "Reception lobby — front view" },
+  { src: hd02, alt: "Waiting lounge — quote wall" },
+  { src: hd17, alt: "Treatment room — amber chair" },
+  { src: hd09, alt: "Treatment room — curved wall" },
+  { src: hd14, alt: "Consultation office" },
+  { src: hd29, alt: "Beauty service room — twin chairs" },
 ]
-
-const PREVIEW_IMAGES = CLINIC_IMAGES.slice(0, 7)
 
 function GalleryImage({ image, className = "" }) {
   return (
@@ -516,7 +515,7 @@ export default function ClinicGallery() {
               <circle cx="9" cy="9" r="1.7" fill="currentColor" />
               <path d="m5.8 18 4.3-4.5 3.1 3 2.4-2.3 2.6 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            {CLINIC_IMAGES.length} Photos
+            {TOTAL_IMAGES} Photos
           </div>
         </div>
 
@@ -536,7 +535,7 @@ export default function ClinicGallery() {
             onClick={() => navigate("/gallery")}
             className="group inline-flex min-w-[292px] items-center justify-center gap-6 rounded-full bg-gradient-to-r from-[#c94e37] to-[#b83c27] px-8 py-[17px] text-[14px] font-bold uppercase tracking-[0.075em] text-white shadow-[0_7px_14px_rgba(160,57,36,.2)] transition-transform duration-300 hover:-translate-y-0.5"
           >
-            View Full Gallery
+            View Full Gallery — {TOTAL_IMAGES} Photos
             <svg
               viewBox="0 0 24 24"
               fill="none"
