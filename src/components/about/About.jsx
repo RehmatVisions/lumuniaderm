@@ -163,7 +163,7 @@ function ProgressBar({ label, value, delay }) {
   return (
     <div ref={ref} className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-novaderm-brown">{label}</span>
+        <span className="text-sm font-semibold text-novaderm-brown">{label}</span>
         <motion.span
           className="text-sm font-semibold text-novaderm-gold"
           initial={{ opacity: 0 }}
@@ -218,8 +218,8 @@ function AboutContent() {
 
       {/* Description */}
       <motion.p
-        className="max-w-md font-sans text-[0.88rem] font-normal leading-relaxed tracking-wide sm:text-[0.95rem]"
-        style={{ color: "#3d2416" }}
+        className="max-w-md font-sans text-[0.88rem] font-semibold leading-relaxed tracking-wide sm:text-[0.95rem]"
+        style={{ color: "#1a0f0a" }}
         {...fadeUp(0.25)}
       >
         {description}
@@ -402,8 +402,7 @@ function AboutCounters() {
             </div>
 
             <motion.p
-              className="text-xs font-bold uppercase tracking-widest text-novaderm-brown"
-              initial={{ opacity: 0 }}
+              className="text-xs font-bold uppercase tracking-widest text-novaderm-brown"              initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.55 + i * 0.1 }}

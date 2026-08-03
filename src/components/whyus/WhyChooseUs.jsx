@@ -199,6 +199,7 @@ function AccordionItem({ item, isOpen, onOpen, index }) {
               lineHeight: 1.75,
               color:"#1a0f0a",
               fontFamily: "inherit",
+              fontWeight: 600,
               margin: 0,
             }}>
               {item.body}
@@ -284,11 +285,11 @@ export default function WhyChooseUs() {
           {/* Description */}
           <p style={{
             fontSize: "clamp(0.84rem,1vw,0.95rem)",
-            color: "#4a2e1a",
+            color: "#1a0f0a",
             lineHeight: 1.78,
             maxWidth: 560,
             margin: "0 auto",
-            fontWeight: 500,
+            fontWeight: 600,
           }}>
             {description}
           </p>

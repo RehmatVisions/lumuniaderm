@@ -375,7 +375,7 @@ export default function BookAppointment() {
           }}>
             Book Your Consultation.
           </h2>
-          <p style={{ fontSize: "clamp(0.82rem,1vw,0.93rem)", color: "#3d2416", lineHeight: 1.72, margin: 0 }}>
+          <p style={{ fontSize: "clamp(0.82rem,1vw,0.93rem)", color: "#1a0f0a", lineHeight: 1.72, margin: 0, fontWeight: 600 }}>
             Choose your treatment, preferred date, and time.<br />
             Our team will confirm your appointment shortly.
           </p>

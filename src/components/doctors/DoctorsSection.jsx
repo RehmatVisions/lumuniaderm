@@ -52,8 +52,8 @@ function StatBlock({ icon, top, sub }) {
         {icon}
       </div>
       <div style={{ lineHeight:1.25 }}>
-        <p style={{ fontSize:"0.85rem", fontWeight:700, color:"#2e1f16", margin:0 }}>{top}</p>
-        <p style={{ fontSize:"0.82rem", color:"#1a0f0a", fontWeight:600, margin:0 }}>{sub}</p>
+        <p style={{ fontSize:"0.85rem", fontWeight:700, color:"#1a0f0a", margin:0 }}>{top}</p>
+        <p style={{ fontSize:"0.82rem", color:"#1a0f0a", fontWeight:700, margin:0 }}>{sub}</p>
       </div>
     </div>
   )
@@ -167,7 +167,7 @@ export default function DoctorsSection() {
               }}>
                 {d.name}
               </h2>
-              <p style={{ fontSize:"clamp(0.82rem,1.1vw,0.95rem)", color:"#1a0f0a", fontWeight:500, margin:0 }}>
+              <p style={{ fontSize:"clamp(0.82rem,1.1vw,0.95rem)", color:"#1a0f0a", fontWeight:600, margin:0 }}>
                 {d.role}
               </p>
             </div>
@@ -178,7 +178,7 @@ export default function DoctorsSection() {
             {/* About */}
             <p style={{
               fontSize:"clamp(0.82rem,1vw,0.92rem)",
-              color:"#3d2416", lineHeight:1.75, fontWeight:400,
+              color:"#1a0f0a", lineHeight:1.75, fontWeight:600,
               margin:0, maxWidth:400,
             }}>
               {d.about}
@@ -290,7 +290,7 @@ export default function DoctorsSection() {
             <div style={{ display:"flex", flexWrap:"wrap", alignItems:"center", gap:"clamp(8px,1.5vw,16px)" }}>
               {["Personalized care","Evidence-led treatments","Natural-looking results"].map((t,i,arr)=>(
                 <span key={t} style={{ display:"flex", alignItems:"center", gap:8 }}>
-                  <span style={{ fontSize:"0.88rem", color:"#2e1a10", fontWeight:700 }}>{t}</span>
+                  <span style={{ fontSize:"0.88rem", color:"#1a0f0a", fontWeight:700 }}>{t}</span>
                   {i < arr.length-1 && (
                     <span style={{ width:4, height:4, borderRadius:"50%", background:"rgba(196,97,74,0.45)", display:"inline-block" }}/>
                   )}

@@ -190,8 +190,8 @@ function ReviewCard({ r, i }) {
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <Avatar initials={r.initials} size={40} gradient />
           <div>
-            <p style={{ fontSize: "0.8rem", fontWeight: 700, color: "#2e1f16", lineHeight: 1.2 }}>{r.name}</p>
-            <p style={{ fontSize: "0.62rem", color: "#7a4a38", fontWeight: 600 }}>{r.city}</p>
+            <p style={{ fontSize: "0.8rem", fontWeight: 700, color: "#1a0f0a", lineHeight: 1.2 }}>{r.name}</p>
+            <p style={{ fontSize: "0.62rem", color: "#3d2010", fontWeight: 700 }}>{r.city}</p>
           </div>
         </div>
         <Stars size={11} />
@@ -199,8 +199,8 @@ function ReviewCard({ r, i }) {
 
       {/* Quote */}
       <p style={{
-        fontSize:"0.88rem", color: "#3d2010", lineHeight: 1.75,
-        fontWeight: 500, flex: 1,
+        fontSize:"0.88rem", color: "#1a0f0a", lineHeight: 1.75,
+        fontWeight: 600, flex: 1,
         borderLeft: "2px solid rgba(196,97,74,0.25)",
         paddingLeft: 10,
       }}>
@@ -326,7 +326,7 @@ export default function Testimonials() {
           <p style={{
             fontFamily:"'Nunito',system-ui,sans-serif",
             fontSize:"clamp(1.05rem,2.2vw,1.4rem)",
-            fontStyle:"italic", fontWeight:500,
+            fontStyle:"italic", fontWeight:600,
             color:"#C4614A", lineHeight:1.72,
             maxWidth:580, margin:"0 auto 30px",
           }}>
@@ -344,10 +344,10 @@ export default function Testimonials() {
           <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:14 }}>
             <Avatar initials={FEATURED.initials} size={50} gradient />
             <div style={{ textAlign:"left" }}>
-              <p style={{ fontSize:"0.95rem", fontWeight:700, color:"#2e1f16", lineHeight:1.3 }}>
+              <p style={{ fontSize:"0.95rem", fontWeight:700, color:"#1a0f0a", lineHeight:1.3 }}>
                 {FEATURED.name}
               </p>
-              <p style={{ fontSize:"0.82rem", color:"#7a4a38", fontWeight:600 }}>
+              <p style={{ fontSize:"0.82rem", color:"#3d2010", fontWeight:700 }}>
                 {FEATURED.city} · {FEATURED.treatment}
               </p>
             </div>
@@ -431,17 +431,17 @@ export default function Testimonials() {
           style={{
             display:"flex", alignItems:"center", justifyContent:"center",
             flexWrap:"wrap", gap:"clamp(8px,1.5vw,14px)", marginTop:32,
-            fontSize:"clamp(0.80rem,1vw,0.88rem)", color:"#3d2010", fontWeight:600,
+            fontSize:"clamp(0.80rem,1vw,0.88rem)", color:"#1a0f0a", fontWeight:700,
           }}
         >
           <svg viewBox="0 0 20 20" width={16} height={16}>
             <path fill="#C4614A" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
           </svg>
-          <span><strong style={{ color:"#2e1f16" }}>4.9</strong> average rating</span>
+          <span><strong style={{ color:"#1a0f0a" }}>4.9</strong> average rating</span>
           <span style={{ color:"rgba(196,97,74,0.35)" }}>·</span>
-          <span><strong style={{ color:"#2e1f16" }}>350+</strong> verified reviews</span>
+          <span><strong style={{ color:"#1a0f0a" }}>350+</strong> verified reviews</span>
           <span style={{ color:"rgba(196,97,74,0.35)" }}>·</span>
-          <span><strong style={{ color:"#2e1f16" }}>3,500+</strong> satisfied patients</span>
+          <span><strong style={{ color:"#1a0f0a" }}>3,500+</strong> satisfied patients</span>
           <svg viewBox="0 0 24 24" fill="none" width={16} height={16} stroke="#C4614A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             <path d="M9 12l2 2 4-4"/>

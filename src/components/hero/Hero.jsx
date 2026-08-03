@@ -738,10 +738,10 @@ export default function Hero() {
               style={{
                 fontFamily: "'Nunito', system-ui, sans-serif",
                 fontSize: "clamp(0.92rem,1.3vw,1.05rem)",
-                color: "#3d2416",
+                color: "#1a0f0a",
                 lineHeight: 1.7,
                 maxWidth: 370,
-                fontWeight: 500,
+                fontWeight: 600,
                 marginTop: "clamp(10px,1.5vw,16px)",
               }}
               variants={SOFT_REVEAL}

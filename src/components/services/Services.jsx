@@ -121,8 +121,8 @@ function CardFeatured({ card, n }) {
 
         {/* Description */}
         <p style={{
-          fontSize:"0.84rem", color:"#2e1a10", lineHeight:1.7,
-          fontWeight:500, marginBottom:18, maxWidth:300,
+          fontSize:"0.84rem", color:"#1a0f0a", lineHeight:1.7,
+          fontWeight:600, marginBottom:18, maxWidth:300,
         }}>
           {card.description}
         </p>
@@ -193,7 +193,7 @@ function CardWithImage({ card, n, delay = 0 }) {
             }}>
               {card.title}
             </h3>
-            <p style={{ fontSize:"0.84rem", color:"#2e1a10", lineHeight:1.65, fontWeight:500 }}>
+            <p style={{ fontSize:"0.84rem", color:"#1a0f0a", lineHeight:1.65, fontWeight:600 }}>
               {card.description}
             </p>
           </div>
@@ -232,7 +232,7 @@ function CardText({ card, n, delay = 0 }) {
         }}>
           {card.title}
         </h3>
-        <p style={{ fontSize:"0.84rem", color:"#2e1a10", lineHeight:1.65, fontWeight:500 }}>
+        <p style={{ fontSize:"0.84rem", color:"#1a0f0a", lineHeight:1.65, fontWeight:600 }}>
           {card.description}
         </p>
       </div>
@@ -297,8 +297,8 @@ export default function Services() {
           </h2>
 
           <p style={{
-            fontSize:"clamp(0.83rem,1.1vw,0.94rem)", color:"#3d2416",
-            lineHeight:1.72, maxWidth:480, margin:"0 auto", fontWeight:400,
+            fontSize:"clamp(0.83rem,1.1vw,0.94rem)", color:"#1a0f0a",
+            lineHeight:1.72, maxWidth:480, margin:"0 auto", fontWeight:600,
           }}>
             {description}
           </p>
@@ -401,7 +401,7 @@ export default function Services() {
                 </div>
                 <span style={{
                   fontSize:"clamp(0.84rem,1vw,0.94rem)",
-                  fontWeight:700, color:"#2e1a10",
+                  fontWeight:700, color:"#1a0f0a",
                   
                   whiteSpace:"nowrap",
                 }}>

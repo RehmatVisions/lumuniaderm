@@ -193,7 +193,7 @@ export default function Footer() {
 
             {/* Col 1 — Brand */}
             <div className="reveal reveal-up reveal-duration-600 reveal-delay-0 flex flex-col gap-5">
-              <p className="max-w-[220px] text-sm font-normal leading-[1.75]" style={{ color: "#3d2416" }}>
+              <p className="max-w-[220px] text-sm font-semibold leading-[1.75]" style={{ color: "#1a0f0a" }}>
                 Novaderm is a premium aesthetic dermatology clinic dedicated to delivering{" "}
                 <span className="font-semibold text-[#C4614A]">medically precise, confidence-restoring results</span>{" "}
                 for every patient we serve.
@@ -220,7 +220,7 @@ export default function Footer() {
                 {QUICK_LINKS.map(({ label, href }) => (
                   <li key={label}>
                     <a href={href}
-                      className="group flex items-center gap-2.5 text-sm font-semibold text-novaderm-brown/80 transition-colors duration-200 hover:text-[#C4614A]"
+                      className="group flex items-center gap-2.5 text-sm font-semibold text-novaderm-brown transition-colors duration-200 hover:text-[#C4614A]"
                     >
                       <AsteriskDot />
                       {label}
@@ -237,7 +237,7 @@ export default function Footer() {
                 {SERVICES.map(({ label, href }) => (
                   <li key={label}>
                     <a href={href}
-                      className="flex items-center gap-2.5 text-sm font-semibold text-novaderm-brown/80 transition-colors duration-200 hover:text-[#C4614A]"
+                      className="flex items-center gap-2.5 text-sm font-semibold text-novaderm-brown transition-colors duration-200 hover:text-[#C4614A]"
                     >
                       <AsteriskDot />
                       {label}
@@ -254,7 +254,7 @@ export default function Footer() {
                 {HOURS.map(({ day, hours }) => (
                   <li key={day} className="flex items-center justify-between gap-4 text-sm">
                     <span className="font-semibold text-novaderm-brown">{day}</span>
-                    <span style={{ color: hours === "Closed" ? "rgba(200,50,50,0.90)" : "rgba(61,36,20,0.80)", fontWeight: 600 }}>
+                    <span style={{ color: hours === "Closed" ? "rgba(200,50,50,0.90)" : "#1a0f0a", fontWeight: 700 }}>
                       {hours}
                     </span>
                   </li>
