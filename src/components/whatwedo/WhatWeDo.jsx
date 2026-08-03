@@ -19,7 +19,7 @@ const fadeUp = (delay = 0) => ({
   transition:  { duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] },
 })
 
-/* ─── Play button ────────────────────────────────────────────── */
+/* ─── Play button ───────────────────────────────────────────── */
 function PlayCircle() {
   const [hovered, setHovered] = useState(false)
   return (
