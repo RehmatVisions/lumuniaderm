@@ -430,10 +430,10 @@ export default function TransformationSection() {
           }}
         >
           {[
-            { num:"98%",    label:"Satisfaction Rate"  },
-            { num:"5,000+", label:"Patients Treated"   },
-            { num:"12+",    label:"Years Experience"   },
-            { num:"50+",    label:"Treatments Offered" },
+            { num:"94%",    label:"Satisfaction Rate"  },
+            { num:"3,570+", label:"Patients Treated"   },
+            { num:"8+",     label:"Months Experience"  },
+            { num:"12+",    label:"Specialists & Doctors" },
           ].map((stat, i) => (
             <div key={i} style={{
               padding:"24px 20px",textAlign:"center",

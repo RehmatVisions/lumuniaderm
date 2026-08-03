@@ -161,13 +161,13 @@ export const siteContent = {
     ],
 
     stats: [
-      { label: "Treatment Success Rate", value: 98 },
-      { label: "Patient Satisfaction",   value: 96 },
-      { label: "Client Retention Rate",  value: 91 },
+      { label: "Treatment Success Rate", value: 94 },
+      { label: "Patient Satisfaction",   value: 94 },
+      { label: "Client Retention Rate",  value: 88 },
     ],
 
     reviewScore: "4.9",
-    reviewLabel: "Verified by 5,000+ Patient Reviews",
+    reviewLabel: "Verified by 3,570+ Patient Reviews",
     ctaText:     "Discover Our Story",
     ctaHref:     "#about",
 
@@ -177,14 +177,14 @@ export const siteContent = {
     },
 
     bgImage:     heroImg,
-    experience:  { years: "9+", label: "Years of Clinical Excellence" },
-    specialists: { count: "45+", label: "Certified Specialists"        },
+    experience:  { years: "8+", label: "Months of Clinical Excellence" },
+    specialists: { count: "12+", label: "Certified Specialists"        },
 
     counters: [
-      { value: 3500, suffix: "+", label: "Patients Transformed",       icon: "patients"    },
-      { value: 12,   suffix: "+", label: "Years of Clinical Excellence",icon: "experience"  },
-      { value: 45,   suffix: "+", label: "Certified Specialists",       icon: "specialists" },
-      { value: 98,   suffix: "%", label: "Treatment Success Rate",      icon: "rating"      },
+      { value: 3570, suffix: "+", label: "Patients Transformed",        icon: "patients"    },
+      { value: 8,    suffix: "+", label: "Months of Clinical Excellence",icon: "experience"  },
+      { value: 12,   suffix: "+", label: "Certified Specialists",        icon: "specialists" },
+      { value: 94,   suffix: "%", label: "Treatment Success Rate",       icon: "rating"      },
     ],
   },
 

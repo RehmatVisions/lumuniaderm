@@ -155,7 +155,7 @@ function PremiumOpeningOverlay() {
 // Desktop-only portrait zone. Keeping this boundary near the girl's shoulder
 // prevents the comparison layer from covering the hero copy/navigation.
 const IMAGE_LEFT_PCT = 60
-const DESKTOP_DEFAULT_PCT = 20
+const DESKTOP_DEFAULT_PCT = 49
 
 function BackgroundSlider() {
   // Desktop drag ref — scoped to the right-side image zone only
@@ -366,7 +366,7 @@ function BackgroundSlider() {
             data-handle="true"
             style={{
               position: "absolute",
-              top: "50%", left: dividerLeft,
+              top: "75%", left: dividerLeft,
               width: 46, height: 46,
               x: "-50%", y: "-50%",
               zIndex: 10,
@@ -376,12 +376,12 @@ function BackgroundSlider() {
           >
             <motion.div
               style={{
-                width: 30, height: 30, borderRadius: "50%",
+                width: 36, height: 36, borderRadius: "50%",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 position: "relative",
-                background: dragging ? "rgba(196,97,74,0.92)" : "rgba(12,6,2,0.80)",
-                border: dragging ? "2px solid rgba(255,255,255,0.6)" : "2px solid rgba(255,255,255,0.30)",
-                boxShadow:"none",
+                background: dragging ? "#C4614A" : "rgba(255,255,255,0.92)",
+                border: dragging ? "2px solid rgba(255,255,255,0.5)" : "2px solid rgba(196,97,74,0.50)",
+                boxShadow: dragging ? "0 4px 18px rgba(196,97,74,0.55)" : "0 2px 12px rgba(0,0,0,0.22)",
                 transition: "background .18s,border-color .18s,box-shadow .18s",
               }}
               animate={{ scale: dragging ? 1.15 : 1 }}
@@ -390,39 +390,53 @@ function BackgroundSlider() {
               {!dragging && !reduceMotion && (
                 <motion.div
                   style={{
-                    position: "absolute", inset: -3, borderRadius: "50%",
-                    border: "1.5px solid rgba(255,255,255,0.32)",
+                    position: "absolute", inset: -4, borderRadius: "50%",
+                    border: "1.5px solid rgba(196,97,74,0.40)",
                     pointerEvents: "none",
                   }}
-                  animate={{ scale: [1, 1.75], opacity: [0.55, 0] }}
+                  animate={{ scale: [1, 1.7], opacity: [0.6, 0] }}
                   transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
                 />
               )}
-              <svg viewBox="0 0 24 24" fill="none" width={13} height={13}
-                stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg viewBox="0 0 24 24" fill="none" width={14} height={14}
+                stroke={dragging ? "white" : "#C4614A"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 18l-6-6 6-6"/><path d="M15 6l6 6-6 6"/>
               </svg>
             </motion.div>
           </motion.div>
 
-          {/* Corner labels — anchored inside the image zone */}
+          {/* Before/After labels + handle — all at same vertical level (75%) */}
+          {/* Before label: fixed at left edge of image zone */}
           <div style={{
-            position: "absolute", left: 14, bottom: 28,
+            position: "absolute", left: 10, top: "75%",
+            transform: "translateY(-50%)",
             display: "flex", alignItems: "center", gap: 6,
-            padding: "5px 12px", borderRadius: 99,
-            background: "rgba(10,5,2,0.55)", pointerEvents: "none",
+            padding: "7px 14px",
+            background: "linear-gradient(135deg, rgba(30,12,6,0.82) 0%, rgba(20,8,3,0.70) 100%)",
+            borderRadius: 99,
+            pointerEvents: "none",
+            zIndex: 20,
+            backdropFilter: "blur(4px)",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.35)",
           }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.5)" }} />
-            <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.78)" }}>Before</span>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.55)", flexShrink: 0 }} />
+            <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.95)", fontFamily: "'Nunito',system-ui,sans-serif" }}>Before</span>
           </div>
+          {/* After label: fixed at right edge of image zone */}
           <div style={{
-            position: "absolute", right: 14, bottom: 28,
+            position: "absolute", right: 10, top: "75%",
+            transform: "translateY(-50%)",
             display: "flex", alignItems: "center", gap: 6,
-            padding: "5px 12px", borderRadius: 99,
-            background: "rgba(196,97,74,0.82)", pointerEvents: "none",
+            padding: "7px 14px",
+            background: "linear-gradient(135deg, #C4614A 0%, #a0432e 100%)",
+            borderRadius: 99,
+            pointerEvents: "none",
+            zIndex: 20,
+            backdropFilter: "blur(4px)",
+            boxShadow: "0 2px 12px rgba(196,97,74,0.5)",
           }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.85)" }} />
-            <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "white" }}>After</span>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.85)", flexShrink: 0 }} />
+            <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.22em", textTransform: "uppercase", color: "#fff", fontFamily: "'Nunito',system-ui,sans-serif" }}>After</span>
           </div>
         </motion.div>
       )}
@@ -540,10 +554,10 @@ function BotanicalLeaf() {
 
 // Static list of stats shown in the hero
 const STATS = [
-  { icon: "patients", target: 3500, suffix: "+", label: "Happy Patients",   decimals: 0 },
-  { icon: "years",    target: 12,   suffix: "+", label: "Years Experience", decimals: 0 },
+  { icon: "patients", target: 3570, suffix: "+", label: "Happy Patients",   decimals: 0 },
+  { icon: "years",    target: 8,    suffix: "+", label: "Months Experience", decimals: 0 },
   { icon: "star",     target: 4.9,  suffix: "★", label: "Avg. Rating",      decimals: 1 },
-  { icon: "shield",   target: 98,   suffix: "%", label: "Success Rate",     decimals: 0 },
+  { icon: "shield",   target: 94,   suffix: "%", label: "Success Rate",     decimals: 0 },
 ]
 
 // SVG icons for each stat type

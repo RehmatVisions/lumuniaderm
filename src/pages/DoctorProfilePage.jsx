@@ -21,7 +21,7 @@ const DOCTOR = {
   badge:       "Board-Certified Dermatologist",
   tagline:     "Combining medical precision with an artistic eye, Dr. Ateeq creates thoughtful treatment plans designed around each patient's skin, concerns and goals.",
   qual1:       "MBBS · MD Dermatology",
-  qual2:       "9+ Years Experience",
+  qual2:       "8+ Months Experience",
   image:       ateeqImg,
   bookHref:    "/#contact",
 

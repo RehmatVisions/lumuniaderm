@@ -21,13 +21,22 @@ const ALL = [
     id: 2,
     initials: "AK",
     name: "Ayesha Khan",
-    city: "Paris Road, Sialkot",
-    treatment: "HydraGlow Treatment",
+    city: "Cantt, Sialkot",
+    treatment: "Laser Hair Removal",
     rating: 5,
-    text: "The results are amazing. My skin looks so much clearer and brighter now. I feel more confident every day. Thank you NovaDerm!",
+    text: "The results are amazing. My skin looks so much clearer and smoother now. I feel more confident every day. Thank you NovaDerm!",
   },
   {
     id: 3,
+    initials: "RB",
+    name: "Rabia Butt",
+    city: "Cantt, Sialkot",
+    treatment: "HydraGlow Treatment",
+    rating: 5,
+    text: "Coming from Cantt and it was absolutely worth it. The staff is so welcoming and the results were visible after just one session.",
+  },
+  {
+    id: 4,
     initials: "FN",
     name: "Fatima Noor",
     city: "Model Town, Sialkot",
@@ -36,16 +45,16 @@ const ALL = [
     text: "Very professional and friendly staff. The treatment worked really well for me. I would not go anywhere else for my skin care.",
   },
   {
-    id: 4,
+    id: 5,
     initials: "ZA",
     name: "Zainab Ahmed",
-    city: "Ugoki, Sialkot",
+    city: "Model Town, Sialkot",
     treatment: "Radiance Boost Facial",
     rating: 5,
     text: "A very relaxing experience with great results. My skin looks natural and healthy. I highly recommend this clinic to everyone.",
   },
   {
-    id: 5,
+    id: 6,
     initials: "NN",
     name: "Nadia Nawaz",
     city: "Kashmir Road, Sialkot",
@@ -54,7 +63,7 @@ const ALL = [
     text: "From the first visit to the last, the care was excellent. My skin tone has completely changed. I am very satisfied with the outcome.",
   },
   {
-    id: 6,
+    id: 7,
     initials: "HR",
     name: "Hina Rizvi",
     city: "Shahabpura, Sialkot",
@@ -63,13 +72,22 @@ const ALL = [
     text: "I look so fresh and young again. The team is very kind and skilled. I feel great every time I walk out of the clinic.",
   },
   {
-    id: 7,
+    id: 8,
     initials: "MB",
     name: "Maryam Butt",
-    city: "Hajipura, Sialkot",
+    city: "Ugoki, Sialkot",
     treatment: "PRP Hair Restoration",
     rating: 5,
     text: "I saw real hair growth after just a few sessions. This is the only treatment that actually worked for me. Very happy with NovaDerm.",
+  },
+  {
+    id: 9,
+    initials: "SA",
+    name: "Sara Amjad",
+    city: "Paris Road, Sialkot",
+    treatment: "Acne & Scar Revision",
+    rating: 5,
+    text: "My acne scars have faded so much. Dr. Ateeq explained everything clearly and the results speak for themselves. Truly life changing.",
   },
 ];
 const FEATURED = ALL.find(r => r.featured)
@@ -439,9 +457,9 @@ export default function Testimonials() {
           </svg>
           <span><strong style={{ color:"#1a0f0a" }}>4.9</strong> average rating</span>
           <span style={{ color:"rgba(196,97,74,0.35)" }}>·</span>
-          <span><strong style={{ color:"#1a0f0a" }}>350+</strong> verified reviews</span>
+          <span><strong style={{ color:"#1a0f0a" }}>94%</strong> satisfaction rate</span>
           <span style={{ color:"rgba(196,97,74,0.35)" }}>·</span>
-          <span><strong style={{ color:"#1a0f0a" }}>3,500+</strong> satisfied patients</span>
+          <span><strong style={{ color:"#1a0f0a" }}>3,570+</strong> satisfied patients</span>
           <svg viewBox="0 0 24 24" fill="none" width={16} height={16} stroke="#C4614A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             <path d="M9 12l2 2 4-4"/>
