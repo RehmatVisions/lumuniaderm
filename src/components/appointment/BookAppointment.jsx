@@ -7,7 +7,7 @@ const EASE = [0.25, 0.46, 0.45, 0.94]
 const EASE_EXPO = [0.16, 1, 0.3, 1]
 
 /* ─── Google Sheets integration ─────────────────────────────── */
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbw66bF_PPhFc4VTEHxbYpIC0qDEZK50BdasTnNUXmaMHPXQsVpMHkeNQDp91d2gry8/exec"
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbw-KVQyB-MFbdgF-UcsTtPMGsqoUzjcX6Lt8ORvMGnIjWQfZd0WSNTSfoBuIlo1eX8/exec"
 
 async function saveFormToSheet(form) {
   try {
