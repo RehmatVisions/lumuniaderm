@@ -372,8 +372,7 @@ export default function TransformationSection() {
             fontSize:"clamp(0.92rem,1.5vw,1.05rem)",color:"#1a0f0a",
             maxWidth:580,margin:"0 auto",lineHeight:1.75,letterSpacing:"0.015em",
           }}>
-            Our before and after gallery showcases genuine patient outcomes from acne treatments,
-            laser therapies, anti-aging procedures, and hair restoration programs.
+            Our before and after gallery showcases genuine patient transformations, highlighting advanced hair restoration treatments and jawline contouring procedures with natural, confidence-boosting results.
           </p>
 
           <motion.div

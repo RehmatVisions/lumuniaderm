@@ -59,7 +59,7 @@ export const siteContent = {
     badge: "Why Choose Novaderm",
     headline: "Where Clinical Precision Meets Luxurious Care",
     description:
-      "At Novaderm, every detail is intentional — from our board-certified specialists and FDA-cleared technology to our bespoke treatment protocols. We don't offer cookie-cutter solutions; we craft results designed exclusively around your skin.",
+      "At Novaderm, every detail is designed with your skin in mind — from our expert specialists and advanced technology to our personalized treatment plans. We don’t believe in one-size-fits-all solutions; we create customized care plans to deliver natural, beautiful results that are unique to you.",
 
     images: {
       main:      whyChooseMainImg,
@@ -106,7 +106,7 @@ export const siteContent = {
       {
         badge:       "Acne & Scarring",
         title:       "Advanced Acne & Scar Revision",
-        description: "A multi-modality approach — combining medical-grade peels, targeted topicals, and laser resurfacing — to eliminate active breakouts and visibly reduce post-acne scarring, pigmentation, and textural irregularities.",
+        description: "Clear active acne and improve the appearance of old acne marks and scars with safe medical peels and advanced laser treatments for smoother, healthier-looking skin.",
         image:       svc1Img,
         href:        "#contact",
         icon:        "acne",
@@ -114,7 +114,7 @@ export const siteContent = {
       {
         badge:       "Laser Precision",
         title:       "Laser Hair Removal",
-        description: "Powered by industry-leading diode and Nd:YAG technology, our laser hair removal delivers permanent reduction across all skin tones — with clinical precision, minimal discomfort, and zero downtime.",
+        description: "Get rid of unwanted facial and body hair with advanced laser technology, offering a comfortable, effective, and long-lasting hair reduction experience.",
         image:       svc2Img,
         href:        "#contact",
         icon:        "laser",
@@ -122,15 +122,15 @@ export const siteContent = {
       {
         badge:       "Age Reversal",
         title:       "Anti-Aging & Skin Rejuvenation",
-        description: "From dermal fillers and bio-stimulators to RF microneedling and collagen-induction therapy — our anti-aging suite restores lost volume, softens deep lines, and renews your skin's structural foundation.",
+        description: "Reduce wrinkles and signs of aging while restoring firm, fresh, and youthful-looking skin with expert doctor-led rejuvenation treatments.",
         image:       svc3Img,
         href:        "#contact",
         icon:        "aging",
       },
       {
         badge:       "Radiance Therapy",
-        title:       "Pigmentation Correction & Glow Treatments",
-        description: "Clinically formulated chemical peels, IPL phototherapy, and brightening infusion protocols work synergistically to dissolve stubborn melasma, sun damage, and uneven tone — revealing luminous, even skin.",
+        title:       "Pigmentation & Glow Treatments",
+        description: "Treat melasma, dark spots, and sun damage to achieve a more even skin tone with customized treatments for a natural, radiant glow.",
         image:       svc4Img,
         href:        "#contact",
         icon:        "glow",
@@ -138,7 +138,7 @@ export const siteContent = {
       {
         badge:       "Hair Restoration",
         title:       "PRP Hair Restoration Therapy",
-        description: "Autologous platelet-rich plasma is extracted, concentrated, and precisely injected into thinning zones to reactivate dormant follicles, dramatically reduce shedding, and stimulate measurable regrowth.",
+        description: "Reduce hair fall and support natural hair growth with doctor-guided PRP therapy that strengthens weak hair roots and improves hair health.",
         image:       svc5Img,
         href:        "#contact",
         icon:        "hair",
@@ -151,7 +151,7 @@ export const siteContent = {
     badge:       "Our Story",
     headline:    "Real Results. Trusted Care. Designed Around You.",
     description:
-      "Novaderm was founded on a single conviction: that exceptional skin outcomes require both clinical mastery and a deeply personal approach. Over twelve years, we have combined medical rigour with luxury-level care to build a clinic our patients return to — not because they have to, but because they choose to.",
+      "Novaderm was built on one belief: exceptional skin results come from combining expert medical knowledge with a truly personalized approach. For over 8+ years, we have blended advanced dermatology with premium care to create a trusted clinic where patients return by choice — because they experience confidence, comfort, and results they love.",
 
     features: [
       { icon: "treatment",  title: "Evidence-Based Treatment Protocols"  },
@@ -166,7 +166,7 @@ export const siteContent = {
       { label: "Client Retention Rate",  value: 88 },
     ],
 
-    reviewScore: "4.9",
+    reviewScore: "4.7",
     reviewLabel: "Verified by 3,570+ Patient Reviews",
     ctaText:     "Discover Our Story",
     ctaHref:     "#about",
@@ -217,7 +217,7 @@ export const siteContent = {
   hero: {
     stats: {
       patients: "3,500+ Happy Patients",
-      rating:   "4.9/5",
+      rating:   "4.7/5",
     },
 
     slides: [

@@ -239,7 +239,7 @@ function BackgroundSlider() {
         aria-hidden="true"
         style={{
           position: "absolute",
-          top: "-8%", bottom: "-8%", left: 0, right: 0,
+          top: 0, bottom: "-8%", left: 0, right: 0,
           zIndex: 0,
           pointerEvents: "none",
           userSelect: "none",
@@ -299,7 +299,7 @@ function BackgroundSlider() {
           aria-hidden="true"
           style={{
             position: "absolute",
-            top: "-8%", bottom: "-8%",
+            top: 0, bottom: "-8%",
             left: `${IMAGE_LEFT_PCT}%`, right: 0,
             zIndex: 1,
             overflow: "hidden",
@@ -556,7 +556,7 @@ function BotanicalLeaf() {
 const STATS = [
   { icon: "patients", target: 3570, suffix: "+", label: "Happy Patients",   decimals: 0 },
   { icon: "years",    target: 8,    suffix: "+", label: "Months Experience", decimals: 0 },
-  { icon: "star",     target: 4.9,  suffix: "★", label: "Avg. Rating",      decimals: 1 },
+  { icon: "star",     target: 4.7,  suffix: "★", label: "Avg. Rating",      decimals: 1 },
   { icon: "shield",   target: 94,   suffix: "%", label: "Success Rate",     decimals: 0 },
 ]
 
@@ -691,9 +691,8 @@ export default function Hero() {
           className="flex items-start md:items-center mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10"
           style={{
             flex: 1,
-       paddingTop: "clamp(8px, 2svh, 30px)",
-            
-     paddingBottom: "clamp(15px, 3svh, 50px)",
+            paddingTop: "clamp(8px, 2svh, 30px)",
+            paddingBottom: "clamp(15px, 3svh, 50px)",
             y: contentY,
             opacity: contentOpacity,
           }}

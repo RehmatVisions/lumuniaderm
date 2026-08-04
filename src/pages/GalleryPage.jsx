@@ -96,7 +96,7 @@ function Lightbox({ image, onClose, onPrev, onNext }) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[9000] flex items-center justify-center"
+      className="fixed inset-0 z-[9000] flex items-center justify-center pt-16"
       style={{ background: "rgba(10,5,2,0.92)" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -107,7 +107,7 @@ function Lightbox({ image, onClose, onPrev, onNext }) {
       {/* Close */}
       <button
         onClick={onClose}
-        className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full"
+        className="absolute right-5 top-20 flex h-10 w-10 items-center justify-center rounded-full"
         style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)", color: "#fff" }}
         aria-label="Close"
       >
@@ -133,7 +133,7 @@ function Lightbox({ image, onClose, onPrev, onNext }) {
         key={image.id}
         src={image.src}
         alt={image.alt}
-        className="max-h-[85vh] max-w-[90vw] rounded-2xl object-contain"
+        className="max-h-[75vh] max-w-[88vw] rounded-2xl object-contain"
         style={{ boxShadow: "0 32px 80px rgba(0,0,0,0.6)" }}
         initial={{ opacity: 0, scale: 0.93 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -306,7 +306,7 @@ export default function GalleryPage() {
         {/* ── Hero Header ──────────────────────────────────── */}
         <section
           className="relative overflow-hidden py-16 lg:py-20"
-          style={{ background: "transparent" }}
+          style={{ background: "transparent", paddingTop: "clamp(40px, 5vw, 64px)" }}
         >
           <LeafDecoration side="left" />
           <LeafDecoration side="right" />

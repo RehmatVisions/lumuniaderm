@@ -17,9 +17,9 @@ const EASE_EXPO = [0.16, 1, 0.3, 1]
 // ── Edit doctor info here ──────────────────────────────────────
 const DOCTOR = {
   name:        "Dr. Ateeq",
-  title:       "Consultant Dermatologist & Aesthetic Medicine Specialist",
+  title:       "Consultant Dermatologist & Aesthetic Specialist",
   badge:       "Board-Certified Dermatologist",
-  tagline:     "Combining medical precision with an artistic eye, Dr. Ateeq creates thoughtful treatment plans designed around each patient's skin, concerns and goals.",
+  tagline:     "Combining advanced dermatological knowledge with a personalized approach, Dr. Ateeq provides evidence-based skin treatments focused on healthy, natural, and confident results.",
   qual1:       "MBBS · MD Dermatology",
   qual2:       "8+ Months Experience",
   image:       ateeqImg,

@@ -38,7 +38,7 @@ export default function PageLayout({ children }) {
               zIndex: 0,
               backgroundImage: `url(${sectionBg})`,
               backgroundSize: "cover",
-              backgroundPosition: "center top",
+              backgroundPosition: "center 80px",
               backgroundRepeat: "no-repeat",
             }}
           />
