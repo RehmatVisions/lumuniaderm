@@ -151,7 +151,7 @@ export const siteContent = {
     badge:       "Our Story",
     headline:    "Real Results. Trusted Care. Designed Around You.",
     description:
-      "Novaderm was built on one belief: exceptional skin results come from combining expert medical knowledge with a truly personalized approach. For over 8+ years, we have blended advanced dermatology with premium care to create a trusted clinic where patients return by choice — because they experience confidence, comfort, and results they love.",
+      "Novaderm was built on one belief: exceptional skin results come from expert dermatology and a personalized approach. For over 8+ years, we have delivered premium care in a trusted clinic where patients experience confidence, comfort, and results they love.",
 
     features: [
       { icon: "treatment",  title: "Evidence-Based Treatment Protocols"  },
