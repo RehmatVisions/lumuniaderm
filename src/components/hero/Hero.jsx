@@ -301,7 +301,7 @@ function BackgroundSlider() {
             position: "absolute",
             top: 0, bottom: "-8%",
             left: `${IMAGE_LEFT_PCT}%`, right: 0,
-            zIndex: 1,
+            zIndex: 5,
             overflow: "hidden",
             userSelect: "none", WebkitUserSelect: "none",
             touchAction: "none",
@@ -679,10 +679,10 @@ export default function Hero() {
       <BotanicalLeaf />
 
       {/* Layer 10 — navbar + text content (sits on top of the slider) */}
-      <div style={{ position: "relative", zIndex: 10, display: "flex", flexDirection: "column", flex: 1 }}>
+      <div style={{ position: "relative", zIndex: 10, display: "flex", flexDirection: "column", flex: 1, pointerEvents: "none" }}>
 
         {/* Navbar — re-enable pointer events so clicks work */}
-        <div style={{ pointerEvents: "auto" }}>
+        <div style={{ pointerEvents: "auto", position: "relative", zIndex: 50 }}>
           <Navbar variant="hero" />
         </div>
 

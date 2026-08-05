@@ -11,12 +11,17 @@ function HashScroller() {
   useEffect(() => {
     if (hash) {
       const id = hash.replace("#", "")
-      // Small delay so the page has time to render before scrolling
-      const timer = setTimeout(() => {
+      // Retry up to ~1.2s to handle lazy-loaded sections
+      const scrollToSection = (attempts = 0) => {
         const el = document.getElementById(id)
-        if (el) el.scrollIntoView({ behavior: "smooth" })
-      }, 120)
-      return () => clearTimeout(timer)
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" })
+        } else if (attempts < 10) {
+          setTimeout(() => scrollToSection(attempts + 1), 120)
+        }
+      }
+      // Small initial delay so the page has time to start rendering
+      setTimeout(() => scrollToSection(), 80)
     }
   }, [hash, pathname])
 

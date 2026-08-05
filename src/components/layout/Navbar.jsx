@@ -35,7 +35,16 @@ function NavItem({ link, onClick }) {
       // If already on home page, just scroll
       if (location.pathname === "/") {
         const id = link.href.replace("/#", "")
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+        // Sections are lazy-loaded — retry a few times to handle render delay
+        const scrollToSection = (attempts = 0) => {
+          const el = document.getElementById(id)
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" })
+          } else if (attempts < 10) {
+            setTimeout(() => scrollToSection(attempts + 1), 120)
+          }
+        }
+        scrollToSection()
       } else {
         // Navigate to home then scroll
         navigate(link.href)
@@ -109,7 +118,15 @@ export default function Navbar({ variant = "hero" }) {
     e.preventDefault()
     setMenuOpen(false)
     if (location.pathname === "/") {
-      document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
+      const scrollToContact = (attempts = 0) => {
+        const el = document.getElementById("contact")
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" })
+        } else if (attempts < 10) {
+          setTimeout(() => scrollToContact(attempts + 1), 120)
+        }
+      }
+      scrollToContact()
     } else {
       navigate("/#contact")
     }
