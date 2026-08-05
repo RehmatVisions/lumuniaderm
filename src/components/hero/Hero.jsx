@@ -764,7 +764,7 @@ export default function Hero() {
 
             {/* CTA buttons — stacked column on mobile, row on md+ */}
             <motion.div
-              className="flex flex-col md:flex-row md:flex-wrap md:items-center gap-3"
+              className="flex flex-col items-start md:flex-row md:flex-wrap md:items-center gap-3"
               style={{
                 marginTop: "clamp(18px,2.5vw,28px)",
               }}
@@ -816,7 +816,7 @@ export default function Hero() {
               variants={HERO_REVEAL}
             >
               {/* Mobile: single column, all 4 cards stacked — left-aligned to stay off the face */}
-              <div className="grid grid-cols-1 md:hidden" style={{ gap: 8, maxWidth: 220 }}>
+              <div className="grid grid-cols-1 md:hidden" style={{ gap: 8, maxWidth: 190 }}>
                 {STATS.map((stat, i) => (
                   <motion.div
                     key={stat.icon}
