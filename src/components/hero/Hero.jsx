@@ -679,7 +679,7 @@ export default function Hero() {
       <BotanicalLeaf />
 
       {/* Layer 10 — navbar + text content (sits on top of the slider) */}
-      <div style={{ position: "relative", zIndex: 10, display: "flex", flexDirection: "column", flex: 1, pointerEvents: "none" }}>
+      <div style={{ position: "relative", zIndex: 10, display: "flex", flexDirection: "column", flex: 1 }}>
 
         {/* Navbar — re-enable pointer events so clicks work */}
         <div style={{ pointerEvents: "auto" }}>
@@ -695,6 +695,7 @@ export default function Hero() {
             paddingBottom: "clamp(15px, 3svh, 50px)",
             y: contentY,
             opacity: contentOpacity,
+            pointerEvents: "none",
           }}
           variants={HERO_REVEAL}
           initial={reduceMotion ? false : "hidden"}
