@@ -86,9 +86,7 @@ function CardFeatured({ card, n }) {
           loading="lazy"
           decoding="async"
         />
-        {/* Subtle bottom fade into content */}
-        <div style={{ position:"absolute", bottom:0, left:0, right:0, height:80,
-          background:"linear-gradient(to top,rgba(255,255,255,0.95),transparent)" }}/>
+
       </motion.div>
 
       {/* Content */}
@@ -169,12 +167,12 @@ function CardWithImage({ card, n, delay = 0 }) {
       }}
     >
       {/* Image */}
-      <div style={{ height:170, overflow:"hidden", position:"relative", flexShrink:0 }}>
+      <div style={{ height:220, overflow:"hidden", position:"relative", flexShrink:0 }}>
         <motion.img
           src={card.image} alt={card.title}
           animate={{ scale: hov ? 1.05 : 1 }}
           transition={{ duration:0.65, ease:EASE }}
-          style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"center" }}
+          style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"center top" }}
           loading="lazy"
           decoding="async"
         />

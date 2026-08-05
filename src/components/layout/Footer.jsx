@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import ArrowUpRight from "../ui/ArrowUpRight"
 import { useReveal } from "../../hooks/useReveal"
 // useReveal uses IntersectionObserver to add CSS 'is-visible' classes — kept separate from animations.js
@@ -42,10 +42,25 @@ const SERVICES = [
 ]
 
 const HOURS = [
-  { day: "Mon – Friday:",  hours: "10:00 AM – 7:00 PM" },
-  { day: "Saturday:",      hours: "10:00 AM – 4:00 PM" },
-  { day: "Sunday:",        hours: "Closed"              },
+  { day: "Mon – Sun:", hours: "10:00 AM – 10:00 PM" },
 ]
+
+/* Returns true if current local time is between 10:00 AM and 10:00 PM */
+function useClinicOpen() {
+  const getOpen = () => {
+    const now = new Date()
+    const h = now.getHours()
+    // open 10:00 (h>=10) and before 22:00 (h<22)
+    return h >= 10 && h < 22
+  }
+  const [isOpen, setIsOpen] = useState(getOpen)
+  useEffect(() => {
+    // re-check every minute
+    const id = setInterval(() => setIsOpen(getOpen()), 60_000)
+    return () => clearInterval(id)
+  }, [])
+  return isOpen
+}
 
 const SOCIALS = [
   { type: "facebook",  href: "https://www.facebook.com/profile.php?id=61592414917780", label: "Facebook"  },
@@ -89,6 +104,7 @@ export default function Footer() {
   const [subErr, setSubErr] = useState("")
   const [toast,  setToast]  = useState(false)
   const colRef = useReveal({ rootMargin: "-40px 0px" })
+  const isOpen = useClinicOpen()
 
   const handleSubscribe = (e) => {
     e.preventDefault()
@@ -250,16 +266,45 @@ export default function Footer() {
             {/* Col 4 — Working Hours */}
             <div className="reveal reveal-up reveal-duration-600 reveal-delay-3">
               <h4 className="mb-5 text-base font-bold text-novaderm-brown">Working Hours</h4>
+
+              {/* Live Open / Closed badge */}
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1"
+                style={{
+                  background: isOpen ? "rgba(34,197,94,0.12)" : "rgba(220,38,38,0.10)",
+                  border: `1px solid ${isOpen ? "rgba(34,197,94,0.35)" : "rgba(220,38,38,0.25)"}`,
+                }}>
+                <span className="relative flex h-2 w-2">
+                  {isOpen && (
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
+                      style={{ background: "#22c55e" }} />
+                  )}
+                  <span className="relative inline-flex h-2 w-2 rounded-full"
+                    style={{ background: isOpen ? "#22c55e" : "#dc2626" }} />
+                </span>
+                <span className="text-xs font-bold"
+                  style={{ color: isOpen ? "#15803d" : "#b91c1c" }}>
+                  {isOpen ? "Open Now" : "Closed"}
+                </span>
+              </div>
+
               <ul className="flex flex-col gap-3">
                 {HOURS.map(({ day, hours }) => (
                   <li key={day} className="flex items-center justify-between gap-4 text-sm">
                     <span className="font-semibold text-novaderm-brown">{day}</span>
-                    <span style={{ color: hours === "Closed" ? "rgba(200,50,50,0.90)" : "#1a0f0a", fontWeight: 700 }}>
-                      {hours}
-                    </span>
+                    <span style={{ color: "#1a0f0a", fontWeight: 700 }}>{hours}</span>
                   </li>
                 ))}
               </ul>
+
+              {/* Phone */}
+              <a href="tel:03211102018"
+                className="mt-4 flex items-center gap-2 text-sm font-bold transition-colors duration-200 hover:text-[#C4614A]"
+                style={{ color: "#1a0f0a" }}>
+                <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 flex-shrink-0" stroke="#C4614A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .92h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+                </svg>
+                0321 1102018
+              </a>
             </div>
 
           </div>
