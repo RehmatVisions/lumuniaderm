@@ -129,7 +129,6 @@ function CenterCard({ card }) {
         decoding="async"
       />
       
-      <PlayCircle />
       <div className="absolute inset-x-0 bottom-0 p-6">
         <svg viewBox="0 0 40 30" fill="none" className="mb-3 h-6 w-6 opacity-70" style={{ color: "#FCEEE7" }}>
           <path d="M0 30V18C0 8.4 5.2 2.8 15.6 1.2L17 4.8C11.6 6.4 8.6 10 8 15.6H14V30H0ZM22 30V18C22 8.4 27.2 2.8 37.6 1.2L39 4.8C33.6 6.4 30.6 10 30 15.6H36V30H22Z" fill="currentColor"/>
