@@ -226,8 +226,8 @@ function AboutContent() {
         {description}
       </motion.p>
 
-      {/* Feature grid — 4 items, 2 columns */}
-      <div className="grid grid-cols-2 gap-3">
+      {/* Feature grid — 2 columns on sm+, 1 on xs */}
+      <div className="grid grid-cols-2 gap-3 about-feature-grid">
         {features.map((feature, i) => (
           <motion.div
             key={feature.title}
@@ -478,7 +478,18 @@ export default function About() {
       <style>{`
         @media (max-width: 767px) {
           .about-main-img {
-            object-position: 5% center !important;
+            object-fit: contain !important;
+            object-position: center center !important;
+            background: #f5ebe2;
+          }
+        }
+        @media (max-width: 400px) {
+          .about-main-img {
+            object-fit: contain !important;
+            object-position: center center !important;
+          }
+          .about-feature-grid {
+            grid-template-columns: 1fr !important;
           }
         }
       `}</style>

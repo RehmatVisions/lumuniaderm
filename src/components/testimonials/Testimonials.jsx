@@ -382,6 +382,7 @@ export default function Testimonials() {
             onClick={() => go(page - 1)}
             whileHover={{ scale:1.1, background:"rgba(196,97,74,0.12)" }}
             whileTap={{ scale:0.93 }}
+            className="testimonial-arrow"
             style={{
               flexShrink:0, width:44, height:44, borderRadius:"50%",
               border:"1.5px solid rgba(196,97,74,0.30)",
@@ -401,7 +402,7 @@ export default function Testimonials() {
           {/* Cards grid */}
           <div style={{
             flex:1, display:"grid",
-            gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",
+            gridTemplateColumns:"repeat(auto-fit,minmax(min(220px,100%),1fr))",
             gap:"clamp(10px,1.5vw,16px)",
           }}>
             <AnimatePresence mode="popLayout" custom={dir}>
@@ -414,6 +415,7 @@ export default function Testimonials() {
             onClick={() => go(page + 1)}
             whileHover={{ scale:1.1, background:"rgba(196,97,74,0.12)" }}
             whileTap={{ scale:0.93 }}
+            className="testimonial-arrow"
             style={{
               flexShrink:0, width:44, height:44, borderRadius:"50%",
               border:"1.5px solid rgba(196,97,74,0.30)",
@@ -467,6 +469,12 @@ export default function Testimonials() {
         </motion.div>
 
       </div>
+
+      <style>{`
+        @media (max-width: 400px) {
+          .testimonial-arrow { display: none !important; }
+        }
+      `}</style>
     </section>
   )
 }

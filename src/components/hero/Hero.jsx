@@ -700,9 +700,8 @@ export default function Hero() {
           initial={reduceMotion ? false : "hidden"}
           animate="visible"
         >
-          {/* On mobile: constrain to ~44vw (left half) so nothing bleeds over the face.
-              On md+: standard 500px desktop layout. */}
-          <style>{`.hero-text-col{max-width:min(220px,44vw)}@media(min-width:768px){.hero-text-col{max-width:500px}}`}</style>
+          {/* Mobile: full width for clean layout. md+: 500px desktop layout. */}
+          <style>{`.hero-text-col{max-width:100%;width:100%}@media(min-width:768px){.hero-text-col{max-width:500px;width:auto}}`}</style>
           <div
        className="hero-text-col flex flex-col justify-start md:justify-center md:ml-20"
             style={{ pointerEvents: "auto" }}

@@ -251,7 +251,7 @@ export default function DoctorsSection() {
             </div>
 
             {/* CTA buttons */}
-            <div style={{ display:"flex", flexWrap:"wrap", gap:12, alignItems:"center" }}>
+            <div className="doctor-cta-row" style={{ display:"flex", flexWrap:"wrap", gap:12, alignItems:"center" }}>
               <motion.a href={d.bookHref}
                 style={{
                   display:"inline-flex", alignItems:"center", gap:10,
@@ -315,6 +315,7 @@ export default function DoctorsSection() {
           .doctor-content {
             background: rgba(255,255,255,0.95) !important;
             z-index: 2;
+            padding: 20px 16px !important;
           }
           .doctor-img {
             object-fit: cover !important;
@@ -327,6 +328,19 @@ export default function DoctorsSection() {
           }
           .doctor-badge {
             display: none !important;
+          }
+        }
+        @media (max-width: 400px) {
+          .doctor-content {
+            padding: 16px 14px !important;
+          }
+          .doctor-cta-row {
+            flex-direction: column !important;
+          }
+          .doctor-cta-row a,
+          .doctor-cta-row button {
+            width: 100% !important;
+            justify-content: center !important;
           }
         }
       `}</style>

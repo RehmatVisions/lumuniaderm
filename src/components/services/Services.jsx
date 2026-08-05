@@ -20,7 +20,7 @@ function ArrowBtn({ href, size = 36, dark = false }) {
       whileHover={{ background: "#C4614A", borderColor: "#C4614A", color: "#fff", scale: 1.08 }}
       whileTap={{ scale: 0.93 }}
       transition={{ duration: 0.22 }}
-      aria-label="Explore treatment"
+      aria-label="GET STARTED"
     >
       <svg viewBox="0 0 20 20" fill="currentColor" width={14} height={14}>
         <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
@@ -386,7 +386,7 @@ export default function Services() {
             <div key={item.label} style={{ display:"flex", alignItems:"center" }}>
               <div style={{
                 display:"flex", alignItems:"center", gap:10,
-                padding:"0 clamp(20px,3vw,44px)",
+                padding:"0 clamp(12px,3vw,44px)",
               }}>
                 <div style={{
                   width:40, height:40, borderRadius:"50%",
@@ -400,8 +400,6 @@ export default function Services() {
                 <span style={{
                   fontSize:"clamp(0.84rem,1vw,0.94rem)",
                   fontWeight:700, color:"#1a0f0a",
-                  
-                  whiteSpace:"nowrap",
                 }}>
                   {item.label}
                 </span>

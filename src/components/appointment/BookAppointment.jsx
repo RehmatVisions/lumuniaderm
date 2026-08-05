@@ -621,7 +621,7 @@ export default function BookAppointment() {
             <div key={item.label} style={{ display: "flex", alignItems: "center" }}>
               <div style={{
                 display: "flex", alignItems: "center", gap: 10,
-                padding: "0 clamp(20px,3vw,44px)"
+                padding: "0 clamp(12px,3vw,44px)"
               }}>
                 <div style={{
                   width: 42, height: 42, borderRadius: "50%",
@@ -631,7 +631,7 @@ export default function BookAppointment() {
                 }}>
                   {item.icon}
                 </div>
-                <span style={{ fontSize: "clamp(0.84rem,1vw,0.94rem)", fontWeight: 700, color: "#1a0f0a", whiteSpace: "nowrap" }}>
+                <span style={{ fontSize: "clamp(0.84rem,1vw,0.94rem)", fontWeight: 700, color: "#1a0f0a" }}>
                   {item.label}
                 </span>
               </div>

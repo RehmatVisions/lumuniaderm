@@ -121,6 +121,7 @@ export default function Navbar({ variant = "hero" }) {
         position: isPage ? "sticky" : "relative",
         top: 0,
         zIndex: 50,
+        pointerEvents: "auto",
         background: isPage
           ? "rgba(253, 242, 235, 0.72)"
           : "transparent",
@@ -210,7 +211,7 @@ export default function Navbar({ variant = "hero" }) {
         className="overflow-hidden lg:hidden"
         animate={{ height: menuOpen ? "auto" : 0, opacity: menuOpen ? 1 : 0 }}
         transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
-        style={{ background: "rgba(244,239,234,0.97)", backdropFilter: "blur(12px)" }}
+        style={{ background: "rgba(244,239,234,0.97)", backdropFilter: "blur(12px)", pointerEvents: menuOpen ? "auto" : "none" }}
       >
         <div className="flex flex-col gap-1 px-6 pb-5 pt-2">
           {NAV_LINKS.map((link) => (

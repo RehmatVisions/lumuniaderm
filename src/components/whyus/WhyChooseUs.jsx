@@ -337,9 +337,14 @@ export default function WhyChooseUs() {
 
       {/* Responsive: stack on mobile */}
       <style>{`
-        @media (max-width: 720px) {
+        @media (max-width: 767px) {
           .why-choose-grid {
             grid-template-columns: 1fr !important;
+          }
+        }
+        @media (max-width: 400px) {
+          .why-choose-grid {
+            gap: 16px !important;
           }
         }
       `}</style>

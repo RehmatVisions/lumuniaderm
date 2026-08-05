@@ -325,7 +325,7 @@ export default function TransformationSection() {
       style={{
         position:"relative",
         background:"transparent",
-        padding:"100px 0 110px",
+        padding:"clamp(56px,8vw,100px) 0 clamp(48px,7vw,110px)",
         overflow:"hidden",
       }}
     >
@@ -392,7 +392,7 @@ export default function TransformationSection() {
           variants={fadeIn}
           style={{
             display:"grid",
-            gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",
+            gridTemplateColumns:"repeat(auto-fit,minmax(min(280px,100%),1fr))",
             gap:28,
             alignItems:"start",
           }}
@@ -423,7 +423,7 @@ export default function TransformationSection() {
           variants={fadeUp}
           style={{
             marginTop:64,
-            display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",
+            display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(150px,100%),1fr))",
             gap:1,background:"rgba(193,154,107,0.18)",borderRadius:16,
             border:"1px solid rgba(193,154,107,0.22)",overflow:"hidden",
           }}

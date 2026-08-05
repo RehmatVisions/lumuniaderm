@@ -52,7 +52,7 @@ function StatCard({ stat }) {
   return (
     <motion.div
       className="relative flex flex-col justify-between overflow-hidden img-shine"
-      style={{ background: "#C4614A", minHeight: 420, ...IMG_CORNERS }}
+      style={{ background: "#C4614A", minHeight: "clamp(300px,60vw,420px)", ...IMG_CORNERS }}
       {...fadeUp(0.05)}
       whileHover={{ y: -6, boxShadow: "0 24px 60px rgba(196,97,74,0.35)", transition: { duration: 0.3 } }}
       whileTap={{ scale: 0.98 }}
@@ -115,7 +115,7 @@ function CenterCard({ card }) {
   return (
     <motion.div
       className="relative overflow-hidden img-shine"
-      style={{ minHeight: 420, ...IMG_CORNERS }}
+      style={{ minHeight: "clamp(300px,60vw,420px)", ...IMG_CORNERS }}
       {...fadeUp(0.12)}
       whileHover={{ y: -6, boxShadow: "0 24px 60px rgba(196,97,74,0.25)", transition: { duration: 0.3 } }}
       whileTap={{ scale: 0.98 }}

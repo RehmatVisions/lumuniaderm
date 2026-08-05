@@ -99,7 +99,7 @@ export const siteContent = {
     badge:       "Signature Treatments",
     headline:    "Medical Aesthetics Crafted for Visible Transformation",
     description: "Every treatment at Novaderm is performed under clinical supervision, using evidence-based protocols tailored to your skin's unique biology.",
-    ctaText:     "Explore All Treatments",
+    ctaText:     "GET STARTED",
     ctaHref:     "#services",
 
     cards: [
