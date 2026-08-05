@@ -116,7 +116,7 @@ export default function DoctorsSection() {
         >
 
           {/* ── LEFT: image ─────────────────────────────── */}
-          <div style={{ position:"relative", minHeight:"clamp(480px,65vw,620px)" }}>
+          <div className="doctor-image-wrap" style={{ position:"relative", minHeight:"clamp(480px,65vw,620px)" }}>
             <img
               src={ateeqImg} alt={d.name}
               className="doctor-img"
@@ -131,7 +131,7 @@ export default function DoctorsSection() {
             />
 
             {/* Board-certified badge bottom */}
-            <div style={{
+            <div className="doctor-badge" style={{
               position:"absolute", bottom:20, left:"50%", transform:"translateX(-50%)",
               display:"flex", alignItems:"center", gap:8,
               background:"rgba(255,255,255,0.88)",
@@ -151,7 +151,9 @@ export default function DoctorsSection() {
           </div>
 
           {/* ── RIGHT: content ──────────────────────────── */}
-          <div style={{
+          <div
+            className="doctor-content"
+            style={{
             padding:"clamp(28px,4vw,52px) clamp(24px,4vw,48px)",
             display:"flex", flexDirection:"column", gap:"clamp(14px,2vw,22px)",
             position:"relative",
@@ -310,11 +312,21 @@ export default function DoctorsSection() {
           .doctor-grid {
             grid-template-columns: 1fr !important;
           }
+          .doctor-content {
+            background: rgba(255,255,255,0.95) !important;
+            z-index: 2;
+          }
           .doctor-img {
             object-fit: cover !important;
-            object-position: top center !important;
-            transform: scale(1.18);
-            transform-origin: top center;
+            object-position: center 40% !important;
+            transform: none !important;
+          }
+          .doctor-image-wrap {
+            min-height: 320px !important;
+            max-height: 360px !important;
+          }
+          .doctor-badge {
+            display: none !important;
           }
         }
       `}</style>

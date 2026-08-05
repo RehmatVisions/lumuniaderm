@@ -26,7 +26,7 @@ function AboutImageCollage() {
   const { images, reviewScore, reviewLabel, experience, specialists } = siteContent.about
 
   return (
-    <div className="relative flex items-end gap-4 lg:gap-5">
+    <div className="relative flex items-end gap-2 sm:gap-4 lg:gap-5">
 
       {/* Main tall image */}
       <motion.div
@@ -38,7 +38,7 @@ function AboutImageCollage() {
         <motion.img
           src={images.main}
           alt="Novaderm treatment"
-          className="h-[500px] w-full object-cover lg:h-[580px] about-main-img"
+          className="h-[340px] sm:h-[500px] w-full object-cover lg:h-[580px] about-main-img"
           style={{ objectPosition: "20% center" }}
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.75, ease: "easeOut" }}
@@ -68,7 +68,7 @@ function AboutImageCollage() {
 
         {/* Rating card */}
         <motion.div
-          className="relative overflow-hidden px-5 py-6 text-center shadow-xl"
+          className="relative overflow-hidden px-3 py-4 sm:px-5 sm:py-6 text-center shadow-xl"
           style={{ background: "linear-gradient(135deg, #c19a6b 0%, #a8825a 100%)", ...IMG_CORNERS }}
           {...fadeUp(0.2, 0)}
           whileHover={{ scale: 1.04, y: -4, transition: { duration: 0.28 } }}
@@ -82,7 +82,7 @@ function AboutImageCollage() {
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.7, ease: "easeInOut" }}
           />
-          <p className="relative text-4xl font-bold text-white">
+          <p className="relative text-2xl sm:text-4xl font-bold text-white">
             {reviewScore}{" "}
             <svg viewBox="0 0 24 24" className="inline h-5 w-5 fill-white align-middle" aria-hidden="true">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" />
@@ -101,7 +101,7 @@ function AboutImageCollage() {
           <motion.img
             src={images.secondary}
             alt="Novaderm specialist"
-            className="h-[240px] w-full object-cover lg:h-[275px]"
+            className="h-[160px] sm:h-[240px] w-full object-cover lg:h-[275px]"
             whileHover={{ scale: 1.06 }}
             transition={{ duration: 0.65, ease: "easeOut" }}
             loading="lazy"
