@@ -844,7 +844,7 @@ export default function Hero() {
                     <div style={{ display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }}>
                       <span style={{
                         fontFamily: "'Nunito', system-ui, sans-serif",
-                        fontSize: "clamp(0.88rem, 3vw, 1.05rem)",
+                        fontSize: "clamp(1.12rem, 3.5vw, 1.28rem)",
                         fontWeight: 900,
                         color: "#1a0f0a",
                         letterSpacing: "-0.01em",
@@ -862,7 +862,7 @@ export default function Hero() {
                       </span>
                       <span style={{
                         fontFamily: "'Nunito', system-ui, sans-serif",
-                        fontSize: "clamp(0.52rem, 1.7vw, 0.62rem)",
+                        fontSize: "clamp(0.63rem, 2vw, 0.72rem)",
                         fontWeight: 800,
                         letterSpacing: "0.10em",
                         textTransform: "uppercase",
