@@ -816,7 +816,7 @@ export default function Hero() {
               variants={HERO_REVEAL}
             >
               {/* Mobile: single column, all 4 cards stacked — left-aligned to stay off the face */}
-              <div className="grid grid-cols-1 md:hidden" style={{ gap: 8, maxWidth: 190 }}>
+              <div className="grid grid-cols-1 md:hidden" style={{ gap: 6, maxWidth: "min(162px, 42vw)" }}>
                 {STATS.map((stat, i) => (
                   <motion.div
                     key={stat.icon}
@@ -824,32 +824,33 @@ export default function Hero() {
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      gap: 12,
+                      gap: 8,
                       background: "rgba(255,255,255,0.18)",
-                      borderRadius: 12,
-                      padding: "10px 14px",
+                      borderRadius: 10,
+                      padding: "8px 10px",
                       border: "none",
                     }}
                   >
                     {/* Icon box */}
                     <div style={{
-                      width: 36, height: 36, flexShrink: 0,
-                      borderRadius: 9,
+                      width: 30, height: 30, flexShrink: 0,
+                      borderRadius: 8,
                       background: "rgba(255,255,255,0.40)",
                       display: "flex", alignItems: "center", justifyContent: "center",
                     }}>
                       {STAT_ICONS[stat.icon]}
                     </div>
                     {/* Number + label */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }}>
                       <span style={{
                         fontFamily: "'Nunito', system-ui, sans-serif",
-                        fontSize: "1.15rem",
+                        fontSize: "clamp(0.88rem, 3vw, 1.05rem)",
                         fontWeight: 900,
                         color: "#1a0f0a",
                         letterSpacing: "-0.01em",
                         lineHeight: 1,
                         textShadow: "0 0 8px rgba(255,255,255,0.95), 0 0 20px rgba(255,255,255,0.95)",
+                        whiteSpace: "nowrap",
                       }}>
                         <CountUp
                           target={stat.target}
@@ -861,12 +862,12 @@ export default function Hero() {
                       </span>
                       <span style={{
                         fontFamily: "'Nunito', system-ui, sans-serif",
-                        fontSize: "0.65rem",
+                        fontSize: "clamp(0.52rem, 1.7vw, 0.62rem)",
                         fontWeight: 800,
-                        letterSpacing: "0.12em",
+                        letterSpacing: "0.10em",
                         textTransform: "uppercase",
                         color: "#1a0f0a",
-                        lineHeight: 1,
+                        lineHeight: 1.2,
                         textShadow: "0 0 8px rgba(255,255,255,0.95), 0 0 20px rgba(255,255,255,0.95)",
                       }}>
                         {stat.label}
