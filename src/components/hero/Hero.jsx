@@ -555,7 +555,7 @@ function BotanicalLeaf() {
 // Static list of stats shown in the hero
 const STATS = [
   { icon: "patients", target: 3570, suffix: "+", label: "Happy Patients",   decimals: 0 },
-  { icon: "years",    target: 8,    suffix: "+", label: "Months Experience", decimals: 0 },
+  { icon: "years",    target: 8,    suffix: "+", label: "Years Experience", decimals: 0 },
   { icon: "star",     target: 4.7,  suffix: "★", label: "Avg. Rating",      decimals: 1 },
   { icon: "shield",   target: 94,   suffix: "%", label: "Success Rate",     decimals: 0 },
 ]

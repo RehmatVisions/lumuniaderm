@@ -177,12 +177,12 @@ export const siteContent = {
     },
 
     bgImage:     heroImg,
-    experience:  { years: "8+", label: "Months of Clinical Excellence" },
+    experience:  { years: "8+", label: "Years of Clinical Excellence" },
     specialists: { count: "12+", label: "Certified Specialists"        },
 
     counters: [
       { value: 3570, suffix: "+", label: "Patients Transformed",        icon: "patients"    },
-      { value: 8,    suffix: "+", label: "Months of Clinical Excellence",icon: "experience"  },
+      { value: 8,    suffix: "+", label: "Years of Clinical Excellence", icon: "experience"  },
       { value: 12,   suffix: "+", label: "Certified Specialists",        icon: "specialists" },
       { value: 94,   suffix: "%", label: "Treatment Success Rate",       icon: "rating"      },
     ],

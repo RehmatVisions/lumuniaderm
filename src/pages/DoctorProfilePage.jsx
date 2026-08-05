@@ -9,7 +9,7 @@ import { motion } from "framer-motion"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import PageLayout from "../components/layout/PageLayout"
-import ateeqImg from "../assets/doctorsimages/ateeq.png"
+import ateeqImg from "../assets/doctorsimages/ateeqs.png"
 import sectionBg from "../assets/backgroundall/bacrkound.png"
 
 const EASE_EXPO = [0.16, 1, 0.3, 1]
@@ -21,7 +21,7 @@ const DOCTOR = {
   badge:       "Board-Certified Dermatologist",
   tagline:     "Combining advanced dermatological knowledge with a personalized approach, Dr. Ateeq provides evidence-based skin treatments focused on healthy, natural, and confident results.",
   qual1:       "MBBS · MD Dermatology",
-  qual2:       "8+ Months Experience",
+  qual2:       "8+ Years Experience",
   image:       ateeqImg,
   bookHref:    "/#contact",
 

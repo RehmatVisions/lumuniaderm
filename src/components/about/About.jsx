@@ -38,7 +38,8 @@ function AboutImageCollage() {
         <motion.img
           src={images.main}
           alt="Novaderm treatment"
-          className="h-[500px] w-full object-cover lg:h-[580px]"
+          className="h-[500px] w-full object-cover lg:h-[580px] about-main-img"
+          style={{ objectPosition: "20% center" }}
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.75, ease: "easeOut" }}
           loading="lazy"
@@ -473,6 +474,14 @@ export default function About() {
 
       {/* Stats row below the two columns */}
       <AboutCounters />
+
+      <style>{`
+        @media (max-width: 767px) {
+          .about-main-img {
+            object-position: 5% center !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }

@@ -12,7 +12,7 @@ const DOCTOR = {
   badge:       "Board-Certified Dermatologist",
   about:       "Blending medical expertise with an artistic eye, Dr. Ateeq creates thoughtful treatment plans focused on natural, confident results.",
   exp:         "8+",
-  expLabel:    "Months Experience",
+  expLabel:    "Years Experience",
   qual1:       "MBBS · MD",
   qual1Sub:    "Dermatology",
   qual2:       "Advanced Laser",
@@ -119,6 +119,7 @@ export default function DoctorsSection() {
           <div style={{ position:"relative", minHeight:"clamp(480px,65vw,620px)" }}>
             <img
               src={ateeqImg} alt={d.name}
+              className="doctor-img"
               style={{
                 position:"absolute", inset:0,
                 width:"100%", height:"100%",
@@ -308,6 +309,12 @@ export default function DoctorsSection() {
         @media (max-width: 767px) {
           .doctor-grid {
             grid-template-columns: 1fr !important;
+          }
+          .doctor-img {
+            object-fit: cover !important;
+            object-position: top center !important;
+            transform: scale(1.18);
+            transform-origin: top center;
           }
         }
       `}</style>
