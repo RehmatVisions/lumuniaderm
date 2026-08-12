@@ -9,8 +9,8 @@ import { motion } from "framer-motion"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import PageLayout from "../components/layout/PageLayout"
-import ayeshaImg from "../assets/doctorsimages/ayeshas.png"
-import sectionBg from "../assets/backgroundall/bacrkound.png"
+import ayeshaImg from "../assets/doctorsimages/ayeshas.webp"
+import sectionBg from "../assets/backgroundall/bacrkound.webp"
 
 const EASE_EXPO = [0.16, 1, 0.3, 1]
 

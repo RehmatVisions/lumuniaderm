@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Original image backups (keep WebP versions only)
+# src/assets/**/*.png
+# src/assets/**/*.jpg
+# src/assets/**/*.jpeg
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

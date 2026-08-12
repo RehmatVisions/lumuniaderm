@@ -9,11 +9,11 @@ import {
 } from "framer-motion"
 import { useState, useEffect, useRef } from "react"
 import { siteContent } from "../../data/siteContent"
-import beforeImg    from "../../assets/hero-images/beforeherobackground.png"
-import afterImg     from "../../assets/hero-images/afterherobackround.png"
-import beforeMobImg from "../../assets/hero-images/mobilebefore.png"
-import afterMobImg  from "../../assets/hero-images/mobileafter.png"
-import logoImg      from "../../assets/logo.png"
+import beforeImg    from "../../assets/hero-images/beforeherobackground.webp"
+import afterImg     from "../../assets/hero-images/afterherobackround.webp"
+import beforeMobImg from "../../assets/hero-images/mobilebefore.webp"
+import afterMobImg  from "../../assets/hero-images/mobileafter.webp"
+import logoImg      from "../../assets/logo.webp"
 import Navbar       from "../layout/Navbar"
 
 // Standard easing curves used across all animations in this file

@@ -1,29 +1,29 @@
 // ─── Edit this file to customize all text, links, and images ───
-import heroImg from "../assets/hero-backorund-up.jpg"
-import whyChooseMainImg from "../assets/whychooseuse.png"
-import whyChooseSecondaryImg from "../assets/replace.jpg"
-import whyChooseTertiaryImg from "../assets/thirdimage.png"
-import aboutMainImg from "../assets/ourstory.png"
-import aboutSecondaryImg from "../assets/antiaging.png"
-import laser2Img from "../assets/laser2.png"
-import videocardImg from "../assets/videocardimage.png"
-import whatWeImg1 from "../assets/what-we-item-image-1-royal.jpg"
-import whatWeImg2 from "../assets/what-we-item-image-1-royal.jpg"
+import heroImg from "../assets/hero-backorund-up.webp"
+import whyChooseMainImg from "../assets/whychooseuse.webp"
+import whyChooseSecondaryImg from "../assets/replace.webp"
+import whyChooseTertiaryImg from "../assets/thirdimage.webp"
+import aboutMainImg from "../assets/ourstory.webp"
+import aboutSecondaryImg from "../assets/antiaging.webp"
+import laser2Img from "../assets/laser2.webp"
+import videocardImg from "../assets/videocardimage.webp"
+import whatWeImg1 from "../assets/what-we-item-image-1-royal.webp"
+import whatWeImg2 from "../assets/what-we-item-image-1-royal.webp"
 // ─── Service section images ───
-import svc1Img from "../assets/serviceimages/first.png"
-import svc2Img from "../assets/serviceimages/second.png"
-import svc3Img from "../assets/serviceimages/third.png"
-import svc4Img from "../assets/serviceimages/fourth.png"
-import svc5Img from "../assets/serviceimages/fifth.png"
-import whatWeImg3 from "../assets/what-we-item-image-1-royal.jpg"
-import whatWeImg4 from "../assets/what-we-item-image-1-royal.jpg"
-import whatWeImg5 from "../assets/what-we-item-image-1-royal.jpg"
+import svc1Img from "../assets/serviceimages/first.webp"
+import svc2Img from "../assets/serviceimages/second.webp"
+import svc3Img from "../assets/serviceimages/third.webp"
+import svc4Img from "../assets/serviceimages/fourth.webp"
+import svc5Img from "../assets/serviceimages/fifth.webp"
+import whatWeImg3 from "../assets/what-we-item-image-1-royal.webp"
+import whatWeImg4 from "../assets/what-we-item-image-1-royal.webp"
+import whatWeImg5 from "../assets/what-we-item-image-1-royal.webp"
 
 export const siteContent = {
-  brand: { name: "Auroraderm" },
+  brand: { name: "Luminaderm" },
 
   topBar: {
-    message: "Experience Medical-Grade Skin Transformation at Auroraderm",
+    message: "Experience Medical-Grade Skin Transformation at Luminaderm",
     ctaText: "Reserve Your Consultation",
     ctaHref: "#contact",
     links: [
@@ -49,10 +49,10 @@ export const siteContent = {
 
   // ─── WHY CHOOSE US ───────────────────────────────────────────
   whyUs: {
-    badge: "Why Choose Auroraderm",
+    badge: "Why Choose Luminaderm",
     headline: "Where Clinical Precision Meets Luxurious Care",
     description:
-      "At Auroraderm, every detail is designed with your skin in mind — from our expert specialists and advanced technology to our personalized treatment plans. We don’t believe in one-size-fits-all solutions; we create customized care plans to deliver natural, beautiful results that are unique to you.",
+      "At Luminaderm, every detail is designed with your skin in mind — from our expert specialists and advanced technology to our personalized treatment plans. We don’t believe in one-size-fits-all solutions; we create customized care plans to deliver natural, beautiful results that are unique to you.",
 
     images: {
       main:      whyChooseMainImg,
@@ -91,7 +91,7 @@ export const siteContent = {
   services: {
     badge:       "Signature Treatments",
     headline:    "Medical Aesthetics Crafted for Visible Transformation",
-    description: "Every treatment at Auroraderm is performed under clinical supervision, using evidence-based protocols tailored to your skin's unique biology.",
+    description: "Every treatment at Luminaderm is performed under clinical supervision, using evidence-based protocols tailored to your skin's unique biology.",
     ctaText:     "GET STARTED",
     ctaHref:     "#services",
 
@@ -144,7 +144,7 @@ export const siteContent = {
     badge:       "Our Story",
     headline:    "Real Results. Trusted Care. Designed Around You.",
     description:
-      "Auroraderm was built on one belief: exceptional skin results come from expert dermatology and a personalized approach. For over 8+ years, we have delivered premium care in a trusted clinic where patients experience confidence, comfort, and results they love.",
+      "Luminaderm was built on one belief: exceptional skin results come from expert dermatology and a personalized approach. For over 8+ years, we have delivered premium care in a trusted clinic where patients experience confidence, comfort, and results they love.",
 
     features: [
       { icon: "treatment",  title: "Evidence-Based Treatment Protocols"  },
@@ -193,7 +193,7 @@ export const siteContent = {
     },
     centerCard: {
       image:  videocardImg,
-      quote:  "Confidence isn't given — it's carefully restored. At Auroraderm, every treatment is a step toward the skin you deserve.",
+      quote:  "Confidence isn't given — it's carefully restored. At Luminaderm, every treatment is a step toward the skin you deserve.",
       author: "Dr. Sarah Al-Rashid",
       role:   "Founder & Lead Dermatologist",
     },
@@ -253,3 +253,4 @@ description: "Advanced skin care in Dubai by certified doctors. Safe, effective,
     ],
   },
 }
+

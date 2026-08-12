@@ -76,8 +76,13 @@ function CardFeatured({ card, n }) {
         cursor:"default",
       }}
     >
-      {/* Full image */}
-      <motion.div style={{ flex:1, overflow:"hidden", minHeight:340, position:"relative" }}>
+      {/* Full image - responsive */}
+      <motion.div style={{ 
+        flex:1, 
+        overflow:"hidden", 
+        minHeight:"clamp(240px, 40vw, 400px)",
+        position:"relative" 
+      }}>
         <motion.img
           src={card.image} alt={card.title}
           animate={{ scale: hov ? 1.04 : 1 }}
@@ -166,8 +171,14 @@ function CardWithImage({ card, n, delay = 0 }) {
         cursor:"default",
       }}
     >
-      {/* Image */}
-      <div style={{ height:220, overflow:"hidden", position:"relative", flexShrink:0 }}>
+      {/* Image - responsive height */}
+      <div style={{ 
+        aspectRatio: "4/3",
+        overflow:"hidden", 
+        position:"relative", 
+        flexShrink:0,
+        width: "100%"
+      }}>
         <motion.img
           src={card.image} alt={card.title}
           animate={{ scale: hov ? 1.05 : 1 }}

@@ -65,7 +65,7 @@ function matchKnowledge(input) {
 }
 
 const WHATSAPP_NUMBER = "03244646260"
-const WHATSAPP_FALLBACK_MSG = encodeURIComponent("Hi Auroraderm! I have a question that I couldn't get answered through the chatbot. Can you help me?")
+const WHATSAPP_FALLBACK_MSG = encodeURIComponent("Hi Luminaderm! I have a question that I couldn't get answered through the chatbot. Can you help me?")
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_FALLBACK_MSG}`
 
 const FALLBACK_TEXT =
@@ -172,7 +172,7 @@ function generatePDF(bookingData, messages) {
   doc.setFontSize(7.5);
   doc.setTextColor(200, 185, 155);
   doc.text("Dubai, UAE", pw - mr, 16, { align: "right" });
-  doc.text("info@auroraderm.com  |  +92 324 4646260", pw - mr, 22, { align: "right" });
+  doc.text("info@luminaderm.com  |  +92 324 4646260", pw - mr, 22, { align: "right" });
   doc.text("Sun–Thu: 10:00 AM – 8:00 PM  |  Fri–Sat: 2:00 PM – 10:00 PM", pw - mr, 28, { align: "right" });
 
   // Gold bottom line of header
@@ -367,7 +367,7 @@ function generatePDF(bookingData, messages) {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(7);
     doc.setTextColor(...GOLD_L);
-    doc.text("Auroraderm Aesthetic & Dermatology Clinic  |  auroraderm.com", ml, ph - 5.5);
+    doc.text("Luminaderm Aesthetic & Dermatology Clinic  |  luminaderm.com", ml, ph - 5.5);
     doc.text(`Page ${i} of ${totalPages}`, pw - mr, ph - 5.5, { align: "right" });
   }
 
@@ -517,7 +517,7 @@ function BookingSuccess({ data, messages, onDownload }) {
       <div className="nd-success-details">
         <div><User size={13} /><span>{data.name}</span></div>
         <div><Stethoscope size={13} /><span>{data.treatment}</span></div>
-        <div><MapPin size={13} /><span>Auroraderm, Dubai, UAE</span></div>
+        <div><MapPin size={13} /><span>Luminaderm, Dubai, UAE</span></div>
       </div>
       <p className="nd-success-note">
         We'll confirm your slot via WhatsApp within 1–2 hours. See you soon! 🌟
@@ -883,3 +883,6 @@ export default function ClinicChatbot() {
     </div>
   );
 }
+
+
+

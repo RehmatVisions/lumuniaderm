@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from "framer-motion"
 import { useState } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { siteContent } from "../../data/siteContent"
-import logoImg from "../../assets/logo.png"
+import logoImg from "../../assets/logo.webp"
 
 const EASE_EXPO = [0.16, 1, 0.3, 1]
 
@@ -155,10 +155,10 @@ export default function Navbar({ variant = "hero" }) {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
 
         {/* Logo */}
-        <Link to="/" aria-label="Auroraderm home" className="flex items-center shrink-0 lg:ml-[70px]">
+        <Link to="/" aria-label="Luminaderm home" className="flex items-center shrink-0 lg:ml-[70px]">
           <img
             src={logoImg}
-            alt="Auroraderm"
+            alt="Luminaderm"
             draggable={false}
             className="select-none"
             style={{
@@ -252,3 +252,4 @@ export default function Navbar({ variant = "hero" }) {
     </motion.div>
   )
 }
+

@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom"
 import PageLayout from "../components/layout/PageLayout"
 
 // ── Clinic images — HD set (31 images) ───────────────────────
-import dummyImg from "../assets/clinicimages/new/dummy.png"
+import dummyImg from "../assets/clinicimages/new/dummy.webp"
 const hd01 = dummyImg
 const hd02 = dummyImg
 const hd03 = dummyImg

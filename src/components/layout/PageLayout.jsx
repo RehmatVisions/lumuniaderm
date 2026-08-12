@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react"
 import Navbar from "./Navbar"
-import sectionBg from "../../assets/backgroundall/bacrkound.png"
+import sectionBg from "../../assets/backgroundall/bacrkound.webp"
 import ClinicChatbot from "../chatbot/ClinicChatbot"
 import ScrollToTop from "../ui/ScrollToTop"
 

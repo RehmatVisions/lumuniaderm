@@ -402,7 +402,7 @@ import { useNavigate } from "react-router-dom"
  */
 
 // ── HD clinic images ──────────────────────────────────────────
-import dummyImg from "../../assets/clinicimages/new/dummy.png"
+import dummyImg from "../../assets/clinicimages/new/dummy.webp"
 const hd01 = dummyImg
 const hd02 = dummyImg
 const hd09 = dummyImg

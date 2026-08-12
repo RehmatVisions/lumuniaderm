@@ -4,7 +4,7 @@ import ArrowUpRight from "../ui/ArrowUpRight"
 import { useReveal } from "../../hooks/useReveal"
 // useReveal uses IntersectionObserver to add CSS 'is-visible' classes — kept separate from animations.js
 import TextReveal from "../ui/TextReveal"
-import sectionBg from "../../assets/backgroundall/bacrkound.png"
+import sectionBg from "../../assets/backgroundall/bacrkound.webp"
 
 /* ─── Social icons ───────────────────────────────────────────── */
 function SocialIcon({ type }) {
@@ -88,7 +88,7 @@ function SubToast({ visible }) {
           </span>
           <div>
             <p className="text-sm font-bold text-novaderm-brown">Subscribed!</p>
-            <p className="text-xs font-semibold text-novaderm-brown/85">Thanks for joining Auroraderm.</p>
+            <p className="text-xs font-semibold text-novaderm-brown/85">Thanks for joining Luminaderm.</p>
           </div>
         </motion.div>
       )}
@@ -208,7 +208,7 @@ export default function Footer() {
             {/* Col 1 — Brand */}
             <div className="reveal reveal-up reveal-duration-600 reveal-delay-0 flex flex-col gap-5">
               <p className="max-w-[220px] text-sm font-semibold leading-[1.75]" style={{ color: "#1a0f0a" }}>
-                Auroraderm is a premium aesthetic dermatology clinic dedicated to delivering{" "}
+                Luminaderm is a premium aesthetic dermatology clinic dedicated to delivering{" "}
                 <span className="font-semibold text-[#C4614A]">medically precise, confidence-restoring results</span>{" "}
                 for every patient we serve.
               </p>
@@ -320,3 +320,4 @@ export default function Footer() {
     </>
   )
 }
+

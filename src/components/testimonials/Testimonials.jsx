@@ -24,7 +24,7 @@ const ALL = [
     city: "Marina, Dubai",
     treatment: "Laser Hair Removal",
     rating: 5,
-    text: "The results are amazing. My skin looks so much clearer and smoother now. I feel more confident every day. Thank you Auroraderm!",
+    text: "The results are amazing. My skin looks so much clearer and smoother now. I feel more confident every day. Thank you Luminaderm!",
   },
   {
     id: 3,
@@ -78,7 +78,7 @@ const ALL = [
     city: "Palm Jumeirah, Dubai",
     treatment: "PRP Hair Restoration",
     rating: 5,
-    text: "I saw real hair growth after just a few sessions. This is the only treatment that actually worked for me. Very happy with Auroraderm.",
+    text: "I saw real hair growth after just a few sessions. This is the only treatment that actually worked for me. Very happy with Luminaderm.",
   },
   {
     id: 9,
@@ -478,3 +478,4 @@ export default function Testimonials() {
     </section>
   )
 }
+

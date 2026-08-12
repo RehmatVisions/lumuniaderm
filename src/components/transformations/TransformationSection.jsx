@@ -3,10 +3,10 @@ import { motion, AnimatePresence, useInView } from "framer-motion"
 import SectionBadge from "../ui/SectionBadge"
 
 // ── Image pairs (2 sets)
-import hairBefore   from "../../assets/beforeafter/hairbefore.png"
-import hairAfter    from "../../assets/beforeafter/hairafter.png"
-import jawBefore    from "../../assets/beforeafter/jawlinebefore.png"
-import jawAfter     from "../../assets/beforeafter/jawlineafter.png"
+import hairBefore   from "../../assets/beforeafter/hairbefore.webp"
+import hairAfter    from "../../assets/beforeafter/hairafter.webp"
+import jawBefore    from "../../assets/beforeafter/jawlinebefore.webp"
+import jawAfter     from "../../assets/beforeafter/jawlineafter.webp"
 
 const PAIRS = [
   { before: hairBefore, after: hairAfter, label: "Hair Restoration",    duration: "8-Week Results",  tag: "PRP Hair Therapy"      },

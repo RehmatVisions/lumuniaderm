@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react"
 import Hero from "../components/hero/Hero"
 import ClinicChatbot from "../components/chatbot/ClinicChatbot"
 import ScrollToTop from "../components/ui/ScrollToTop"
-import sectionBg from "../assets/backgroundall/bacrkound.png"
+import sectionBg from "../assets/backgroundall/bacrkound.webp"
 
 const About               = lazy(() => import("../components/about/About"))
 const TransformationSection = lazy(() => import("../components/transformations/TransformationSection"))

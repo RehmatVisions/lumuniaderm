@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 import { useNavigate } from "react-router-dom"
-import ateeqImg from "../../assets/doctorsimages/ayesha..png"
+import ateeqImg from "../../assets/doctorsimages/ayesha..webp"
 import SectionBadge from "../ui/SectionBadge"
 
 const EASE      = [0.25, 0.46, 0.45, 0.94]
