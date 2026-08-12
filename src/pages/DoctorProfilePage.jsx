@@ -270,7 +270,7 @@ function HeroBanner({ doc, onBook }) {
               { icon: <svg viewBox="0 0 24 24" fill="none" width={14} height={14} stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>, label: "Evidence-led treatments" },
               { icon: <svg viewBox="0 0 24 24" fill="none" width={14} height={14} stroke="#C4614A" strokeWidth="1.7" strokeLinecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>, label: "Natural-looking results" },
             ].map((t, i, arr) => (
-              <div key={t.label} style={{ display: "flex", alignItems: "center", gap: 18 }}>
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 18 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
                   {t.icon}
                   <span style={{ fontSize: "0.78rem", fontWeight: 700, color: "#2e1a10" }}>{t.label}</span>

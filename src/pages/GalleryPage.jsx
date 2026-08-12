@@ -13,69 +13,54 @@ import { useState, useEffect, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import PageLayout from "../components/layout/PageLayout"
 
-// ── Clinic images — HD set (31 images) ───────────────────────
-import dummyImg from "../assets/clinicimages/new/dummy.webp"
-const hd01 = dummyImg
-const hd02 = dummyImg
-const hd03 = dummyImg
-const hd04 = dummyImg
-const hd05 = dummyImg
-const hd06 = dummyImg
-const hd07 = dummyImg
-const hd08 = dummyImg
-const hd09 = dummyImg
-const hd10 = dummyImg
-const hd11 = dummyImg
-const hd12 = dummyImg
-const hd13 = dummyImg
-const hd14 = dummyImg
-const hd15 = dummyImg
-const hd17 = dummyImg
-const hd18 = dummyImg
-const hd19 = dummyImg
-const hd20 = dummyImg
-const hd21 = dummyImg
-const hd22 = dummyImg
-const hd23 = dummyImg
-const hd24 = dummyImg
-const hd25 = dummyImg
-const hd26 = dummyImg
-const hd27 = dummyImg
-const hd28 = dummyImg
-const hd29 = dummyImg
-const hd30 = dummyImg
+// ── Static imports for all clinic images ───────────────────────────────────
+import clinic001 from "../assets/clinicimages/HD/clinic-001-entrance.webp"
+import clinic002 from "../assets/clinicimages/HD/clinic-002-reception.webp"
+import clinic003 from "../assets/clinicimages/HD/clinic-003-reception-detail.webp"
+import clinic004 from "../assets/clinicimages/HD/clinic-004-waiting-area.webp"
+import clinic005 from "../assets/clinicimages/HD/clinic-005-seating.webp"
+import clinic006 from "../assets/clinicimages/HD/clinic-006-lounge.webp"
+import clinic007 from "../assets/clinicimages/HD/clinic-007-furniture.webp"
+import clinic008 from "../assets/clinicimages/HD/clinic-008-interior.webp"
+import clinic009 from "../assets/clinicimages/HD/clinic-009-treatment-room.webp"
+import clinic010 from "../assets/clinicimages/HD/clinic-010-procedure.webp"
+import clinic011 from "../assets/clinicimages/HD/clinic-011-equipment.webp"
+import clinic012 from "../assets/clinicimages/HD/clinic-012-procedure-detail.webp"
+import clinic013 from "../assets/clinicimages/HD/clinic-013-amenities.webp"
+import clinic014 from "../assets/clinicimages/HD/clinic-014-consultation.webp"
+import clinic015 from "../assets/clinicimages/HD/clinic-015-office.webp"
+import clinic016 from "../assets/clinicimages/HD/clinic-016-specialist.webp"
+import clinic017 from "../assets/clinicimages/HD/clinic-017-specialist-detail.webp"
+import clinic018 from "../assets/clinicimages/HD/clinic-018-suite.webp"
+import clinic019 from "../assets/clinicimages/HD/clinic-019-suite-detail.webp"
+import clinic020 from "../assets/clinicimages/HD/clinic-020-room.webp"
+import clinic021 from "../assets/clinicimages/HD/clinic-021-details.webp"
+import clinic022 from "../assets/clinicimages/HD/clinic-022-final.webp"
 
-// ── All 31 clinic images with categories ──────────────────────
+// ── All 22 clinic images with categories ──────────────────────
 const CLINIC_IMAGES = [
-  { id:  1, src: hd01, alt: "Reception lobby — wide view",                cat: "Reception"          },
-  { id:  2, src: hd22, alt: "Reception lobby — front view",               cat: "Reception"          },
-  { id:  3, src: hd06, alt: "Reception desk — angle view",                cat: "Reception"          },
-  { id:  4, src: hd21, alt: "Reception desk — close view",                cat: "Reception"          },
-  { id:  5, src: hd02, alt: "Waiting lounge — quote wall",                cat: "Lounge"             },
-  { id:  6, src: hd03, alt: "Waiting lounge — panoramic",                 cat: "Lounge"             },
-  { id:  7, src: hd05, alt: "Waiting area — skin is art",                 cat: "Lounge"             },
-  { id:  8, src: hd23, alt: "Waiting nook — orange chairs",               cat: "Lounge"             },
-  { id:  9, src: hd09, alt: "Treatment room — curved wall",               cat: "Procedure Room"    },
-  { id: 10, src: hd17, alt: "Treatment room — amber chair angle",         cat: "Procedure Room"    },
-  { id: 11, src: hd18, alt: "Treatment room — equipment view",            cat: "Procedure Room"    },
-  { id: 12, src: hd20, alt: "Treatment room — amber chair front",         cat: "Procedure Room"    },
-  { id: 13, src: hd24, alt: "Treatment room — pink chair by window",      cat: "Procedure Room"    },
-  { id: 14, src: hd25, alt: "Treatment room — vanity cabinet",            cat: "Procedure Room"    },
-  { id: 15, src: hd26, alt: "Treatment room — pink chair side",           cat: "Procedure Room"    },
-  { id: 16, src: hd27, alt: "Treatment room — pink chair wide",           cat: "Procedure Room"    },
-  { id: 17, src: hd29, alt: "Beauty service room — twin chairs",          cat: "Procedure Room"    },
-  { id: 18, src: hd14, alt: "Consultation office — warm brown",           cat: "Consultation"       },
-  { id: 19, src: hd15, alt: "Consultation office — sage green",           cat: "Consultation"       },
-  { id: 20, src: hd19, alt: "Consultation nook — orange chairs",          cat: "Consultation"       },
-  { id: 21, src: hd28, alt: "Executive office — motivation wall",         cat: "Consultation"       },
-  { id: 22, src: hd04, alt: "Illuminated product display",                cat: "Clinic Interiors"   },
-  { id: 23, src: hd07, alt: "Clinic corridor with artwork",               cat: "Clinic Interiors"   },
-  { id: 24, src: hd30, alt: "Architectural ceiling lighting",             cat: "Clinic Interiors"   },
-  { id: 25, src: hd13, alt: "Staff pantry — coffee bar",                  cat: "Clinic Interiors"   },
-  { id: 26, src: hd08, alt: "Powder room — floating vanity",              cat: "Private Amenities"  },
-  { id: 27, src: hd10, alt: "Compact restroom with shelving",             cat: "Private Amenities"  },
-  { id: 28, src: hd11, alt: "Restroom — mosaic feature wall",             cat: "Private Amenities"  },
-  { id: 29, src: hd12, alt: "Vanity with oval mirror",                    cat: "Private Amenities"  },
+  { id:  1, src: clinic001, alt: "Clinic Entrance",          cat: "Reception"           },
+  { id:  2, src: clinic002, alt: "Reception Area",           cat: "Lounge"              },
+  { id:  3, src: clinic003, alt: "Reception Detail",         cat: "Lounge"              },
+  { id:  4, src: clinic004, alt: "Waiting Area",             cat: "Clinic Interiors"    },
+  { id:  5, src: clinic005, alt: "Seating Area",             cat: "Lounge"              },
+  { id:  6, src: clinic006, alt: "Lounge View",              cat: "Reception"           },
+  { id:  7, src: clinic007, alt: "Furniture Detail",         cat: "Clinic Interiors"    },
+  { id:  8, src: clinic008, alt: "Interior Design",          cat: "Private Amenities"   },
+  { id:  9, src: clinic009, alt: "Treatment Room",           cat: "Procedure Room"      },
+  { id: 10, src: clinic010, alt: "Procedure Area",           cat: "Private Amenities"   },
+  { id: 11, src: clinic011, alt: "Equipment Setup",          cat: "Private Amenities"   },
+  { id: 12, src: clinic012, alt: "Procedure Detail",         cat: "Private Amenities"   },
+  { id: 13, src: clinic013, alt: "Amenities Section",        cat: "Clinic Interiors"    },
+  { id: 14, src: clinic014, alt: "Consultation Room",        cat: "Consultation"        },
+  { id: 15, src: clinic015, alt: "Doctor's Office",          cat: "Consultation"        },
+  { id: 16, src: clinic016, alt: "Specialist Suite",         cat: "Procedure Room"      },
+  { id: 17, src: clinic017, alt: "Specialist Detail",        cat: "Procedure Room"      },
+  { id: 18, src: clinic018, alt: "Suite Overview",           cat: "Consultation"        },
+  { id: 19, src: clinic019, alt: "Suite Detail",             cat: "Procedure Room"      },
+  { id: 20, src: clinic020, alt: "Room Overview",            cat: "Reception"           },
+  { id: 21, src: clinic021, alt: "Detail View",              cat: "Reception"           },
+  { id: 22, src: clinic022, alt: "Final View",               cat: "Lounge"              },
 ]
 
 // ── Filter categories ─────────────────────────────────────────
