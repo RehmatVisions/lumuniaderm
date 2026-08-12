@@ -1,8 +1,4 @@
 import { motion } from "framer-motion"
-import { useState } from "react"
-import asian1 from "../../assets/asian1.jpg"
-import asian2 from "../../assets/asian2.jpg"
-import asian3 from "../../assets/asian3.jpg"
 import { siteContent } from "../../data/siteContent"
 import { useReveal } from "../../hooks/useReveal"
 // useReveal stays in its own file — it uses IntersectionObserver for CSS class toggling,
@@ -23,7 +19,7 @@ const fadeUp = (delay = 0) => ({
 function PlayCircle() {
   const [hovered, setHovered] = useState(false)
   return (
-    <motion.button  
+    <motion.button 
       aria-label="Watch video"
       className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 flex h-14 w-14 items-center justify-center rounded-full"
       style={{ background: "rgba(196,97,74,0.92)", backdropFilter: "blur(8px)" }}
@@ -72,21 +68,6 @@ function StatCard({ stat }) {
       )}
 
       <div className="relative z-10 flex flex-col justify-between h-full p-7">
-        <div className="flex -space-x-3">
-          {[asian1, asian2, asian3].map((src, i) => (
-            <motion.img key={i} src={src} alt=""
-              className="h-11 w-11 rounded-full border-2 object-cover"
-              style={{ borderColor: "#C4614A" }}
-              loading="lazy"
-              decoding="async"
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: 0.15 + i * 0.08 }}
-            />
-          ))}
-        </div>
-
         <div className="mt-auto pt-8">
           <motion.p
             className="font-sans text-[3.1rem] font-bold leading-none text-[#3F2D26]"

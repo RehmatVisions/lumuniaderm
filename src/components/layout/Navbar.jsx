@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from "framer-motion"
 import { useState } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { siteContent } from "../../data/siteContent"
-import logoImg from "../../assets/novalogo.png"
+import logoImg from "../../assets/logo.png"
 
 const EASE_EXPO = [0.16, 1, 0.3, 1]
 
@@ -155,16 +155,17 @@ export default function Navbar({ variant = "hero" }) {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
 
         {/* Logo */}
-        <Link to="/" aria-label="Novaderm home" className="flex items-center shrink-0">
+        <Link to="/" aria-label="Auroraderm home" className="flex items-center shrink-0 lg:ml-[70px]">
           <img
             src={logoImg}
-            alt="Novaderm"
+            alt="Auroraderm"
             draggable={false}
             className="select-none"
             style={{
-              height: isPage ? "clamp(52px,6vw,72px)" : "clamp(90px,13vw,145px)",
+              height: isPage ? "clamp(48px,5vw,60px)" : "clamp(70px,10vw,110px)",
               width: "auto",
               objectFit: "contain",
+              objectPosition: "center",
             }}
             loading="eager"
             decoding="async"

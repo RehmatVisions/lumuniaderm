@@ -402,13 +402,14 @@ import { useNavigate } from "react-router-dom"
  */
 
 // ── HD clinic images ──────────────────────────────────────────
-import hd01 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/01_Reception_Lobby_Wide_HD.jpg"
-import hd02 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/02_Waiting_Lounge_Quote_Wall_HD.jpg"
-import hd09 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/09_Treatment_Room_Curved_Wall_HD.jpg"
-import hd15 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/15_Consultation_Office_Sage_Green_HD.jpg"
-import hd17 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/17_Treatment_Room_Amber_Chair_Angle_HD.jpg"
-import hd14 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/14_Consultation_Office_Warm_Brown_HD.jpg"
-import hd28 from "../../assets/clinicimages/Nova_Derm_Clinic_HD/28_Executive_Office_Motivation_Wall_HD.jpg"
+import dummyImg from "../../assets/clinicimages/new/dummy.png"
+const hd01 = dummyImg
+const hd02 = dummyImg
+const hd09 = dummyImg
+const hd15 = dummyImg
+const hd17 = dummyImg
+const hd14 = dummyImg
+const hd28 = dummyImg
 
 // Total images count (matches GalleryPage — all 29 photos)
 const TOTAL_IMAGES = 29

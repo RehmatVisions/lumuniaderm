@@ -1,6 +1,6 @@
-/**
+ayeshaImg/**
  * DoctorProfilePage — Full doctor profile
- *
+ *at
  * TO UPDATE DOCTOR INFO:
  * Edit the DOCTOR object below — all sections update automatically.
  */
@@ -9,26 +9,26 @@ import { motion } from "framer-motion"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import PageLayout from "../components/layout/PageLayout"
-import ateeqImg from "../assets/doctorsimages/ateeqs.png"
+import ayeshaImg from "../assets/doctorsimages/ayeshas.png"
 import sectionBg from "../assets/backgroundall/bacrkound.png"
 
 const EASE_EXPO = [0.16, 1, 0.3, 1]
 
 // ── Edit doctor info here ──────────────────────────────────────
 const DOCTOR = {
-  name:        "Dr. Ateeq",
+  name:        "Dr. Ayesha",
   title:       "Consultant Dermatologist & Aesthetic Specialist",
   badge:       "Board-Certified Dermatologist",
-  tagline:     "Combining advanced dermatological knowledge with a personalized approach, Dr. Ateeq provides evidence-based skin treatments focused on healthy, natural, and confident results.",
+  tagline:     "Combining advanced dermatological knowledge with a personalized approach, Dr. Ayesha provides evidence-based skin treatments focused on healthy, natural, and confident results.",
   qual1:       "MBBS · MD Dermatology",
   qual2:       "8+ Years Experience",
-  image:       ateeqImg,
+  image:       ayeshaImg,
   bookHref:    "/#contact",
 
   philosophy: {
     heading: "Care that begins with listening",
     body1:   "Every consultation starts with a detailed conversation about your concerns, medical history, lifestyle and expectations.",
-    body2:   "Dr. Ateeq explains suitable options clearly, recommends only what is clinically appropriate, and builds a plan at a pace that feels comfortable.",
+    body2:   "Dr. Ayesha explains suitable options clearly, recommends only what is clinically appropriate, and builds a plan at a pace that feels comfortable.",
     pillars: [
       {
         icon: "ear",
@@ -289,6 +289,10 @@ function HeroBanner({ doc, onBook }) {
           style={{
             overflow: "hidden",
             background: "linear-gradient(160deg, #f5ddd0 0%, #edc9b4 55%, #e4b89e 100%)",
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "center",
+            paddingBottom: 0,
           }}
         >
 
@@ -340,11 +344,12 @@ function HeroBanner({ doc, onBook }) {
               zIndex: 2,
               width: "100%",
               maxWidth: "clamp(320px,50vw,600px)",
-              height: "clamp(440px,58vw,600px)",
+              height: "100%",
+              minHeight: "clamp(480px,60vw,620px)",
               objectFit: "cover",
               objectPosition: "top center",
-              borderRadius: "clamp(20px,3vw,36px)",
-              boxShadow: "0 24px 64px rgba(100,40,20,0.18)",
+              borderRadius: 0,
+              boxShadow: "none",
             }}
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}

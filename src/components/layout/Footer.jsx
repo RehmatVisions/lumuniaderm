@@ -63,9 +63,7 @@ function useClinicOpen() {
 }
 
 const SOCIALS = [
-  { type: "facebook",  href: "https://www.facebook.com/profile.php?id=61592414917780", label: "Facebook"  },
-  { type: "instagram", href: "https://www.instagram.com/novaderm42026/",               label: "Instagram" },
-  { type: "whatsapp",  href: "https://wa.me/923244646260",                             label: "WhatsApp"  },
+  { type: "whatsapp",  href: "https://wa.me/03244646260",                             label: "WhatsApp"  },
 ]
 
 /* ─── Subscribe toast ────────────────────────────────────────── */
@@ -90,7 +88,7 @@ function SubToast({ visible }) {
           </span>
           <div>
             <p className="text-sm font-bold text-novaderm-brown">Subscribed!</p>
-            <p className="text-xs font-semibold text-novaderm-brown/85">Thanks for joining Novaderm.</p>
+            <p className="text-xs font-semibold text-novaderm-brown/85">Thanks for joining Auroraderm.</p>
           </div>
         </motion.div>
       )}
@@ -210,7 +208,7 @@ export default function Footer() {
             {/* Col 1 — Brand */}
             <div className="reveal reveal-up reveal-duration-600 reveal-delay-0 flex flex-col gap-5">
               <p className="max-w-[220px] text-sm font-semibold leading-[1.75]" style={{ color: "#1a0f0a" }}>
-                Novaderm is a premium aesthetic dermatology clinic dedicated to delivering{" "}
+                Auroraderm is a premium aesthetic dermatology clinic dedicated to delivering{" "}
                 <span className="font-semibold text-[#C4614A]">medically precise, confidence-restoring results</span>{" "}
                 for every patient we serve.
               </p>

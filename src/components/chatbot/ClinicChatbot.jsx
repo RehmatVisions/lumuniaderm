@@ -64,8 +64,8 @@ function matchKnowledge(input) {
   return bestScore > 0 ? bestMatch : null;
 }
 
-const WHATSAPP_NUMBER = "923244646260"
-const WHATSAPP_FALLBACK_MSG = encodeURIComponent("Hi NovaDerm! I have a question that I couldn't get answered through the chatbot. Can you help me?")
+const WHATSAPP_NUMBER = "03244646260"
+const WHATSAPP_FALLBACK_MSG = encodeURIComponent("Hi Auroraderm! I have a question that I couldn't get answered through the chatbot. Can you help me?")
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_FALLBACK_MSG}`
 
 const FALLBACK_TEXT =
@@ -73,31 +73,6 @@ const FALLBACK_TEXT =
 
 // sentinel so Bubble knows to render the WA button
 const FALLBACK_WITH_WA = "__WHATSAPP_FALLBACK__";
-
-// ─── Google Apps Script — save to sheet ─────────────────────────────────────
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbw66bF_PPhFc4VTEHxbYpIC0qDEZK50BdasTnNUXmaMHPXQsVpMHkeNQDp91d2gry8/exec"
-
-async function saveToSheet(booking, source = "Bot Lead") {
-  try {
-    await fetch(SHEET_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name:            booking.name      || "",
-        email:           booking.email     || "",
-        phone:           booking.phone     || "",
-        treatment:       booking.treatment || "",
-        appointmentDate: booking.date      || "",
-        source,
-      }),
-    });
-    return true;
-  } catch (err) {
-    console.error("Sheet save failed:", err);
-    return false;
-  }
-}
 
 // ─── booking flow steps ──────────────────────────────────────────────────────
 
@@ -121,7 +96,7 @@ const BOOKING_STEPS = [
     key: "phone",
     prompt: "Got it! And your **phone number** (WhatsApp preferred)?",
     icon: <Phone size={14} />,
-    placeholder: "e.g. 0300 1234567",
+    placeholder: "e.g. 0324 4646260",
     validate: (v) =>
       /^[\d\s\+\-]{7,15}$/.test(v.trim()) ? null : "Please enter a valid phone number.",
   },
@@ -185,7 +160,7 @@ function generatePDF(bookingData, messages) {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(22);
   doc.setTextColor(...GOLD_M);
-  doc.text("NOVADERM", ml + 4, 18);
+  doc.text("LUMINA DERM", ml + 4, 18);
 
   // Tagline
   doc.setFont("helvetica", "normal");
@@ -196,9 +171,9 @@ function generatePDF(bookingData, messages) {
   // Right side clinic info
   doc.setFontSize(7.5);
   doc.setTextColor(200, 185, 155);
-  doc.text("2nd Floor, The Galleria, Gulberg III, Lahore", pw - mr, 16, { align: "right" });
-  doc.text("hello@novaderm.pk  |  novaderm4@gmail.com", pw - mr, 22, { align: "right" });
-  doc.text("Mon–Sat: 10:00 AM – 8:00 PM", pw - mr, 28, { align: "right" });
+  doc.text("Dubai, UAE", pw - mr, 16, { align: "right" });
+  doc.text("info@auroraderm.com  |  +92 324 4646260", pw - mr, 22, { align: "right" });
+  doc.text("Sun–Thu: 10:00 AM – 8:00 PM  |  Fri–Sat: 2:00 PM – 10:00 PM", pw - mr, 28, { align: "right" });
 
   // Gold bottom line of header
   doc.setDrawColor(...GOLD_M);
@@ -392,11 +367,11 @@ function generatePDF(bookingData, messages) {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(7);
     doc.setTextColor(...GOLD_L);
-    doc.text("NovaDerm Aesthetic & Dermatology Clinic  |  novaderm.pk", ml, ph - 5.5);
+    doc.text("Auroraderm Aesthetic & Dermatology Clinic  |  auroraderm.com", ml, ph - 5.5);
     doc.text(`Page ${i} of ${totalPages}`, pw - mr, ph - 5.5, { align: "right" });
   }
 
-  doc.save(`NovaDerm-Appointment-${bookingData.bookingId.replace("#", "")}.pdf`);
+  doc.save(`LuminaDerm-Appointment-${bookingData.bookingId.replace("#", "")}.pdf`);
 }
 
 // ─── Typewriter hook ──────────────────────────────────────────────────────────
@@ -542,7 +517,7 @@ function BookingSuccess({ data, messages, onDownload }) {
       <div className="nd-success-details">
         <div><User size={13} /><span>{data.name}</span></div>
         <div><Stethoscope size={13} /><span>{data.treatment}</span></div>
-        <div><MapPin size={13} /><span>NovaDerm, Gulberg III, Lahore</span></div>
+        <div><MapPin size={13} /><span>Auroraderm, Dubai, UAE</span></div>
       </div>
       <p className="nd-success-note">
         We'll confirm your slot via WhatsApp within 1–2 hours. See you soon! 🌟
@@ -563,7 +538,7 @@ export default function ClinicChatbot() {
     {
       id: 1,
       type: "bot",
-      text: "Welcome to **NovaDerm** 👋\n\nI'm your virtual skin consultant. Ask me about any of our treatments, pricing, or how to book — I'm here to help!",
+      text: "Welcome to **Lumina Derm** 👋\n\nI'm your virtual skin consultant. Ask me about any of our treatments, pricing, or how to book — I'm here to help!",
       ts: Date.now(),
     },
   ]);
@@ -642,14 +617,12 @@ export default function ClinicChatbot() {
         const next = BOOKING_STEPS[bookingStep + 1];
         await botReply(next.prompt, 700);
       } else {
-        // booking complete — save to sheet first, then show success
+        // booking complete — show success
         const booking = {
           ...updated,
           bookingId: generateBookingId(),
           timestamp: new Date().toISOString(),
         };
-        // Fire-and-forget sheet save (no-cors, won't block UI)
-        saveToSheet(booking);
         setCompletedBooking(booking);
         setBookingMode(false);
         setBookingDone(true);
@@ -791,7 +764,7 @@ export default function ClinicChatbot() {
             <p className="nd-header-name">Dr. Assistant</p>
             <p className="nd-header-status">
               <span className="nd-status-dot" />
-              Online · NovaDerm Clinic
+              Online · Lumina Derm Clinic
             </p>
           </div>
           <button
@@ -889,7 +862,7 @@ export default function ClinicChatbot() {
                 setMessages([{
                   id: nextId(),
                   type: "bot",
-                  text: "Welcome back to **NovaDerm** 👋\n\nHow else can I help you today?",
+                  text: "Welcome back to **Lumina Derm** 👋\n\nHow else can I help you today?",
                   ts: Date.now(),
                 }]);
                 setBookingDone(false);

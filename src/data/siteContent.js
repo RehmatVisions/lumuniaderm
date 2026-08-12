@@ -1,12 +1,12 @@
 // ─── Edit this file to customize all text, links, and images ───
 import heroImg from "../assets/hero-backorund-up.jpg"
-import whyChooseMainImg from "../assets/whychooseusen.png"
+import whyChooseMainImg from "../assets/whychooseuse.png"
 import whyChooseSecondaryImg from "../assets/replace.jpg"
 import whyChooseTertiaryImg from "../assets/thirdimage.png"
 import aboutMainImg from "../assets/ourstory.png"
-import aboutSecondaryImg from "../assets/antiaging.jpg"
+import aboutSecondaryImg from "../assets/antiaging.png"
 import laser2Img from "../assets/laser2.png"
-import videocardImg from "../assets/videocardimage.jpg"
+import videocardImg from "../assets/videocardimage.png"
 import whatWeImg1 from "../assets/what-we-item-image-1-royal.jpg"
 import whatWeImg2 from "../assets/what-we-item-image-1-royal.jpg"
 // ─── Service section images ───
@@ -18,15 +18,12 @@ import svc5Img from "../assets/serviceimages/fifth.png"
 import whatWeImg3 from "../assets/what-we-item-image-1-royal.jpg"
 import whatWeImg4 from "../assets/what-we-item-image-1-royal.jpg"
 import whatWeImg5 from "../assets/what-we-item-image-1-royal.jpg"
-import asian1 from "../assets/asian1.jpg"
-import asian2 from "../assets/asian2.jpg"
-import asian3 from "../assets/asian3.jpg"
 
 export const siteContent = {
-  brand: { name: "Novaderm" },
+  brand: { name: "Auroraderm" },
 
   topBar: {
-    message: "Experience Medical-Grade Skin Transformation at Novaderm",
+    message: "Experience Medical-Grade Skin Transformation at Auroraderm",
     ctaText: "Reserve Your Consultation",
     ctaHref: "#contact",
     links: [
@@ -34,11 +31,7 @@ export const siteContent = {
       { label: "Support", href: "#contact" },
       { label: "Contact", href: "#contact" },
     ],
-    social: [
-      { label: "X",         href: "#",                                                                icon: "x"         },
-      { label: "Facebook",  href: "https://www.facebook.com/profile.php?id=61592414917780",           icon: "facebook"  },
-      { label: "Instagram", href: "https://www.instagram.com/novaderm42026/",                         icon: "instagram" },
-    ],
+    social: [],
   },
 
   nav: {
@@ -56,10 +49,10 @@ export const siteContent = {
 
   // ─── WHY CHOOSE US ───────────────────────────────────────────
   whyUs: {
-    badge: "Why Choose Novaderm",
+    badge: "Why Choose Auroraderm",
     headline: "Where Clinical Precision Meets Luxurious Care",
     description:
-      "At Novaderm, every detail is designed with your skin in mind — from our expert specialists and advanced technology to our personalized treatment plans. We don’t believe in one-size-fits-all solutions; we create customized care plans to deliver natural, beautiful results that are unique to you.",
+      "At Auroraderm, every detail is designed with your skin in mind — from our expert specialists and advanced technology to our personalized treatment plans. We don’t believe in one-size-fits-all solutions; we create customized care plans to deliver natural, beautiful results that are unique to you.",
 
     images: {
       main:      whyChooseMainImg,
@@ -98,7 +91,7 @@ export const siteContent = {
   services: {
     badge:       "Signature Treatments",
     headline:    "Medical Aesthetics Crafted for Visible Transformation",
-    description: "Every treatment at Novaderm is performed under clinical supervision, using evidence-based protocols tailored to your skin's unique biology.",
+    description: "Every treatment at Auroraderm is performed under clinical supervision, using evidence-based protocols tailored to your skin's unique biology.",
     ctaText:     "GET STARTED",
     ctaHref:     "#services",
 
@@ -151,7 +144,7 @@ export const siteContent = {
     badge:       "Our Story",
     headline:    "Real Results. Trusted Care. Designed Around You.",
     description:
-      "Novaderm was built on one belief: exceptional skin results come from expert dermatology and a personalized approach. For over 8+ years, we have delivered premium care in a trusted clinic where patients experience confidence, comfort, and results they love.",
+      "Auroraderm was built on one belief: exceptional skin results come from expert dermatology and a personalized approach. For over 8+ years, we have delivered premium care in a trusted clinic where patients experience confidence, comfort, and results they love.",
 
     features: [
       { icon: "treatment",  title: "Evidence-Based Treatment Protocols"  },
@@ -200,7 +193,7 @@ export const siteContent = {
     },
     centerCard: {
       image:  videocardImg,
-      quote:  "Confidence isn't given — it's carefully restored. At Novaderm, every treatment is a step toward the skin you deserve.",
+      quote:  "Confidence isn't given — it's carefully restored. At Auroraderm, every treatment is a step toward the skin you deserve.",
       author: "Dr. Sarah Al-Rashid",
       role:   "Founder & Lead Dermatologist",
     },
@@ -225,8 +218,8 @@ export const siteContent = {
         image:       heroImg,
         badge:       "Trusted Skin Care Clinic",
         tag:         "Advanced Skin Treatments",
-        headline:    "Get the Skin You Always Wanted.",
-description: "Quality skin treatments in Sialkot by certified doctors. Safe, effective, and specially designed for you.",
+        headline:    "Get the Skin You Always Deserve.",
+description: "Advanced skin care in Dubai by certified doctors. Safe, effective, and built for you",
         primaryCta:   { text: "Our Treatments", href: "#services" },
         secondaryCta: { text: "View Results",       href: "#transformations" },
       },
@@ -257,12 +250,6 @@ description: "Quality skin treatments in Sialkot by certified doctors. Safe, eff
         primaryCta:   { text: "Explore Anti-Aging",  href: "#services"        },
         secondaryCta: { text: "See Transformations", href: "#transformations"  },
       },
-    ],
-
-    avatars: [
-      asian1,
-      asian2,
-      asian3,
     ],
   },
 }

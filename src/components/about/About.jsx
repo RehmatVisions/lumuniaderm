@@ -37,7 +37,7 @@ function AboutImageCollage() {
       >
         <motion.img
           src={images.main}
-          alt="Novaderm treatment"
+          alt="Lumina Derm treatment"
           className="h-[340px] sm:h-[500px] w-full object-cover lg:h-[580px] about-main-img"
           style={{ objectPosition: "20% center" }}
           whileHover={{ scale: 1.05 }}

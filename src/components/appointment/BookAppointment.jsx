@@ -6,31 +6,6 @@ import SectionBadge from "../ui/SectionBadge"
 const EASE = [0.25, 0.46, 0.45, 0.94]
 const EASE_EXPO = [0.16, 1, 0.3, 1]
 
-/* ─── Google Sheets integration ─────────────────────────────── */
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbw-KVQyB-MFbdgF-UcsTtPMGsqoUzjcX6Lt8ORvMGnIjWQfZd0WSNTSfoBuIlo1eX8/exec"
-
-async function saveFormToSheet(form) {
-  try {
-    // no-cors only allows "simple" requests — JSON triggers a preflight that
-    // Google Apps Script blocks. URLSearchParams sends as
-    // application/x-www-form-urlencoded which is a simple request and works.
-    const params = new URLSearchParams({
-      name:            form.name || "",
-      email:           form.email || "",
-      phone:           form.phone || "",
-      treatment:       form.message || "General Inquiry",
-      appointmentDate: form.date || "",
-      notes:           form.notes || "",
-      source:          "Booking Form",
-    })
-    await fetch(SHEET_URL, {
-      method: "POST",
-      mode: "no-cors",
-      body: params,
-    })
-  } catch (err) { console.error("Sheet save error:", err) }
-}
-
 /* ─── Bot Protection Helpers ─────────────────────────────────── */
 
 // Sanitize: strip HTML/script tags to block injection attempts
@@ -336,7 +311,6 @@ export default function BookAppointment() {
 
     // 5. Submit with loading state
     setLoading(true)
-    await saveFormToSheet(safeForm)
     recordSubmission()
     setLoading(false)
     setForm(EMPTY)

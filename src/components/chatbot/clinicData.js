@@ -1,4 +1,4 @@
-﻿// NovaDerm Clinic — Knowledge Base (clean ASCII, no emojis)
+﻿// Auroraderm Clinic — Knowledge Base (clean ASCII, no emojis)
 
 export const clinicKnowledge = [
 
@@ -6,14 +6,14 @@ export const clinicKnowledge = [
   {
     id: 0,
     keywords: [
-      "about novaderm", "about clinic", "tell me about", "what is novaderm",
-      "who are you", "introduce yourself", "about this clinic", "who is novaderm",
-      "about us", "your clinic", "clinic background", "history of novaderm",
-      "describe novaderm", "what are you",
+      "about auroraderm", "about clinic", "tell me about", "what is auroraderm",
+      "who are you", "introduce yourself", "about this clinic", "who is auroraderm",
+      "about us", "your clinic", "clinic background", "history of auroraderm",
+      "describe auroraderm", "what are you",
     ],
-    question: "Tell me about NovaDerm",
+    question: "Tell me about Auroraderm",
     answer:
-      "NovaDerm is a premium medical aesthetic and dermatology clinic based in Lahore.\n\nFounded on clinical excellence, we combine board-certified specialist care with the latest FDA-cleared technology to deliver visible, lasting skin results.\n\nOver 12+ years, we have treated 3,500+ patients across a full range of treatments — from acne therapy and laser hair removal to anti-aging, PRP hair restoration, and pigmentation correction.\n\nOur philosophy: exceptional outcomes require both clinical precision and a deeply personal approach. Every plan is designed exclusively around your skin.\n\nLocation: The Galleria, Gulberg III, Lahore.",
+      "Auroraderm is a premium medical aesthetic and dermatology clinic based in Dubai.\n\nFounded on clinical excellence, we combine board-certified specialist care with the latest FDA-cleared technology to deliver visible, lasting skin results.\n\nWith 8+ years of experience, we have treated 3,500+ patients across a full range of treatments — from acne therapy and laser hair removal to anti-aging, PRP hair restoration, and pigmentation correction.\n\nOur philosophy: exceptional outcomes require both clinical precision and a deeply personal approach. Every plan is designed exclusively around your skin.\n\nLocation: Dubai, UAE.",
   },
 
   // SERVICES
@@ -26,24 +26,24 @@ export const clinicKnowledge = [
       "specialties", "what do you treat", "your services", "your treatments",
       "tell me services", "services available", "what service",
     ],
-    question: "What services does NovaDerm offer?",
+    question: "What services does Auroraderm offer?",
     answer:
-      "At NovaDerm we offer a full suite of medical aesthetic and dermatology treatments:\n\n**Botox and Dermal Fillers** — wrinkle relaxation, volume restoration, lip and jawline enhancement\n**Acne and Scar Revision** — medical-grade peels, laser resurfacing, RF microneedling\n**Laser Hair Removal** — permanent reduction for all skin tones using diode laser\n**Anti-Aging and Rejuvenation** — fillers, bio-stimulators, collagen induction therapy\n**Pigmentation and Glow Treatments** — IPL phototherapy, chemical peels, brightening infusions\n**PRP Hair Restoration** — platelet-rich plasma therapy for thinning hair and regrowth\n**HydraFacial and Skin Brightening** — deep cleanse, glow, Glutathione IV infusions\n**Thread Lifts** — non-surgical face lifting and tightening\n**Tear Trough / Under-eye Treatment** — dark circles, hollow eyes\n\nAll treatments are performed by certified medical professionals. Ask me about any specific treatment for more details.",
+      "At Auroraderm we offer a full suite of medical aesthetic and dermatology treatments:\n\n**Botox and Dermal Fillers** — wrinkle relaxation, volume restoration, lip and jawline enhancement\n**Acne and Scar Revision** — medical-grade peels, laser resurfacing, RF microneedling\n**Laser Hair Removal** — permanent reduction for all skin tones using diode laser\n**Anti-Aging and Rejuvenation** — fillers, bio-stimulators, collagen induction therapy\n**Pigmentation and Glow Treatments** — IPL phototherapy, chemical peels, brightening infusions\n**PRP Hair Restoration** — platelet-rich plasma therapy for thinning hair and regrowth\n**HydraFacial and Skin Brightening** — deep cleanse, glow, Glutathione IV infusions\n**Thread Lifts** — non-surgical face lifting and tightening\n**Tear Trough / Under-eye Treatment** — dark circles, hollow eyes\n\nAll treatments are performed by certified medical professionals. Ask me about any specific treatment for more details.",
   },
 
   // WHY CHOOSE US
   {
     id: 101,
     keywords: [
-      "why choose", "why novaderm", "why choose novaderm", "what makes you special",
-      "why you", "what makes novaderm", "why should i", "benefits",
+      "why choose", "why auroraderm", "why choose auroraderm", "what makes you special",
+      "why you", "what makes auroraderm", "why should i", "benefits",
       "advantages", "what is unique", "unique", "special", "different",
-      "why novaderm is best", "best clinic", "trusted", "trust you",
+      "why auroraderm is best", "best clinic", "trusted", "trust you",
       "reasons to choose", "what sets you apart",
     ],
-    question: "Why choose NovaDerm?",
+    question: "Why choose Auroraderm?",
     answer:
-      "Here is why thousands of patients trust NovaDerm:\n\n**Board-Certified Specialists** — All procedures are performed by qualified dermatologists and aesthetic physicians, never delegated to unsupervised staff.\n\n**FDA-Cleared Technology** — We invest in gold-standard equipment: fractional lasers, medical-grade PRP systems, and advanced diode platforms.\n\n**Personalised Protocols** — We begin with a full skin analysis before recommending any treatment. Your plan is built around your skin type, lifestyle, and long-term goals.\n\n**Zero Pressure Consultations** — Honest timelines, realistic expectations, transparent pricing. No upselling.\n\n**Proven Results** — 92% treatment success rate, 4.7 star verified patient rating, 350+ patients transformed.\n\n**8+ Months of Excellence** — Clinical mastery in aesthetic dermatology.",
+      "Here is why thousands of patients trust Auroraderm:\n\n**Board-Certified Specialists** — All procedures are performed by qualified dermatologists and aesthetic physicians, never delegated to unsupervised staff.\n\n**FDA-Cleared Technology** — We invest in gold-standard equipment: fractional lasers, medical-grade PRP systems, and advanced diode platforms.\n\n**Personalised Protocols** — We begin with a full skin analysis before recommending any treatment. Your plan is built around your skin type, lifestyle, and long-term goals.\n\n**Zero Pressure Consultations** — Honest timelines, realistic expectations, transparent pricing. No upselling.\n\n**Proven Results** — 92% treatment success rate, 4.7 star verified patient rating, 350+ patients transformed.\n\n**8+ Years of Excellence** — Clinical mastery in aesthetic dermatology.",
   },
 
   // EXPERTISE
@@ -55,9 +55,9 @@ export const clinicKnowledge = [
       "years experience", "laser procedures", "procedures performed",
       "how experienced", "experience", "clinical experience",
     ],
-    question: "What is NovaDerm's expertise?",
+    question: "What is Auroraderm's expertise?",
     answer:
-      "NovaDerm's core expertise spans medical aesthetics and clinical dermatology:\n\n**8,500+ Laser Procedures Performed** — a decade of laser excellence across hair removal, resurfacing, and pigmentation.\n\n**45+ Certified Specialists** — including dermatologists, aesthetic physicians, and trained clinical staff.\n\n**12+ Years of Clinical Mastery** — one of Lahore's most trusted aesthetic clinics.\n\n**Evidence-Based Protocols** — every treatment follows clinically validated methodology.\n\n**Advanced Technology** — FDA-cleared devices including diode lasers, RF microneedling, and PRP systems.\n\nOur particular strengths are acne and scar revision, laser hair removal, anti-aging, and skin rejuvenation.",
+      "Auroraderm's core expertise spans medical aesthetics and clinical dermatology:\n\n**8,500+ Laser Procedures Performed** — years of laser excellence across hair removal, resurfacing, and pigmentation.\n\n**45+ Certified Specialists** — including dermatologists, aesthetic physicians, and trained clinical staff.\n\n**8+ Years of Clinical Mastery** — one of Dubai's most trusted aesthetic clinics.\n\n**Evidence-Based Protocols** — every treatment follows clinically validated methodology.\n\n**Advanced Technology** — FDA-cleared devices including diode lasers, RF microneedling, and PRP systems.\n\nOur particular strengths are acne and scar revision, laser hair removal, anti-aging, and skin rejuvenation.",
   },
 
   // CONTACT
@@ -66,11 +66,11 @@ export const clinicKnowledge = [
     keywords: [
       "contact", "contact details", "contact info", "how to contact",
       "phone number", "whatsapp number", "call number", "email address",
-      "reach novaderm", "get in touch", "helpline", "phone novaderm",
+      "reach auroraderm", "get in touch", "helpline", "phone auroraderm",
     ],
-    question: "How can I contact NovaDerm?",
+    question: "How can I contact Auroraderm?",
     answer:
-      "You can reach NovaDerm through any of the following:\n\n**WhatsApp / Call:** +92 300 1234567\n**Email:** hello@novaderm.pk\n**Address:** 2nd Floor, The Galleria Building, Main Boulevard Gulberg III, Lahore\n**Instagram:** @NovaDermPK\n\n**Clinic Hours:**\nMonday to Saturday: 10:00 AM to 8:00 PM\nSunday: Closed (emergency consultations on request)\n\nWe typically respond to WhatsApp messages within a few minutes during clinic hours.",
+      "You can reach Auroraderm through any of the following:\n\n**WhatsApp / Call:** +92 324 4646260\n**Email:** info@auroraderm.com\n**Address:** Dubai, UAE\n\n**Clinic Hours:**\nSunday to Thursday: 10:00 AM to 8:00 PM\nFriday to Saturday: 2:00 PM to 10:00 PM\n\nWe typically respond to WhatsApp messages within a few minutes during clinic hours.",
   },
 
   // BOTOX
@@ -263,7 +263,7 @@ export const clinicKnowledge = [
       "who is the doctor", "certified doctor", "medical team", "staff",
       "your team", "who treats", "who performs", "45 specialists",
     ],
-    question: "Who are the doctors at NovaDerm?",
+    question: "Who are the doctors at Auroraderm?",
     answer:
       "Our team is led by board-certified dermatologists and aesthetic physicians with extensive international training. All our doctors hold postgraduate medical qualifications in dermatology and aesthetics.\n\nYou are always in the hands of a fully qualified medical professional — never a beautician. Our team includes 45+ certified specialists across dermatology, aesthetics, and clinical care.",
   },
@@ -286,11 +286,11 @@ export const clinicKnowledge = [
     id: 18,
     keywords: [
       "book appointment", "appointment", "book", "schedule", "reserve",
-      "how to book", "booking", "get appointment", "visit novaderm",
+      "how to book", "booking", "get appointment", "visit auroraderm",
     ],
     question: "How do I book an appointment?",
     answer:
-      "You can book directly through this chat — just say 'book' and I will guide you through it in a few quick steps.\n\nAlternatively, call or WhatsApp us at +92 300 1234567. We usually have slots available within 24 to 48 hours, with priority slots for new clients.",
+      "You can book directly through this chat — just say 'book' and I will guide you through it in a few quick steps.\n\nAlternatively, call or WhatsApp us at +92 324 4646260. We usually have slots available within 24 to 48 hours, with priority slots for new clients.",
   },
 
   // TIMINGS
@@ -302,7 +302,7 @@ export const clinicKnowledge = [
     ],
     question: "What are the clinic timings?",
     answer:
-      "NovaDerm is open **Monday to Saturday, 10:00 AM to 8:00 PM**.\n\nWe are closed on Sundays, though emergency consultations can be arranged. We recommend booking in advance as our slots fill up quickly, especially on weekday evenings.",
+      "NovaDerm is open **Sunday to Thursday, 10:00 AM to 8:00 PM** and **Friday to Saturday, 2:00 PM to 10:00 PM**.\n\nWe recommend booking in advance as our slots fill up quickly, especially on peak days.",
   },
 
   // LOCATION
@@ -311,11 +311,11 @@ export const clinicKnowledge = [
     keywords: [
       "location", "address", "where", "clinic location", "directions",
       "how to reach", "find clinic", "map", "parking", "gulberg", "lahore",
-      "where are you", "where is novaderm",
+      "where are you", "where is auroraderm",
     ],
-    question: "Where is NovaDerm located?",
+    question: "Where is Auroraderm located?",
     answer:
-      "NovaDerm is located at:\n**2nd Floor, The Galleria Building, Main Boulevard Gulberg III, Lahore**\n\nWe have dedicated parking available in the building's basement — completely free for our clients. We are also accessible by ride-sharing apps; search 'The Galleria Gulberg'.",
+      "Auroraderm is located in Dubai, UAE.\n\nWe have dedicated parking available and are also accessible by ride-sharing apps.",
   },
 
   // PRICING
@@ -431,11 +431,11 @@ export const clinicKnowledge = [
     id: 30,
     keywords: [
       "contact", "phone", "whatsapp", "call", "email", "reach",
-      "get in touch", "message", "social media", "instagram novaderm",
+      "get in touch", "message", "social media", "instagram auroraderm",
     ],
-    question: "How can I contact NovaDerm?",
+    question: "How can I contact Auroraderm?",
     answer:
-      "You can reach us anytime on WhatsApp at +92 300 1234567, call us during clinic hours at the same number, or email us at hello@novaderm.pk.\n\nYou can also find us on Instagram @NovaDermPK. We typically respond to WhatsApp messages within a few minutes during clinic hours.",
+      "You can reach us anytime on WhatsApp at +92 324 4646260, call us during clinic hours at the same number, or email us at info@auroraderm.com.\n\nWe typically respond to WhatsApp messages within a few minutes during clinic hours.",
   },
 ];
 
