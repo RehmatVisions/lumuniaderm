@@ -37,34 +37,28 @@ import clinic020 from "../assets/clinicimages/HD/clinic-020-room.webp"
 import clinic021 from "../assets/clinicimages/HD/clinic-021-details.webp"
 import clinic022 from "../assets/clinicimages/HD/clinic-022-final.webp"
 
-// ── All 22 clinic images with categories ──────────────────────
+// ── All clinic images - All categories displayed together ──────────
 const CLINIC_IMAGES = [
+  // Reception Images
   { id:  1, src: clinic001, alt: "Clinic Entrance",          cat: "Reception"           },
-  { id:  2, src: clinic002, alt: "Reception Area",           cat: "Lounge"              },
-  { id:  3, src: clinic003, alt: "Reception Detail",         cat: "Lounge"              },
-  { id:  4, src: clinic004, alt: "Waiting Area",             cat: "Clinic Interiors"    },
-  { id:  5, src: clinic005, alt: "Seating Area",             cat: "Lounge"              },
-  { id:  6, src: clinic006, alt: "Lounge View",              cat: "Reception"           },
-  { id:  7, src: clinic007, alt: "Furniture Detail",         cat: "Clinic Interiors"    },
-  { id:  8, src: clinic008, alt: "Interior Design",          cat: "Private Amenities"   },
-  { id:  9, src: clinic009, alt: "Treatment Room",           cat: "Procedure Room"      },
-  { id: 10, src: clinic010, alt: "Procedure Area",           cat: "Private Amenities"   },
-  { id: 11, src: clinic011, alt: "Equipment Setup",          cat: "Private Amenities"   },
-  { id: 12, src: clinic012, alt: "Procedure Detail",         cat: "Private Amenities"   },
-  { id: 13, src: clinic013, alt: "Amenities Section",        cat: "Clinic Interiors"    },
-  { id: 14, src: clinic014, alt: "Consultation Room",        cat: "Consultation"        },
-  { id: 15, src: clinic015, alt: "Doctor's Office",          cat: "Consultation"        },
-  { id: 16, src: clinic016, alt: "Specialist Suite",         cat: "Procedure Room"      },
-  { id: 17, src: clinic017, alt: "Specialist Detail",        cat: "Procedure Room"      },
-  { id: 18, src: clinic018, alt: "Suite Overview",           cat: "Consultation"        },
-  { id: 19, src: clinic019, alt: "Suite Detail",             cat: "Procedure Room"      },
-  { id: 20, src: clinic020, alt: "Room Overview",            cat: "Reception"           },
-  { id: 21, src: clinic021, alt: "Detail View",              cat: "Reception"           },
-  { id: 22, src: clinic022, alt: "Final View",               cat: "Lounge"              },
+  { id:  2, src: clinic002, alt: "Reception Area",           cat: "Reception"           },
+  { id:  3, src: clinic003, alt: "Reception Detail",         cat: "Reception"           },
+  { id:  6, src: clinic006, alt: "Lounge Reception",         cat: "Reception"           },
+  
+  // Lounge Images
+  { id:  5, src: clinic005, alt: "Lounge Seating",           cat: "Lounge"              },
+  { id:  7, src: clinic007, alt: "Lounge Furniture",         cat: "Lounge"              },
+  { id: 22, src: clinic022, alt: "Lounge View",              cat: "Lounge"              },
+  { id:  4, src: clinic004, alt: "Lounge Area",              cat: "Lounge"              },
+  
+  // Procedure Room Images
+  { id:  9, src: clinic009, alt: "Treatment Room",           cat: "Procedure"           },
+  { id: 10, src: clinic010, alt: "Procedure Area",           cat: "Procedure"           },
+  { id: 12, src: clinic012, alt: "Procedure Detail",         cat: "Procedure"           },
+  { id: 16, src: clinic016, alt: "Specialist Suite",         cat: "Procedure"           },
+  { id: 17, src: clinic017, alt: "Specialist Detail",        cat: "Procedure"           },
+  { id: 19, src: clinic019, alt: "Procedure Suite",          cat: "Procedure"           },
 ]
-
-// ── Filter categories ─────────────────────────────────────────
-const FILTERS = ["All", "Reception", "Lounge", "Procedure Room", "Consultation", "Clinic Interiors", "Private Amenities"]
 
 const EASE_EXPO = [0.16, 1, 0.3, 1]
 
@@ -154,10 +148,10 @@ function GalleryCard({ image, index, onOpen }) {
   return (
     <motion.article
       className="group relative cursor-pointer overflow-hidden"
-      style={{ borderRadius: 18, background: "#f0ddd0", aspectRatio: "4/3" }}
+      style={{ borderRadius: 18, background: "#f0ddd0", aspectRatio: "5/4" }}
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, delay: Math.min(index % 6, 5) * 0.06, ease: EASE_EXPO }}
+      transition={{ duration: 0.45, delay: Math.min(index % 8, 7) * 0.06, ease: EASE_EXPO }}
       onClick={() => onOpen(index)}
       tabIndex={0}
       onKeyDown={(e) => e.key === "Enter" && onOpen(index)}
@@ -267,21 +261,13 @@ function LeafDecoration({ side }) {
 
 // ── Main Page ─────────────────────────────────────────────────
 export default function GalleryPage() {
-  const [activeFilter, setActiveFilter] = useState("All")
   const [lightboxIdx, setLightboxIdx] = useState(null)
   const navigate = useNavigate()
 
-  const filtered = activeFilter === "All"
-    ? CLINIC_IMAGES
-    : CLINIC_IMAGES.filter((img) => img.cat === activeFilter)
-
-  const countFor = (cat) =>
-    cat === "All" ? CLINIC_IMAGES.length : CLINIC_IMAGES.filter((i) => i.cat === cat).length
-
   const openLightbox = (idx) => setLightboxIdx(idx)
   const closeLightbox = () => setLightboxIdx(null)
-  const prevPhoto = () => setLightboxIdx((i) => (i - 1 + filtered.length) % filtered.length)
-  const nextPhoto = () => setLightboxIdx((i) => (i + 1) % filtered.length)
+  const prevPhoto = () => setLightboxIdx((i) => (i - 1 + CLINIC_IMAGES.length) % CLINIC_IMAGES.length)
+  const nextPhoto = () => setLightboxIdx((i) => (i + 1) % CLINIC_IMAGES.length)
 
   // Scroll to top on mount
   useEffect(() => { window.scrollTo(0, 0) }, [])
@@ -349,46 +335,69 @@ export default function GalleryPage() {
               </div>
             </div>
 
-            {/* ── Filter Bar ──────────────────────────────── */}
+            {/* ── Category Navigation ──────────────────────────── */}
             <div className="mb-8 flex justify-center">
               <div
-                className="flex flex-wrap items-center justify-center gap-1 rounded-full p-1.5"
+                className="flex flex-wrap items-center justify-center gap-2 rounded-full p-1.5"
                 style={{
                   background: "rgba(252,238,231,0.85)",
                   border: "1px solid rgba(196,97,74,0.22)",
                 }}
               >
-                {FILTERS.map((f) => (
-                  <FilterPill
-                    key={f}
-                    label={f}
-                    active={activeFilter === f}
-                    count={countFor(f)}
-                    onClick={() => setActiveFilter(f)}
-                  />
-                ))}
+                <span className="text-sm font-semibold px-4 py-2" style={{ color: "#3d2312" }}>
+                  All Galleries
+                </span>
               </div>
             </div>
 
-            {/* ── Gallery Grid ──────────────────────────── */}
+            {/* ── Gallery Grid - Line Wise Category Display ──────────── */}
             <AnimatePresence mode="wait">
               <motion.div
-                key={activeFilter}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.18 }}
               >
-                {filtered.length === 0 ? (
+                {CLINIC_IMAGES.length === 0 ? (
                   <div className="py-20 text-center" style={{ color:"#1a0f0a" }}>
-                    No photos in this category yet.
+                    No photos available.
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {filtered.map((img, i) => (
-                      <GalleryCard key={img.id} image={img} index={i} onOpen={openLightbox} />
-                    ))}
-                  </div>
+                  <>
+                    {/* Desktop: 2 Column - Very Large */}
+                    <div className="hidden xl:block">
+                      <div className="grid grid-cols-2 gap-8">
+                        {CLINIC_IMAGES.map((img, i) => (
+                          <GalleryCard key={img.id} image={img} index={i} onOpen={openLightbox} />
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Laptop: 3 Column - Large */}
+                    <div className="hidden lg:grid xl:hidden">
+                      <div className="grid grid-cols-3 gap-6">
+                        {CLINIC_IMAGES.map((img, i) => (
+                          <GalleryCard key={img.id} image={img} index={i} onOpen={openLightbox} />
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tablet: 2 Column */}
+                    <div className="hidden md:grid lg:hidden">
+                      <div className="grid grid-cols-2 gap-5">
+                        {CLINIC_IMAGES.map((img, i) => (
+                          <GalleryCard key={img.id} image={img} index={i} onOpen={openLightbox} />
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Mobile: Single column */}
+                    <div className="md:hidden space-y-4">
+                      {CLINIC_IMAGES.map((img, i) => (
+                        <GalleryCard key={img.id} image={img} index={i} onOpen={openLightbox} />
+                      ))}
+                    </div>
+                  </>
                 )}
               </motion.div>
             </AnimatePresence>
@@ -447,7 +456,7 @@ export default function GalleryPage() {
         <AnimatePresence>
           {lightboxIdx !== null && (
             <Lightbox
-              image={filtered[lightboxIdx]}
+              image={CLINIC_IMAGES[lightboxIdx]}
               onClose={closeLightbox}
               onPrev={prevPhoto}
               onNext={nextPhoto}

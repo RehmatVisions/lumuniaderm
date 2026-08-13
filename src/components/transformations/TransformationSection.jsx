@@ -2,9 +2,9 @@ import { useRef, useState, useCallback, useEffect } from "react"
 import { motion, AnimatePresence, useInView } from "framer-motion"
 import SectionBadge from "../ui/SectionBadge"
 
-// ── Image pairs (2 sets)
-import hairBefore   from "../../assets/beforeafter/hairbefore.png"
-import hairAfter    from "../../assets/beforeafter/hairafter.png"
+// ── Image pairs (2 sets) - All WebP format
+import hairBefore   from "../../assets/beforeafter/hairbefore.webp"
+import hairAfter    from "../../assets/beforeafter/hairafter.webp"
 import jawBefore    from "../../assets/beforeafter/jawlinebefore.webp"
 import jawAfter     from "../../assets/beforeafter/jawlineafter.webp"
 
