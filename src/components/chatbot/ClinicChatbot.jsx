@@ -7,6 +7,7 @@ import {
   Clock, MapPin, Stethoscope
 } from "lucide-react";
 import { clinicKnowledge, quickReplies, treatmentOptions } from "./clinicData";
+import { saveBooking } from "./sheetSaver";
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -97,8 +98,10 @@ const BOOKING_STEPS = [
     prompt: "Got it! And your **phone number** (WhatsApp preferred)?",
     icon: <Phone size={14} />,
     placeholder: "e.g. 0324 4646260",
-    validate: (v) =>
-      /^[\d\s\+\-]{7,15}$/.test(v.trim()) ? null : "Please enter a valid phone number.",
+    validate: (v) => {
+      const cleaned = v.trim().replace(/\s+/g, "");
+      return cleaned.length >= 7 ? null : "Please enter a valid phone number.";
+    },
   },
   {
     key: "treatment",
@@ -624,6 +627,10 @@ export default function ClinicChatbot() {
           timestamp: new Date().toISOString(),
         };
         setCompletedBooking(booking);
+        
+        // Save to Google Sheet
+        saveBooking(booking);
+        
         setBookingMode(false);
         setBookingDone(true);
       }
@@ -694,8 +701,14 @@ export default function ClinicChatbot() {
   const handleQuickReply = (query) => {
     if (query === "book") {
       handleUserMessage("I'd like to book an appointment");
-    } else {
-      handleUserMessage(query);
+    } else if (query === "services") {
+      handleUserMessage("What services do you offer");
+    } else if (query === "results") {
+      handleUserMessage("Can I see before and after photos");
+    } else if (query === "contact") {
+      handleUserMessage("How can I contact you");
+    } else if (query === "pricing") {
+      handleUserMessage("What is your pricing");
     }
   };
 
@@ -824,8 +837,8 @@ export default function ClinicChatbot() {
                 autoFocus
               >
                 <option value="">Select a treatment…</option>
-                {treatmentOptions.map((t) => (
-                  <option key={t} value={t}>{t}</option>
+                {treatmentOptions.map((t, idx) => (
+                  <option key={idx} value={t}>{t}</option>
                 ))}
               </select>
             ) : (
