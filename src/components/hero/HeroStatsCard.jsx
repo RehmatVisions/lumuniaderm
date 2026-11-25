@@ -38,11 +38,11 @@
 //       {/* Rating row */}
 //       <div className="mb-3 flex items-center gap-2">
 //         <motion.div
-//           className="flex h-8 w-8 items-center justify-center rounded-full bg-novaderm-gold/20"
+//           className="flex h-8 w-8 items-center justify-center rounded-full bg-luminaderm-gold/20"
 //           animate={{ rotate: [0, 6, -6, 0] }}
 //           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
 //         >
-//           <svg viewBox="0 0 24 24" className="h-4 w-4 fill-novaderm-gold" aria-hidden="true">
+//           <svg viewBox="0 0 24 24" className="h-4 w-4 fill-luminaderm-gold" aria-hidden="true">
 //             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" />
 //           </svg>
 //         </motion.div>
@@ -56,7 +56,7 @@
 
 //       {/* Divider */}
 //       <motion.div
-//         className="mb-3 h-px bg-gradient-to-r from-white/15 via-novaderm-gold/35 to-transparent"
+//         className="mb-3 h-px bg-gradient-to-r from-white/15 via-luminaderm-gold/35 to-transparent"
 //         initial={{ scaleX: 0, originX: 0 }}
 //         animate={{ scaleX: 1 }}
 //         transition={{ duration: 0.7, delay: 1.5 }}
