@@ -429,7 +429,7 @@ export default function TransformationSection() {
           }}
         >
           {[
-            { num:"94%",    label:"Satisfaction Rate"  },
+            { num:"94%",    label:"4.7/5 Rating Equivalent"  },
             { num:"3,570+", label:"Patients Treated"   },
             { num:"8+",     label:"Years Experience"  },
             { num:"12+",    label:"Specialists & Doctors" },
