@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
-import ArrowUpRight from "../ui/ArrowUpRight"
 import { useReveal } from "../../hooks/useReveal"
 // useReveal uses IntersectionObserver to add CSS 'is-visible' classes — kept separate from animations.js
 import TextReveal from "../ui/TextReveal"
