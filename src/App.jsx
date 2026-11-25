@@ -12,7 +12,7 @@ function HashScroller() {
     if (hash) {
       const id = hash.replace("#", "")
       // Retry up to ~1.2s to handle lazy-loaded sections
-      const scrollToSection = (attempts = 0) => {
+      const scrollToSection = (attempts = 0) => {z
         const el = document.getElementById(id)
         if (el) {
           el.scrollIntoView({ behavior: "smooth" })

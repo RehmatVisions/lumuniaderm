@@ -310,14 +310,36 @@ export default function Footer() {
 
         {/* ── Copyright bar ── */}
         <div
-          className="py-5 text-center text-sm font-semibold text-novaderm-brown/65"
+          className="px-4 py-5 text-center"
           style={{ borderTop: "1px solid rgba(196,97,74,0.15)" }}
         >
-          Copyright &copy; {new Date().getFullYear()} All Rights Reserved.
+          <div
+            className="mx-auto max-w-[1300px]"
+            style={{ color: "rgba(61,46,36,0.72)" }}
+          >
+            <p
+              className="font-sans text-[0.72rem] font-semibold sm:text-xs"
+              style={{ color: "rgba(61,46,36,0.72)", lineHeight: 1.6 }}
+            >
+              Copyright &copy; {new Date().getFullYear()} LuminaDerm. All Rights Reserved.
+            </p>
+            <p
+              className="mt-1 font-sans text-[0.66rem] font-medium sm:text-[0.72rem]"
+              style={{ color: "rgba(61,46,36,0.58)", lineHeight: 1.6 }}
+            >
+              Client / Brand: Ayesha Khan, Dubai, UAE
+            </p>
+            <p
+              className="mt-1 font-sans text-[0.66rem] font-medium sm:text-[0.72rem]"
+              style={{ color: "rgba(61,46,36,0.58)", lineHeight: 1.6 }}
+            >
+              Website Designed &amp; Developed by <span className="font-bold">Rehmat Ali</span>
+              {" "}· GEO Strategy &amp; AI Visibility Optimization by <span className="font-bold">Rehmat Ali</span>
+            </p>
+          </div>
         </div>
 
       </footer>
     </>
   )
 }
-
