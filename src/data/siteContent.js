@@ -66,12 +66,12 @@ export const siteContent = {
     accordion: [
       {
         number: "01",
-        title:  "Board-Certified Specialists You Can Trust",
+        title:  "Qualified Dermatology Specialists You Can Trust",
         body:   "Our dermatologists and aesthetic physicians hold international certifications and bring over a decade of combined clinical experience. Every procedure is performed by a qualified medical professional — never delegated to unsupervised staff.",
       },
       {
         number: "02",
-        title:  "FDA-Cleared Technology, Clinically Proven Results",
+        title:  "Modern Technology, Personalized Care",
         body:   "We invest exclusively in gold-standard equipment — from fractional laser platforms to medical-grade PRP systems — so your results are measurable, safe, and built to last well beyond your treatment course.",
       },
       {
@@ -149,18 +149,18 @@ export const siteContent = {
     features: [
       { icon: "treatment",  title: "Evidence-Based Treatment Protocols"  },
       { icon: "health",     title: "Long-Term Skin Health Philosophy"     },
-      { icon: "certified",  title: "Internationally Certified Physicians" },
-      { icon: "technology", title: "FDA-Cleared Clinical Technology"      },
+      { icon: "certified",  title: "Experienced Medical Professionals" },
+      { icon: "technology", title: "Modern Clinical Technology"      },
     ],
 
     stats: [
-      { label: "Treatment Success Rate", value: 94 },
+      { label: "Rating equivalent (4.7/5)", value: 94 },
       { label: "Patient Satisfaction",   value: 94 },
       { label: "Client Retention Rate",  value: 88 },
     ],
 
     reviewScore: "4.7",
-    reviewLabel: "Verified by 3,570+ Patient Reviews",
+    reviewLabel: "Patient community of 3,570+",
     ctaText:     "Discover Our Story",
     ctaHref:     "#about",
 
@@ -171,13 +171,13 @@ export const siteContent = {
 
     bgImage:     heroImg,
     experience:  { years: "8+", label: "Years of Clinical Excellence" },
-    specialists: { count: "12+", label: "Certified Specialists"        },
+    specialists: { count: "12+", label: "Specialists & Doctors"        },
 
     counters: [
       { value: 3570, suffix: "+", label: "Patients Transformed",        icon: "patients"    },
       { value: 8,    suffix: "+", label: "Years of Clinical Excellence", icon: "experience"  },
       { value: 12,   suffix: "+", label: "Certified Specialists",        icon: "specialists" },
-      { value: 94,   suffix: "%", label: "Treatment Success Rate",       icon: "rating"      },
+      { value: 94,   suffix: "%", label: "4.7/5 Rating Equivalent",             icon: "rating"      },
     ],
   },
 
@@ -209,7 +209,7 @@ export const siteContent = {
   // ─── HERO ────────────────────────────────────────────────────
   hero: {
     stats: {
-      patients: "3,500+ Happy Patients",
+      patients: "3,570+ Happy Patients",
       rating:   "4.7/5",
     },
 
@@ -219,7 +219,7 @@ export const siteContent = {
         badge:       "Trusted Skin Care Clinic",
         tag:         "Advanced Skin Treatments",
         headline:    "Get the Skin You Always Deserve.",
-description: "Advanced skin care in Dubai by certified doctors. Safe, effective, and built for you",
+description: "Personalized dermatology and aesthetic skin care in Dubai. Explore treatments and request a consultation.",
         primaryCta:   { text: "Our Treatments", href: "#services" },
         secondaryCta: { text: "View Results",       href: "#transformations" },
       },
