@@ -558,7 +558,7 @@ const STATS = [
   { icon: "patients", target: 3570, suffix: "+", label: "Happy Patients",   decimals: 0 },
   { icon: "years",    target: 8,    suffix: "+", label: "Years Experience", decimals: 0 },
   { icon: "star",     target: 4.7,  suffix: "★", label: "Avg. Rating",      decimals: 1 },
-  { icon: "shield",   target: 94,   suffix: "%", label: "Success Rate",     decimals: 0 },
+  { icon: "shield",   target: 94,   suffix: "%", label: "4.7/5 Rating Equivalent",     decimals: 0 },
 ]
 
 // SVG icons for each stat type

@@ -87,7 +87,7 @@ const ALL = [
     city: "Emirates Hills, Dubai",
     treatment: "Acne & Scar Revision",
     rating: 5,
-    text: "My acne scars have faded so much. Dr. Ateeq explained everything clearly and the results speak for themselves. Truly life changing.",
+    text: "My acne scars have faded so much. Dr. Ayesha Khan explained everything clearly and the results speak for themselves. Truly life changing.",
   },
 ];
 const FEATURED = ALL.find(r => r.featured)
@@ -459,7 +459,7 @@ export default function Testimonials() {
           </svg>
           <span><strong style={{ color:"#1a0f0a" }}>4.7</strong> average rating</span>
           <span style={{ color:"rgba(196,97,74,0.35)" }}>·</span>
-          <span><strong style={{ color:"#1a0f0a" }}>94%</strong> satisfaction rate</span>
+          <span><strong style={{ color:"#1a0f0a" }}>94%</strong> of the maximum 5-star rating</span>
           <span style={{ color:"rgba(196,97,74,0.35)" }}>·</span>
           <span><strong style={{ color:"#1a0f0a" }}>3,570+</strong> satisfied patients</span>
           <svg viewBox="0 0 24 24" fill="none" width={16} height={16} stroke="#C4614A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

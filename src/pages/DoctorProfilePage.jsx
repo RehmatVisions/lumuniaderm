@@ -16,10 +16,10 @@ const EASE_EXPO = [0.16, 1, 0.3, 1]
 
 // ── Edit doctor info here ──────────────────────────────────────
 const DOCTOR = {
-  name:        "Dr. Ayesha",
+  name:        "Dr. Ayesha Khan",
   title:       "Consultant Dermatologist & Aesthetic Specialist",
-  badge:       "Board-Certified Dermatologist",
-  tagline:     "Combining advanced dermatological knowledge with a personalized approach, Dr. Ayesha provides evidence-based skin treatments focused on healthy, natural, and confident results.",
+  badge:       "Dermatology Specialist",
+  tagline:     "Combining advanced dermatological knowledge with a personalized approach, Dr. Ayesha Khan provides evidence-based skin treatments focused on healthy, natural, and confident results.",
   qual1:       "MBBS · MD Dermatology",
   qual2:       "8+ Years Experience",
   image:       ayeshaImg,
@@ -296,9 +296,9 @@ function HeroBanner({ doc, onBook }) {
           }}
         >
 
-          {/* Circular board-certified badge — top right */}
+          {/* Circular doctor credentials badge — top right */}
           <motion.div
-            aria-label="Board-Certified Dermatologist"
+            aria-label="Dermatology Specialist"
             style={{
               position: "absolute",
               top: "clamp(20px,4vw,40px)",
@@ -325,7 +325,7 @@ function HeroBanner({ doc, onBook }) {
               <path id="topArc" d="M 16,54 A 38,38 0 0,1 92,54" fill="none"/>
               <path id="botArc" d="M 20,62 A 38,38 0 0,0 88,62" fill="none"/>
               <text fontSize="7.5" fontWeight="700" letterSpacing="1.8" fill="#C4614A" fontFamily="system-ui,sans-serif">
-                <textPath href="#topArc" startOffset="50%" textAnchor="middle">BOARD-CERTIFIED</textPath>
+                <textPath href="#topArc" startOffset="50%" textAnchor="middle">DERMATOLOGY</textPath>
               </text>
               <text fontSize="7" fontWeight="700" letterSpacing="1.4" fill="#C4614A" fontFamily="system-ui,sans-serif">
                 <textPath href="#botArc" startOffset="50%" textAnchor="middle">DERMATOLOGIST</textPath>

@@ -1,4 +1,4 @@
-# Novaderm — Project Structure
+# LuminaDerm — Project Structure
 
 This document is written for a future AI developer or junior developer.
 Read this before making any changes to the project.
@@ -22,7 +22,7 @@ Read this before making any changes to the project.
 ## Folder Structure
 
 ```
-novaderm/
+luminaderm/
 ├── public/
 │   ├── favicon.svg          — Browser tab icon
 │   └── icons.svg            — SVG sprite (not actively used in code)
@@ -37,9 +37,9 @@ novaderm/
 │   │   ├── beforeafter/     — Before/after images for the Transformations section
 │   │   ├── serviceimages/   — Service card images (first.png through fifth.png)
 │   │   ├── clinicimages/    — Gallery section photos (13 clinic interior images)
-│   │   ├── doctorsimages/   — Doctor profile photo (ateeq.png)
+│   │   ├── doctorsimages/   — Doctor profile photo (Ayesha's doctor image)
 │   │   ├── backgroundall/   — Section background texture (bacrkound.png) used in App.jsx
-│   │   ├── novalogo.png     — Novaderm logo (used in the Hero navbar)
+│   │   ├── novalogo.png     — LuminaDerm logo (used in the Hero navbar)
 │   │   ├── ourstory.jpg     — About section main image
 │   │   ├── antiaging.jpg    — About section secondary image
 │   │   ├── laser2.jpg       — WhatWeDo stat card background

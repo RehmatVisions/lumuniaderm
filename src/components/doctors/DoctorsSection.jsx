@@ -1,16 +1,16 @@
 import { motion } from "framer-motion"
 import { useNavigate } from "react-router-dom"
-import ateeqImg from "../../assets/doctorsimages/ayesha..webp"
+import ayeshaImg from "../../assets/doctorsimages/ayesha..webp"
 import SectionBadge from "../ui/SectionBadge"
 
 const EASE      = [0.25, 0.46, 0.45, 0.94]
 const EASE_EXPO = [0.16, 1, 0.3, 1]
 
 const DOCTOR = {
-  name:        "Dr.Ayesha Khan",
+  name:        "Dr. Ayesha Khan",
   role:        "Consultant Dermatologist & Aesthetic Medicine Specialist",
-  badge:       "Board-Certified Dermatologist",
-  about:       "Blending medical expertise with an artistic eye, Dr.Ayesha Khan creates thoughtful treatment plans focused on natural, confident results.",
+  badge:       "Dermatology Specialist",
+  about:       "Blending medical expertise with an artistic eye, Dr. Ayesha Khan creates thoughtful treatment plans focused on natural, confident results.",
   exp:         "8+",
   expLabel:    "Years Experience",
   qual1:       "MBBS · MD",
@@ -118,7 +118,7 @@ export default function DoctorsSection() {
           {/* ── LEFT: image ─────────────────────────────── */}
           <div className="doctor-image-wrap" style={{ position:"relative", minHeight:"clamp(480px,65vw,620px)" }}>
             <img
-              src={ateeqImg} alt={d.name}
+              src={ayeshaImg} alt={d.name}
               className="doctor-img"
               style={{
                 position:"absolute", inset:0,
@@ -130,7 +130,7 @@ export default function DoctorsSection() {
               decoding="async"
             />
 
-            {/* Board-certified badge bottom */}
+            {/* Doctor credentials badge bottom */}
             <div className="doctor-badge" style={{
               position:"absolute", bottom:20, left:"50%", transform:"translateX(-50%)",
               display:"flex", alignItems:"center", gap:8,

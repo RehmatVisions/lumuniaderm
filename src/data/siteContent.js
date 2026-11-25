@@ -20,10 +20,10 @@ import whatWeImg4 from "../assets/what-we-item-image-1-royal.webp"
 import whatWeImg5 from "../assets/what-we-item-image-1-royal.webp"
 
 export const siteContent = {
-  brand: { name: "Luminaderm" },
+  brand: { name: "LuminaDerm" },
 
   topBar: {
-    message: "Experience Medical-Grade Skin Transformation at Luminaderm",
+    message: "Experience Medical-Grade Skin Transformation at LuminaDerm",
     ctaText: "Reserve Your Consultation",
     ctaHref: "#contact",
     links: [
@@ -49,10 +49,10 @@ export const siteContent = {
 
   // ─── WHY CHOOSE US ───────────────────────────────────────────
   whyUs: {
-    badge: "Why Choose Luminaderm",
+    badge: "Why Choose LuminaDerm",
     headline: "Where Clinical Precision Meets Luxurious Care",
     description:
-      "At Luminaderm, every detail is designed with your skin in mind — from our expert specialists and advanced technology to our personalized treatment plans. We don’t believe in one-size-fits-all solutions; we create customized care plans to deliver natural, beautiful results that are unique to you.",
+      "At LuminaDerm, every detail is designed with your skin in mind — from our expert specialists and advanced technology to our personalized treatment plans. We don’t believe in one-size-fits-all solutions; we create customized care plans to deliver natural, beautiful results that are unique to you.",
 
     images: {
       main:      whyChooseMainImg,
@@ -66,12 +66,12 @@ export const siteContent = {
     accordion: [
       {
         number: "01",
-        title:  "Board-Certified Specialists You Can Trust",
+        title:  "Qualified Dermatology Specialists You Can Trust",
         body:   "Our dermatologists and aesthetic physicians hold international certifications and bring over a decade of combined clinical experience. Every procedure is performed by a qualified medical professional — never delegated to unsupervised staff.",
       },
       {
         number: "02",
-        title:  "FDA-Cleared Technology, Clinically Proven Results",
+        title:  "Modern Technology, Personalized Care",
         body:   "We invest exclusively in gold-standard equipment — from fractional laser platforms to medical-grade PRP systems — so your results are measurable, safe, and built to last well beyond your treatment course.",
       },
       {
@@ -91,7 +91,7 @@ export const siteContent = {
   services: {
     badge:       "Signature Treatments",
     headline:    "Medical Aesthetics Crafted for Visible Transformation",
-    description: "Every treatment at Luminaderm is performed under clinical supervision, using evidence-based protocols tailored to your skin's unique biology.",
+    description: "Every treatment at LuminaDerm is performed under clinical supervision, using evidence-based protocols tailored to your skin's unique biology.",
     ctaText:     "GET STARTED",
     ctaHref:     "#services",
 
@@ -144,23 +144,23 @@ export const siteContent = {
     badge:       "Our Story",
     headline:    "Real Results. Trusted Care. Designed Around You.",
     description:
-      "Luminaderm was built on one belief: exceptional skin results come from expert dermatology and a personalized approach. For over 8+ years, we have delivered premium care in a trusted clinic where patients experience confidence, comfort, and results they love.",
+      "LuminaDerm was built on one belief: exceptional skin results come from expert dermatology and a personalized approach. For over 8+ years, we have delivered premium care in a trusted clinic where patients experience confidence, comfort, and results they love.",
 
     features: [
       { icon: "treatment",  title: "Evidence-Based Treatment Protocols"  },
       { icon: "health",     title: "Long-Term Skin Health Philosophy"     },
-      { icon: "certified",  title: "Internationally Certified Physicians" },
-      { icon: "technology", title: "FDA-Cleared Clinical Technology"      },
+      { icon: "certified",  title: "Experienced Medical Professionals" },
+      { icon: "technology", title: "Modern Clinical Technology"      },
     ],
 
     stats: [
-      { label: "Treatment Success Rate", value: 94 },
+      { label: "Rating equivalent (4.7/5)", value: 94 },
       { label: "Patient Satisfaction",   value: 94 },
       { label: "Client Retention Rate",  value: 88 },
     ],
 
     reviewScore: "4.7",
-    reviewLabel: "Verified by 3,570+ Patient Reviews",
+    reviewLabel: "Patient community of 3,570+",
     ctaText:     "Discover Our Story",
     ctaHref:     "#about",
 
@@ -171,13 +171,13 @@ export const siteContent = {
 
     bgImage:     heroImg,
     experience:  { years: "8+", label: "Years of Clinical Excellence" },
-    specialists: { count: "12+", label: "Certified Specialists"        },
+    specialists: { count: "12+", label: "Specialists & Doctors"        },
 
     counters: [
       { value: 3570, suffix: "+", label: "Patients Transformed",        icon: "patients"    },
       { value: 8,    suffix: "+", label: "Years of Clinical Excellence", icon: "experience"  },
-      { value: 12,   suffix: "+", label: "Certified Specialists",        icon: "specialists" },
-      { value: 94,   suffix: "%", label: "Treatment Success Rate",       icon: "rating"      },
+      { value: 12,   suffix: "+", label: "Specialists",        icon: "specialists" },
+      { value: 94,   suffix: "%", label: "4.7/5 Rating Equivalent",             icon: "rating"      },
     ],
   },
 
@@ -193,14 +193,14 @@ export const siteContent = {
     },
     centerCard: {
       image:  videocardImg,
-      quote:  "Confidence isn't given — it's carefully restored. At Luminaderm, every treatment is a step toward the skin you deserve.",
-      author: "Dr. Sarah Al-Rashid",
-      role:   "Founder & Lead Dermatologist",
+      quote:  "Confidence isn't given — it's carefully restored. At LuminaDerm, every treatment is a step toward the skin you deserve.",
+      author: "Dr. Ayesha Khan",
+      role:   "Consultant Dermatologist & Aesthetic Medicine Specialist",
     },
     contactCard: {
       title:       "Begin Your Transformation",
       description: "Our specialists are ready to design a personalised treatment plan for you.",
-      phone:       "+(123) 456-789",
+      phone:       "+92 324 4646260",
       avatar:      whatWeImg3,
     },
     images: [whatWeImg1, whatWeImg2, whatWeImg4, whatWeImg5],
@@ -209,7 +209,7 @@ export const siteContent = {
   // ─── HERO ────────────────────────────────────────────────────
   hero: {
     stats: {
-      patients: "3,500+ Happy Patients",
+      patients: "3,570+ Happy Patients",
       rating:   "4.7/5",
     },
 
@@ -219,7 +219,7 @@ export const siteContent = {
         badge:       "Trusted Skin Care Clinic",
         tag:         "Advanced Skin Treatments",
         headline:    "Get the Skin You Always Deserve.",
-description: "Advanced skin care in Dubai by certified doctors. Safe, effective, and built for you",
+description: "Personalized dermatology and aesthetic skin care in Dubai. Explore treatments and request a consultation.",
         primaryCta:   { text: "Our Treatments", href: "#services" },
         secondaryCta: { text: "View Results",       href: "#transformations" },
       },

@@ -22,7 +22,7 @@ function SectionFallback() {
 export default function HomePage() {
   return (
     <>
-      <div className="min-h-screen bg-novaderm-beige">
+      <div className="min-h-screen bg-luminaderm-beige">
         <Hero />
         <div style={{ position: "relative", zIndex: 2 }}>
           <div aria-hidden="true" style={{
