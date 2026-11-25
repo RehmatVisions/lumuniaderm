@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-novaderm-gold:        #c19a6b;
-  --color-novaderm-gold-dark:   #a8825a;
-  --color-novaderm-gold-light:  #d4b08a;
-  --color-novaderm-brown:       #3d2e24;
-  --color-novaderm-beige:       #F4EFEA;
-  --color-novaderm-beige-dark:  #EDE8E2;
-  --color-novaderm-peach:       #FCEEE7;
-  --color-novaderm-peach-mid:   #F5D5C0;
-  --color-novaderm-peach-dark:  #F8E2D8;
-  --color-novaderm-terracotta:  #C4614A;
-  --color-novaderm-terra-dark:  #A0432E;
+  --color-luminaderm-gold:        #c19a6b;
+  --color-luminaderm-gold-dark:   #a8825a;
+  --color-luminaderm-gold-light:  #d4b08a;
+  --color-luminaderm-brown:       #3d2e24;
+  --color-luminaderm-beige:       #F4EFEA;
+  --color-luminaderm-beige-dark:  #EDE8E2;
+  --color-luminaderm-peach:       #FCEEE7;
+  --color-luminaderm-peach-mid:   #F5D5C0;
+  --color-luminaderm-peach-dark:  #F8E2D8;
+  --color-luminaderm-terracotta:  #C4614A;
+  --color-luminaderm-terra-dark:  #A0432E;
   --font-sans:    "Nunito",          system-ui, sans-serif;
   --font-serif:   "Playfair Display","Georgia", serif;
   --font-display: "Playfair Display","Georgia", serif;
@@ -469,7 +469,7 @@ img {
 /* Ensure hover-only effects gracefully degrade on touch devices  */
 @media (hover: none) and (pointer: coarse) {
   /* Service cards — show content on tap */
-  .group:active .group-hover\:bg-novaderm-gold\/25 {
+  .group:active .group-hover\:bg-luminaderm-gold\/25 {
     background-color: rgba(193, 154, 107, 0.25);
   }
 
