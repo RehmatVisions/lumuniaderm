@@ -87,7 +87,7 @@ const ALL = [
     city: "Emirates Hills, Dubai",
     treatment: "Acne & Scar Revision",
     rating: 5,
-    text: "My acne scars have faded so much. Dr. Ateeq explained everything clearly and the results speak for themselves. Truly life changing.",
+    text: "My acne scars have faded so much. Dr. Ayesha Khan explained everything clearly and the results speak for themselves. Truly life changing.",
   },
 ];
 const FEATURED = ALL.find(r => r.featured)
