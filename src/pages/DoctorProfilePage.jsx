@@ -16,10 +16,10 @@ const EASE_EXPO = [0.16, 1, 0.3, 1]
 
 // ── Edit doctor info here ──────────────────────────────────────
 const DOCTOR = {
-  name:        "Dr. Ayesha",
+  name:        "Dr. Ayesha Khan",
   title:       "Consultant Dermatologist & Aesthetic Specialist",
   badge:       "Board-Certified Dermatologist",
-  tagline:     "Combining advanced dermatological knowledge with a personalized approach, Dr. Ayesha provides evidence-based skin treatments focused on healthy, natural, and confident results.",
+  tagline:     "Combining advanced dermatological knowledge with a personalized approach, Dr. Ayesha Khan provides evidence-based skin treatments focused on healthy, natural, and confident results.",
   qual1:       "MBBS · MD Dermatology",
   qual2:       "8+ Years Experience",
   image:       ayeshaImg,
