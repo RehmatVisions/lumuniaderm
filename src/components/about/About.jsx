@@ -49,16 +49,16 @@ function AboutImageCollage() {
 
         {/* Gold corner accent */}
         <div className="pointer-events-none absolute left-0 top-0 h-16 w-16">
-          <div className="absolute left-3 top-3 h-8 w-8 rounded-tl-2xl border-l-2 border-t-2 border-novaderm-gold/50" />
+          <div className="absolute left-3 top-3 h-8 w-8 rounded-tl-2xl border-l-2 border-t-2 border-luminaderm-gold/50" />
         </div>
 
         {/* Experience badge */}
         <motion.div
-          className="absolute bottom-5 left-5 rounded-2xl bg-novaderm-brown/88 px-4 py-3 backdrop-blur-md border border-white/10 shadow-xl"
+          className="absolute bottom-5 left-5 rounded-2xl bg-luminaderm-brown/88 px-4 py-3 backdrop-blur-md border border-white/10 shadow-xl"
           {...fadeUp(0.6, 12)}
           whileHover={{ scale: 1.07, transition: { duration: 0.25 } }}
         >
-          <p className="text-2xl font-bold text-novaderm-gold">{experience.years}</p>
+          <p className="text-2xl font-bold text-luminaderm-gold">{experience.years}</p>
           <p className="text-xs text-white/95 font-semibold">{experience.label}</p>
         </motion.div>
       </motion.div>
@@ -108,7 +108,7 @@ function AboutImageCollage() {
             decoding="async"
           />
           <div className="pointer-events-none absolute bottom-0 right-0 h-12 w-12">
-            <div className="absolute bottom-3 right-3 h-6 w-6 rounded-br-xl border-b-2 border-r-2 border-novaderm-gold/55" />
+            <div className="absolute bottom-3 right-3 h-6 w-6 rounded-br-xl border-b-2 border-r-2 border-luminaderm-gold/55" />
           </div>
         </motion.div>
 
@@ -119,14 +119,14 @@ function AboutImageCollage() {
           {...fadeUp(0.5, 0)}
           whileHover={{ scale: 1.05, boxShadow: "0 8px 28px rgba(193,154,107,0.22)", transition: { duration: 0.25 } }}
         >
-          <p className="text-2xl font-bold text-novaderm-gold">{specialists.count}</p>
-          <p className="text-xs font-semibold text-novaderm-brown/90">{specialists.label}</p>
+          <p className="text-2xl font-bold text-luminaderm-gold">{specialists.count}</p>
+          <p className="text-xs font-semibold text-luminaderm-brown/90">{specialists.label}</p>
         </motion.div>
       </div>
 
       {/* Botanical decoration */}
       <motion.div
-        className="pointer-events-none absolute -bottom-8 left-[52%] text-novaderm-gold/25"
+        className="pointer-events-none absolute -bottom-8 left-[52%] text-luminaderm-gold/25"
         initial={{ opacity: 0, rotate: -15 }}
         whileInView={{ opacity: 1, rotate: 0 }}
         viewport={{ once: true }}
@@ -146,7 +146,7 @@ function AboutImageCollage() {
 // ─── ABOUT CONTENT (text + features + stats) ─────────────────
 // Feature icon — renders the right SVG based on the icon type string
 function FeatureIcon({ type }) {
-  const cls = "h-5 w-5 text-novaderm-gold"
+  const cls = "h-5 w-5 text-luminaderm-gold"
   if (type === "treatment")
     return <svg viewBox="0 0 24 24" fill="none" className={cls} aria-hidden="true"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
   if (type === "health")
@@ -164,9 +164,9 @@ function ProgressBar({ label, value, delay }) {
   return (
     <div ref={ref} className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <span className="text-sm font-semibold text-novaderm-brown">{label}</span>
+        <span className="text-sm font-semibold text-luminaderm-brown">{label}</span>
         <motion.span
-          className="text-sm font-semibold text-novaderm-gold"
+          className="text-sm font-semibold text-luminaderm-gold"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: delay + 0.6 }}
@@ -174,9 +174,9 @@ function ProgressBar({ label, value, delay }) {
           {value}%
         </motion.span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-novaderm-gold/12">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-luminaderm-gold/12">
         <motion.div
-          className="h-full rounded-full bg-gradient-to-r from-novaderm-gold to-novaderm-gold-light"
+          className="h-full rounded-full bg-gradient-to-r from-luminaderm-gold to-luminaderm-gold-light"
           style={{ willChange: "transform" }}
           initial={{ scaleX: 0, originX: "left" }}
           animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
@@ -209,7 +209,7 @@ function AboutContent() {
 
       {/* Gold divider */}
       <motion.div
-        className="h-px bg-gradient-to-r from-novaderm-gold/55 via-novaderm-gold-light/35 to-transparent"
+        className="h-px bg-gradient-to-r from-luminaderm-gold/55 via-luminaderm-gold-light/35 to-transparent"
         initial={{ scaleX: 0, originX: "left" }}
         whileInView={{ scaleX: 1 }}
         viewport={VP_ONCE}
@@ -231,7 +231,7 @@ function AboutContent() {
         {features.map((feature, i) => (
           <motion.div
             key={feature.title}
-            className="group flex items-start gap-3 rounded-2xl border border-novaderm-gold/18 bg-novaderm-gold/5 px-4 py-3.5 transition-colors duration-250 hover:border-novaderm-gold/45 hover:bg-novaderm-gold/10"
+            className="group flex items-start gap-3 rounded-2xl border border-luminaderm-gold/18 bg-luminaderm-gold/5 px-4 py-3.5 transition-colors duration-250 hover:border-luminaderm-gold/45 hover:bg-luminaderm-gold/10"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={VP_ONCE}
@@ -239,10 +239,10 @@ function AboutContent() {
             whileHover={{ scale: 1.02 }}
             style={{ willChange: "transform, opacity" }}
           >
-            <span className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-novaderm-gold/15 transition-colors duration-300 group-hover:bg-novaderm-gold/25">
+            <span className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-luminaderm-gold/15 transition-colors duration-300 group-hover:bg-luminaderm-gold/25">
               <FeatureIcon type={feature.icon} />
             </span>
-      <span className="text-sm font-semibold leading-snug text-novaderm-brown">{feature.title}</span>
+      <span className="text-sm font-semibold leading-snug text-luminaderm-brown">{feature.title}</span>
           </motion.div>
         ))}
       </div>
@@ -251,7 +251,7 @@ function AboutContent() {
       <motion.div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:gap-8" {...fadeUp(0.55)}>
 
         {/* Animated progress bars */}
-        <div className="flex-1 space-y-4 rounded-2xl border border-novaderm-gold/20 bg-[#FDFBF7]/80 px-5 py-5 shadow-sm backdrop-blur-sm">
+        <div className="flex-1 space-y-4 rounded-2xl border border-luminaderm-gold/20 bg-[#FDFBF7]/80 px-5 py-5 shadow-sm backdrop-blur-sm">
           {stats.map((stat, i) => (
             <ProgressBar key={stat.label} label={stat.label} value={stat.value} delay={0.65 + i * 0.15} />
           ))}
@@ -267,7 +267,7 @@ function AboutContent() {
         >
           <svg
             viewBox="0 0 100 100"
-className="relative flex h-12 w-12 items-center justify-center rounded-full bg-novaderm-gold text-white shadow-lg..."
+className="relative flex h-12 w-12 items-center justify-center rounded-full bg-luminaderm-gold text-white shadow-lg..."
             style={{ animation: "spin 14s linear infinite" }}
             aria-hidden="true"
           >
@@ -278,7 +278,7 @@ className="relative flex h-12 w-12 items-center justify-center rounded-full bg-n
               <textPath href="#about-circle">More About Us • More About Us • </textPath>
             </text>
           </svg>
-          <span className="relative flex h-12 w-12 items-center justify-center rounded-full bg-novaderm-gold text-white shadow-lg transition-all duration-300 group-hover:bg-novaderm-gold-dark group-hover:shadow-novaderm-gold/40">
+          <span className="relative flex h-12 w-12 items-center justify-center rounded-full bg-luminaderm-gold text-white shadow-lg transition-all duration-300 group-hover:bg-luminaderm-gold-dark group-hover:shadow-luminaderm-gold/40">
             <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 transition-transform duration-300 group-hover:rotate-45" aria-hidden="true">
               <path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -336,7 +336,7 @@ function SlotNumber({ target, suffix = "", delay = 0 }) {
 
 // Icon for each counter card
 function CounterIcon({ type }) {
-  const cls = "h-5 w-5 text-novaderm-gold"
+  const cls = "h-5 w-5 text-luminaderm-gold"
   if (type === "patients")
     return (
       <svg viewBox="0 0 24 24" fill="none" className={cls} aria-hidden="true">
@@ -373,7 +373,7 @@ function AboutCounters() {
     <div className="relative py-10">
       {/* Top divider */}
       <motion.div
-        className="mx-auto mb-10 h-px max-w-[1400px] bg-gradient-to-r from-transparent via-novaderm-gold/30 to-transparent"
+        className="mx-auto mb-10 h-px max-w-[1400px] bg-gradient-to-r from-transparent via-luminaderm-gold/30 to-transparent"
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
@@ -391,19 +391,19 @@ function AboutCounters() {
             transition={{ duration: 0.6, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <motion.div
-              className="mb-1 flex h-12 w-12 items-center justify-center rounded-2xl border border-novaderm-gold/25 bg-novaderm-gold/10 transition-all duration-300 group-hover:border-novaderm-gold/60 group-hover:bg-novaderm-gold/22"
+              className="mb-1 flex h-12 w-12 items-center justify-center rounded-2xl border border-luminaderm-gold/25 bg-luminaderm-gold/10 transition-all duration-300 group-hover:border-luminaderm-gold/60 group-hover:bg-luminaderm-gold/22"
               whileHover={{ scale: 1.12, rotate: 4 }}
               transition={{ duration: 0.28 }}
             >
               <CounterIcon type={item.icon} />
             </motion.div>
 
-            <div className="text-4xl font-bold tracking-tight text-novaderm-brown lg:text-5xl">
+            <div className="text-4xl font-bold tracking-tight text-luminaderm-brown lg:text-5xl">
               <SlotNumber target={item.value} suffix={item.suffix} delay={0.2 + i * 0.1} />
             </div>
 
             <motion.p
-              className="text-xs font-bold uppercase tracking-widest text-novaderm-brown"              initial={{ opacity: 0 }}
+              className="text-xs font-bold uppercase tracking-widest text-luminaderm-brown"              initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.55 + i * 0.1 }}
@@ -412,7 +412,7 @@ function AboutCounters() {
             </motion.p>
 
             <motion.div
-              className="h-0.5 rounded-full bg-novaderm-gold"
+              className="h-0.5 rounded-full bg-luminaderm-gold"
               initial={{ width: 0 }}
               whileInView={{ width: 36 }}
               viewport={{ once: true }}
@@ -424,7 +424,7 @@ function AboutCounters() {
 
       {/* Bottom divider */}
       <motion.div
-        className="mx-auto mt-10 h-px max-w-[1400px] bg-gradient-to-r from-transparent via-novaderm-gold/30 to-transparent"
+        className="mx-auto mt-10 h-px max-w-[1400px] bg-gradient-to-r from-transparent via-luminaderm-gold/30 to-transparent"
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
@@ -443,7 +443,7 @@ export default function About() {
 
       {/* Decorative ring — top right corner */}
       <div className="pointer-events-none absolute right-8 top-8 hidden lg:block" style={{ zIndex: 1 }}>
-        <svg viewBox="0 0 60 60" className="h-14 w-14 text-novaderm-gold/22" fill="none">
+        <svg viewBox="0 0 60 60" className="h-14 w-14 text-luminaderm-gold/22" fill="none">
           <circle cx="30" cy="30" r="26" stroke="currentColor" strokeWidth="0.8" strokeDasharray="3 5" />
           <circle cx="30" cy="30" r="2"  fill="currentColor" opacity="0.45" />
         </svg>
