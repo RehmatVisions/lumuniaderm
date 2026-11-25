@@ -9,7 +9,7 @@ const EASE_EXPO = [0.16, 1, 0.3, 1]
 const DOCTOR = {
   name:        "Dr. Ayesha Khan",
   role:        "Consultant Dermatologist & Aesthetic Medicine Specialist",
-  badge:       "Board-Certified Dermatologist",
+  badge:       "Dermatology Specialist",
   about:       "Blending medical expertise with an artistic eye, Dr. Ayesha Khan creates thoughtful treatment plans focused on natural, confident results.",
   exp:         "8+",
   expLabel:    "Years Experience",
@@ -130,7 +130,7 @@ export default function DoctorsSection() {
               decoding="async"
             />
 
-            {/* Board-certified badge bottom */}
+            {/* Doctor credentials badge bottom */}
             <div className="doctor-badge" style={{
               position:"absolute", bottom:20, left:"50%", transform:"translateX(-50%)",
               display:"flex", alignItems:"center", gap:8,
