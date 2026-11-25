@@ -20,10 +20,10 @@ import whatWeImg4 from "../assets/what-we-item-image-1-royal.webp"
 import whatWeImg5 from "../assets/what-we-item-image-1-royal.webp"
 
 export const siteContent = {
-  brand: { name: "Luminaderm" },
+  brand: { name: "LuminaDerm" },
 
   topBar: {
-    message: "Experience Medical-Grade Skin Transformation at Luminaderm",
+    message: "Experience Medical-Grade Skin Transformation at LuminaDerm",
     ctaText: "Reserve Your Consultation",
     ctaHref: "#contact",
     links: [
@@ -49,10 +49,10 @@ export const siteContent = {
 
   // ─── WHY CHOOSE US ───────────────────────────────────────────
   whyUs: {
-    badge: "Why Choose Luminaderm",
+    badge: "Why Choose LuminaDerm",
     headline: "Where Clinical Precision Meets Luxurious Care",
     description:
-      "At Luminaderm, every detail is designed with your skin in mind — from our expert specialists and advanced technology to our personalized treatment plans. We don’t believe in one-size-fits-all solutions; we create customized care plans to deliver natural, beautiful results that are unique to you.",
+      "At LuminaDerm, every detail is designed with your skin in mind — from our expert specialists and advanced technology to our personalized treatment plans. We don’t believe in one-size-fits-all solutions; we create customized care plans to deliver natural, beautiful results that are unique to you.",
 
     images: {
       main:      whyChooseMainImg,
@@ -91,7 +91,7 @@ export const siteContent = {
   services: {
     badge:       "Signature Treatments",
     headline:    "Medical Aesthetics Crafted for Visible Transformation",
-    description: "Every treatment at Luminaderm is performed under clinical supervision, using evidence-based protocols tailored to your skin's unique biology.",
+    description: "Every treatment at LuminaDerm is performed under clinical supervision, using evidence-based protocols tailored to your skin's unique biology.",
     ctaText:     "GET STARTED",
     ctaHref:     "#services",
 
@@ -144,7 +144,7 @@ export const siteContent = {
     badge:       "Our Story",
     headline:    "Real Results. Trusted Care. Designed Around You.",
     description:
-      "Luminaderm was built on one belief: exceptional skin results come from expert dermatology and a personalized approach. For over 8+ years, we have delivered premium care in a trusted clinic where patients experience confidence, comfort, and results they love.",
+      "LuminaDerm was built on one belief: exceptional skin results come from expert dermatology and a personalized approach. For over 8+ years, we have delivered premium care in a trusted clinic where patients experience confidence, comfort, and results they love.",
 
     features: [
       { icon: "treatment",  title: "Evidence-Based Treatment Protocols"  },
@@ -193,9 +193,9 @@ export const siteContent = {
     },
     centerCard: {
       image:  videocardImg,
-      quote:  "Confidence isn't given — it's carefully restored. At Luminaderm, every treatment is a step toward the skin you deserve.",
-      author: "Dr. Sarah Al-Rashid",
-      role:   "Founder & Lead Dermatologist",
+      quote:  "Confidence isn't given — it's carefully restored. At LuminaDerm, every treatment is a step toward the skin you deserve.",
+      author: "Dr. Ayesha Khan",
+      role:   "Consultant Dermatologist & Aesthetic Medicine Specialist",
     },
     contactCard: {
       title:       "Begin Your Transformation",
