@@ -176,7 +176,7 @@ export const siteContent = {
     counters: [
       { value: 3570, suffix: "+", label: "Patients Transformed",        icon: "patients"    },
       { value: 8,    suffix: "+", label: "Years of Clinical Excellence", icon: "experience"  },
-      { value: 12,   suffix: "+", label: "Certified Specialists",        icon: "specialists" },
+      { value: 12,   suffix: "+", label: "Specialists",        icon: "specialists" },
       { value: 94,   suffix: "%", label: "4.7/5 Rating Equivalent",             icon: "rating"      },
     ],
   },
