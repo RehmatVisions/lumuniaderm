@@ -86,8 +86,8 @@ function SubToast({ visible }) {
             </svg>
           </span>
           <div>
-            <p className="text-sm font-bold text-novaderm-brown">Subscribed!</p>
-            <p className="text-xs font-semibold text-novaderm-brown/85">Thanks for joining Luminaderm.</p>
+            <p className="text-sm font-bold text-luminaderm-brown">Subscribed!</p>
+            <p className="text-xs font-semibold text-luminaderm-brown/85">Thanks for joining LuminaDerm.</p>
           </div>
         </motion.div>
       )}
@@ -207,7 +207,7 @@ export default function Footer() {
             {/* Col 1 — Brand */}
             <div className="reveal reveal-up reveal-duration-600 reveal-delay-0 flex flex-col gap-5">
               <p className="max-w-[220px] text-sm font-semibold leading-[1.75]" style={{ color: "#1a0f0a" }}>
-                Luminaderm is a premium aesthetic dermatology clinic dedicated to delivering{" "}
+                LuminaDerm is a premium aesthetic dermatology clinic dedicated to delivering{" "}
                 <span className="font-semibold text-[#C4614A]">medically precise, confidence-restoring results</span>{" "}
                 for every patient we serve.
               </p>
@@ -228,12 +228,12 @@ export default function Footer() {
 
             {/* Col 2 — Quick Links */}
             <div className="reveal reveal-up reveal-duration-600 reveal-delay-1">
-              <h4 className="mb-5 text-base font-bold text-novaderm-brown">Quick Links</h4>
+              <h4 className="mb-5 text-base font-bold text-luminaderm-brown">Quick Links</h4>
               <ul className="flex flex-col gap-3">
                 {QUICK_LINKS.map(({ label, href }) => (
                   <li key={label}>
                     <a href={href}
-                      className="group flex items-center gap-2.5 text-sm font-semibold text-novaderm-brown transition-colors duration-200 hover:text-[#C4614A]"
+                      className="group flex items-center gap-2.5 text-sm font-semibold text-luminaderm-brown transition-colors duration-200 hover:text-[#C4614A]"
                     >
                       <AsteriskDot />
                       {label}
@@ -245,12 +245,12 @@ export default function Footer() {
 
             {/* Col 3 — Our Services */}
             <div className="reveal reveal-up reveal-duration-600 reveal-delay-2">
-              <h4 className="mb-5 text-base font-bold text-novaderm-brown">Our Services</h4>
+              <h4 className="mb-5 text-base font-bold text-luminaderm-brown">Our Services</h4>
               <ul className="flex flex-col gap-3">
                 {SERVICES.map(({ label, href }) => (
                   <li key={label}>
                     <a href={href}
-                      className="flex items-center gap-2.5 text-sm font-semibold text-novaderm-brown transition-colors duration-200 hover:text-[#C4614A]"
+                      className="flex items-center gap-2.5 text-sm font-semibold text-luminaderm-brown transition-colors duration-200 hover:text-[#C4614A]"
                     >
                       <AsteriskDot />
                       {label}
@@ -262,7 +262,7 @@ export default function Footer() {
 
             {/* Col 4 — Working Hours */}
             <div className="reveal reveal-up reveal-duration-600 reveal-delay-3">
-              <h4 className="mb-5 text-base font-bold text-novaderm-brown">Working Hours</h4>
+              <h4 className="mb-5 text-base font-bold text-luminaderm-brown">Working Hours</h4>
 
               {/* Live Open / Closed badge */}
               <div className="mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1"
@@ -287,7 +287,7 @@ export default function Footer() {
               <ul className="flex flex-col gap-3">
                 {HOURS.map(({ day, hours }) => (
                   <li key={day} className="flex items-center justify-between gap-4 text-sm">
-                    <span className="font-semibold text-novaderm-brown">{day}</span>
+                    <span className="font-semibold text-luminaderm-brown">{day}</span>
                     <span style={{ color: "#1a0f0a", fontWeight: 700 }}>{hours}</span>
                   </li>
                 ))}
